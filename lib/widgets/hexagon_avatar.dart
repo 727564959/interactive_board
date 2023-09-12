@@ -18,16 +18,21 @@ class HexagonAvatar extends StatelessWidget {
       width: size,
       height: size,
       child: Stack(
+        alignment: AlignmentDirectional.center,
         children: [
-          Image.asset(
-            Global.getAssetImageUrl('avatar/white_background.png'),
-            fit: BoxFit.fill,
+          SizedBox(
+            width: size,
+            height: size,
+            child: Image.asset(
+              Global.getAssetImageUrl('avatar/white_background.png'),
+              fit: BoxFit.fitHeight,
+            ),
           ),
           Align(
-            alignment: const Alignment(-1.17, -0.83),
+            alignment: const Alignment(-0.2, -0.1),
             child: SizedBox(
-              width: size * 0.72,
-              height: size * 0.72,
+              width: size * 0.91,
+              height: size * 0.91,
               child: ClipPath(
                 clipper: _HexagonalClipper(),
                 child: CachedNetworkImage(
@@ -39,21 +44,20 @@ class HexagonAvatar extends StatelessWidget {
           ),
           if (tag != null)
             Align(
-              alignment: const Alignment(-1.0, 0.4),
+              alignment: const Alignment(0, 0.85),
               child: Container(
-                width: size * 0.7,
-                height: size * 0.14,
-                // alignment: const Alignment(0, 1.0),
+                width: size * 0.85,
+                height: size * 0.2,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(Global.getAssetImageUrl("avatar/nickname_tag.png")),
-                    fit: BoxFit.fill,
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
                 child: Center(
                   child: Text(
                     tag!,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: size * 0.12),
+                    style: Global.getNormalTextStyle(size * 0.12),
                   ),
                 ),
               ),

@@ -6,7 +6,7 @@ class AppRoutes {
   static final List<GetPage> getPages = [
     GetPage(
       name: main,
-      page: () => const ChoosePlayerPage(),
+      page: () => ChoosePlayerPage(),
     ),
   ];
 }

@@ -20,6 +20,7 @@ class GameTitleWidget extends StatelessWidget {
       width: width,
       height: height,
       child: Stack(
+        alignment: AlignmentDirectional.center,
         children: [
           _DecorateShape(width: width, bAnimate: bAnimate),
           _Content(bAnimate: bAnimate),
@@ -50,16 +51,14 @@ class _Title extends StatelessWidget {
   final bool bAnimate;
   @override
   Widget build(BuildContext context) {
-    final title = Center(
-      child: Text(
-        gameName,
-        style: TextStyle(
-            fontFamily: 'Burbank',
-            color: Global.team == 0 ? const Color(0xFFc93000) : const Color(0xFF6B16BF),
-            decoration: TextDecoration.none,
-            fontSize: width * 0.09,
-            fontWeight: FontWeight.bold),
-      ),
+    final title = Text(
+      gameName,
+      style: TextStyle(
+          fontFamily: 'Burbank',
+          color: Global.team == 0 ? const Color(0xFFc93000) : const Color(0xFF6B16BF),
+          decoration: TextDecoration.none,
+          fontSize: width * 0.09,
+          fontWeight: FontWeight.bold),
     );
     return !bAnimate
         ? title

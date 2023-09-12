@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
 import '../../common.dart';
 import '../../widgets/game_title.dart';
-import '../../widgets/hexagon_avatar.dart';
+
+import 'logic.dart';
+import 'widgets/player_sticker.dart';
+import 'widgets/player_selection_menu.dart';
 
 class ChoosePlayerPage extends StatelessWidget {
-  const ChoosePlayerPage({Key? key}) : super(key: key);
-
+  ChoosePlayerPage({Key? key}) : super(key: key);
+  final logic = Get.put(ChoosePlayerLogic());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,17 +21,14 @@ class ChoosePlayerPage extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      child: const Column(
+      child: Column(
         children: [
-          SizedBox(
-            height: 50,
-          ),
-          GameTitleWidget(
-            gameName: "Block Party",
-            width: 600,
-            bAnimate: true,
-          ),
-          HexagonAvatar(avatarUrl: "http://10.1.4.13:1337/uploads/_f56cfd3ac5.png", size: 300, tag: "asdhuw"),
+          const SizedBox(height: 50),
+          GameTitleWidget(gameName: "Block Party", width: 0.45.sw, bAnimate: true),
+          const SizedBox(height: 80),
+          PlayerSelectionMenu(width: 0.7.sw),
+          const SizedBox(height: 70),
+          PlayerSticker(width: 0.9.sw, players: logic.players),
         ],
       ),
     );
