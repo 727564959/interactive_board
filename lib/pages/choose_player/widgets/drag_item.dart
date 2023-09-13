@@ -1,33 +1,32 @@
 import 'package:flutter/material.dart';
 import '../../../widgets/hexagon_avatar.dart';
 import '../../../common.dart';
+import '../../../data/model/player.dart';
 
 class DragItem extends StatelessWidget {
   const DragItem({
     Key? key,
-    required this.nickname,
-    required this.joinedCount,
-    required this.avatarUrl,
+    required this.player,
     required this.width,
   }) : super(key: key);
-  final String nickname;
-  final int joinedCount;
-  final String avatarUrl;
   final double width;
+  final PlayerInfo player;
+
   @override
   Widget build(BuildContext context) {
-    return Draggable(
+    return Draggable<PlayerInfo>(
+      data: player,
       feedback: _PlayerWidget(
-        nickname: nickname,
-        joinedCount: joinedCount,
-        avatarUrl: avatarUrl,
+        nickname: player.nickname,
+        joinedCount: player.joinedCount,
+        avatarUrl: player.avatarUrl,
         width: width,
       ),
       childWhenDragging: Container(),
       child: _PlayerWidget(
-        nickname: nickname,
-        joinedCount: joinedCount,
-        avatarUrl: avatarUrl,
+        nickname: player.nickname,
+        joinedCount: player.joinedCount,
+        avatarUrl: player.avatarUrl,
         width: width,
       ),
     );
@@ -68,11 +67,7 @@ class _PlayerWidget extends StatelessWidget {
           ),
           Align(
             alignment: const Alignment(0, -1.0),
-            child: HexagonAvatar(size: width * 0.57, avatarUrl: avatarUrl),
-          ),
-          Align(
-            alignment: const Alignment(0, -1.0),
-            child: HexagonAvatar(size: width * 0.57, avatarUrl: avatarUrl),
+            child: HexagonAvatar(width: width * 0.5, avatarUrl: avatarUrl),
           ),
           Align(
             alignment: const Alignment(0, 0.55),

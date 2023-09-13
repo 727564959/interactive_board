@@ -29,12 +29,10 @@ class PlayerSticker extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: players
               .map(
-                (e) => SizedBox(
+                (player) => SizedBox(
                   width: width * 0.145,
                   child: DragItem(
-                    nickname: e.nickname,
-                    joinedCount: e.joinedCount,
-                    avatarUrl: e.avatarUrl,
+                    player: player,
                     width: width * 0.12,
                   ),
                 ),

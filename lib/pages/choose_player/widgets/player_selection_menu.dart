@@ -1,11 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'target_item.dart';
+import '../logic.dart';
 
 class PlayerSelectionMenu extends StatelessWidget {
-  const PlayerSelectionMenu({Key? key, required this.width}) : super(key: key);
+  PlayerSelectionMenu({Key? key, required this.width}) : super(key: key);
   final double width;
+  final logic = Get.find<ChoosePlayerLogic>();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -13,7 +17,14 @@ class PlayerSelectionMenu extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(4, (index) => TargetItem(width: width * 0.16, deviceId: ascii.decode([0x41 + index]))),
+        children: List.generate(
+          4,
+          (index) => TargetItem(
+            width: width * 0.16,
+            deviceId: ascii.decode([0x41 + index]),
+            index: index,
+          ),
+        ),
       ),
     );
   }

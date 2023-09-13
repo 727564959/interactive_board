@@ -28,7 +28,12 @@ class ChoosePlayerPage extends StatelessWidget {
           const SizedBox(height: 80),
           PlayerSelectionMenu(width: 0.7.sw),
           const SizedBox(height: 70),
-          PlayerSticker(width: 0.9.sw, players: logic.players),
+          GetBuilder<ChoosePlayerLogic>(
+            builder: (logic) {
+              return PlayerSticker(width: 0.9.sw, players: logic.unselectedPlayers);
+            },
+          ),
+          // PlayerSticker(width: 0.9.sw, players: logic.players),
         ],
       ),
     );
