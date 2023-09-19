@@ -28,4 +28,8 @@ class ChoosePlayerLogic extends GetxController {
     selectedPlayers[index] = player;
     update();
   }
+
+  void removePlayer(index) {
+    selectedPlayers[index] = null;
+  }
 }

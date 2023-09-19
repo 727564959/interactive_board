@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +9,7 @@ class PlayerSelectionMenu extends StatelessWidget {
   PlayerSelectionMenu({Key? key, required this.width}) : super(key: key);
   final double width;
   final logic = Get.find<ChoosePlayerLogic>();
+  double get itemWidth => width * 0.16;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -20,7 +20,7 @@ class PlayerSelectionMenu extends StatelessWidget {
         children: List.generate(
           4,
           (index) => TargetItem(
-            width: width * 0.16,
+            width: itemWidth,
             deviceId: ascii.decode([0x41 + index]),
             index: index,
           ),

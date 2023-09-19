@@ -14,6 +14,7 @@ class HexagonAvatar extends StatelessWidget {
   final String avatarUrl;
   @override
   Widget build(BuildContext context) {
+    // 正六边形的长为宽的2*√3/3倍
     final height = width * 1.155;
     return SizedBox(
       width: width,
