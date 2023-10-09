@@ -1,17 +1,21 @@
 import 'package:get/get.dart';
 import '../../data/model/player.dart';
+import '../../data/network/player_api.dart';
+import '../../data/network/show_repository.dart';
 
 class ChoosePlayerLogic extends GetxController {
-  final players = [
-    {"username": "Tom", "nickname": "Tom", "tableId": 5, "avatarUrl": "/uploads/_f56cfd3ac5.png", "joined": 2},
-    {"username": "Olivia", "nickname": "Olivia", "tableId": 5, "avatarUrl": "/uploads/_d0aa881ef8.png", "joined": 3},
-    {"username": "Paddy", "nickname": "Paddy", "tableId": 5, "avatarUrl": "/uploads/_be4f177098.png", "joined": 1},
-    {"username": "Paddy1", "nickname": "Paddy", "tableId": 5, "avatarUrl": "/uploads/_be4f177098.png", "joined": 0},
-    {"username": "Paddy2", "nickname": "Paddy", "tableId": 5, "avatarUrl": "/uploads/_be4f177098.png", "joined": 2},
-    {"username": "antony", "nickname": "antony", "tableId": 5, "avatarUrl": "/uploads/_b27c81507c.png", "joined": 5}
-  ].map((e) => PlayerInfo.fromJson(e)).toList();
+  final playerRepository = PlayerApi();
+  List<PlayerInfo> players = [];
+  String get gameName => GameShowRepository().gameName!;
 
   final selectedPlayers = List<PlayerInfo?>.generate(4, (index) => null);
+
+  @override
+  void onInit() async {
+    super.onInit();
+    players = await playerRepository.fetchPlayers();
+    update();
+  }
 
   List<PlayerInfo> get unselectedPlayers {
     final result = <PlayerInfo>[];

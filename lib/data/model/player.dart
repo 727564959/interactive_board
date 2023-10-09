@@ -18,7 +18,7 @@ class PlayerInfo {
       id: json['id'].toString(),
       nickname: json['nickname'],
       avatarUrl: avatarUrl,
-      joinedCount: json['joined'],
+      joinedCount: json['joined'] ?? 0,
       username: json['username'],
     );
   }

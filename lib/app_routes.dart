@@ -9,7 +9,7 @@ class AppRoutes {
   static final List<GetPage> getPages = [
     GetPage(
       name: main,
-      page: () => HomePage(),
+      page: () => const HomePage(),
     ),
     GetPage(
       name: choosePlayer,

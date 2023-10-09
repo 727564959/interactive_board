@@ -1,11 +1,14 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'app_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'data/network/show_repository.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
 void main() {
+  GameShowRepository();
   runApp(const MyApp());
 }
 
@@ -14,6 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     return ScreenUtilInit(
       designSize: const Size(1920, 1080),
       minTextAdapt: true,

@@ -10,7 +10,8 @@ import 'widgets/player_sticker.dart';
 import 'widgets/player_selection_menu.dart';
 
 class ChoosePlayerPage extends StatelessWidget {
-  const ChoosePlayerPage({Key? key}) : super(key: key);
+  ChoosePlayerPage({Key? key}) : super(key: key);
+  final logic = Get.find<ChoosePlayerLogic>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +26,7 @@ class ChoosePlayerPage extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 50),
-            GameTitleWidget(gameName: "Block Party", width: 0.45.sw, bAnimate: true),
+            GameTitleWidget(gameName: logic.gameName, width: 0.45.sw, bAnimate: true),
             const SizedBox(height: 80),
             PlayerSelectionMenu(width: 0.7.sw),
             // const SizedBox(height: 70),
