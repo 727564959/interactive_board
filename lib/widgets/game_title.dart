@@ -7,7 +7,7 @@ class GameTitleWidget extends StatelessWidget {
     Key? key,
     required this.gameName,
     required this.width,
-    required this.bAnimate,
+    this.bAnimate = false,
   }) : super(key: key);
   final String gameName;
   final double width;
@@ -54,11 +54,12 @@ class _Title extends StatelessWidget {
     final title = Text(
       gameName,
       style: TextStyle(
-          fontFamily: 'Burbank',
-          color: Global.team == 0 ? const Color(0xFFc93000) : const Color(0xFF6B16BF),
-          decoration: TextDecoration.none,
-          fontSize: width * 0.09,
-          fontWeight: FontWeight.bold),
+        fontFamily: 'Burbank',
+        color: Global.team == 0 ? const Color(0xFFc93000) : const Color(0xFF6B16BF),
+        decoration: TextDecoration.none,
+        fontSize: width * 0.09,
+        fontWeight: FontWeight.bold,
+      ),
     );
     return !bAnimate
         ? title

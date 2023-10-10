@@ -4,14 +4,13 @@ import 'package:get/get.dart';
 
 import '../../common.dart';
 import '../../widgets/game_title.dart';
-
+import 'widgets/leaderboard.dart';
+import 'widgets/player_display.dart';
 import 'logic.dart';
-import 'widgets/player_sticker.dart';
-import 'widgets/player_selection_menu.dart';
 
-class ChoosePlayerPage extends StatelessWidget {
-  ChoosePlayerPage({Key? key}) : super(key: key);
-  final logic = Get.find<ChoosePlayerLogic>();
+class GamingRankPage extends StatelessWidget {
+  GamingRankPage({Key? key}) : super(key: key);
+  final logic = Get.find<GamingRankLogic>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,14 +25,17 @@ class ChoosePlayerPage extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 50),
-            GameTitleWidget(gameName: logic.gameName, width: 0.45.sw, bAnimate: true),
+            GameTitleWidget(gameName: logic.gameName, width: 0.45.sw),
             const SizedBox(height: 80),
-            PlayerSelectionMenu(width: 0.7.sw),
-            // const SizedBox(height: 70),
-            GetBuilder<ChoosePlayerLogic>(
-              builder: (logic) {
-                return PlayerSticker(width: 0.9.sw, players: logic.unselectedPlayers);
-              },
+            SizedBox(
+              width: 0.85.sw,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Leaderboard(width: 800.w),
+                  PlayerDisplay(width: 600.w),
+                ],
+              ),
             ),
           ],
         ),
