@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:animate_do/animate_do.dart';
 import '../../../common.dart';
-import '../../../data/model/player.dart';
+import '../data/player.dart';
 import 'drag_item.dart';
 
 class PlayerSticker extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../widgets/hexagon_avatar.dart';
 import '../../../common.dart';
-import '../../../data/model/player.dart';
+import '../data/player.dart';
 
 class DragItem extends StatelessWidget {
   const DragItem({

@@ -24,19 +24,19 @@ class PlayerCard extends StatelessWidget {
 
   double get width {
     if (size == PlayerCardSize.small) {
-      return parentWidth * 0.4;
+      return parentWidth * 0.47;
     } else if (size == PlayerCardSize.middle) {
-      return parentWidth * 0.45;
+      return parentWidth * 0.49;
     } else {
-      return parentWidth * 0.6;
+      return parentWidth * 0.7;
     }
   }
 
   double get height {
     if (size == PlayerCardSize.small) {
-      return width * 1.15;
+      return width * 1.23;
     } else if (size == PlayerCardSize.middle) {
-      return width;
+      return width * 1.15;
     } else {
       return width;
     }
@@ -45,10 +45,33 @@ class PlayerCard extends StatelessWidget {
   Alignment get contentAlignment {
     if (size == PlayerCardSize.small) {
       return Alignment.topCenter;
-    } else if (size == PlayerCardSize.middle) {
-      return const Alignment(0, 0);
     } else {
       return const Alignment(0, 0);
+    }
+  }
+
+  Widget get background {
+    if (size == PlayerCardSize.small) {
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Image.asset(
+            Global.getAssetImageUrl("avatar/card_bg.png"),
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+      );
+    } else {
+      return SizedBox(
+        width: width,
+        height: height,
+        child: Image.asset(
+          Global.getAssetImageUrl("avatar/card_bg.png"),
+          fit: BoxFit.fill,
+        ),
+      );
     }
   }
 
@@ -56,24 +79,14 @@ class PlayerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(
-          width: width,
-          height: height,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Image.asset(
-              Global.getAssetImageUrl("avatar/card_bg.png"),
-              width: width,
-            ),
-          ),
-        ),
+        background,
         SizedBox(
           width: width,
           height: height,
           child: Align(
             alignment: contentAlignment,
             child: _Content(
-              width: parentWidth * 0.25,
+              width: parentWidth * 0.33,
               avatarUrl: avatarUrl,
               nickname: nickname,
               position: position,
@@ -110,24 +123,25 @@ class _Content extends StatelessWidget {
           avatarUrl: avatarUrl,
           tag: nickname,
         ),
-        SizedBox(height: width * 0.1),
+        SizedBox(height: width * 0.08),
         SizedBox(
-            width: width * 0.43,
-            height: width * 0.21,
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(Global.getAssetImageUrl("avatar/vr_icon_white_bord.png")),
-                  fit: BoxFit.fitWidth,
-                ),
+          width: width * 0.43,
+          height: width * 0.21,
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Global.getAssetImageUrl("avatar/vr_icon_white_bord.png")),
+                fit: BoxFit.fitWidth,
               ),
-              child: Center(
-                child: Text(
-                  deviceId,
-                  style: Global.getNormalTextStyle(width * 0.11),
-                ),
+            ),
+            child: Center(
+              child: Text(
+                deviceId,
+                style: Global.getNormalTextStyle(width * 0.11),
               ),
-            )),
+            ),
+          ),
+        ),
       ],
     );
   }

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import '../../common.dart';
-import '../model/player.dart';
-import 'show_repository.dart';
+import '../../../common.dart';
+import 'player.dart';
+import '../../../data/network/show_repository.dart';
 
 class PlayerApi {
   static PlayerApi? _instance;

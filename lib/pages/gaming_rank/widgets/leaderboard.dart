@@ -41,7 +41,7 @@ class Leaderboard extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: const Alignment(-0.4, 0.3),
+            alignment: const Alignment(-0.3, 0.3),
             child: RecordList(width: width * 0.83, height: height * 0.75),
           ),
         ],

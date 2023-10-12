@@ -3,7 +3,7 @@ import 'package:get/get.dart' hide AnimationExtension;
 import 'package:interactive_board/common.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:interactive_board/pages/choose_player/logic.dart';
-import '../../../data/model/player.dart';
+import '../data/player.dart';
 import '../../../widgets/hexagon_avatar.dart';
 
 class TargetItem extends StatefulWidget {

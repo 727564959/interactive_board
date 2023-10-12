@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../data/model/player.dart';
-import '../../data/network/player_api.dart';
+import 'data/player.dart';
+import 'data/player_api.dart';
 import '../../data/network/show_repository.dart';
 
 class ChoosePlayerLogic extends GetxController {

@@ -1,26 +1,51 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import '../../../widgets/hexagon_avatar.dart';
 import '../../../common.dart';
+import '../logic.dart';
 
 class RecordItem extends StatelessWidget {
-  const RecordItem({Key? key, required this.width, required this.rank, required this.score, required this.avatarUrl})
-      : super(key: key);
+  RecordItem({
+    Key? key,
+    required this.width,
+    required this.rank,
+    required this.score,
+    required this.avatarUrl,
+    required this.nickname,
+    required this.playerId,
+  }) : super(key: key);
   final double width;
   final int rank;
   final int score;
   final String avatarUrl;
+  final String nickname;
+  final String playerId;
+  final logic = Get.find<GamingRankLogic>();
 
-  String backgroundUrl() {
-    if (rank == 1) {
-      return Global.getAssetImageUrl("leaderboard/cell_bg_1st.png");
-    } else if (rank == 2) {
-      return Global.getAssetImageUrl("leaderboard/cell_bg_2nd.png");
-    } else if (rank == 3) {
-      return Global.getAssetImageUrl("leaderboard/cell_bg_3rd.png");
+  String get backgroundUrl {
+    String path;
+    if (playerId != logic.selectedId) {
+      if (rank == 1) {
+        path = "leaderboard/cell_bg_1st.png";
+      } else if (rank == 2) {
+        path = "leaderboard/cell_bg_2nd.png";
+      } else if (rank == 3) {
+        path = "leaderboard/cell_bg_3rd.png";
+      } else {
+        path = "leaderboard/cell_bg_other.png";
+      }
     } else {
-      return Global.getAssetImageUrl("leaderboard/cell_bg_other.png");
+      if (rank == 1) {
+        path = "leaderboard/cell_bg_1st_selected.png";
+      } else if (rank == 2) {
+        path = "leaderboard/cell_bg_2nd_selected.png";
+      } else if (rank == 3) {
+        path = "leaderboard/cell_bg_3rd_selected.png";
+      } else {
+        path = "leaderboard/cell_bg_other_selected.png";
+      }
     }
+    return Global.getAssetImageUrl(path);
   }
 
   @override
@@ -32,7 +57,7 @@ class RecordItem extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(backgroundUrl()),
+          image: AssetImage(backgroundUrl),
           fit: BoxFit.fill,
         ),
       ),
@@ -65,7 +90,7 @@ class RecordItem extends StatelessWidget {
           SizedBox(
             width: width * 0.5,
             child: Text(
-              'Sophia Davis',
+              nickname,
               style: TextStyle(
                 fontFamily: 'Burbank',
                 color: Colors.white,

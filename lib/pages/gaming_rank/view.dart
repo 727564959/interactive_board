@@ -29,12 +29,16 @@ class GamingRankPage extends StatelessWidget {
             const SizedBox(height: 80),
             SizedBox(
               width: 0.85.sw,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Leaderboard(width: 800.w),
-                  PlayerDisplay(width: 600.w),
-                ],
+              child: GetBuilder<GamingRankLogic>(
+                builder: (logic) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Leaderboard(width: 750.w),
+                      PlayerDisplay(width: 580.w),
+                    ],
+                  );
+                },
               ),
             ),
           ],
