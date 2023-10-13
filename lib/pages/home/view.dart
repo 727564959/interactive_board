@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          Get.toNamed(AppRoutes.gamingRank);
+          Get.toNamed(AppRoutes.quiz);
         },
         child: Container(
           decoration: BoxDecoration(

@@ -8,6 +8,8 @@ class Global {
     return team == 0 ? "assets/images/team_wolf/$filename" : "assets/images/team_shark/$filename";
   }
 
+  static String getQuizIconUrl(String filename) => "assets/images/quiz/$filename";
+
   static const String baseApiUrl = 'http://10.1.4.13:1337/api';
   static TextStyle getNormalTextStyle(double fontSize) {
     return TextStyle(
