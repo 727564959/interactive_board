@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class BorderTitle extends StatelessWidget {
   const BorderTitle({Key? key, required this.fontSize, required this.title}) : super(key: key);
@@ -45,6 +46,6 @@ class BorderTitle extends StatelessWidget {
           ),
         ),
       ],
-    );
+    ).animate().scale(curve: Curves.elasticOut, duration: 1.seconds);
   }
 }

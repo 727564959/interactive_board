@@ -47,6 +47,7 @@ dependencies:
   mqtt_client: ^10.0.0
   timer_count_down: ^2.2.2
   step_progress_indicator: ^1.0.2
+  flutter_gif: ^0.0.4
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +81,7 @@ flutter:
     - assets/images/team_wolf/leaderboard/
     - assets/images/team_wolf/avatar/
     - assets/images/quiz/
+    - assets/images/quiz/icons/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

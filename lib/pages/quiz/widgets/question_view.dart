@@ -56,9 +56,7 @@ class QuestionView extends StatelessWidget {
           ),
         ),
         SizedBox(height: 0.1.sh),
-        AnswerList(
-          width: 400.w,
-        ),
+        AnswerList(width: 400.w),
         SizedBox(height: 0.1.sh),
         SizedBox(
           width: 700.w,

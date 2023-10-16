@@ -36,6 +36,8 @@ class AppRoutes {
       name: quiz,
       page: () => const QuizCoverPage(),
       bindings: [QuizBinding()],
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
     ),
   ];
 }
