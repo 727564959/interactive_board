@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
-import '../../../common.dart';
-import '../logic.dart';
+import '../../../../common.dart';
+import '../../logic.dart';
 
 class JoinedButton extends StatelessWidget {
   JoinedButton({Key? key, required this.width}) : super(key: key);
@@ -38,9 +38,7 @@ class JoinedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapUp: (detail) {
-        // if (logic.joinedQuiz) return;
-        logic.joinedQuiz = !logic.joinedQuiz;
-        logic.update(["joined"]);
+        logic.join();
       },
       child: GetBuilder<QuizLogic>(
         id: "joined",

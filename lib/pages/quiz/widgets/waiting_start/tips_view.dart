@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../common.dart';
-import 'border_title.dart';
+import '../../../../common.dart';
+import '../border_title.dart';
 import 'joined_button.dart';
 
 class TipsView extends StatelessWidget {

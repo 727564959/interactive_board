@@ -4,13 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gif/flutter_gif.dart';
 import 'package:get/get.dart' hide AnimationExtension;
 
-import 'border_title.dart';
-import '../logic.dart';
-import '../../../common.dart';
+import '../border_title.dart';
+import '../../logic.dart';
+import '../../../../common.dart';
 
 class CategoryShowView extends StatelessWidget {
-  const CategoryShowView({Key? key}) : super(key: key);
-
+  CategoryShowView({Key? key}) : super(key: key);
+  final logic = Get.find<QuizLogic>();
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -19,11 +19,11 @@ class CategoryShowView extends StatelessWidget {
         children: [
           BorderTitle(
             fontSize: 180.sp,
-            title: "QUESTION 1",
+            title: "QUESTION ${logic.quizState!.question.round}",
           ),
           _TypeContent(
             width: 550.w,
-            type: "Entertainment",
+            type: logic.quizState!.question.type,
           ),
         ],
       ),
@@ -83,18 +83,25 @@ class _TypeContentState extends State<_TypeContent> with TickerProviderStateMixi
                 ),
           ),
           Align(
-            alignment: const Alignment(0.55, 0.0),
+            alignment: const Alignment(0.9, 0.0),
             child: Transform.rotate(
               angle: -0.05,
-              child: Text(
-                type,
-                style: TextStyle(
-                  fontSize: width * 0.1,
-                  color: const Color(0xFF50E9C4),
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Burbank',
-                ),
-              ).animate().scale(delay: 700.ms, duration: 300.ms),
+              child: SizedBox(
+                width: 0.6 * width,
+                child: Text(
+                  type,
+                  style: TextStyle(
+                    fontSize: width * 0.1,
+                    color: const Color(0xFF50E9C4),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Burbank',
+                  ),
+                ).animate().scale(
+                      delay: 700.ms,
+                      duration: 300.ms,
+                      alignment: Alignment.centerLeft,
+                    ),
+              ),
             ),
           ),
         ],

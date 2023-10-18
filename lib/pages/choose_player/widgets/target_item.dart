@@ -88,22 +88,15 @@ class _TargetItemState extends State<TargetItem> with TickerProviderStateMixin, 
         }
       },
       onAccept: (data) {
-        if (player == null) {
-          logic.choosePosition(index, data.username);
-          selectedController.reset();
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            selectedController.forward();
-            tagController.forward();
-          });
-        } else {
-          logic.choosePosition(index, data.username);
-          selectedController.reset();
+        logic.choosePosition(index, data.username);
+        selectedController.reset();
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          selectedController.forward();
+          tagController.forward();
+        });
+        if (player != null) {
           changeController.reset();
           changeController1.reset();
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            selectedController.forward();
-            tagController.forward();
-          });
         }
       },
       builder: (context, candidateData, rejectedData) {

@@ -1,8 +1,7 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class Global {
-  static int tableId = 4;
+  static int tableId = 3;
   static get team => tableId < 5 ? 0 : 1;
   static String getAssetImageUrl(String filename) {
     return team == 0 ? "assets/images/team_wolf/$filename" : "assets/images/team_shark/$filename";

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart' hide AnimationExtension;
 
 import '../../common.dart';
-
-import 'widgets/cover_view.dart';
-import 'widgets/tips_view.dart';
-import 'widgets/question_view.dart';
-import 'widgets/category_show_view.dart';
+import 'logic.dart';
+import 'widgets/waiting_start/cover_view.dart';
+import 'widgets/quiz/quiz_view.dart';
 
 class QuizCoverPage extends StatelessWidget {
-  const QuizCoverPage({Key? key}) : super(key: key);
-
+  QuizCoverPage({Key? key}) : super(key: key);
+  final logic = Get.find<QuizLogic>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +32,16 @@ class QuizCoverPage extends StatelessWidget {
           SizedBox(
             width: 1.0.sw,
             height: 1.0.sh,
-            child: CoverView(key: UniqueKey()),
+            child: GetBuilder<QuizLogic>(
+              id: "page",
+              builder: (logic) {
+                if (logic.pageState == PageState.waiting) {
+                  return const CoverView();
+                } else {
+                  return QuizView(key: UniqueKey());
+                }
+              },
+            ),
           ),
         ],
       ),

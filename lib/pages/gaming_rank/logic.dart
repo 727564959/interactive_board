@@ -2,47 +2,12 @@ import 'package:get/get.dart';
 import '../../data/network/show_repository.dart';
 import '../../common.dart';
 import 'data/player.dart';
+import 'data/player_records_repository.dart';
 
 class GamingRankLogic extends GetxController {
   String get gameName => GameShowRepository().gameName!;
-  final List<PlayerRecord> playerRecords = [
-    PlayerRecord(
-        player: PlayerInfo(
-          id: '1',
-          nickname: 'abc',
-          avatarUrl: 'http://10.1.4.13:1337/uploads/_829c27769b.png',
-          username: 'rthrha',
-          position: 1,
-        ),
-        score: 1775),
-    PlayerRecord(
-        player: PlayerInfo(
-          id: '2',
-          nickname: 'a1232bc',
-          avatarUrl: 'http://10.1.4.13:1337/uploads/_b8b7eb77d2.png',
-          username: 'rthrht',
-          position: 2,
-        ),
-        score: 1233),
-    PlayerRecord(
-        player: PlayerInfo(
-          id: '3',
-          nickname: 'a5bc',
-          avatarUrl: 'http://10.1.4.13:1337/uploads/_209cf9df64.png',
-          username: 'hrhrt',
-          position: 3,
-        ),
-        score: 75),
-    PlayerRecord(
-        player: PlayerInfo(
-          id: '4',
-          nickname: 'asfaf',
-          avatarUrl: 'http://10.1.4.13:1337/uploads/_72f56cc637.png',
-          username: 'thtrh',
-          position: 6,
-        ),
-        score: 775),
-  ];
+  late RecordsRepository recordsRepository;
+  final List<PlayerRecord> playerRecords = [];
   List<PlayerRecord> get sortedRecords => List<PlayerRecord>.of(playerRecords)..sort((a, b) => b.score - a.score);
   List<PlayerInfo> get showPlayers {
     try {
@@ -53,7 +18,8 @@ class GamingRankLogic extends GetxController {
       return playerRecords.map((e) => e.player).where((e) {
         final playerTeam = e.position < 5 ? 0 : 1;
         return playerTeam == team;
-      }).toList();
+      }).toList()
+        ..sort((a, b) => a.position - b.position);
     }
   }
 
@@ -70,5 +36,30 @@ class GamingRankLogic extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    recordsRepository = RecordsRepository(
+      onGameStart: () {},
+      onGamingUpdate: (payload) async {
+        for (final item in payload) {
+          final int position = item['position'];
+          final String username = item['username'];
+          final int score = item['score'];
+          final i = playerRecords.indexWhere((e) => e.player.username == username);
+          if (i == -1) {
+            final player = await recordsRepository.fetchPlayerInfo(username, position);
+            final record = PlayerRecord(player: player, score: score);
+            playerRecords.add(record);
+          } else {
+            playerRecords[i].score = score;
+          }
+        }
+        update();
+      },
+    );
+  }
+
+  @override
+  void onClose() {
+    recordsRepository.dispose();
+    super.onClose();
   }
 }

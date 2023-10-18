@@ -39,7 +39,7 @@ class PlayerApi {
   Future<void> updatePosition(String username, int position) async {
     await dio.post(
       "$baseUrl/round/user-positions",
-      queryParameters: {
+      data: {
         "roundId": showRepository.currentRound,
         "username": username,
         "position": position,
@@ -50,7 +50,7 @@ class PlayerApi {
   Future<void> clearPosition(int position) async {
     await dio.post(
       "$baseUrl/round/user-positions",
-      queryParameters: {
+      data: {
         "roundId": showRepository.currentRound,
         "position": position,
       },

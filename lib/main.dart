@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 import 'app_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'data/network/show_repository.dart';
+import 'data/network/process_controller.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
 void main() {
+  ProcessController();
   GameShowRepository();
   runApp(const MyApp());
 }

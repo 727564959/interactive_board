@@ -114,7 +114,7 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deviceId = ascii.decode([0x41 + position % 4 - 1]);
+    final deviceId = ascii.decode([position <= 4 ? 0x40 + position : 0x3c + position]);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

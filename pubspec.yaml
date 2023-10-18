@@ -48,6 +48,8 @@ dependencies:
   timer_count_down: ^2.2.2
   step_progress_indicator: ^1.0.2
   flutter_gif: ^0.0.4
+  animated_flip_counter: ^0.2.6
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

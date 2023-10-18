@@ -9,10 +9,10 @@ import 'pages/quiz/view.dart';
 import 'pages/quiz/binding.dart';
 
 class AppRoutes {
-  static const String main = "/home";
-  static const String choosePlayer = "/home/choose_player";
-  static const String gamingRank = "/home/gaming_rank";
-  static const String quiz = "/home/quiz";
+  static const String main = "/";
+  static const String choosePlayer = "/choose_player";
+  static const String gamingRank = "/gaming_rank";
+  static const String quiz = "/quiz";
   static final List<GetPage> getPages = [
     GetPage(
       name: main,
@@ -34,7 +34,7 @@ class AppRoutes {
     ),
     GetPage(
       name: quiz,
-      page: () => const QuizCoverPage(),
+      page: () => QuizCoverPage(),
       bindings: [QuizBinding()],
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
