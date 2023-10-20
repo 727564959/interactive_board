@@ -14,23 +14,23 @@ class RecordsRepository {
   Future<void> Function(List<dynamic>) onGamingUpdate;
 
   RecordsRepository({required this.onGameStart, required this.onGamingUpdate}) {
-    getMQTTClient().then((client) async {
-      _client = client;
+    final client = getMQTTClient();
+    _client = client;
+    client.onConnected = () async {
       client.subscribe("event/game-round/gaming-update", MqttQos.atMostOnce);
       client.subscribe("event/game-round/game-start", MqttQos.atLeastOnce);
-      await for (final msgQueue in client.updates!) {
-        for (final item in msgQueue) {
-          final recMess = item.payload as MqttPublishMessage;
-          final topic = item.topic;
-          if (topic == "event/game-round/game-start") {
-            onGameStart();
-          } else if (topic == "event/game-round/gaming-update") {
-            final payload = jsonDecode(MqttPublishPayload.bytesToStringAsString(recMess.payload.message));
-            onGamingUpdate(payload);
-          }
+      client.updates!.listen((c) {
+        final recMess = c[0].payload as MqttPublishMessage;
+        final topic = c[0].topic;
+        if (topic == "event/game-round/game-start") {
+          onGameStart();
+        } else if (topic == "event/game-round/gaming-update") {
+          final payload = jsonDecode(MqttPublishPayload.bytesToStringAsString(recMess.payload.message));
+          onGamingUpdate(payload);
         }
-      }
-    });
+      });
+    };
+    client.connect();
   }
 
   Future<PlayerInfo> fetchPlayerInfo(String username, int position) async {

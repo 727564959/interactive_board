@@ -26,7 +26,7 @@ class GamingRankPage extends StatelessWidget {
           children: [
             const SizedBox(height: 50),
             GameTitleWidget(gameName: logic.gameName, width: 0.45.sw),
-            const SizedBox(height: 80),
+            const SizedBox(height: 50),
             SizedBox(
               width: 0.85.sw,
               child: GetBuilder<GamingRankLogic>(
@@ -34,7 +34,7 @@ class GamingRankPage extends StatelessWidget {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Leaderboard(width: 750.w),
+                      Leaderboard(width: 700.w),
                       PlayerDisplay(width: 580.w),
                     ],
                   );

@@ -50,6 +50,8 @@ dependencies:
   flutter_gif: ^0.0.4
   animated_flip_counter: ^0.2.6
   auto_size_text: ^3.0.0
+  shared_preferences: ^2.2.2
+  soundpool: ^2.4.1
 
 dev_dependencies:
   flutter_test:
@@ -84,6 +86,7 @@ flutter:
     - assets/images/team_wolf/avatar/
     - assets/images/quiz/
     - assets/images/quiz/icons/
+    - assets/sound_effects/quiz/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

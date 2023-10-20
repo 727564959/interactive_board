@@ -1,10 +1,14 @@
 import 'dart:math';
 
 import 'package:get/get.dart';
+
+import '../../app_routes.dart';
+import 'sound_effect.dart';
 import 'data/question.dart';
 import 'data/quiz_repository.dart';
+import 'data/settlement.dart';
 
-enum PageState { waiting, question }
+enum PageState { loading, waiting, question, complete }
 
 class QuizState {
   QuizState(this.question);
@@ -19,7 +23,10 @@ class QuizLogic extends GetxController {
   int get countdown => max(0, (startTimestamp - DateTime.now().millisecondsSinceEpoch) ~/ 1000);
   bool joinedQuiz = false;
   QuizState? quizState;
-  PageState pageState = PageState.waiting;
+  List<SettlementInfo> records = [];
+  final soundEffect = SoundEffect();
+
+  PageState pageState = PageState.loading;
   late final QuizRepository quizRepository;
   int score = 0;
 
@@ -34,6 +41,7 @@ class QuizLogic extends GetxController {
     if (quizState!.selected != null) return;
     await quizRepository.select(idx);
     quizState!.selected = idx;
+    soundEffect.clickPlay();
     update(['answer']);
   }
 
@@ -53,18 +61,37 @@ class QuizLogic extends GetxController {
         state.bShowAnswer = true;
         if (state.selected == state.question.correctAnswer) {
           score += 10;
+          soundEffect.rightPlay();
+        } else {
+          soundEffect.wrongPlay();
         }
         update(['answer', 'score']);
       },
+      onComplete: (List<SettlementInfo> records) {
+        pageState = PageState.complete;
+        this.records = records;
+        update(['page']);
+        Future.delayed(20.seconds).then((value) {
+          if (Get.currentRoute == AppRoutes.quiz) {
+            Get.offAllNamed(AppRoutes.main);
+          }
+        });
+      },
       onClose: () {
-        Get.back();
+        if (Get.currentRoute == AppRoutes.quiz) {
+          Get.offAllNamed(AppRoutes.main);
+        }
       },
     );
+    await soundEffect.load();
+    pageState = PageState.waiting;
+    update(['page']);
   }
 
   @override
   void onClose() {
     print("onClose");
+    soundEffect.dispose();
     quizRepository.dispose();
     super.onClose();
   }
