@@ -84,9 +84,16 @@ flutter:
     - assets/images/team_wolf/game_title/
     - assets/images/team_wolf/leaderboard/
     - assets/images/team_wolf/avatar/
+    - assets/images/team_wolf/glory_wall/
     - assets/images/quiz/
     - assets/images/quiz/icons/
     - assets/sound_effects/quiz/
+    - assets/images/team_shark/
+    - assets/images/team_shark/game_title/
+    - assets/images/team_shark/leaderboard/
+    - assets/images/team_shark/avatar/
+    - assets/images/team_shark/glory_wall/
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
