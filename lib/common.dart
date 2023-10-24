@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Global {
@@ -12,9 +13,10 @@ class Global {
 
   static get team => (_tableId ?? 0) < 5 ? 0 : 1;
   static String getAssetImageUrl(String filename) {
-    // return team == 0 ? "assets/images/team_wolf/$filename" : "assets/images/team_shark/$filename";
-    return "assets/images/team_wolf/$filename";
+    return team == 0 ? "assets/images/team_wolf/$filename" : "assets/images/team_shark/$filename";
   }
+
+  static OverlayEntry? _entry;
 
   static String getQuizIconUrl(String filename) => "assets/images/quiz/$filename";
 

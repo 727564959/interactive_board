@@ -48,6 +48,20 @@ class QuizCoverPage extends StatelessWidget {
               },
             ),
           ),
+          Positioned(
+            left: 20,
+            top: 20,
+            child: Text(
+              "Table ${Global.tableId}",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 80.sp,
+                decoration: TextDecoration.none,
+                fontFamily: 'Burbank',
+                color: Colors.white,
+              ),
+            ),
+          ),
         ],
       ),
     );

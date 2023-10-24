@@ -59,7 +59,13 @@ class HexagonAvatar extends StatelessWidget {
                 child: Center(
                   child: Text(
                     tag!,
-                    style: Global.getNormalTextStyle(width * 0.17),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: width * 0.17,
+                      decoration: TextDecoration.none,
+                      fontFamily: 'BurbankBold',
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

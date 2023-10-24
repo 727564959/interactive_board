@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide AnimationExtension;
 import '../../../../common.dart';
 import '../../logic.dart';
@@ -49,14 +50,27 @@ class AnswerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: width * 0.5,
-      // color: Colors.cyan,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: children,
-      ),
+    return Column(
+      children: [
+        SizedBox(
+          width: width,
+          height: width * 0.5,
+          // color: Colors.cyan,
+          child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: children),
+        ),
+        SizedBox(height: 0.08.sh),
+        if (state.bShowAnswer && state.selected == null)
+          Text(
+            "Miss",
+            style: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 120.sp,
+              decoration: TextDecoration.none,
+              fontFamily: 'Burbank',
+              color: const Color(0xFF8B8282),
+            ),
+          ).animate().scale(duration: 200.ms).fadeOut(delay: 2.seconds, duration: 300.ms),
+      ],
     );
   }
 }
@@ -108,7 +122,7 @@ class _AnswerCell extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: width * 0.08,
                 decoration: TextDecoration.none,
-                fontFamily: 'Burbank',
+                fontFamily: 'BurbankBold',
                 color: Colors.black,
               ),
             ),
@@ -124,7 +138,7 @@ class _AnswerCell extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: width * 0.08,
                   decoration: TextDecoration.none,
-                  fontFamily: 'Burbank',
+                  fontFamily: 'BurbankBold',
                   color: Colors.black,
                 ),
               ),
@@ -138,6 +152,23 @@ class _AnswerCell extends StatelessWidget {
                 width: width * 0.05,
                 fit: BoxFit.fitWidth,
               ).animate().scale(delay: 200.ms, duration: 200.ms),
+            ),
+          if ((bRight ?? false) && bSelected)
+            Align(
+              alignment: const Alignment(1.0, 0.0),
+              child: Transform.translate(
+                offset: Offset(200.w, 0),
+                child: Text(
+                  "+10",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 100.sp,
+                    decoration: TextDecoration.none,
+                    fontFamily: 'Burbank',
+                    color: const Color(0xFF3ADD8F),
+                  ),
+                ).animate().scale(duration: 200.ms).fadeOut(delay: 700.ms, duration: 300.ms),
+              ),
             ),
         ],
       ),

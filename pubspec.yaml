@@ -124,5 +124,14 @@ flutter:
         - asset: assets/fonts/burbankbigcondensed-black.otf
         - asset: assets/fonts/burbankbigcondensed-light.otf
         - asset: assets/fonts/burbankbigcondensed-medium.otf
+    - family: BurbankBlack
+      fonts:
+        - asset: assets/fonts/burbankbigcondensed-black.otf
+    - family: BurbankLight
+      fonts:
+        - asset: assets/fonts/burbankbigcondensed-light.otf
+    - family: BurbankBold
+      fonts:
+        - asset: assets/fonts/burbankbigcondensed-bold.otf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

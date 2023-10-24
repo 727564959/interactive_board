@@ -31,7 +31,7 @@ class _CoverViewState extends State<CoverView> with TickerProviderStateMixin {
       iconsController.animateTo(56);
     });
     logic.soundEffect.coverLogoPlay();
-    Future.delayed(5.seconds).then((value) {
+    Future.delayed(10.seconds).then((value) {
       logic.soundEffect.joinPagePlay();
       setState(() {
         bTipsView = true;

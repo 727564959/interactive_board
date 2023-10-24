@@ -1,12 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'common.dart';
 import 'app_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'common.dart';
-import 'data/network/show_repository.dart';
-import 'data/network/process_controller.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 

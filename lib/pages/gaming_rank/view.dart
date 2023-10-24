@@ -14,36 +14,53 @@ class GamingRankPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: 1.0.sw,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Global.getAssetImageUrl("background.png")),
-            fit: BoxFit.cover,
+        body: Stack(
+      children: [
+        Container(
+          width: 1.0.sw,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(Global.getAssetImageUrl("background.png")),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 50),
+              GameTitleWidget(gameName: logic.gameName, width: 0.45.sw),
+              const SizedBox(height: 50),
+              SizedBox(
+                width: 0.85.sw,
+                child: GetBuilder<GamingRankLogic>(
+                  builder: (logic) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Leaderboard(width: 700.w),
+                        PlayerDisplay(width: 580.w),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
-        child: Column(
-          children: [
-            const SizedBox(height: 50),
-            GameTitleWidget(gameName: logic.gameName, width: 0.45.sw),
-            const SizedBox(height: 50),
-            SizedBox(
-              width: 0.85.sw,
-              child: GetBuilder<GamingRankLogic>(
-                builder: (logic) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Leaderboard(width: 700.w),
-                      PlayerDisplay(width: 580.w),
-                    ],
-                  );
-                },
-              ),
+        Positioned(
+          left: 20,
+          top: 20,
+          child: Text(
+            "Table ${Global.tableId}",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 80.sp,
+              decoration: TextDecoration.none,
+              fontFamily: 'Burbank',
+              color: Colors.white,
             ),
-          ],
+          ),
         ),
-      ),
-    );
+      ],
+    ));
   }
 }

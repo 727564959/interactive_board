@@ -167,7 +167,13 @@ class _TargetItemState extends State<TargetItem> with TickerProviderStateMixin, 
                     child: Center(
                       child: Text(
                         widget.deviceId,
-                        style: Global.getNormalTextStyle(width * 0.11),
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: width * 0.11,
+                          decoration: TextDecoration.none,
+                          fontFamily: 'BurbankBold',
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ).animate(autoPlay: false, controller: tagController, target: 1.0).scale(
