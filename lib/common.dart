@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Global {
-  static int tableId = 3;
-  static get team => tableId < 5 ? 0 : 1;
+  static int? _tableId;
+  static bool get bTableIdExist => _tableId != null;
+  static int get tableId => _tableId!;
+  static void setTableId(int tableId) {
+    _tableId = tableId;
+    SharedPreferences.getInstance().then((prefs) => prefs.setInt('tableId', tableId));
+  }
+
+  static get team => (_tableId ?? 0) < 5 ? 0 : 1;
   static String getAssetImageUrl(String filename) {
     return team == 0 ? "assets/images/team_wolf/$filename" : "assets/images/team_shark/$filename";
   }
+
+  static OverlayEntry? _entry;
 
   static String getQuizIconUrl(String filename) => "assets/images/quiz/$filename";
 

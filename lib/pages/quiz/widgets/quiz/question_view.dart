@@ -48,7 +48,7 @@ class QuestionView extends StatelessWidget {
             ),
             SizedBox(height: 0.1.sh),
             SizedBox(
-              width: 0.5.sw,
+              width: 0.7.sw,
               child: Text(
                 question.title,
                 textAlign: TextAlign.center,
@@ -56,21 +56,21 @@ class QuestionView extends StatelessWidget {
                   fontWeight: FontWeight.normal,
                   fontSize: 80.sp,
                   decoration: TextDecoration.none,
-                  fontFamily: 'Burbank',
+                  fontFamily: 'BurbankBold',
                   color: const Color(0xFFFFE350),
                 ),
               ),
             ),
-            SizedBox(height: 0.1.sh),
+            SizedBox(height: 0.08.sh),
             SizedBox(
               width: 900.w,
               child: Countdown(
-                seconds: 15,
+                seconds: 13,
                 interval: const Duration(milliseconds: 33),
                 onFinished: () {},
                 build: (context, time) {
                   const totalSteps = 500;
-                  final int currentStep = min(((15 - time) / 15 * totalSteps).toInt(), 495);
+                  final int currentStep = min(((13 - time) / 13 * totalSteps).toInt(), 495);
 
                   return StepProgressIndicator(
                     totalSteps: totalSteps,
@@ -78,13 +78,13 @@ class QuestionView extends StatelessWidget {
                     size: 12,
                     padding: 0,
                     selectedColor: const Color(0xFF344337),
-                    unselectedColor: const Color(0xFF4FBF64),
+                    unselectedColor: currentStep > 308 ? Colors.red : const Color(0xFF4FBF64),
                     roundedEdges: const Radius.circular(6),
                   );
                 },
               ),
             ),
-            SizedBox(height: 0.1.sh),
+            SizedBox(height: 0.08.sh),
             GetBuilder<QuizLogic>(
               id: 'answer',
               builder: (_) {

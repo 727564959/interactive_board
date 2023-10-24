@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
 import 'category_show_view.dart';
 import 'question_view.dart';
+import '../../logic.dart';
 
 class QuizView extends StatefulWidget {
   const QuizView({Key? key}) : super(key: key);
@@ -12,11 +13,18 @@ class QuizView extends StatefulWidget {
 
 class _QuizViewState extends State<QuizView> {
   bool bQuestion = false;
+  final logic = Get.find<QuizLogic>();
   @override
   void initState() {
-    Future.delayed(2.seconds).then((value) => setState(() {
-          bQuestion = true;
-        }));
+    logic.soundEffect.questionTypePlay();
+    Future.delayed(2.seconds).then((value) {
+      logic.soundEffect.questionPlay();
+      setState(() {
+        bQuestion = true;
+      });
+    }).onError((error, stackTrace) async {
+      print(error);
+    });
     super.initState();
   }
 
@@ -27,6 +35,5 @@ class _QuizViewState extends State<QuizView> {
     } else {
       return CategoryShowView();
     }
-    return const Placeholder();
   }
 }

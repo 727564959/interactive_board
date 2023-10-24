@@ -16,7 +16,7 @@ class ScoreBoard extends StatelessWidget {
           fontWeight: FontWeight.normal,
           fontSize: width * 0.4,
           decoration: TextDecoration.none,
-          fontFamily: 'Burbank',
+          fontFamily: 'BurbankBold',
           color: Colors.white,
         ),
       ),

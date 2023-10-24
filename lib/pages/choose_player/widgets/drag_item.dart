@@ -73,7 +73,13 @@ class _PlayerWidget extends StatelessWidget {
             alignment: const Alignment(0, 0.55),
             child: Text(
               nickname,
-              style: Global.getNormalTextStyle(width * 0.16),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: width * 0.16,
+                decoration: TextDecoration.none,
+                fontFamily: 'BurbankBold',
+                color: Colors.white,
+              ),
             ),
           ),
           Align(

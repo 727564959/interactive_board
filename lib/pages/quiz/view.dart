@@ -7,6 +7,7 @@ import '../../common.dart';
 import 'logic.dart';
 import 'widgets/waiting_start/cover_view.dart';
 import 'widgets/quiz/quiz_view.dart';
+import 'widgets/score_review_view.dart';
 
 class QuizCoverPage extends StatelessWidget {
   QuizCoverPage({Key? key}) : super(key: key);
@@ -35,12 +36,30 @@ class QuizCoverPage extends StatelessWidget {
             child: GetBuilder<QuizLogic>(
               id: "page",
               builder: (logic) {
-                if (logic.pageState == PageState.waiting) {
+                if (logic.pageState == PageState.loading) {
+                  return Container();
+                } else if (logic.pageState == PageState.waiting) {
                   return const CoverView();
-                } else {
+                } else if (logic.pageState == PageState.question) {
                   return QuizView(key: UniqueKey());
+                } else {
+                  return ScoreReviewView(key: UniqueKey());
                 }
               },
+            ),
+          ),
+          Positioned(
+            left: 20,
+            top: 20,
+            child: Text(
+              "Table ${Global.tableId}",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 80.sp,
+                decoration: TextDecoration.none,
+                fontFamily: 'Burbank',
+                color: Colors.white,
+              ),
             ),
           ),
         ],

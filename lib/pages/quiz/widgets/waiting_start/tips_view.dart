@@ -27,7 +27,7 @@ class TipsView extends StatelessWidget {
               fontWeight: FontWeight.normal,
               fontSize: 70.sp,
               decoration: TextDecoration.none,
-              fontFamily: 'Burbank',
+              fontFamily: 'BurbankBold',
               color: Colors.white,
             ),
           ),

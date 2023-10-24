@@ -5,6 +5,7 @@ import 'package:flutter_gif/flutter_gif.dart';
 import 'package:get/get.dart';
 
 import '../../../../common.dart';
+import '../../logic.dart';
 import 'tips_view.dart';
 
 class CoverView extends StatefulWidget {
@@ -15,9 +16,11 @@ class CoverView extends StatefulWidget {
 }
 
 class _CoverViewState extends State<CoverView> with TickerProviderStateMixin {
-  late FlutterGifController titleController;
-  late FlutterGifController iconsController;
+  late final FlutterGifController titleController;
+  late final FlutterGifController iconsController;
+  final logic = Get.find<QuizLogic>();
   bool bTipsView = false;
+  Future? delay;
   @override
   void initState() {
     super.initState();
@@ -27,11 +30,21 @@ class _CoverViewState extends State<CoverView> with TickerProviderStateMixin {
       titleController.animateTo(56);
       iconsController.animateTo(56);
     });
-    Future.delayed(5.seconds).then((value) {
+    logic.soundEffect.coverLogoPlay();
+    Future.delayed(10.seconds).then((value) {
+      logic.soundEffect.joinPagePlay();
       setState(() {
         bTipsView = true;
       });
+    }).onError((error, stackTrace) async {
+      print(error);
     });
+  }
+
+  @override
+  void dispose() {
+    if (delay != null) {}
+    super.dispose();
   }
 
   @override
