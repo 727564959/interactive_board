@@ -45,8 +45,13 @@ class QuizRepository {
             result.add(SettlementInfo(tableId: tableId, score: score));
           }
           result.sort((a, b) => b.score - a.score);
-          for (int i = 0; i < result.length; i++) {
-            result[i].rank = i + 1;
+          result[0].rank = 1;
+          for (int i = 1; i < result.length; i++) {
+            if (result[i].score == result[i - 1].score) {
+              result[i].rank = result[i - 1].rank;
+            } else {
+              result[i].rank = i + 1;
+            }
           }
           result.sort((a, b) => a.tableId - b.tableId);
           onComplete(result);

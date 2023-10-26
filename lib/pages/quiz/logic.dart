@@ -14,7 +14,7 @@ class QuizState {
   QuizState(this.question);
   final QuestionInfo question;
   int? selected;
-  bool bShowAnswer = false;
+  bool bShowAnswer = false; //是否展示答案
 }
 
 class QuizLogic extends GetxController {
@@ -38,7 +38,7 @@ class QuizLogic extends GetxController {
   }
 
   void select(int idx) async {
-    if (quizState!.selected != null) return;
+    if (quizState!.selected != null || quizState!.bShowAnswer) return;
     await quizRepository.select(idx);
     quizState!.selected = idx;
     soundEffect.clickPlay();

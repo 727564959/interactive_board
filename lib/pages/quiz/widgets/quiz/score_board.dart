@@ -9,10 +9,11 @@ class ScoreBoard extends StatelessWidget {
 
   Widget getCount(int num) {
     return SizedBox(
+      height: 0.4 * width,
       width: width * 0.27,
-      child: Text(
-        num.toString(),
-        style: TextStyle(
+      child: AnimatedFlipCounter(
+        value: num,
+        textStyle: TextStyle(
           fontWeight: FontWeight.normal,
           fontSize: width * 0.4,
           decoration: TextDecoration.none,
@@ -39,7 +40,7 @@ class ScoreBoard extends StatelessWidget {
         ),
       ),
       child: Align(
-        alignment: const Alignment(0.7, 0.5),
+        alignment: const Alignment(0.0, 0.5),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [getCount(num1), getCount(num2), getCount(num3)],

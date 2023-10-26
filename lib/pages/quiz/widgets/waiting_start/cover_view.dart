@@ -20,7 +20,6 @@ class _CoverViewState extends State<CoverView> with TickerProviderStateMixin {
   late final FlutterGifController iconsController;
   final logic = Get.find<QuizLogic>();
   bool bTipsView = false;
-  Future? delay;
   @override
   void initState() {
     super.initState();
@@ -39,12 +38,6 @@ class _CoverViewState extends State<CoverView> with TickerProviderStateMixin {
     }).onError((error, stackTrace) async {
       print(error);
     });
-  }
-
-  @override
-  void dispose() {
-    if (delay != null) {}
-    super.dispose();
   }
 
   @override
