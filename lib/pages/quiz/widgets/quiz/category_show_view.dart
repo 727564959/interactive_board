@@ -53,6 +53,12 @@ class _TypeContentState extends State<_TypeContent> with TickerProviderStateMixi
     });
   }
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   String get type => widget.type;
   String get typeIconUri => Global.getQuizIconUrl('icons/${type.toLowerCase()}.png');
 
@@ -67,7 +73,7 @@ class _TypeContentState extends State<_TypeContent> with TickerProviderStateMixi
             width: width,
             height: height,
             controller: controller,
-            image: AssetImage(Global.getQuizIconUrl("type_bg.gif")),
+            image: AssetImage(Global.getGifUrl("type_bg.gif")),
             fit: BoxFit.fill,
           ),
           Align(

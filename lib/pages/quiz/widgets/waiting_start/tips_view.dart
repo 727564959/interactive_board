@@ -26,6 +26,12 @@ class _TipsViewState extends State<TipsView> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -41,7 +47,7 @@ class _TipsViewState extends State<TipsView> with TickerProviderStateMixin {
             alignment: Alignment.center,
             children: [
               GifImage(
-                image: AssetImage(Global.getQuizIconUrl("tips_expand.gif")),
+                image: AssetImage(Global.getGifUrl("tips_expand.gif")),
                 fit: BoxFit.fill,
                 height: 0.4.sh,
                 controller: controller,

@@ -8,11 +8,12 @@ class ChoosePlayerLogic extends GetxController {
   final playerApi = PlayerApi();
   List<PlayerInfo> players = [];
   String get gameName => GameShowRepository().gameName!;
-  final selectedPlayers = List<PlayerInfo?>.generate(2, (index) => null);
+  final selectedPlayers = List<PlayerInfo?>.generate(4, (index) => null);
+  bool get bSelectComplete => selectedPlayers.every((element) => element != null);
 
   //3、4、5、6桌坐人，每桌上两人
   int getPosition(int index) {
-    return (Global.tableId - 3) * 2 + index + 1;
+    return (Global.team == 0 ? 1 : 5) + index;
   }
 
   @override
@@ -36,11 +37,13 @@ class ChoosePlayerLogic extends GetxController {
     final player = players.firstWhere((element) => element.username == username);
     selectedPlayers[index] = player;
     update();
+    update(["countdown"]);
     playerApi.updatePosition(username, getPosition(index));
   }
 
   void removePlayer(index) {
     selectedPlayers[index] = null;
     playerApi.clearPosition(getPosition(index));
+    update(["countdown"]);
   }
 }

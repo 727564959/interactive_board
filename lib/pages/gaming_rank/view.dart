@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../common.dart';
 import '../../widgets/game_title.dart';
 import 'widgets/leaderboard.dart';
+import 'widgets/waiting_mask.dart';
 import 'widgets/player_display.dart';
 import 'logic.dart';
 
@@ -37,7 +38,7 @@ class GamingRankPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Leaderboard(width: 700.w),
-                        PlayerDisplay(width: 580.w),
+                        PlayerDisplay(key: UniqueKey(), width: 580.w),
                       ],
                     );
                   },
@@ -46,6 +47,13 @@ class GamingRankPage extends StatelessWidget {
             ],
           ),
         ),
+        GetBuilder<GamingRankLogic>(builder: (logic) {
+          if (logic.bGameStart) {
+            return Container();
+          } else {
+            return const WaitingMask();
+          }
+        }),
         Positioned(
           left: 20,
           top: 20,

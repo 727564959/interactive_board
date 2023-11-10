@@ -19,6 +19,7 @@ class Global {
   static OverlayEntry? _entry;
 
   static String getQuizIconUrl(String filename) => "assets/images/quiz/$filename";
+  static String getGifUrl(String filename) => "assets/images/gif/$filename";
 
   static const String baseApiUrl = 'http://10.1.4.13:1337/api';
   static TextStyle getNormalTextStyle(double fontSize) {

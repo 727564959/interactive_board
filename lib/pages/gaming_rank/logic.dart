@@ -7,6 +7,7 @@ import 'data/player_records_repository.dart';
 class GamingRankLogic extends GetxController {
   String get gameName => GameShowRepository().gameName!;
   late RecordsRepository recordsRepository;
+  bool bGameStart = false;
   final List<PlayerRecord> playerRecords = [];
   List<PlayerRecord> get sortedRecords => List<PlayerRecord>.of(playerRecords)..sort((a, b) => b.score - a.score);
   List<PlayerInfo> get showPlayers {
@@ -37,8 +38,12 @@ class GamingRankLogic extends GetxController {
   void onInit() async {
     super.onInit();
     recordsRepository = RecordsRepository(
-      onGameStart: () {},
+      onGameStart: () {
+        bGameStart = true;
+        update();
+      },
       onGamingUpdate: (payload) async {
+        bGameStart = true;
         for (final item in payload) {
           final int position = item['position'];
           final String username = item['username'];

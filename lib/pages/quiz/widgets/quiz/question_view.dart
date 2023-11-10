@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -13,10 +14,23 @@ import '../../logic.dart';
 import 'score_board.dart';
 import 'answer_list.dart';
 
-class QuestionView extends StatelessWidget {
-  QuestionView({Key? key}) : super(key: key);
+class QuestionView extends StatefulWidget {
+  const QuestionView({Key? key}) : super(key: key);
+
+  @override
+  State<QuestionView> createState() => _QuestionViewState();
+}
+
+class _QuestionViewState extends State<QuestionView> {
   final logic = Get.find<QuizLogic>();
   QuestionInfo get question => logic.quizState!.question;
+  bool bShowAnswer = false;
+  @override
+  void initState() {
+    Future.delayed(2.seconds).then((value) => setState(() => bShowAnswer = true));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -62,37 +76,38 @@ class QuestionView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 0.08.sh),
-            SizedBox(
-              width: 900.w,
-              child: Countdown(
-                seconds: 13,
-                interval: const Duration(milliseconds: 33),
-                onFinished: () {},
-                build: (context, time) {
-                  const totalSteps = 500;
-                  final int currentStep = min(((13 - time) / 13 * totalSteps).toInt(), 495);
-
-                  return StepProgressIndicator(
-                    totalSteps: totalSteps,
-                    currentStep: currentStep,
-                    size: 12,
-                    padding: 0,
-                    selectedColor: const Color(0xFF344337),
-                    unselectedColor: currentStep > 308 ? Colors.red : const Color(0xFF4FBF64),
-                    roundedEdges: const Radius.circular(6),
+            if (bShowAnswer)
+              SizedBox(
+                width: 900.w,
+                child: Countdown(
+                  seconds: 11,
+                  interval: const Duration(milliseconds: 33),
+                  onFinished: () {},
+                  build: (context, time) {
+                    const totalSteps = 500;
+                    final int currentStep = min(((11 - time) / 11 * totalSteps).toInt(), 495);
+                    return StepProgressIndicator(
+                      totalSteps: totalSteps,
+                      currentStep: currentStep,
+                      size: 12,
+                      padding: 0,
+                      selectedColor: const Color(0xFF344337),
+                      unselectedColor: currentStep > 308 ? Colors.red : const Color(0xFF4FBF64),
+                      roundedEdges: const Radius.circular(6),
+                    );
+                  },
+                ),
+              ).animate().scaleX(duration: 400.ms),
+            SizedBox(height: 0.08.sh),
+            if (bShowAnswer)
+              GetBuilder<QuizLogic>(
+                id: 'answer',
+                builder: (_) {
+                  return AnswerList(
+                    width: 700.w,
                   );
                 },
               ),
-            ),
-            SizedBox(height: 0.08.sh),
-            GetBuilder<QuizLogic>(
-              id: 'answer',
-              builder: (_) {
-                return AnswerList(
-                  width: 700.w,
-                );
-              },
-            ),
           ],
         ),
         Align(

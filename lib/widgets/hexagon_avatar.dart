@@ -8,14 +8,24 @@ class HexagonAvatar extends StatelessWidget {
     required this.width,
     required this.avatarUrl,
     this.tag,
+    this.team,
   }) : super(key: key);
   final double width;
   final String? tag;
   final String avatarUrl;
+  final int? team;
   @override
   Widget build(BuildContext context) {
     // 正六边形的长为宽的2*√3/3倍
     final height = width * 1.155;
+    late final String tagUri;
+    if (team == null) {
+      tagUri = Global.getAssetImageUrl("avatar/nickname_tag.png");
+    } else if (team == 0) {
+      tagUri = "assets/images/team_wolf/avatar/nickname_tag.png";
+    } else {
+      tagUri = "assets/images/team_shark/avatar/nickname_tag.png";
+    }
     return SizedBox(
       width: width,
       height: height,
@@ -52,7 +62,7 @@ class HexagonAvatar extends StatelessWidget {
                 height: width * 0.2,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(Global.getAssetImageUrl("avatar/nickname_tag.png")),
+                    image: AssetImage(tagUri),
                     fit: BoxFit.fitWidth,
                   ),
                 ),

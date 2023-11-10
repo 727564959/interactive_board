@@ -1,11 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../../common.dart';
 import '../../../widgets/hexagon_avatar.dart';
 
 enum PlayerCardSize { large, middle, small }
+
+String getAssetImageUrl(int position, String filename) {
+  final team = position < 5 ? 0 : 1;
+  return team == 0 ? "assets/images/team_wolf/$filename" : "assets/images/team_shark/$filename";
+}
 
 class PlayerCard extends StatelessWidget {
   const PlayerCard({
@@ -58,7 +64,7 @@ class PlayerCard extends StatelessWidget {
           width: width,
           height: height,
           child: Image.asset(
-            Global.getAssetImageUrl("avatar/card_bg.png"),
+            getAssetImageUrl(position, "avatar/card_bg.png"),
             fit: BoxFit.fitWidth,
           ),
         ),
@@ -68,7 +74,7 @@ class PlayerCard extends StatelessWidget {
         width: width,
         height: height,
         child: Image.asset(
-          Global.getAssetImageUrl("avatar/card_bg.png"),
+          getAssetImageUrl(position, "avatar/card_bg.png"),
           fit: BoxFit.fill,
         ),
       );
@@ -94,7 +100,7 @@ class PlayerCard extends StatelessWidget {
           ),
         ),
       ],
-    );
+    ).animate().scaleX();
   }
 }
 
@@ -115,6 +121,7 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final deviceId = ascii.decode([position <= 4 ? 0x40 + position : 0x3c + position]);
+    final team = position < 5 ? 0 : 1;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -122,6 +129,7 @@ class _Content extends StatelessWidget {
           width: width,
           avatarUrl: avatarUrl,
           tag: nickname,
+          team: team,
         ),
         SizedBox(height: width * 0.08),
         SizedBox(
@@ -130,7 +138,7 @@ class _Content extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(Global.getAssetImageUrl("avatar/vr_icon_white_bord.png")),
+                image: AssetImage(getAssetImageUrl(position, "avatar/vr_icon_white_bord.png")),
                 fit: BoxFit.fitWidth,
               ),
             ),

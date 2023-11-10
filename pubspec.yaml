@@ -94,6 +94,7 @@ flutter:
     - assets/images/team_shark/leaderboard/
     - assets/images/team_shark/avatar/
     - assets/images/team_shark/glory_wall/
+    - assets/images/gif/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

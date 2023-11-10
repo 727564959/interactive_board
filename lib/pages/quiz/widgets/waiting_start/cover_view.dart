@@ -41,6 +41,13 @@ class _CoverViewState extends State<CoverView> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    titleController.dispose();
+    iconsController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return bTipsView
         ? const TipsView()
@@ -51,7 +58,7 @@ class _CoverViewState extends State<CoverView> with TickerProviderStateMixin {
                 height: 0.8.sw * 0.556,
                 width: 0.8.sw,
                 controller: titleController,
-                image: AssetImage(Global.getQuizIconUrl("cover_title.gif")),
+                image: AssetImage(Global.getGifUrl("cover_title.gif")),
                 fit: BoxFit.fitWidth,
               ),
               Transform.translate(
@@ -66,7 +73,7 @@ class _CoverViewState extends State<CoverView> with TickerProviderStateMixin {
                         child: GifImage(
                           height: 160.w,
                           controller: iconsController,
-                          image: AssetImage(Global.getQuizIconUrl("cover_icons.gif")),
+                          image: AssetImage(Global.getGifUrl("cover_icons.gif")),
                           fit: BoxFit.fitHeight,
                         ),
                       ),

@@ -21,14 +21,12 @@ class ProcessController {
       client.subscribe("event/quiz/start", MqttQos.atMostOnce);
       client.subscribe("event/show/start", MqttQos.atMostOnce);
       client.subscribe("event/show/stop", MqttQos.atMostOnce);
-      client.subscribe("event/game-round/game-start", MqttQos.atMostOnce);
-      client.subscribe("event/game-round/game-over", MqttQos.atMostOnce);
-      print("connected");
+
+      // client.subscribe("event/game-round/game-over", MqttQos.atMostOnce);
       client.updates!.listen((c) async {
         if (!Global.bTableIdExist) return;
         final recMess = c[0].payload as MqttPublishMessage;
         final topic = c[0].topic;
-        print(topic);
         if (topic == "event/quiz/start") {
           if (Get.currentRoute != AppRoutes.quiz) {
             final payload = jsonDecode(MqttPublishPayload.bytesToStringAsString(recMess.payload.message));
@@ -41,13 +39,11 @@ class ProcessController {
             Get.offAllNamed(AppRoutes.choosePlayer);
           } else if (topic == "event/show/stop") {
             Get.offAllNamed(AppRoutes.main);
-          } else if (topic == "event/game-round/game-start") {
-            if (showRepository.showId == null) return;
-            Get.offAllNamed(AppRoutes.gamingRank);
-          } else if (topic == "event/game-round/game-over") {
-            if (showRepository.showId == null) return;
-            Get.offAllNamed(AppRoutes.choosePlayer);
           }
+          // else if (topic == "event/game-round/game-over") {
+          //   if (showRepository.showId == null) return;
+          //   Get.offAllNamed(AppRoutes.choosePlayer);
+          // }
         }
       });
     };

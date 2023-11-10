@@ -13,12 +13,12 @@ class PlayerSelectionMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width * 0.5,
+      width: width,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
-          2,
+          4,
           (index) => TargetItem(
             width: itemWidth,
             deviceId: ascii.decode([0x41 + index]),

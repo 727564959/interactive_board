@@ -37,10 +37,12 @@ class PlayerApi {
   }
 
   Future<void> updatePosition(String username, int position) async {
+    print(username);
+    print(position);
     await dio.post(
       "$baseUrl/round/user-positions",
       data: {
-        "roundId": showRepository.currentRound,
+        "roundId": showRepository.roundId,
         "username": username,
         "position": position,
       },
@@ -51,7 +53,7 @@ class PlayerApi {
     await dio.post(
       "$baseUrl/round/user-positions",
       data: {
-        "roundId": showRepository.currentRound,
+        "roundId": showRepository.roundId,
         "position": position,
       },
     );
