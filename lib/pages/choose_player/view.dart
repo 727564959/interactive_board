@@ -34,7 +34,7 @@ class ChoosePlayerPage extends StatelessWidget {
               SizedBox(height: 60.h),
               GameTitleWidget(gameName: logic.gameName, width: 0.45.sw, bAnimate: true),
               SizedBox(
-                height: 120.h,
+                height: 130.h,
                 child: GetBuilder<ChoosePlayerLogic>(
                   id: "countdown",
                   builder: (logic) {
@@ -51,7 +51,7 @@ class ChoosePlayerPage extends StatelessWidget {
                               "Confirm Select At ${time.toInt() + 1} seconds",
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
-                                fontSize: 70.sp,
+                                fontSize: 60.sp,
                                 decoration: TextDecoration.none,
                                 fontFamily: 'BurbankBold',
                                 color: Colors.white,
@@ -67,7 +67,7 @@ class ChoosePlayerPage extends StatelessWidget {
                 ),
               ),
               PlayerSelectionMenu(width: 0.7.sw),
-              SizedBox(height: 20.h),
+              SizedBox(height: 30.h),
               GetBuilder<ChoosePlayerLogic>(
                 builder: (logic) {
                   return PlayerSticker(width: 0.9.sw, players: logic.unselectedPlayers);

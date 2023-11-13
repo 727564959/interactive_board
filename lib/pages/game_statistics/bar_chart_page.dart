@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 /// Bar chart example
-import 'package:charts_flutter/flutter.dart' as charts;
+// import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'logic.dart';
 
@@ -31,8 +31,7 @@ class BarChartPage extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 50),
-          GameTitleWidget(
-              gameName: logic.gameName, width: 0.45.sw, bAnimate: false),
+          GameTitleWidget(gameName: logic.gameName, width: 0.45.sw, bAnimate: false),
           const SizedBox(height: 80),
           _ChartView(),
         ],
@@ -131,16 +130,7 @@ class _ChartView extends StatelessWidget {
           "value": 520.0,
         },
       ],
-      xAxis: [
-        'table1',
-        'table2',
-        'table3',
-        'table4',
-        'table5',
-        'table6',
-        'table7',
-        'table8'
-      ],
+      xAxis: ['table1', 'table2', 'table3', 'table4', 'table5', 'table6', 'table7', 'table8'],
     );
   }
 }

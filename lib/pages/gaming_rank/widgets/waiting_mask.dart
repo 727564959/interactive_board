@@ -59,7 +59,7 @@ class _WaitingMaskState extends State<WaitingMask> with TickerProviderStateMixin
                 "Headset Preparing ${"." * dotCount}",
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
-                  fontSize: 65.sp,
+                  fontSize: 60.sp,
                   decoration: TextDecoration.none,
                   fontFamily: 'BurbankBlack',
                   color: Colors.white,

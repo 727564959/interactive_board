@@ -33,7 +33,7 @@ class _TargetItemState extends State<TargetItem> with TickerProviderStateMixin, 
   void initState() {
     super.initState();
     nullTargetController = AnimationController(vsync: this);
-    selectedController = AnimationController(vsync: this);
+    selectedController = AnimationController(vsync: this, value: 1.0);
     changeController = AnimationController(vsync: this);
     changeController1 = AnimationController(vsync: this);
     tagController = AnimationController(vsync: this);

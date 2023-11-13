@@ -19,10 +19,14 @@ class PlayerSelectionMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
           4,
-          (index) => TargetItem(
-            width: itemWidth,
-            deviceId: ascii.decode([0x41 + index]),
-            index: index,
+          (index) => GetBuilder<ChoosePlayerLogic>(
+            builder: (logic) {
+              return TargetItem(
+                width: itemWidth,
+                deviceId: ascii.decode([0x41 + index]),
+                index: index,
+              );
+            },
           ),
         ),
       ),
