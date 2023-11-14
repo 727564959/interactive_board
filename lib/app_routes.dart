@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'pages/check_in/binding.dart';
+import 'pages/check_in/view.dart';
 import 'pages/choose_player/view.dart';
 import 'pages/game_over/binding.dart';
 import 'pages/home/view.dart';
@@ -17,6 +19,7 @@ class AppRoutes {
   static const String quiz = "/quiz";
   // 游戏结算
   static const String gameOver = "/game_over";
+  static const String checkIn = "/check_in";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -48,6 +51,13 @@ class AppRoutes {
       name: gameOver,
       page: () => GameOverPage(),
       bindings: [GameOverBinding()],
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ),
+    GetPage(
+      name: checkIn,
+      page: () => CheckInPage(),
+      bindings: [CheckInBinding()],
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
     ),

@@ -22,7 +22,7 @@ class GameOverLogic extends GetxController {
   int delayedTime = 5;
 
   // PageState pageState = PageState.winnerText;
-  PageState pageState = PageState.winnerText;
+  PageState pageState = PageState.statistics;
 
   @override
   void onInit() async {
@@ -48,10 +48,10 @@ class GameOverLogic extends GetxController {
         update(['page']);
         this.onInit();
       } else if (pageState == PageState.statistics) {
-        // delayedTime = 10;
-        // pageState = PageState.glory;
-        // update(['page']);
-        // this.onInit();
+        delayedTime = 10;
+        pageState = PageState.glory;
+        update(['page']);
+        this.onInit();
       } else if (pageState == PageState.glory) {
         print("荣誉展示");
         // delayedTime = 5;

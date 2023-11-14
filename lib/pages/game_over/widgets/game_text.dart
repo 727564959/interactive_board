@@ -47,7 +47,7 @@ class GameTextPage extends StatelessWidget {
                 teamName: logic.teamScore,
                 width: 0.6.sw,
                 bAnimate: false),
-            _DecorateShape(width: 0.6.sw, bAnimate: false),
+            _DecorateShape(width: 0.4.sw, bAnimate: false),
           ],
         ),
         // child: Stack(
@@ -154,7 +154,7 @@ class _DecorateShape extends StatelessWidget {
     final decorate = Stack(
       children: [
         Align(
-          alignment: const Alignment(0.2, 1.1),
+          alignment: Alignment.center,
           child: Image.asset(
             Global.getAssetImageUrl('time_up_icon.png'),
             width: width * 0.45,
