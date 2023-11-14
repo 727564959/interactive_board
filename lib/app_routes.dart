@@ -11,12 +11,12 @@ import 'pages/quiz/binding.dart';
 import 'pages/game_over/view.dart';
 
 class AppRoutes {
-  static const String main = "/";
+  static const String main = "/home";
   static const String choosePlayer = "/choose_player";
   static const String gamingRank = "/gaming_rank";
   static const String quiz = "/quiz";
   // 游戏结算
-  static const String gameOver = "/home/game_over";
+  static const String gameOver = "/game_over";
 
   static final List<GetPage> getPages = [
     GetPage(
