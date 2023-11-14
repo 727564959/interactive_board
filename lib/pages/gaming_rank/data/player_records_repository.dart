@@ -12,13 +12,15 @@ class RecordsRepository {
   final _dio = Dio();
   void Function() onGameStart;
   Future<void> Function(List<dynamic>) onGamingUpdate;
+  void Function() onGameOver;
 
-  RecordsRepository({required this.onGameStart, required this.onGamingUpdate}) {
+  RecordsRepository({required this.onGameStart, required this.onGamingUpdate, required this.onGameOver}) {
     final client = getMQTTClient();
     _client = client;
     client.onConnected = () async {
       client.subscribe("event/game-round/gaming-update", MqttQos.atMostOnce);
       client.subscribe("event/game-round/game-start", MqttQos.atLeastOnce);
+      client.subscribe("event/game-round/game-over", MqttQos.atLeastOnce);
       client.updates!.listen((c) {
         final recMess = c[0].payload as MqttPublishMessage;
         final topic = c[0].topic;
@@ -27,6 +29,8 @@ class RecordsRepository {
         } else if (topic == "event/game-round/gaming-update") {
           final payload = jsonDecode(MqttPublishPayload.bytesToStringAsString(recMess.payload.message));
           onGamingUpdate(payload);
+        } else if (topic == "event/game-round/game-over") {
+          onGameOver();
         }
       });
     };

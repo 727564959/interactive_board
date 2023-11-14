@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import '../../app_routes.dart';
 import 'data/game_records.dart';
 import 'data/game_records_api.dart';
 import '../../data/network/show_repository.dart';
@@ -17,8 +18,7 @@ class GameOverLogic extends GetxController {
   int get showId => GameShowRepository().showId!;
 
   late final int startTimestamp;
-  int get countdown =>
-      max(0, (startTimestamp - DateTime.now().millisecondsSinceEpoch) ~/ 1000);
+  int get countdown => max(0, (startTimestamp - DateTime.now().millisecondsSinceEpoch) ~/ 1000);
   int delayedTime = 5;
 
   // PageState pageState = PageState.winnerText;
@@ -49,9 +49,10 @@ class GameOverLogic extends GetxController {
         this.onInit();
       } else if (pageState == PageState.statistics) {
         delayedTime = 10;
-        pageState = PageState.glory;
-        update(['page']);
-        this.onInit();
+        // pageState = PageState.glory;
+        // update(['page']);
+        // this.onInit();
+        Get.offAllNamed(AppRoutes.choosePlayer);
       } else if (pageState == PageState.glory) {
         print("荣誉展示");
         // delayedTime = 5;

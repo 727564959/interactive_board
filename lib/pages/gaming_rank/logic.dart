@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:interactive_board/app_routes.dart';
 import '../../data/network/show_repository.dart';
 import '../../common.dart';
 import 'data/player.dart';
@@ -37,29 +38,28 @@ class GamingRankLogic extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    recordsRepository = RecordsRepository(
-      onGameStart: () {
-        bGameStart = true;
-        update();
-      },
-      onGamingUpdate: (payload) async {
-        bGameStart = true;
-        for (final item in payload) {
-          final int position = item['position'];
-          final String username = item['username'];
-          final int score = item['score'];
-          final i = playerRecords.indexWhere((e) => e.player.username == username);
-          if (i == -1) {
-            final player = await recordsRepository.fetchPlayerInfo(username, position);
-            final record = PlayerRecord(player: player, score: score);
-            playerRecords.add(record);
-          } else {
-            playerRecords[i].score = score;
-          }
+    recordsRepository = RecordsRepository(onGameStart: () {
+      bGameStart = true;
+      update();
+    }, onGamingUpdate: (payload) async {
+      bGameStart = true;
+      for (final item in payload) {
+        final int position = item['position'];
+        final String username = item['username'];
+        final int score = item['score'];
+        final i = playerRecords.indexWhere((e) => e.player.username == username);
+        if (i == -1) {
+          final player = await recordsRepository.fetchPlayerInfo(username, position);
+          final record = PlayerRecord(player: player, score: score);
+          playerRecords.add(record);
+        } else {
+          playerRecords[i].score = score;
         }
-        update();
-      },
-    );
+      }
+      update();
+    }, onGameOver: () {
+      Get.offAllNamed(AppRoutes.gameOver);
+    });
   }
 
   @override
