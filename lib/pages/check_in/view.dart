@@ -5,8 +5,8 @@ import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../common.dart';
 
-class GamingRankPage extends StatelessWidget {
-  GamingRankPage({Key? key}) : super(key: key);
+class CheckInPage extends StatelessWidget {
+  CheckInPage({Key? key}) : super(key: key);
   final logic = Get.find<CheckInLogic>();
   @override
   Widget build(BuildContext context) {
