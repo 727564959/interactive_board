@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
-import '../../common.dart';
-import '../../widgets/game_title.dart';
+import '../../../common.dart';
+import '../../../widgets/game_title.dart';
 
-class GameNextPage extends StatelessWidget {
-  const GameNextPage({
+import '../logic.dart';
+
+class GameTextPage extends StatelessWidget {
+  GameTextPage({
     Key? key,
     // required this.teamName,
     // required this.width,
@@ -16,6 +17,8 @@ class GameNextPage extends StatelessWidget {
   // final String teamName;
   // final double width;
   // final bool bAnimate;
+
+  final logic = Get.find<GameOverLogic>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +37,17 @@ class GameNextPage extends StatelessWidget {
           children: [
             const SizedBox(height: 50),
             GameTitleWidget(
-                gameName: "Block Party", width: 0.45.sw, bAnimate: false),
+                gameName: logic.gameName, width: 0.45.sw, bAnimate: false),
             const SizedBox(height: 80),
-            _Text(
-                winnerText: "Waiting for the", width: 0.8.sw, bAnimate: false),
-            _TeamText(teamName: "next game", width: 0.8.sw, bAnimate: false),
-            _DecorateShape(width: 0.8.sw, bAnimate: false),
+            _Text(winnerText: "The winner is", width: 0.8.sw, bAnimate: false),
+            _TeamText(
+                // teamName: logic.records['redScore'] > logic.records['blueScore']
+                //     ? "Team Wolf"
+                //     : "Team Shark",
+                teamName: logic.teamScore,
+                width: 0.6.sw,
+                bAnimate: false),
+            _DecorateShape(width: 0.6.sw, bAnimate: false),
           ],
         ),
         // child: Stack(

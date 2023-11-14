@@ -5,6 +5,7 @@ class GameShowRepository {
   factory GameShowRepository() => _instance ?? GameShowRepository._internal();
   final dio = Dio();
   final baseUrl = "http://10.1.4.13:1337/api/game-show";
+  // final baseUrl = "http://www.mir2021.xyz:1337/api/game-show";
   int? showId;
   int? roundId;
   int currentRound = 0;
