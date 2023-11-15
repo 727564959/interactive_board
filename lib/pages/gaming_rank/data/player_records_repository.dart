@@ -49,16 +49,17 @@ class RecordsRepository {
       "$baseUrl/api/users",
       queryParameters: {
         "filters[username][\$eq]": username,
-        "populate[0]": "avatar",
+        "populate[headgear][populate][0]": "avatar",
       },
       options: options,
     );
     final data = response.data[0];
+    print(data);
     return PlayerInfo.fromJson({
       "id": data["id"],
       "username": data["username"],
       "nickname": data["nickname"],
-      "avatarUrl": data["avatar"]["formats"]["thumbnail"]['url'],
+      "avatarUrl": data["headgear"]["avatar"]["formats"]["thumbnail"]['url'],
       "position": position,
     });
   }
