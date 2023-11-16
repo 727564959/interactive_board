@@ -96,6 +96,7 @@ flutter:
     - assets/images/team_shark/glory_wall/
     - assets/images/gif/
     - assets/images/check_in/
+    - assets/images/check_in/avatar/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

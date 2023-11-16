@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,53 +8,16 @@ import 'package:interactive_board/pages/check_in/logic.dart';
 import 'package:interactive_board/pages/check_in/widgets/user_list.dart';
 
 import '../../../app_routes.dart';
+import '../../../widgets/parallelogram_avatar.dart';
+import '../data/checkIn_api.dart';
+import 'avatar/avatar_head.dart';
 
 class AvatarDeaignPage extends StatelessWidget {
   AvatarDeaignPage({Key? key}) : super(key: key);
   final logic = Get.find<CheckInLogic>();
+
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   body: Stack(
-    //     children: [
-    //       Container(
-    //         color: Color.fromARGB(255, 52, 231, 147),
-    //       ),
-    //       Transform.scale(
-    //         scale: 1,
-    //         child: SizedBox(
-    //           width: 1.0.sw,
-    //           child: Image.asset(
-    //             Global.getCheckInImageUrl('background_line.png'),
-    //             fit: BoxFit.fitHeight,
-    //           ),
-    //         ),
-    //       ),
-    //       SizedBox(
-    //         width: 1.0.sw,
-    //         height: 1.0.sh,
-    //         child: GetBuilder<CheckInLogic>(
-    //           id: "page",
-    //           builder: (logic) {
-    //             return Row(
-    //               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //               children: [
-    //                 const _BgLeftView(),
-    //                 UserList(
-    //                   key: UniqueKey(),
-    //                   width: 300.sp,
-    //                   height: 1.0.sh,
-    //                 ),
-    //                 _PersonModel(key: UniqueKey(), width: 400.sp),
-    //               ],
-    //             );
-    //           },
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
-
     return GestureDetector(
       child: GetBuilder<CheckInLogic>(
         id: "avatarSelect",
@@ -72,7 +36,7 @@ class AvatarDeaignPage extends StatelessWidget {
                   width: 1.0.sw,
                   child: GetBuilder<CheckInLogic>(
                     builder: (logic) {
-                      return const Row(
+                      return Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _BgLeftView(),
@@ -273,12 +237,16 @@ class _SaveAvatarButton extends StatelessWidget {
   final logic = Get.find<CheckInLogic>();
   String get backgroundUri => Global.getCheckInImageUrl("save_avatar_btn.png");
 
+  get checkInApi => CheckInApi();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
-      onTap: () {
+      onTap: () async {
         print("保存avatar");
+        await checkInApi.updatePlayerInfo(logic.selectedId,
+            logic.currentNickName, logic.headId, logic.currentIsMale);
       },
       child: GetBuilder<CheckInLogic>(
         id: "saveAvatar",
@@ -349,25 +317,26 @@ class _PersonModel extends StatelessWidget {
 }
 
 class _ModelShape extends StatelessWidget {
-  const _ModelShape({Key? key, required this.width, required this.bAnimate})
+  _ModelShape({Key? key, required this.width, required this.bAnimate})
       : super(key: key);
   final double width;
   final bool bAnimate;
+  final logic = Get.find<CheckInLogic>();
   @override
   Widget build(BuildContext context) {
     final decorate = Stack(
       children: [
         Align(
-          alignment: const Alignment(0.33, -0.12),
+          alignment: const Alignment(0.225, -0.479),
           child: Image.asset(
-            Global.getCheckInImageUrl('testHead.png'),
+            Global.getCheckInImageUrl('avatar/ChipsHead.png'),
             width: width * 0.45,
           ),
         ),
         Align(
-          alignment: const Alignment(0.15, 0.35),
+          alignment: const Alignment(0.22, 0.18),
           child: Image.asset(
-            Global.getCheckInImageUrl('testBody.png'),
+            Global.getCheckInImageUrl('avatar/Red_man.png'),
             width: width * 0.45,
           ),
         ),
@@ -442,9 +411,42 @@ class _GoBackButton extends StatelessWidget {
 }
 
 class _RightView extends StatelessWidget {
-  const _RightView({
+  _RightView({
     Key? key,
   }) : super(key: key);
+  final logic = Get.find<CheckInLogic>();
+  List<Widget> children() {
+    final result = <Widget>[];
+    for (int i = 0; i < logic.avatarInfo.length; i++) {
+      final item = logic.avatarInfo[i];
+      final widget = GestureDetector(
+        onTapUp: (detail) {
+          logic.clickHead(item.id);
+        },
+        child: ParallelogramAvatar(
+            width: 180.w, avatarUrl: item.url, isRequest: true),
+        // child: Column(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         Align(
+        //           alignment: Alignment.center,
+        //           child: ParallelogramAvatar(width: 180.w, avatarUrl: item.url, isRequest: true),
+        //         ),
+        //       ],
+        //     ),
+        //   ],
+        // ),
+        // child: AvatarHeadPage(width: 180.w, avatarUrl: item.url),
+      );
+      result.add(widget);
+    }
+    print("哈哈哈哈哈: $result");
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     final content = SizedBox(
@@ -465,18 +467,262 @@ class _RightView extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: const Alignment(0.0, 0.0),
-            child: Text(
-              'HEAD',
-              style: TextStyle(
-                fontFamily: 'Burbank',
-                color: const Color.fromARGB(131, 189, 189, 189),
-                decoration: TextDecoration.none,
-                fontSize: 40.sp,
-                fontWeight: FontWeight.bold,
+            alignment: const Alignment(-0.70, -0.65),
+            child: TextButton(
+              child: const Text("HEAD"),
+              onPressed: () {
+                logic.clickCut("head");
+              },
+            ),
+          ),
+          Align(
+            alignment: const Alignment(-0.35, -0.65),
+            child: TextButton(
+              child: const Text("BODY"),
+              onPressed: () {
+                logic.clickCut("body");
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: 540.w,
+              height: 450.h,
+              child: GetBuilder<CheckInLogic>(
+                id: "typePage",
+                builder: (logic) {
+                  if (logic.isAvatarType == "head") {
+                    // return Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: children(),
+                    // );
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(logic.avatarInfo[0].id);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[0].url,
+                                      isRequest: true),
+                                )
+                                // child: ParallelogramAvatar(
+                                //     width: 180.w,
+                                //     avatarUrl: logic.avatarInfo[0].url, isRequest: true),
+                                ),
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(logic.avatarInfo[1].id);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[1].url,
+                                      isRequest: true),
+                                )),
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(logic.avatarInfo[2].id);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[2].url,
+                                      isRequest: true),
+                                )),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(logic.avatarInfo[3].id);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[3].url,
+                                      isRequest: true),
+                                )),
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(logic.avatarInfo[4].id);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[4].url,
+                                      isRequest: true),
+                                )),
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(logic.avatarInfo[5].id);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[5].url,
+                                      isRequest: true),
+                                )),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(logic.avatarInfo[6].id);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[6].url,
+                                      isRequest: true),
+                                )),
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(logic.avatarInfo[7].id);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[7].url,
+                                      isRequest: true),
+                                )),
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(logic.avatarInfo[8].id);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[8].url,
+                                      isRequest: true),
+                                )),
+                          ],
+                        ),
+                      ],
+                    );
+                  } else {
+                    print("kkkk嘎嘎嘎嘎是 ${logic.avatarInfo[0].url}");
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickBody(true);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 260.w,
+                                      avatarUrl: 'avatar/Blue_man.png',
+                                      isRequest: false),
+                                )),
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickBody(false);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 260.w,
+                                      avatarUrl: 'Red_Women.png',
+                                      isRequest: false),
+                                )),
+                            // Align(
+                            //     alignment: Alignment.center,
+                            //     child: GestureDetector(
+                            //       onTapUp: (detail) {
+                            //         logic.clickHead(logic.avatarInfo[2].id);
+                            //       },
+                            //       child: ParallelogramAvatar(
+                            //           width: 180.w,
+                            //           avatarUrl: 'avatar/Blue_Women.png',
+                            //           isRequest: false),
+                            //     )),
+                          ],
+                        ),
+                      ],
+                    );
+                  }
+                },
               ),
             ),
           ),
+          // Align(
+          //   alignment: const Alignment(0.0, 0.0),
+          //   child: Text(
+          //     'HEAD',
+          //     style: TextStyle(
+          //       fontFamily: 'Burbank',
+          //       color: const Color.fromARGB(131, 189, 189, 189),
+          //       decoration: TextDecoration.none,
+          //       fontSize: 40.sp,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
+          // Align(
+          //   alignment: Alignment.center,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: children(),
+          //   ),
+          //   // child: Row(
+          //   //   children: children(),
+          //   // ),
+          //   //   child: Stack(
+          //   //     alignment: AlignmentDirectional.center,
+          //   //     children: [
+          //   //       Align(
+          //   //   alignment: const Alignment(-0.2, -0.1),
+          //   //   child: ClipPath(
+          //   //     clipper: _HexagonalClipper(),
+          //   //     child: SizedBox(
+          //   //       height: 144.h,
+          //   //       width: 180.w,
+          //   //       child: CachedNetworkImage(
+          //   //         imageUrl: avatarUrl,
+          //   //         fit: BoxFit.fitHeight,
+          //   //       ),
+          //   //     ),
+          //   //   ),
+          //   // ),
+          //   //     ],
+          //   //   ),
+          //   // child: SizedBox(
+          //   //   width: 540.w,
+          //   //   height: 450.h,
+          //   //   child: Container(
+          //   //     color: Colors.white,
+          //   //     width: 180.w,
+          //   //     height: 144.h,
+          //   //     child: AvatarHeadPage(width: 180.w),
+          //   //   ),
+          //   //   // child: AvatarHeadPage(width: 180.w),
+          //   // ),
+          // ),
         ],
       ),
     );
