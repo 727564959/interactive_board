@@ -39,24 +39,7 @@ class AvatarDeaignPage extends StatelessWidget {
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _BgLeftView(),
-                          // SizedBox(
-                          //   width: 295.w,
-                          //   height: 1.0.sh,
-                          //   child: Stack(
-                          //     children: [
-                          //       Align(
-                          //         alignment: const Alignment(-1.5, 1.5),
-                          //         child: UserList(
-                          //           key: UniqueKey(),
-                          //           width: 295.w,
-                          //           height: 800.sp,
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
                           _MiddleView(),
-                          // _PersonModel(key: UniqueKey(), width: 600.w),
                           _RightView(),
                         ],
                       );
@@ -244,7 +227,8 @@ class _SaveAvatarButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         print("保存avatar");
-        await checkInApi.updatePlayerInfo(logic.selectedId, logic.currentNickName, logic.headId, logic.currentIsMale);
+        await checkInApi.updatePlayerInfo(logic.selectedId,
+            logic.currentNickName, logic.headId, logic.currentIsMale);
       },
       child: GetBuilder<CheckInLogic>(
         id: "saveAvatar",
@@ -315,7 +299,8 @@ class _PersonModel extends StatelessWidget {
 }
 
 class _ModelShape extends StatelessWidget {
-  _ModelShape({Key? key, required this.width, required this.bAnimate}) : super(key: key);
+  _ModelShape({Key? key, required this.width, required this.bAnimate})
+      : super(key: key);
   final double width;
   final bool bAnimate;
   final logic = Get.find<CheckInLogic>();
@@ -324,19 +309,69 @@ class _ModelShape extends StatelessWidget {
     final decorate = Stack(
       children: [
         Align(
-          alignment: const Alignment(0.225, -0.479),
-          child: Image.asset(
-            Global.getCheckInImageUrl('avatar/ChipsHead.png'),
-            width: width * 0.45,
+          // alignment: const Alignment(0.225, -0.479),
+          alignment: const Alignment(0.225, -0.529),
+          child: GestureDetector(
+            // 点击事件
+            onTap: () {
+              // print("单击返回");
+            },
+            child: GetBuilder<CheckInLogic>(
+              id: "headPage",
+              builder: (logic) {
+                return logic.currentUrl != ""
+                    ? CachedNetworkImage(
+                        imageUrl: logic.currentUrl,
+                        fit: BoxFit.fitHeight,
+                      )
+                    : Image.asset(
+                        Global.getCheckInImageUrl('avatar/ChipsHead.png'),
+                        width: width * 0.45,
+                      );
+              },
+            ),
           ),
+          // child: Image.asset(
+          //   Global.getCheckInImageUrl('avatar/ChipsHead.png'),
+          //   width: width * 0.45,
+          // ),
         ),
         Align(
-          alignment: const Alignment(0.22, 0.18),
-          child: Image.asset(
-            Global.getCheckInImageUrl('avatar/Red_man.png'),
-            width: width * 0.45,
+          // alignment: const Alignment(0.225, -0.479),
+          alignment: const Alignment(0.225, 0.159),
+          child: GestureDetector(
+            // 点击事件
+            onTap: () {
+              // print("单击返回");
+            },
+            child: GetBuilder<CheckInLogic>(
+              id: "bodyPage",
+              builder: (logic) {
+                return logic.currentIsMale
+                    ? Image.asset(
+                        Global.getCheckInImageUrl('avatar/Blue_man.png'),
+                        width: width * 0.45,
+                      )
+                    : Image.asset(
+                        Global.getCheckInImageUrl('avatar/Blue_Women.png'),
+                        width: width * 0.45,
+                      );
+              },
+            ),
           ),
         ),
+        // Align(
+        //   alignment: const Alignment(0.22, 0.18),
+        //   child: logic.currentIsMale
+        //       ? Image.asset(
+        //           Global.getCheckInImageUrl('avatar/Blue_man.png'),
+        //           width: width * 0.45,
+        //         )
+        //       : Image.asset(
+        //           Global.getCheckInImageUrl('avatar/Blue_Woman.png'),
+        //           width: width * 0.45,
+        //         ),
+        // ),
       ],
     );
     return decorate;
@@ -351,18 +386,6 @@ class _GoBackButton extends StatelessWidget {
   final double width;
   final logic = Get.find<CheckInLogic>();
   String get backgroundUri => Global.getCheckInImageUrl("back_btn.png");
-
-  // Widget get content {
-  //   final style = TextStyle(
-  //     fontWeight: FontWeight.bold,
-  //     fontSize: width * 0.1,
-  //     decoration: TextDecoration.none,
-  //     fontFamily: 'Burbank',
-  //     color: Colors.black,
-  //     textBaseline: TextBaseline.ideographic,
-  //   );
-  //   return Text("back", textAlign: TextAlign.center, style: style);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -418,9 +441,10 @@ class _RightView extends StatelessWidget {
       final item = logic.avatarInfo[i];
       final widget = GestureDetector(
         onTapUp: (detail) {
-          logic.clickHead(item.id);
+          logic.clickHead(item.id, item.transparentBackgroundUrl);
         },
-        child: ParallelogramAvatar(width: 180.w, avatarUrl: item.url, isRequest: true),
+        child: ParallelogramAvatar(
+            width: 180.w, avatarUrl: item.url, isRequest: true),
         // child: Column(
         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //   children: [
@@ -503,10 +527,15 @@ class _RightView extends StatelessWidget {
                                 alignment: Alignment.center,
                                 child: GestureDetector(
                                   onTapUp: (detail) {
-                                    logic.clickHead(logic.avatarInfo[0].id);
+                                    logic.clickHead(
+                                        logic.avatarInfo[0].id,
+                                        logic.avatarInfo[0]
+                                            .transparentBackgroundUrl);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w, avatarUrl: logic.avatarInfo[0].url, isRequest: true),
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[0].url,
+                                      isRequest: true),
                                 )
                                 // child: ParallelogramAvatar(
                                 //     width: 180.w,
@@ -516,51 +545,29 @@ class _RightView extends StatelessWidget {
                                 alignment: Alignment.center,
                                 child: GestureDetector(
                                   onTapUp: (detail) {
-                                    logic.clickHead(logic.avatarInfo[1].id);
+                                    logic.clickHead(
+                                        logic.avatarInfo[1].id,
+                                        logic.avatarInfo[1]
+                                            .transparentBackgroundUrl);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w, avatarUrl: logic.avatarInfo[1].url, isRequest: true),
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[1].url,
+                                      isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
                                 child: GestureDetector(
                                   onTapUp: (detail) {
-                                    logic.clickHead(logic.avatarInfo[2].id);
+                                    logic.clickHead(
+                                        logic.avatarInfo[2].id,
+                                        logic.avatarInfo[2]
+                                            .transparentBackgroundUrl);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w, avatarUrl: logic.avatarInfo[2].url, isRequest: true),
-                                )),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Align(
-                                alignment: Alignment.center,
-                                child: GestureDetector(
-                                  onTapUp: (detail) {
-                                    logic.clickHead(logic.avatarInfo[3].id);
-                                  },
-                                  child: ParallelogramAvatar(
-                                      width: 180.w, avatarUrl: logic.avatarInfo[3].url, isRequest: true),
-                                )),
-                            Align(
-                                alignment: Alignment.center,
-                                child: GestureDetector(
-                                  onTapUp: (detail) {
-                                    logic.clickHead(logic.avatarInfo[4].id);
-                                  },
-                                  child: ParallelogramAvatar(
-                                      width: 180.w, avatarUrl: logic.avatarInfo[4].url, isRequest: true),
-                                )),
-                            Align(
-                                alignment: Alignment.center,
-                                child: GestureDetector(
-                                  onTapUp: (detail) {
-                                    logic.clickHead(logic.avatarInfo[5].id);
-                                  },
-                                  child: ParallelogramAvatar(
-                                      width: 180.w, avatarUrl: logic.avatarInfo[5].url, isRequest: true),
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[2].url,
+                                      isRequest: true),
                                 )),
                           ],
                         ),
@@ -571,28 +578,90 @@ class _RightView extends StatelessWidget {
                                 alignment: Alignment.center,
                                 child: GestureDetector(
                                   onTapUp: (detail) {
-                                    logic.clickHead(logic.avatarInfo[6].id);
+                                    logic.clickHead(
+                                        logic.avatarInfo[3].id,
+                                        logic.avatarInfo[3]
+                                            .transparentBackgroundUrl);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w, avatarUrl: logic.avatarInfo[6].url, isRequest: true),
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[3].url,
+                                      isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
                                 child: GestureDetector(
                                   onTapUp: (detail) {
-                                    logic.clickHead(logic.avatarInfo[7].id);
+                                    logic.clickHead(
+                                        logic.avatarInfo[4].id,
+                                        logic.avatarInfo[4]
+                                            .transparentBackgroundUrl);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w, avatarUrl: logic.avatarInfo[7].url, isRequest: true),
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[4].url,
+                                      isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
                                 child: GestureDetector(
                                   onTapUp: (detail) {
-                                    logic.clickHead(logic.avatarInfo[8].id);
+                                    logic.clickHead(
+                                        logic.avatarInfo[5].id,
+                                        logic.avatarInfo[5]
+                                            .transparentBackgroundUrl);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w, avatarUrl: logic.avatarInfo[8].url, isRequest: true),
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[5].url,
+                                      isRequest: true),
+                                )),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(
+                                        logic.avatarInfo[6].id,
+                                        logic.avatarInfo[6]
+                                            .transparentBackgroundUrl);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[6].url,
+                                      isRequest: true),
+                                )),
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(
+                                        logic.avatarInfo[7].id,
+                                        logic.avatarInfo[7]
+                                            .transparentBackgroundUrl);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[7].url,
+                                      isRequest: true),
+                                )),
+                            Align(
+                                alignment: Alignment.center,
+                                child: GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickHead(
+                                        logic.avatarInfo[8].id,
+                                        logic.avatarInfo[8]
+                                            .transparentBackgroundUrl);
+                                  },
+                                  child: ParallelogramAvatar(
+                                      width: 180.w,
+                                      avatarUrl: logic.avatarInfo[8].url,
+                                      isRequest: true),
                                 )),
                           ],
                         ),
@@ -613,7 +682,9 @@ class _RightView extends StatelessWidget {
                                     logic.clickBody(true);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 260.w, avatarUrl: 'avatar/Blue_man.png', isRequest: false),
+                                      width: 260.w,
+                                      avatarUrl: 'avatar/Blue_man.png',
+                                      isRequest: false),
                                 )),
                             Align(
                                 alignment: Alignment.center,
@@ -621,8 +692,10 @@ class _RightView extends StatelessWidget {
                                   onTapUp: (detail) {
                                     logic.clickBody(false);
                                   },
-                                  child:
-                                      ParallelogramAvatar(width: 260.w, avatarUrl: 'Red_Women.png', isRequest: false),
+                                  child: ParallelogramAvatar(
+                                      width: 260.w,
+                                      avatarUrl: 'avatar/Blue_Women.png',
+                                      isRequest: false),
                                 )),
                             // Align(
                             //     alignment: Alignment.center,

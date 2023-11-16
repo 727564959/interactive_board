@@ -19,8 +19,9 @@ class CheckInLogic extends GetxController {
   String currentNickName = "";
   String isAvatarType = "head";
   String headId = "";
-  bool? currentIsMale;
+  bool currentIsMale = true;
   MqttServerClient? _client;
+  String currentUrl = "";
 
   String? selectedId;
   void clickItem(String id, String nickname) {
@@ -34,16 +35,20 @@ class CheckInLogic extends GetxController {
     update();
   }
 
-  void clickHead(String id) {
+  void clickHead(String id, String transparentBackgroundUrl) {
     print("点击了头像");
     print("头像的id: $id");
+    print("头像的id: $transparentBackgroundUrl");
     headId = id;
+    currentUrl = transparentBackgroundUrl;
+    update(['headPage']);
   }
 
   void clickBody(bool gender) {
     print("点击了身体");
     print("身体的id: $gender");
     currentIsMale = gender;
+    update(['bodyPage']);
   }
 
   void clickCut(String type) {
@@ -67,7 +72,8 @@ class CheckInLogic extends GetxController {
 
   void birdShow() {
     var builder = MqttClientPayloadBuilder();
-    _client?.publishMessage("cmd/rain-forest/show-bird", MqttQos.atMostOnce, builder.payload!);
+    _client?.publishMessage(
+        "cmd/rain-forest/show-bird", MqttQos.atMostOnce, builder.payload!);
   }
 
   @override
