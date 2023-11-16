@@ -49,11 +49,19 @@ class _HomePageState extends State<HomePage> {
             Center(
               child: Container(
                 width: 600.w,
-                height: 500.w,
+                height: 800.w,
                 color: Colors.cyan,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    TableButton(
+                      tableId: 2,
+                      onPressed: () {
+                        Global.setTableId(2);
+                        Get.back();
+                        update();
+                      },
+                    ),
                     TableButton(
                       tableId: 3,
                       onPressed: () {
@@ -82,6 +90,14 @@ class _HomePageState extends State<HomePage> {
                       tableId: 6,
                       onPressed: () {
                         Global.setTableId(6);
+                        Get.back();
+                        update();
+                      },
+                    ),
+                    TableButton(
+                      tableId: 7,
+                      onPressed: () {
+                        Global.setTableId(7);
                         Get.back();
                         update();
                       },

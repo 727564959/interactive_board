@@ -77,11 +77,15 @@ class ChoosePlayerLogic extends GetxController {
   }
 
   void choosePosition(index, username) {
-    final player = players.firstWhere((element) => element.username == username);
-    selectedPlayers[index] = player;
-    update();
-    update(["countdown"]);
-    playerApi.updatePosition(username, getPosition(index));
+    try {
+      final player = players.firstWhere((element) => element.username == username);
+      selectedPlayers[index] = player;
+      update();
+      update(["countdown"]);
+      playerApi.updatePosition(username, getPosition(index));
+    } on StateError {
+      return;
+    }
   }
 
   void removePlayer(index) {
