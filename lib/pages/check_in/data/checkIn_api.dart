@@ -43,7 +43,10 @@ class CheckInApi {
   Future<List<AvatarInfo>> fetchAvatars() async {
     final response = await dio.get(
       "http://10.1.4.13:1337/api/headgears",
-      queryParameters: {"populate[0]": "avatar"},
+      queryParameters: {
+        "populate[0]": "avatar",
+        "populate[1]": "transparentBackgroundAvatar",
+      },
     );
     final result = <AvatarInfo>[];
     for (final item in response.data["data"]) {

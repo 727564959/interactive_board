@@ -1,50 +1,42 @@
-import 'avatar_info.dart';
-
 class UserInfo {
   UserInfo({
     required this.id,
+    required this.headgearId,
     required this.nickname,
-    required this.avatar,
+    required this.avatarUrl,
     required this.username,
     required this.isMale,
   });
   final String id;
   final String username;
   final String nickname;
-  final AvatarInfo avatar;
+  final String headgearId;
+  final String avatarUrl;
   final bool isMale;
 
   factory UserInfo.fromStrapiJson(Map<String, dynamic> json) {
-    print(json);
-    final String avatarUrl = "http://10.1.4.13:1337${json['avatarUrl']}";
     final headgear = json['headgear'];
-    final avatar = AvatarInfo(
-      id: headgear['id'].toString(),
-      name: headgear['name'],
-      url: headgear['avatar']["formats"]["thumbnail"]['url'],
-    );
+    final String avatarUrl = "http://10.1.4.13:1337${headgear['avatar']["formats"]["thumbnail"]['url']}";
+
     return UserInfo(
       id: json['id'].toString(),
       nickname: json['nickname'],
-      avatar: avatar,
+      avatarUrl: avatarUrl,
       username: json['username'],
       isMale: json['isMale'],
+      headgearId: headgear['id'].toString(),
     );
   }
 
   factory UserInfo.fromJson(Map<String, dynamic> json) {
     final String avatarUrl = "http://10.1.4.13:1337${json['avatarUrl']}";
-    final avatar = AvatarInfo(
-      id: json['headgearId'].toString(),
-      name: json['headgearName'],
-      url: avatarUrl,
-    );
     return UserInfo(
       id: json['id'].toString(),
       nickname: json['nickname'],
-      avatar: avatar,
+      avatarUrl: avatarUrl,
       username: json['username'],
       isMale: json['isMale'],
+      headgearId: json['headgearId'].toString(),
     );
   }
 }
