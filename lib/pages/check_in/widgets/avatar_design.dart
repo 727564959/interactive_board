@@ -10,7 +10,6 @@ import 'package:interactive_board/pages/check_in/widgets/user_list.dart';
 import '../../../app_routes.dart';
 import '../../../widgets/parallelogram_avatar.dart';
 import '../data/checkIn_api.dart';
-import 'avatar/avatar_head.dart';
 
 class AvatarDeaignPage extends StatelessWidget {
   AvatarDeaignPage({Key? key}) : super(key: key);
@@ -245,8 +244,7 @@ class _SaveAvatarButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         print("保存avatar");
-        await checkInApi.updatePlayerInfo(logic.selectedId,
-            logic.currentNickName, logic.headId, logic.currentIsMale);
+        await checkInApi.updatePlayerInfo(logic.selectedId, logic.currentNickName, logic.headId, logic.currentIsMale);
       },
       child: GetBuilder<CheckInLogic>(
         id: "saveAvatar",
@@ -317,8 +315,7 @@ class _PersonModel extends StatelessWidget {
 }
 
 class _ModelShape extends StatelessWidget {
-  _ModelShape({Key? key, required this.width, required this.bAnimate})
-      : super(key: key);
+  _ModelShape({Key? key, required this.width, required this.bAnimate}) : super(key: key);
   final double width;
   final bool bAnimate;
   final logic = Get.find<CheckInLogic>();
@@ -423,8 +420,7 @@ class _RightView extends StatelessWidget {
         onTapUp: (detail) {
           logic.clickHead(item.id);
         },
-        child: ParallelogramAvatar(
-            width: 180.w, avatarUrl: item.url, isRequest: true),
+        child: ParallelogramAvatar(width: 180.w, avatarUrl: item.url, isRequest: true),
         // child: Column(
         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //   children: [
@@ -510,9 +506,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(logic.avatarInfo[0].id);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[0].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[0].url, isRequest: true),
                                 )
                                 // child: ParallelogramAvatar(
                                 //     width: 180.w,
@@ -525,9 +519,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(logic.avatarInfo[1].id);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[1].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[1].url, isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
@@ -536,9 +528,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(logic.avatarInfo[2].id);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[2].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[2].url, isRequest: true),
                                 )),
                           ],
                         ),
@@ -552,9 +542,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(logic.avatarInfo[3].id);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[3].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[3].url, isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
@@ -563,9 +551,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(logic.avatarInfo[4].id);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[4].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[4].url, isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
@@ -574,9 +560,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(logic.avatarInfo[5].id);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[5].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[5].url, isRequest: true),
                                 )),
                           ],
                         ),
@@ -590,9 +574,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(logic.avatarInfo[6].id);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[6].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[6].url, isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
@@ -601,9 +583,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(logic.avatarInfo[7].id);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[7].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[7].url, isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
@@ -612,9 +592,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(logic.avatarInfo[8].id);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[8].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[8].url, isRequest: true),
                                 )),
                           ],
                         ),
@@ -635,9 +613,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickBody(true);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 260.w,
-                                      avatarUrl: 'avatar/Blue_man.png',
-                                      isRequest: false),
+                                      width: 260.w, avatarUrl: 'avatar/Blue_man.png', isRequest: false),
                                 )),
                             Align(
                                 alignment: Alignment.center,
@@ -645,10 +621,8 @@ class _RightView extends StatelessWidget {
                                   onTapUp: (detail) {
                                     logic.clickBody(false);
                                   },
-                                  child: ParallelogramAvatar(
-                                      width: 260.w,
-                                      avatarUrl: 'Red_Women.png',
-                                      isRequest: false),
+                                  child:
+                                      ParallelogramAvatar(width: 260.w, avatarUrl: 'Red_Women.png', isRequest: false),
                                 )),
                             // Align(
                             //     alignment: Alignment.center,
@@ -744,7 +718,7 @@ class _SummonButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () {
-        print("点击雨林");
+        logic.birdShow();
       },
       child: GetBuilder<CheckInLogic>(
         id: "summon",
