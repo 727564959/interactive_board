@@ -68,10 +68,11 @@ class _BgLeftView extends StatelessWidget {
       child: Stack(
         children: [
           Align(
-            alignment: const Alignment(-0.75, 1.85),
+            // alignment: const Alignment(-0.75, 1.85),
+            alignment: const Alignment(0.05, 1.35),
             child: UserList(
               key: UniqueKey(),
-              width: 295.w,
+              width: 295.sp,
               height: 800.sp,
             ),
           ),
@@ -81,6 +82,7 @@ class _BgLeftView extends StatelessWidget {
               Global.getCheckInImageUrl('bg_left.png'),
               fit: BoxFit.fitHeight,
               width: 70.sp,
+              height: 1.0.sh,
             ),
           ),
           Align(
@@ -310,35 +312,7 @@ class _ModelShape extends StatelessWidget {
       children: [
         Align(
           // alignment: const Alignment(0.225, -0.479),
-          alignment: const Alignment(0.225, -0.529),
-          child: GestureDetector(
-            // 点击事件
-            onTap: () {
-              // print("单击返回");
-            },
-            child: GetBuilder<CheckInLogic>(
-              id: "headPage",
-              builder: (logic) {
-                return logic.currentUrl != ""
-                    ? CachedNetworkImage(
-                        imageUrl: logic.currentUrl,
-                        fit: BoxFit.fitHeight,
-                      )
-                    : Image.asset(
-                        Global.getCheckInImageUrl('avatar/ChipsHead.png'),
-                        width: width * 0.45,
-                      );
-              },
-            ),
-          ),
-          // child: Image.asset(
-          //   Global.getCheckInImageUrl('avatar/ChipsHead.png'),
-          //   width: width * 0.45,
-          // ),
-        ),
-        Align(
-          // alignment: const Alignment(0.225, -0.479),
-          alignment: const Alignment(0.225, 0.159),
+          alignment: const Alignment(0.225, 0.179),
           child: GestureDetector(
             // 点击事件
             onTap: () {
@@ -359,6 +333,36 @@ class _ModelShape extends StatelessWidget {
               },
             ),
           ),
+        ),
+        Align(
+          // alignment: const Alignment(0.225, -0.479),
+          alignment: const Alignment(0.225, -0.409),
+          child: GestureDetector(
+            // 点击事件
+            onTap: () {
+              // print("单击返回");
+            },
+            child: GetBuilder<CheckInLogic>(
+              id: "headPage",
+              builder: (logic) {
+                return logic.currentUrl != ""
+                    ? CachedNetworkImage(
+                        imageUrl: logic.currentUrl,
+                        fit: BoxFit.fitWidth,
+                        width: width * 0.5,
+                      )
+                    : Image.asset(
+                        Global.getCheckInImageUrl('avatar/ChipsHead.png'),
+                        width: width * 0.5,
+                        fit: BoxFit.fitWidth,
+                      );
+              },
+            ),
+          ),
+          // child: Image.asset(
+          //   Global.getCheckInImageUrl('avatar/ChipsHead.png'),
+          //   width: width * 0.45,
+          // ),
         ),
         // Align(
         //   alignment: const Alignment(0.22, 0.18),
@@ -487,7 +491,7 @@ class _RightView extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: const Alignment(-0.70, -0.65),
+            alignment: const Alignment(-0.70, -0.60),
             child: TextButton(
               child: const Text("HEAD"),
               onPressed: () {
@@ -496,7 +500,7 @@ class _RightView extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: const Alignment(-0.35, -0.65),
+            alignment: const Alignment(-0.35, -0.60),
             child: TextButton(
               child: const Text("BODY"),
               onPressed: () {

@@ -51,7 +51,8 @@ class _UserItemState extends State<UserItem> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final height = width / 9.7;
+    // final height = width / 9.7;
+    final height = width / 4;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (userId == logic.selectedId) {
         controller.forward();
@@ -80,7 +81,8 @@ class _UserItemState extends State<UserItem> with TickerProviderStateMixin {
           Row(
             children: [
               SizedBox(
-                width: width * 0.5,
+                // width: width * 0.5,
+                width: width,
                 child: Text(
                   nickname,
                   textAlign: TextAlign.center,
@@ -88,7 +90,7 @@ class _UserItemState extends State<UserItem> with TickerProviderStateMixin {
                     fontFamily: 'Burbank',
                     color: Colors.black,
                     decoration: TextDecoration.none,
-                    fontSize: width * 0.1,
+                    fontSize: width * 0.2,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
