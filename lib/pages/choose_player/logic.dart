@@ -93,4 +93,15 @@ class ChoosePlayerLogic extends GetxController {
     playerApi.clearPosition(getPosition(index));
     update(["countdown"]);
   }
+
+  void updatePlayerInfo() async {
+    players = await playerApi.fetchPlayers();
+    for (int i = 0; i < 4; i++) {
+      if (selectedPlayers[i] == null) continue;
+      final username = selectedPlayers[i]!.username;
+      final player = players.firstWhere((element) => element.username == username);
+      selectedPlayers[i] = player;
+    }
+    update();
+  }
 }

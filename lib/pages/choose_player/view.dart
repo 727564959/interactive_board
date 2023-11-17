@@ -96,8 +96,9 @@ class ChoosePlayerPage extends StatelessWidget {
             child: IconButton(
               iconSize: 100,
               icon: const Icon(Icons.accessibility_outlined),
-              onPressed: () {
-                Get.toNamed(AppRoutes.checkIn);
+              onPressed: () async {
+                await Get.toNamed(AppRoutes.checkIn);
+                logic.updatePlayerInfo();
               },
             )),
       ],

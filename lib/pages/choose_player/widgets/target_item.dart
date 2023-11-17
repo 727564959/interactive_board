@@ -127,7 +127,6 @@ class _TargetItemState extends State<TargetItem> with TickerProviderStateMixin, 
               _PlayerTargetItem(
                 width: width,
                 height: height,
-                player: player!,
                 index: index,
               )
                   .animate(autoPlay: false, controller: selectedController)
@@ -196,13 +195,12 @@ class _PlayerTargetItem extends StatelessWidget {
     Key? key,
     required this.width,
     required this.height,
-    required this.player,
     required this.index,
   }) : super(key: key);
 
   final double width;
   final double height;
-  final PlayerInfo player;
+  PlayerInfo? get player => logic.selectedPlayers[index];
   final int index;
 
   final logic = Get.find<ChoosePlayerLogic>();
@@ -218,14 +216,20 @@ class _PlayerTargetItem extends StatelessWidget {
       },
       feedback: HexagonAvatar(
         width: width,
-        avatarUrl: player.avatarUrl,
-        tag: player.nickname,
+        avatarUrl: player!.avatarUrl,
+        tag: player!.nickname,
       ),
       childWhenDragging: Container(),
-      child: HexagonAvatar(
-        width: width,
-        avatarUrl: player.avatarUrl,
-        tag: player.nickname,
+      child: GetBuilder<ChoosePlayerLogic>(
+        builder: (logic) {
+          print("back");
+          print(player?.avatarUrl);
+          return HexagonAvatar(
+            width: width,
+            avatarUrl: player!.avatarUrl,
+            tag: player!.nickname,
+          );
+        },
       ),
     );
   }
