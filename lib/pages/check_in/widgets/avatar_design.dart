@@ -225,7 +225,8 @@ class _SetNicknameButton extends StatelessWidget {
                             decoration: InputDecoration(
                               hintText: '请输入nickname',
                             ),
-                            onChanged: (text) {
+                            // onChanged: (text) {
+                            onSubmitted: (text) {
                               print("输入改变时" + text);
 
                               logic.testUpd(text);
@@ -982,132 +983,5 @@ class _SummonButton extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-class _UpdateNickname extends StatelessWidget {
-  _UpdateNickname({
-    Key? key,
-  }) : super(key: key);
-  final logic = Get.find<CheckInLogic>();
-  final focusNode = FocusNode();
-  final controller = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    // 加个小延迟
-    Timer(const Duration(milliseconds: 50), (() {
-      focusNode.requestFocus();
-    }));
-    return Scaffold(
-        // 关键
-        backgroundColor: Colors.black.withAlpha((255 * 0.4).toInt()),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            //撑起上部分
-            // Expanded(child: GestureDetector(
-            // )),
-            Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.white,
-                child: TextField(
-                  controller: controller,
-                  cursorColor: Colors.black,
-                  decoration: const InputDecoration(
-                    hintText: "修改名字",
-                  ),
-                  focusNode: focusNode,
-                  minLines: 3,
-                  maxLines: 6,
-                )),
-            Container(
-                color: Colors.white,
-                padding: const EdgeInsets.fromLTRB(40, 10, 40, 8),
-                width: double.infinity,
-                child: TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, controller.text);
-                      // Get.back(result: controller.text);
-                    },
-                    child: const Text("修改"))),
-          ],
-        ));
-  }
-}
-
-class SendCommentPage extends StatelessWidget {
-  // 如果使用 Get
-  static Future<T?>? show<T>() {
-    return Get.to(() => SendCommentPage(),
-        opaque: false,
-        preventDuplicates: false,
-        duration: const Duration(microseconds: 0),
-        fullscreenDialog: true);
-  }
-
-  // static Future<T?> show2<T>(BuildContext context) {
-  //   return Navigator.of(context).push(
-  //     PageRouteBuilder(
-  //       // 关键
-  //       opaque: false,
-  //       pageBuilder: (BuildContext context, Animation<double> animation,
-  //           Animation<double> secondaryAnimation) {
-  //         return SendCommentPage();
-  //       },
-  //     ),
-  //   );
-  // }
-
-  SendCommentPage({super.key});
-
-  final focusNode = FocusNode();
-  final controller = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    // 加个小延迟
-    Timer(const Duration(milliseconds: 50), (() {
-      focusNode.requestFocus();
-    }));
-
-    return Scaffold(
-        // 关键
-        backgroundColor: Colors.black.withAlpha((255 * 0.4).toInt()),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            //撑起上部分
-            Expanded(child: GestureDetector(
-              onTap: () {
-                // Navigator.pop(context);
-                Get.back();
-              },
-            )),
-            Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.white,
-                child: TextField(
-                  controller: controller,
-                  cursorColor: Colors.black,
-                  decoration: const InputDecoration(
-                    hintText: "修改名字",
-                  ),
-                  focusNode: focusNode,
-                  minLines: 3,
-                  maxLines: 6,
-                )),
-            Container(
-                color: Colors.white,
-                padding: const EdgeInsets.fromLTRB(40, 10, 40, 8),
-                width: double.infinity,
-                child: TextButton(
-                    onPressed: () {
-                      // Navigator.pop(context, controller.text);
-                      Get.back(result: controller.text);
-                    },
-                    child: const Text("修改"))),
-          ],
-        ));
   }
 }
