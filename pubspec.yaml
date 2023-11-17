@@ -53,6 +53,7 @@ dependencies:
   shared_preferences: ^2.2.2
   soundpool: ^2.4.1
   flutter_echart: ^2.0.0
+  charts_flutter: ^0.12.0
   synchronized: ^3.1.0
 
 dev_dependencies:
@@ -98,6 +99,7 @@ flutter:
     - assets/images/gif/
     - assets/images/check_in/
     - assets/images/check_in/avatar/
+    - assets/images/check_in/selection_panel/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
