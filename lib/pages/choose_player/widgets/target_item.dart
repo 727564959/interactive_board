@@ -222,8 +222,6 @@ class _PlayerTargetItem extends StatelessWidget {
       childWhenDragging: Container(),
       child: GetBuilder<ChoosePlayerLogic>(
         builder: (logic) {
-          print("back");
-          print(player?.avatarUrl);
           return HexagonAvatar(
             width: width,
             avatarUrl: player!.avatarUrl,

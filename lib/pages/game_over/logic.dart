@@ -52,7 +52,7 @@ class GameOverLogic extends GetxController {
         // pageState = PageState.glory;
         // update(['page']);
         // this.onInit();
-        Get.offAllNamed(AppRoutes.choosePlayer);
+        GameShowRepository().updateShowState().then((value) => Get.offAllNamed(AppRoutes.choosePlayer));
       } else if (pageState == PageState.glory) {
         print("荣誉展示");
         // delayedTime = 5;

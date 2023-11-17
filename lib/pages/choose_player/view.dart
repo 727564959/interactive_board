@@ -32,8 +32,7 @@ class ChoosePlayerPage extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 60.h),
-              GameTitleWidget(
-                  gameName: logic.gameName, width: 0.45.sw, bAnimate: true),
+              GameTitleWidget(gameName: logic.gameName, width: 0.45.sw, bAnimate: true),
               SizedBox(
                 height: 130.h,
                 child: GetBuilder<ChoosePlayerLogic>(
@@ -71,8 +70,7 @@ class ChoosePlayerPage extends StatelessWidget {
               SizedBox(height: 30.h),
               GetBuilder<ChoosePlayerLogic>(
                 builder: (logic) {
-                  return PlayerSticker(
-                      width: 0.9.sw, players: logic.unselectedPlayers);
+                  return PlayerSticker(width: 0.9.sw, players: logic.unselectedPlayers);
                 },
               ),
             ],
@@ -126,9 +124,10 @@ class _SetAvatarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
-      onTap: () {
+      onTap: () async {
         print("进入checkin");
-        Get.toNamed(AppRoutes.checkIn);
+        await Get.toNamed(AppRoutes.checkIn);
+        logic.updatePlayerInfo();
       },
       child: GetBuilder<ChoosePlayerLogic>(
         id: "setAvatar",
