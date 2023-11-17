@@ -32,28 +32,32 @@ class GamingRankPage extends StatelessWidget {
               const SizedBox(height: 50),
               SizedBox(
                 width: 0.85.sw,
-                child: GetBuilder<GamingRankLogic>(
-                  builder: (logic) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Leaderboard(width: 700.w),
-                        PlayerDisplay(key: UniqueKey(), width: 580.w),
-                      ],
-                    );
-                  },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GetBuilder<GamingRankLogic>(
+                      id: "leaderboard",
+                      builder: (logic) => Leaderboard(width: 700.w),
+                    ),
+                    GetBuilder<GamingRankLogic>(
+                      id: "player_card",
+                      builder: (logic) => PlayerDisplay(key: UniqueKey(), width: 580.w),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
         ),
-        GetBuilder<GamingRankLogic>(builder: (logic) {
-          if (logic.bGameStart) {
-            return Container();
-          } else {
-            return const WaitingMask();
-          }
-        }),
+        GetBuilder<GamingRankLogic>(
+            id: "mask",
+            builder: (logic) {
+              if (logic.bGameStart) {
+                return Container();
+              } else {
+                return const WaitingMask();
+              }
+            }),
         Positioned(
           left: 20,
           top: 20,

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:interactive_board/app_routes.dart';
+import 'package:synchronized/synchronized.dart';
+
 import '../../data/network/show_repository.dart';
 import '../../common.dart';
 import 'data/player.dart';
@@ -10,6 +12,7 @@ class GamingRankLogic extends GetxController {
   late RecordsRepository recordsRepository;
   bool bGameStart = false;
   final List<PlayerRecord> playerRecords = [];
+  final lock = Lock();
   List<PlayerRecord> get sortedRecords => List<PlayerRecord>.of(playerRecords)..sort((a, b) => b.score - a.score);
   List<PlayerInfo> get showPlayers {
     try {
@@ -32,7 +35,7 @@ class GamingRankLogic extends GetxController {
     } else {
       selectedId = id;
     }
-    update();
+    update(["player_card", "leaderboard"]);
   }
 
   @override
@@ -47,16 +50,19 @@ class GamingRankLogic extends GetxController {
         final int position = item['position'];
         final String username = item['username'];
         final int score = item['score'];
-        final i = playerRecords.indexWhere((e) => e.player.username == username);
-        if (i == -1) {
-          final player = await recordsRepository.fetchPlayerInfo(username, position);
-          final record = PlayerRecord(player: player, score: score);
-          playerRecords.add(record);
-        } else {
-          playerRecords[i].score = score;
-        }
+        lock.synchronized(() async {
+          final i = playerRecords.indexWhere((e) => e.player.username == username);
+          if (i == -1) {
+            final player = await recordsRepository.fetchPlayerInfo(username, position);
+            final record = PlayerRecord(player: player, score: score);
+            playerRecords.add(record);
+            update(["player_card", "leaderboard", "mask"]);
+          } else {
+            playerRecords[i].score = score;
+            update(["leaderboard", "mask"]);
+          }
+        });
       }
-      update();
     }, onGameOver: () {
       Get.offAllNamed(AppRoutes.gameOver);
     });

@@ -44,7 +44,7 @@ class ChoosePlayerPage extends StatelessWidget {
                           key: UniqueKey(),
                           seconds: 9,
                           onFinished: () {
-                            Get.toNamed(AppRoutes.gamingRank);
+                            Get.offAllNamed(AppRoutes.gamingRank);
                           },
                           build: (context, time) {
                             return Text(
@@ -90,6 +90,16 @@ class ChoosePlayerPage extends StatelessWidget {
             ),
           ),
         ),
+        Positioned(
+            right: 20,
+            top: 20,
+            child: IconButton(
+              iconSize: 100,
+              icon: const Icon(Icons.accessibility_outlined),
+              onPressed: () {
+                Get.toNamed(AppRoutes.checkIn);
+              },
+            )),
       ],
     ));
   }

@@ -69,34 +69,32 @@ class CheckInPage extends StatelessWidget {
         //     ),
         //   ),
         // ),
+        Align(
+          alignment: Alignment.topLeft,
+          child: _GoBackButton(
+            width: 200.w,
+          ),
+        ),
       ],
     ));
   }
 }
 
 class _LeftImage extends StatelessWidget {
-  const _LeftImage({Key? key, required this.width, required this.height})
-      : super(key: key);
+  const _LeftImage({Key? key, required this.width, required this.height}) : super(key: key);
   final double width;
   final double height;
 
   @override
   Widget build(BuildContext context) {
-    final content = Image.asset(
-        width: width,
-        height: height,
-        Global.getCheckInImageUrl("home_cover.png"));
+    final content = Image.asset(width: width, height: height, Global.getCheckInImageUrl("home_cover.png"));
     return content;
   }
 }
 
 class _RightInfoView extends StatelessWidget {
   const _RightInfoView(
-      {Key? key,
-      required this.logic,
-      required this.width,
-      required this.height,
-      required this.dateTime})
+      {Key? key, required this.logic, required this.width, required this.height, required this.dateTime})
       : super(key: key);
   final logic;
   final double width;
@@ -282,6 +280,57 @@ class _CheckInButton extends StatelessWidget {
                 ),
                 SizedBox(width: width * 0.05),
                 content,
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _GoBackButton extends StatelessWidget {
+  _GoBackButton({
+    Key? key,
+    required this.width,
+  }) : super(key: key);
+  final double width;
+  final logic = Get.find<CheckInLogic>();
+  String get backgroundUri => Global.getCheckInImageUrl("back_btn.png");
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () {
+        Get.back();
+      },
+      child: GetBuilder<CheckInLogic>(
+        id: "goBack",
+        builder: (logic) {
+          return Container(
+            height: width / 2,
+            width: width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(backgroundUri),
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Transform.translate(
+                  offset: const Offset(0, 0),
+                  child: Icon(
+                    Icons.play_arrow,
+                    size: width * 0.18,
+                    color: const Color(0xFFFFE350),
+                  ),
+                ),
+                SizedBox(width: width * 0.05),
+                // content,
               ],
             ),
           );
