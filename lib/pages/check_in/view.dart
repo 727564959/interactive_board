@@ -32,7 +32,7 @@ class CheckInPage extends StatelessWidget {
                     return Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _LeftImage(width: 650.sp, height: 1.0.sh),
+                        _LeftImage(width: 640.w, height: 1.0.sh),
                         _RightInfoView(
                             logic: logic,
                             width: 0.65.sw,
@@ -72,7 +72,7 @@ class CheckInPage extends StatelessWidget {
         Align(
           alignment: Alignment.topLeft,
           child: _GoBackButton(
-            width: 200.w,
+            width: 143.w,
           ),
         ),
       ],
@@ -81,20 +81,29 @@ class CheckInPage extends StatelessWidget {
 }
 
 class _LeftImage extends StatelessWidget {
-  const _LeftImage({Key? key, required this.width, required this.height}) : super(key: key);
+  const _LeftImage({Key? key, required this.width, required this.height})
+      : super(key: key);
   final double width;
   final double height;
 
   @override
   Widget build(BuildContext context) {
-    final content = Image.asset(width: width, height: height, Global.getCheckInImageUrl("home_cover.png"));
+    final content = Image.asset(
+        width: width,
+        height: height,
+        fit: BoxFit.fitHeight,
+        Global.getCheckInImageUrl("home_cover.png"));
     return content;
   }
 }
 
 class _RightInfoView extends StatelessWidget {
   const _RightInfoView(
-      {Key? key, required this.logic, required this.width, required this.height, required this.dateTime})
+      {Key? key,
+      required this.logic,
+      required this.width,
+      required this.height,
+      required this.dateTime})
       : super(key: key);
   final logic;
   final double width;
@@ -136,7 +145,7 @@ class _RightInfoView extends StatelessWidget {
               ),
             ),
           ),
-          _CheckInButton(width: 700.w, logic: logic),
+          _CheckInButton(width: 666.w, logic: logic),
           Align(
             alignment: const Alignment(0.8, 0.75),
             child: Text(
@@ -153,29 +162,6 @@ class _RightInfoView extends StatelessWidget {
         ],
       ),
     );
-
-    // return Column(
-    //   children: [
-    //     SizedBox(height: 0.15.sh),
-    //     // BorderTitle(
-    //     //   title: "Get Ready for Trivia Time!",
-    //     //   fontSize: 130.sp,
-    //     // ),
-    //     const Text("WELCOME ABOARD ON\n\n MIRRA GAME SHOW"),
-    //     SizedBox(height: 0.1.sh),
-    //     _CheckInButton(width: 400.w, logic: logic),
-    //     Text(
-    //       dateTime,
-    //       style: TextStyle(
-    //         fontWeight: FontWeight.bold,
-    //         fontSize: 40.sp,
-    //         decoration: TextDecoration.none,
-    //         fontFamily: 'BurbankBold',
-    //         color: Colors.white,
-    //       ),
-    //     ),
-    //   ],
-    // );
   }
 }
 
@@ -187,7 +173,9 @@ class _CheckInButton extends StatelessWidget {
   }) : super(key: key);
   final double width;
   final logic;
-  String get backgroundUri => Global.getCheckInImageUrl("check_in_button.png");
+  String get backgroundUri => logic.checkinBtnIsDown
+      ? Global.getCheckInImageUrl("check_in_btn_selected.png")
+      : Global.getCheckInImageUrl("check_in_btn_default.png");
 
   Widget get content {
     final style = TextStyle(
@@ -201,52 +189,19 @@ class _CheckInButton extends StatelessWidget {
     return Text("Check in", textAlign: TextAlign.center, style: style);
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //       body: Stack(
-  //     children: [
-  //       Container(
-  //         height: width / 2,
-  //         width: width,
-  //         padding: EdgeInsets.only(left: width * 0.15),
-  //         decoration: BoxDecoration(
-  //           image: DecorationImage(
-  //             image: AssetImage(backgroundUri),
-  //             fit: BoxFit.fitWidth,
-  //           ),
-  //         ),
-  //         child: Row(
-  //           mainAxisSize: MainAxisSize.min,
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           children: [
-  //             Transform.translate(
-  //               offset: Offset(0, -width * 0.02),
-  //               child: Icon(
-  //                 Icons.play_arrow,
-  //                 size: width * 0.18,
-  //                 color: const Color(0xFFFFE350),
-  //               ),
-  //             ),
-  //             SizedBox(width: width * 0.05),
-  //             content,
-  //           ],
-  //         ),
-  //       ),
-  //       GetBuilder<CheckInLogic>(builder: (logic) {
-  //         if (logic.isCheckIn) {
-  //           return Container();
-  //         } else {
-  //           return AvatarDeaignPage();
-  //         }
-  //       }),
-  //     ],
-  //   ));
-  // }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      // 按下
+      onTapDown: (details) {
+        print("按下");
+        logic.checkinBtnDown(true);
+      },
+      // 抬起
+      onTapUp: (details) {
+        print("抬起");
+        logic.checkinBtnDown(false);
+      },
       // 点击事件
       onTap: () {
         print("单击");
@@ -256,35 +211,50 @@ class _CheckInButton extends StatelessWidget {
         id: "checkIn",
         builder: (logic) {
           return Container(
-            height: width / 2,
+            height: width * 0.18,
             width: width,
-            // padding: EdgeInsets.only(left: width * 0.15),
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(backgroundUri),
                 fit: BoxFit.fitWidth,
               ),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Transform.translate(
-                  // offset: Offset(0, -width * 0.02),
-                  offset: const Offset(0, 0),
-                  child: Icon(
-                    Icons.play_arrow,
-                    size: width * 0.18,
-                    color: const Color(0xFFFFE350),
-                  ),
-                ),
-                SizedBox(width: width * 0.05),
-                content,
-              ],
-            ),
           );
         },
       ),
+      // child: GetBuilder<CheckInLogic>(
+      //   id: "checkIn",
+      //   builder: (logic) {
+      //     return Container(
+      //       height: width / 2,
+      //       width: width,
+      //       // padding: EdgeInsets.only(left: width * 0.15),
+      //       decoration: BoxDecoration(
+      //         image: DecorationImage(
+      //           image: AssetImage(backgroundUri),
+      //           fit: BoxFit.fitWidth,
+      //         ),
+      //       ),
+      //       child: Row(
+      //         mainAxisSize: MainAxisSize.min,
+      //         crossAxisAlignment: CrossAxisAlignment.center,
+      //         children: [
+      //           Transform.translate(
+      //             // offset: Offset(0, -width * 0.02),
+      //             offset: const Offset(0, 0),
+      //             child: Icon(
+      //               Icons.play_arrow,
+      //               size: width * 0.18,
+      //               color: const Color(0xFFFFE350),
+      //             ),
+      //           ),
+      //           SizedBox(width: width * 0.05),
+      //           content,
+      //         ],
+      //       ),
+      //     );
+      //   },
+      // ),
     );
   }
 }
@@ -317,22 +287,22 @@ class _GoBackButton extends StatelessWidget {
                 fit: BoxFit.fitWidth,
               ),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Transform.translate(
-                  offset: const Offset(0, 0),
-                  child: Icon(
-                    Icons.play_arrow,
-                    size: width * 0.18,
-                    color: const Color(0xFFFFE350),
-                  ),
-                ),
-                SizedBox(width: width * 0.05),
-                // content,
-              ],
-            ),
+            // child: Row(
+            //   mainAxisSize: MainAxisSize.min,
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     Transform.translate(
+            //       offset: const Offset(0, 0),
+            //       child: Icon(
+            //         Icons.play_arrow,
+            //         size: width * 0.18,
+            //         color: const Color(0xFFFFE350),
+            //       ),
+            //     ),
+            //     SizedBox(width: width * 0.05),
+            //     // content,
+            //   ],
+            // ),
           );
         },
       ),

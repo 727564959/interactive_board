@@ -22,9 +22,12 @@ class CheckInLogic extends GetxController {
   bool currentIsMale = true;
   MqttServerClient? _client;
   String currentUrl = "";
+  bool checkinBtnIsDown = false;
+  bool isUpdateName = false;
 
   String? selectedId;
-  void clickItem(String id, String nickname) {
+  void clickItem(
+      String id, String nickname, String avatarUrl, bool isMale) async {
     print("点击了item");
     currentNickName = nickname;
     if (id == selectedId) {
@@ -32,7 +35,48 @@ class CheckInLogic extends GetxController {
     } else {
       selectedId = id;
     }
+    // userList = await checkInApi.fetchUsers();
+    // avatarInfo = await checkInApi.fetchAvatars();
     update();
+
+    currentIsMale = isMale;
+    update(['bodyPage']);
+    currentUrl = avatarUrl;
+    update(['headPage']);
+  }
+
+  void isUpdateNameFun(bool t) {
+    isUpdateName = t;
+
+    update();
+    update(['setNickname']);
+  }
+
+  void testUpd(String text) {
+    print("$text");
+    final index = userList.indexWhere((element) => selectedId != null
+        ? element.id == selectedId
+        : element.id == userList[0].id);
+    userList[index] = UserInfo(
+      id: userList[index].id,
+      nickname: text,
+      avatarUrl: currentUrl,
+      username: userList[index].username,
+      isMale: currentIsMale,
+      headgearId: headId,
+    );
+    isUpdateName = false;
+    currentNickName = text;
+
+    update();
+    update(['setNickname']);
+  }
+
+  void checkinBtnDown(bool sign) {
+    print("切换");
+    print("12345: $sign");
+    checkinBtnIsDown = sign;
+    update(['checkIn']);
   }
 
   void clickHead(String id, String transparentBackgroundUrl) {
@@ -70,6 +114,13 @@ class CheckInLogic extends GetxController {
     update();
   }
 
+  // void testSave() async {
+  //   print("呱呱呱呱呱呱: $currentUrl");
+  //   checkInApi.updatePlayerInfo(
+  //       selectedId ?? (userList[0].id), currentNickName, headId, currentIsMale);
+  //   update();
+  // }
+
   void birdShow() {
     var builder = MqttClientPayloadBuilder();
     _client?.publishMessage(
@@ -81,7 +132,11 @@ class CheckInLogic extends GetxController {
     super.onInit();
     userList = await checkInApi.fetchUsers();
     currentNickName = userList[0].nickname;
+    currentIsMale = userList[0].isMale;
+    headId = userList[0].headgearId;
     avatarInfo = await checkInApi.fetchAvatars();
+    final avatar = avatarInfo.firstWhere((element) => element.id == headId);
+    currentUrl = avatar.transparentBackgroundUrl;
     print("头像: $avatarInfo");
     final client = getMQTTClient();
     _client = client;

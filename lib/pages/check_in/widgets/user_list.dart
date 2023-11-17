@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:interactive_board/pages/check_in/data/avatar_info.dart';
 import '../logic.dart';
 import 'user_item.dart';
 
@@ -13,10 +14,25 @@ class UserList extends StatelessWidget {
     final result = <Widget>[];
     for (int i = 0; i < logic.userList.length; i++) {
       final item = logic.userList[i];
+      final avatarInfo = logic.avatarInfo
+          .firstWhere((element) => element.id == item.headgearId);
       final widget = GestureDetector(
         onTapUp: (detail) {
-          logic.clickItem(item.id, item.nickname);
+          logic.clickItem(item.id, item.nickname,
+              avatarInfo.transparentBackgroundUrl, item.isMale);
+          // logic.clickItem(item.id, item.nickname,
+          //     logic.avatarInfo[i].transparentBackgroundUrl, item.isMale);
         },
+        // child: GetBuilder<CheckInLogic>(
+        //   id: "userListPage",
+        //   builder: (logic) {
+        //     return UserItem(
+        //       width: width,
+        //       nickname: item.nickname,
+        //       userId: item.id,
+        //     );
+        //   },
+        // ),
         child: UserItem(
           width: width,
           nickname: item.nickname,
@@ -30,22 +46,6 @@ class UserList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Stack(
-    //   alignment: AlignmentDirectional.center,
-    //   children: [
-    //     Align(
-    //       alignment: const Alignment(0.1, -0.6),
-    //       child: Container(
-    //         width: width,
-    //         height: height,
-    //         child: Column(
-    //           children: children(),
-    //         ),
-    //       ),
-    //     ),
-    //   ],
-    // );
-
     return Container(
       width: width,
       height: height,

@@ -55,7 +55,9 @@ class CheckInApi {
     return result;
   }
 
-  Future<void> updatePlayerInfo(String userId, String nickname, String headgearId, bool isMale) async {
+  Future<void> updatePlayerInfo(
+      String userId, String nickname, String headgearId, bool isMale) async {
+    print("12345上山打老虎");
     final options = Options(headers: {
       "Authorization": "Bearer b81574102f5a012d9a235d3b1ce81c6000eb4e72636b696"
           "4029cd96795ea95989305748b8863f4f2d0726614e5f39bbdda702f81913fbe14238"

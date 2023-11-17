@@ -1,15 +1,22 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/common.dart';
+import 'package:interactive_board/pages/check_in/data/user_info.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 import 'package:interactive_board/pages/check_in/widgets/user_list.dart';
+import 'package:interactive_board/pages/choose_player/data/player.dart';
 
 import '../../../app_routes.dart';
 import '../../../widgets/parallelogram_avatar.dart';
 import '../data/checkIn_api.dart';
+
+import 'package:flutter_gif/flutter_gif.dart';
 
 class AvatarDeaignPage extends StatelessWidget {
   AvatarDeaignPage({Key? key}) : super(key: key);
@@ -63,7 +70,7 @@ class _BgLeftView extends StatelessWidget {
   Widget build(BuildContext context) {
     // final content = Image.asset(Global.getCheckInImageUrl("bg_left.png"));
     final content = SizedBox(
-      width: 365.sp,
+      width: 365.w,
       height: 1.0.sh,
       child: Stack(
         children: [
@@ -72,8 +79,8 @@ class _BgLeftView extends StatelessWidget {
             alignment: const Alignment(0.05, 1.35),
             child: UserList(
               key: UniqueKey(),
-              width: 295.sp,
-              height: 800.sp,
+              width: 295.w,
+              height: 800.h,
             ),
           ),
           Align(
@@ -87,7 +94,7 @@ class _BgLeftView extends StatelessWidget {
           ),
           Align(
             alignment: const Alignment(-1, -1),
-            child: _GoBackButton(width: 150.w),
+            child: _GoBackButton(width: 143.w),
           ),
         ],
       ),
@@ -107,30 +114,52 @@ class _MiddleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final content = SizedBox(
-      width: 600.w,
+      width: 700.w,
       height: 1.0.sh,
       child: Stack(
         children: [
           Align(
             alignment: const Alignment(-1, -1),
-            child: _PersonModel(width: 600.w),
+            child: _PersonModel(width: 700.w),
           ),
           Align(
-            alignment: const Alignment(0, 0.85),
+            alignment: const Alignment(1.15, -1.05),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 _SetNicknameButton(
                   width: 241.w,
                 ),
-                _SaveAvatarButton(
-                  width: 181.w,
-                ),
-                //   Text("set nickname"),
-                //   Text("save avatar"),
               ],
             ),
           ),
+          Align(
+            alignment: const Alignment(1.45, 0.92),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _SaveAvatarButton(
+                  width: 427.w,
+                ),
+              ],
+            ),
+          ),
+          // Align(
+          //   alignment: const Alignment(0, 0.85),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: <Widget>[
+          //       _SetNicknameButton(
+          //         width: 241.w,
+          //       ),
+          //       _SaveAvatarButton(
+          //         width: 181.w,
+          //       ),
+          //       //   Text("set nickname"),
+          //       //   Text("save avatar"),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -142,17 +171,24 @@ class _SetNicknameButton extends StatelessWidget {
   _SetNicknameButton({
     Key? key,
     required this.width,
+    this.inputFormatters,
   }) : super(key: key);
   final double width;
   final logic = Get.find<CheckInLogic>();
+  final List<TextInputFormatter>? inputFormatters;
   String get backgroundUri => Global.getCheckInImageUrl("set_nickname_btn.png");
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
-      onTap: () {
+      onTap: () async {
         print("修改名字");
+        // var text = await SendCommentPage.show2<String>(context);
+        // var text = await SendCommentPage.show<String>();
+        // // _UpdateNickname();
+        // print("修改名字 $text");
+        logic.isUpdateNameFun(true);
       },
       child: GetBuilder<CheckInLogic>(
         id: "setNickname",
@@ -170,30 +206,85 @@ class _SetNicknameButton extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Text("JOIN",
-                //     textAlign: TextAlign.center,
-                //     style: TextStyle(
-                //       fontWeight: FontWeight.bold,
-                //       fontSize: 36.sp,
-                //       decoration: TextDecoration.none,
-                //       fontFamily: 'Burbank',
-                //       color: Colors.white,
-                //       textBaseline: TextBaseline.ideographic,
-                //     )),
                 SizedBox(
-                  width: width * 0.8,
-                  child: Text(
-                    logic.currentNickName,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Burbank',
-                      color: Colors.white,
-                      decoration: TextDecoration.none,
-                      fontSize: 36.sp,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
+                    width: width * 0.8,
+                    child: !logic.isUpdateName
+                        ? Text(
+                            logic.currentNickName,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'Burbank',
+                              color: Colors.white,
+                              decoration: TextDecoration.none,
+                              fontSize: 36.sp,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          )
+                        : TextField(
+                            controller: TextEditingController(),
+                            decoration: InputDecoration(
+                              hintText: '请输入nickname',
+                            ),
+                            onChanged: (text) {
+                              print("输入改变时" + text);
+
+                              logic.testUpd(text);
+
+                              // final user = logic.userList.firstWhere(
+                              //     (element) => element.id == logic.selectedId);
+                              // logic.userListuser.nickname = text;
+
+                              // final index = logic.userList.indexWhere(
+                              //     (element) => element.id == logic.selectedId);
+                              // logic.userList[index] = UserInfo(
+                              //   id: logic.userList[index].id,
+                              //   nickname: text,
+                              //   avatarUrl: logic.currentUrl,
+                              //   username: logic.userList[index].username,
+                              //   isMale: logic.currentIsMale,
+                              //   headgearId: logic.headId,
+                              // );
+                            },
+                            style: TextStyle(
+                              fontFamily: 'Burbank',
+                              color: Colors.white,
+                              decoration: TextDecoration.none,
+                              fontSize: 36.sp,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          )),
+                // SizedBox(
+                //   width: width * 0.8,
+                //   child: TextField(
+                //     controller: TextEditingController(),
+                //     decoration: InputDecoration(
+                //       hintText: '请输入nickname',
+                //     ),
+                //     onChanged: (text) {
+                //       print("输入改变时" + text);
+                //     },
+                //     // decoration: InputDecoration(
+                //     //   label: Text(logic.currentNickName,
+                //     //       style: const TextStyle(color: Colors.grey)),
+                //     //   enabledBorder: const OutlineInputBorder(
+                //     //     borderSide: BorderSide(color: Colors.white),
+                //     //     borderRadius: BorderRadius.all(Radius.circular(24)),
+                //     //   ),
+                //     //   focusedBorder: const OutlineInputBorder(
+                //     //     borderSide: BorderSide(color: Colors.white),
+                //     //     borderRadius: BorderRadius.all(Radius.circular(24)),
+                //     //   ),
+                //     //   border: const OutlineInputBorder(
+                //     //     borderSide: BorderSide(color: Colors.white),
+                //     //     borderRadius: BorderRadius.all(Radius.circular(24)),
+                //     //   ),
+                //     // ),
+                //     inputFormatters: [
+                //       LengthLimitingTextInputFormatter(20),
+                //       FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                //     ],
+                //   ),
+                // ),
                 SizedBox(
                   width: 30.w,
                   child: Image.asset(
@@ -229,14 +320,44 @@ class _SaveAvatarButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         print("保存avatar");
-        await checkInApi.updatePlayerInfo(logic.selectedId,
-            logic.currentNickName, logic.headId, logic.currentIsMale);
+        await checkInApi.updatePlayerInfo(
+            logic.selectedId ?? (logic.userList[0].id),
+            logic.currentNickName,
+            logic.headId,
+            logic.currentIsMale);
+        final index = logic.userList
+            .indexWhere((element) => element.id == logic.selectedId);
+        logic.userList[index] = UserInfo(
+          id: logic.userList[index].id,
+          nickname: logic.currentNickName,
+          avatarUrl: logic.currentUrl,
+          username: logic.userList[index].username,
+          isMale: logic.currentIsMale,
+          headgearId: logic.headId,
+        );
+        // logic.testSave();
+        Get.dialog(
+          Center(
+            child: Container(
+              width: 700.w,
+              height: 150.h,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                      Global.getCheckInImageUrl("success_dialog.png")),
+                  // fit: BoxFit.cover,
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+          ),
+        );
       },
       child: GetBuilder<CheckInLogic>(
         id: "saveAvatar",
         builder: (logic) {
           return Container(
-            height: width,
+            height: width * 0.24,
             width: width,
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -244,36 +365,36 @@ class _SaveAvatarButton extends StatelessWidget {
                 fit: BoxFit.fitWidth,
               ),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Text("Save avatar",
-                //     textAlign: TextAlign.center,
-                //     style: TextStyle(
-                //       fontWeight: FontWeight.bold,
-                //       fontSize: 36.sp,
-                //       decoration: TextDecoration.none,
-                //       fontFamily: 'Burbank',
-                //       color: Color.fromARGB(255, 223, 227, 1),
-                //       textBaseline: TextBaseline.ideographic,
-                //     )),
-                SizedBox(
-                  width: width,
-                  child: Text(
-                    "Save avatar",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Burbank',
-                      color: const Color.fromARGB(255, 223, 227, 1),
-                      decoration: TextDecoration.none,
-                      fontSize: 36.sp,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // child: Row(
+            //   mainAxisSize: MainAxisSize.min,
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     // Text("Save avatar",
+            //     //     textAlign: TextAlign.center,
+            //     //     style: TextStyle(
+            //     //       fontWeight: FontWeight.bold,
+            //     //       fontSize: 36.sp,
+            //     //       decoration: TextDecoration.none,
+            //     //       fontFamily: 'Burbank',
+            //     //       color: Color.fromARGB(255, 223, 227, 1),
+            //     //       textBaseline: TextBaseline.ideographic,
+            //     //     )),
+            //     SizedBox(
+            //       width: width,
+            //       child: Text(
+            //         "Save avatar",
+            //         textAlign: TextAlign.center,
+            //         style: TextStyle(
+            //           fontFamily: 'Burbank',
+            //           color: const Color.fromARGB(255, 223, 227, 1),
+            //           decoration: TextDecoration.none,
+            //           fontSize: 36.sp,
+            //           fontWeight: FontWeight.normal,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           );
         },
       ),
@@ -312,7 +433,7 @@ class _ModelShape extends StatelessWidget {
       children: [
         Align(
           // alignment: const Alignment(0.225, -0.479),
-          alignment: const Alignment(0.225, 0.179),
+          alignment: const Alignment(0, 0.279),
           child: GestureDetector(
             // 点击事件
             onTap: () {
@@ -322,21 +443,31 @@ class _ModelShape extends StatelessWidget {
               id: "bodyPage",
               builder: (logic) {
                 return logic.currentIsMale
-                    ? Image.asset(
-                        Global.getCheckInImageUrl('avatar/Blue_man.png'),
-                        width: width * 0.45,
-                      )
-                    : Image.asset(
-                        Global.getCheckInImageUrl('avatar/Blue_Women.png'),
-                        width: width * 0.45,
-                      );
+                    ? (Global.team == 0
+                        ? Image.asset(
+                            Global.getCheckInImageUrl('avatar/Red_man.png'),
+                            width: width * 0.6,
+                          )
+                        : Image.asset(
+                            Global.getCheckInImageUrl('avatar/Blue_man.png'),
+                            width: width * 0.6,
+                          ))
+                    : (Global.team == 0
+                        ? Image.asset(
+                            Global.getCheckInImageUrl('avatar/Red_Women.png'),
+                            width: width * 0.6,
+                          )
+                        : Image.asset(
+                            Global.getCheckInImageUrl('avatar/Blue_Women.png'),
+                            width: width * 0.6,
+                          ));
               },
             ),
           ),
         ),
         Align(
           // alignment: const Alignment(0.225, -0.479),
-          alignment: const Alignment(0.225, -0.409),
+          alignment: const Alignment(0.285, -0.739),
           child: GestureDetector(
             // 点击事件
             onTap: () {
@@ -345,17 +476,35 @@ class _ModelShape extends StatelessWidget {
             child: GetBuilder<CheckInLogic>(
               id: "headPage",
               builder: (logic) {
-                return logic.currentUrl != ""
-                    ? CachedNetworkImage(
-                        imageUrl: logic.currentUrl,
-                        fit: BoxFit.fitWidth,
-                        width: width * 0.5,
-                      )
-                    : Image.asset(
-                        Global.getCheckInImageUrl('avatar/ChipsHead.png'),
-                        width: width * 0.5,
-                        fit: BoxFit.fitWidth,
-                      );
+                // return logic.currentUrl != ""
+                //     ? CachedNetworkImage(
+                //         imageUrl: logic.currentUrl,
+                //         fit: BoxFit.fitWidth,
+                //         width: width * 0.4,
+                //       )
+                //     : CachedNetworkImage(
+                //         imageUrl: logic.userList[0].avatarUrl,
+                //         fit: BoxFit.fitWidth,
+                //         width: width * 0.4,
+                //       );
+                return Container(
+                  // color: Colors.white,
+                  width: 280.w,
+                  height: 280.h,
+                  child: logic.currentUrl != ""
+                      ? CachedNetworkImage(
+                          imageUrl: logic.currentUrl,
+                          fit: BoxFit.fitWidth,
+                          width: width * 0.6,
+                        )
+                      : CachedNetworkImage(
+                          imageUrl:
+                              logic.avatarInfo[0].transparentBackgroundUrl,
+                          // imageUrl: logic.userList[0].avatarUrl,
+                          fit: BoxFit.fitWidth,
+                          width: width * 0.6,
+                        ),
+                );
               },
             ),
           ),
@@ -411,22 +560,22 @@ class _GoBackButton extends StatelessWidget {
                 fit: BoxFit.fitWidth,
               ),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Transform.translate(
-                  offset: const Offset(0, 0),
-                  child: Icon(
-                    Icons.play_arrow,
-                    size: width * 0.18,
-                    color: const Color(0xFFFFE350),
-                  ),
-                ),
-                SizedBox(width: width * 0.05),
-                // content,
-              ],
-            ),
+            // child: Row(
+            //   mainAxisSize: MainAxisSize.min,
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     Transform.translate(
+            //       offset: const Offset(0, 0),
+            //       child: Icon(
+            //         Icons.play_arrow,
+            //         size: width * 0.18,
+            //         color: const Color(0xFFFFE350),
+            //       ),
+            //     ),
+            //     SizedBox(width: width * 0.05),
+            //     // content,
+            //   ],
+            // ),
           );
         },
       ),
@@ -479,7 +628,7 @@ class _RightView extends StatelessWidget {
       child: Stack(
         children: [
           Align(
-            alignment: const Alignment(1.0, -0.9),
+            alignment: const Alignment(0.8, -0.9),
             child: _SummonButton(width: 144.w),
           ),
           Align(
@@ -674,10 +823,10 @@ class _RightView extends StatelessWidget {
                   } else {
                     print("kkkk嘎嘎嘎嘎是 ${logic.avatarInfo[0].url}");
                     return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Align(
                                 alignment: Alignment.center,
@@ -686,9 +835,12 @@ class _RightView extends StatelessWidget {
                                     logic.clickBody(true);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 260.w,
-                                      avatarUrl: 'avatar/Blue_man.png',
-                                      isRequest: false),
+                                      width: 190.w,
+                                      avatarUrl: Global.team == 0
+                                          ? 'selection_panel/Red_man_s.png'
+                                          : 'selection_panel/Blue_man_s.png',
+                                      isRequest: false,
+                                      isHigh: "high"),
                                 )),
                             Align(
                                 alignment: Alignment.center,
@@ -697,9 +849,12 @@ class _RightView extends StatelessWidget {
                                     logic.clickBody(false);
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 260.w,
-                                      avatarUrl: 'avatar/Blue_Women.png',
-                                      isRequest: false),
+                                      width: 190.w,
+                                      avatarUrl: Global.team == 0
+                                          ? 'selection_panel/Red_Women_s.png'
+                                          : 'selection_panel/Blue_Women_s.png',
+                                      isRequest: false,
+                                      isHigh: "high"),
                                 )),
                             // Align(
                             //     alignment: Alignment.center,
@@ -789,6 +944,7 @@ class _SummonButton extends StatelessWidget {
   final double width;
   final logic = Get.find<CheckInLogic>();
   String get backgroundUri => Global.getCheckInImageUrl("summon_btn.png");
+  // late final FlutterGifController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -800,6 +956,19 @@ class _SummonButton extends StatelessWidget {
       child: GetBuilder<CheckInLogic>(
         id: "summon",
         builder: (logic) {
+          // return Container(
+          //   height: width,
+          //   width: width,
+          //   child: Stack(children: [
+          //     GifImage(
+          //       width: width,
+          //       height: width,
+          //       controller: controller,
+          //       image: AssetImage(Global.getGifUrl("answer_cell_expand.gif")),
+          //       fit: BoxFit.fill,
+          //     ),
+          //   ]),
+          // );
           return Container(
             height: width,
             width: width,
@@ -809,24 +978,136 @@ class _SummonButton extends StatelessWidget {
                 fit: BoxFit.fitWidth,
               ),
             ),
-            // child: Row(
-            //   mainAxisSize: MainAxisSize.min,
-            //   crossAxisAlignment: CrossAxisAlignment.center,
-            //   children: [
-            //     Transform.translate(
-            //       offset: const Offset(0, 0),
-            //       child: Icon(
-            //         Icons.play_arrow,
-            //         size: width * 0.18,
-            //         color: const Color(0xFFFFE350),
-            //       ),
-            //     ),
-            //     SizedBox(width: width * 0.05),
-            //   ],
-            // ),
           );
         },
       ),
     );
+  }
+}
+
+class _UpdateNickname extends StatelessWidget {
+  _UpdateNickname({
+    Key? key,
+  }) : super(key: key);
+  final logic = Get.find<CheckInLogic>();
+  final focusNode = FocusNode();
+  final controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    // 加个小延迟
+    Timer(const Duration(milliseconds: 50), (() {
+      focusNode.requestFocus();
+    }));
+    return Scaffold(
+        // 关键
+        backgroundColor: Colors.black.withAlpha((255 * 0.4).toInt()),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            //撑起上部分
+            // Expanded(child: GestureDetector(
+            // )),
+            Container(
+                padding: const EdgeInsets.all(8),
+                color: Colors.white,
+                child: TextField(
+                  controller: controller,
+                  cursorColor: Colors.black,
+                  decoration: const InputDecoration(
+                    hintText: "修改名字",
+                  ),
+                  focusNode: focusNode,
+                  minLines: 3,
+                  maxLines: 6,
+                )),
+            Container(
+                color: Colors.white,
+                padding: const EdgeInsets.fromLTRB(40, 10, 40, 8),
+                width: double.infinity,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, controller.text);
+                      // Get.back(result: controller.text);
+                    },
+                    child: const Text("修改"))),
+          ],
+        ));
+  }
+}
+
+class SendCommentPage extends StatelessWidget {
+  // 如果使用 Get
+  static Future<T?>? show<T>() {
+    return Get.to(() => SendCommentPage(),
+        opaque: false,
+        preventDuplicates: false,
+        duration: const Duration(microseconds: 0),
+        fullscreenDialog: true);
+  }
+
+  // static Future<T?> show2<T>(BuildContext context) {
+  //   return Navigator.of(context).push(
+  //     PageRouteBuilder(
+  //       // 关键
+  //       opaque: false,
+  //       pageBuilder: (BuildContext context, Animation<double> animation,
+  //           Animation<double> secondaryAnimation) {
+  //         return SendCommentPage();
+  //       },
+  //     ),
+  //   );
+  // }
+
+  SendCommentPage({super.key});
+
+  final focusNode = FocusNode();
+  final controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    // 加个小延迟
+    Timer(const Duration(milliseconds: 50), (() {
+      focusNode.requestFocus();
+    }));
+
+    return Scaffold(
+        // 关键
+        backgroundColor: Colors.black.withAlpha((255 * 0.4).toInt()),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            //撑起上部分
+            Expanded(child: GestureDetector(
+              onTap: () {
+                // Navigator.pop(context);
+                Get.back();
+              },
+            )),
+            Container(
+                padding: const EdgeInsets.all(8),
+                color: Colors.white,
+                child: TextField(
+                  controller: controller,
+                  cursorColor: Colors.black,
+                  decoration: const InputDecoration(
+                    hintText: "修改名字",
+                  ),
+                  focusNode: focusNode,
+                  minLines: 3,
+                  maxLines: 6,
+                )),
+            Container(
+                color: Colors.white,
+                padding: const EdgeInsets.fromLTRB(40, 10, 40, 8),
+                width: double.infinity,
+                child: TextButton(
+                    onPressed: () {
+                      // Navigator.pop(context, controller.text);
+                      Get.back(result: controller.text);
+                    },
+                    child: const Text("修改"))),
+          ],
+        ));
   }
 }

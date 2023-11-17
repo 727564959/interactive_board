@@ -41,17 +41,20 @@ class _UserItemState extends State<UserItem> with TickerProviderStateMixin {
 
   String get backgroundUrl {
     String path;
-    if (userId != logic.selectedId) {
-      path = "cell_bg_default.png";
-    } else {
+    if (userId == logic.userList[0].id && logic.selectedId == null) {
       path = "cell_bg_selected.png";
+    } else {
+      if (userId != logic.selectedId) {
+        path = "cell_bg_default.png";
+      } else {
+        path = "cell_bg_selected.png";
+      }
     }
     return Global.getCheckInImageUrl(path);
   }
 
   @override
   Widget build(BuildContext context) {
-    // final height = width / 9.7;
     final height = width / 4;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (userId == logic.selectedId) {
@@ -69,7 +72,11 @@ class _UserItemState extends State<UserItem> with TickerProviderStateMixin {
           Center(
             child: Image.asset(
               backgroundUrl,
-              width: width,
+              // width: userId != logic.selectedId ? width : width / 0.8,
+              width:
+                  (userId == logic.userList[0].id && logic.selectedId == null)
+                      ? (width / 0.8)
+                      : (userId != logic.selectedId ? width : width / 0.8),
               height: height,
               fit: BoxFit.fill,
             ).animate(controller: controller, autoPlay: false).scale(
@@ -81,7 +88,6 @@ class _UserItemState extends State<UserItem> with TickerProviderStateMixin {
           Row(
             children: [
               SizedBox(
-                // width: width * 0.5,
                 width: width,
                 child: Text(
                   nickname,

@@ -32,7 +32,8 @@ class ChoosePlayerPage extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 60.h),
-              GameTitleWidget(gameName: logic.gameName, width: 0.45.sw, bAnimate: true),
+              GameTitleWidget(
+                  gameName: logic.gameName, width: 0.45.sw, bAnimate: true),
               SizedBox(
                 height: 130.h,
                 child: GetBuilder<ChoosePlayerLogic>(
@@ -44,7 +45,7 @@ class ChoosePlayerPage extends StatelessWidget {
                           key: UniqueKey(),
                           seconds: 9,
                           onFinished: () {
-                            Get.offAllNamed(AppRoutes.gamingRank);
+                            Get.toNamed(AppRoutes.gamingRank);
                           },
                           build: (context, time) {
                             return Text(
@@ -70,7 +71,8 @@ class ChoosePlayerPage extends StatelessWidget {
               SizedBox(height: 30.h),
               GetBuilder<ChoosePlayerLogic>(
                 builder: (logic) {
-                  return PlayerSticker(width: 0.9.sw, players: logic.unselectedPlayers);
+                  return PlayerSticker(
+                      width: 0.9.sw, players: logic.unselectedPlayers);
                 },
               ),
             ],
@@ -91,17 +93,58 @@ class ChoosePlayerPage extends StatelessWidget {
           ),
         ),
         Positioned(
-            right: 20,
-            top: 20,
-            child: IconButton(
-              iconSize: 100,
-              icon: const Icon(Icons.accessibility_outlined),
-              onPressed: () async {
-                await Get.toNamed(AppRoutes.checkIn);
-                logic.updatePlayerInfo();
-              },
-            )),
+          right: 20,
+          top: 20,
+          child: _SetAvatarButton(
+            width: 230.w,
+          ),
+          // child: IconButton(
+          //   iconSize: 100,
+          //   icon: const Icon(Icons.accessibility_outlined),
+          //   onPressed: () {
+          //     Get.toNamed(AppRoutes.checkIn);
+          //   },
+          // )
+        ),
       ],
     ));
+  }
+}
+
+class _SetAvatarButton extends StatelessWidget {
+  _SetAvatarButton({
+    Key? key,
+    required this.width,
+  }) : super(key: key);
+  final double width;
+  final logic = Get.find<ChoosePlayerLogic>();
+  String get backgroundUri => Global.team == 0
+      ? Global.getCheckInImageUrl("set_avatar_btn_red.png")
+      : Global.getCheckInImageUrl("set_avatar_btn_blue.png");
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () {
+        print("进入checkin");
+        Get.toNamed(AppRoutes.checkIn);
+      },
+      child: GetBuilder<ChoosePlayerLogic>(
+        id: "setAvatar",
+        builder: (logic) {
+          return Container(
+            height: width / 3,
+            width: width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(backgroundUri),
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
