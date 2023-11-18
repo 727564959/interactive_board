@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gif/flutter_gif.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import '../../../../common.dart';
+import '../../logic.dart';
 import '../border_title.dart';
 import 'joined_button.dart';
 
@@ -16,12 +18,15 @@ class TipsView extends StatefulWidget {
 
 class _TipsViewState extends State<TipsView> with TickerProviderStateMixin {
   late final FlutterGifController controller;
+  final logic = Get.find<QuizLogic>();
   @override
   void initState() {
     controller = FlutterGifController(vsync: this, duration: 1000.ms, value: 0.0);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      logic.join();
       controller.animateTo(36);
     });
+
     super.initState();
   }
 
