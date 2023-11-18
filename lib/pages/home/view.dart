@@ -28,6 +28,8 @@ class _HomePageState extends State<HomePage> {
       showRepository.updateShowState().then((value) {
         if (showRepository.showId != null && tableId != null) {
           Get.offAllNamed(AppRoutes.choosePlayer);
+        } else if (showRepository.showId == null && tableId != null) {
+          Get.offAllNamed(AppRoutes.checkIn);
         }
       });
     });
