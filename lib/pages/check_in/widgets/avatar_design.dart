@@ -224,6 +224,13 @@ class _SetNicknameButton extends StatelessWidget {
                             controller: TextEditingController(),
                             decoration: InputDecoration(
                               hintText: '请输入nickname',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Burbank',
+                                color: Colors.white,
+                                decoration: TextDecoration.none,
+                                fontSize: 24.sp,
+                                fontWeight: FontWeight.normal,
+                              ),
                             ),
                             // onChanged: (text) {
                             onSubmitted: (text) {
@@ -647,6 +654,33 @@ class _RightView extends StatelessWidget {
               onPressed: () {
                 logic.clickCut("head");
               },
+              //定义一下文本样式
+              style: ButtonStyle(
+                //更优美的方式来设置
+                foregroundColor: MaterialStateProperty.resolveWith(
+                  (states) {
+                    if (states.contains(MaterialState.focused) &&
+                        !states.contains(MaterialState.pressed)) {
+                      //获取焦点时的颜色
+                      return Colors.blue;
+                    } else if (states.contains(MaterialState.pressed)) {
+                      //按下时的颜色
+                      return Colors.deepPurple;
+                    }
+                    //默认状态使用灰色
+                    return Colors.grey;
+                  },
+                ),
+                //背景颜色
+                backgroundColor: MaterialStateProperty.resolveWith((states) {
+                  //设置按下时的背景颜色
+                  if (states.contains(MaterialState.pressed)) {
+                    return Colors.blue[200];
+                  }
+                  //默认不使用背景颜色
+                  return null;
+                }),
+              ),
             ),
           ),
           Align(
@@ -656,6 +690,33 @@ class _RightView extends StatelessWidget {
               onPressed: () {
                 logic.clickCut("body");
               },
+              //定义一下文本样式
+              style: ButtonStyle(
+                //更优美的方式来设置
+                foregroundColor: MaterialStateProperty.resolveWith(
+                  (states) {
+                    if (states.contains(MaterialState.focused) &&
+                        !states.contains(MaterialState.pressed)) {
+                      //获取焦点时的颜色
+                      return Colors.blue;
+                    } else if (states.contains(MaterialState.pressed)) {
+                      //按下时的颜色
+                      return Colors.deepPurple;
+                    }
+                    //默认状态使用灰色
+                    return Colors.grey;
+                  },
+                ),
+                //背景颜色
+                backgroundColor: MaterialStateProperty.resolveWith((states) {
+                  //设置按下时的背景颜色
+                  if (states.contains(MaterialState.pressed)) {
+                    return Colors.blue[200];
+                  }
+                  //默认不使用背景颜色
+                  return null;
+                }),
+              ),
             ),
           ),
           Align(
