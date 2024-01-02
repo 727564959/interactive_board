@@ -88,7 +88,7 @@ class _TargetItemState extends State<TargetItem> with TickerProviderStateMixin, 
         }
       },
       onAccept: (data) {
-        logic.choosePosition(index, data.username);
+        logic.updatePosition(index, data.id);
         selectedController.reset();
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           selectedController.forward();

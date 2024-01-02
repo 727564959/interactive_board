@@ -10,11 +10,11 @@ import 'widgets/avatar_design.dart';
 class CheckInPage extends StatelessWidget {
   CheckInPage({Key? key}) : super(key: key);
   final logic = Get.find<CheckInLogic>();
-  DateTime dateTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     // print("12345 ${dateTime.toString().substring(0, 19)}");
+    DateTime dateTime = DateTime.now();
     return Scaffold(
         body: Stack(
       children: [
@@ -81,29 +81,21 @@ class CheckInPage extends StatelessWidget {
 }
 
 class _LeftImage extends StatelessWidget {
-  const _LeftImage({Key? key, required this.width, required this.height})
-      : super(key: key);
+  const _LeftImage({Key? key, required this.width, required this.height}) : super(key: key);
   final double width;
   final double height;
 
   @override
   Widget build(BuildContext context) {
-    final content = Image.asset(
-        width: width,
-        height: height,
-        fit: BoxFit.fitHeight,
-        Global.getCheckInImageUrl("home_cover.png"));
+    final content =
+        Image.asset(width: width, height: height, fit: BoxFit.fitHeight, Global.getCheckInImageUrl("home_cover.png"));
     return content;
   }
 }
 
 class _RightInfoView extends StatelessWidget {
   const _RightInfoView(
-      {Key? key,
-      required this.logic,
-      required this.width,
-      required this.height,
-      required this.dateTime})
+      {Key? key, required this.logic, required this.width, required this.height, required this.dateTime})
       : super(key: key);
   final logic;
   final double width;

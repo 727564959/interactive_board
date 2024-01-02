@@ -26,8 +26,8 @@ class CheckInLogic extends GetxController {
   bool isUpdateName = false;
 
   String? selectedId;
-  void clickItem(
-      String id, String nickname, String avatarUrl, bool isMale) async {
+
+  void clickItem(String id, String nickname, String avatarUrl, bool isMale) async {
     print("点击了item");
     currentNickName = nickname;
     if (id == selectedId) {
@@ -54,9 +54,8 @@ class CheckInLogic extends GetxController {
 
   void testUpd(String text) {
     print("$text");
-    final index = userList.indexWhere((element) => selectedId != null
-        ? element.id == selectedId
-        : element.id == userList[0].id);
+    final index =
+        userList.indexWhere((element) => selectedId != null ? element.id == selectedId : element.id == userList[0].id);
     userList[index] = UserInfo(
       id: userList[index].id,
       nickname: text,
@@ -123,8 +122,7 @@ class CheckInLogic extends GetxController {
 
   void birdShow() {
     var builder = MqttClientPayloadBuilder();
-    _client?.publishMessage(
-        "cmd/rain-forest/show-bird", MqttQos.atMostOnce, builder.payload!);
+    _client?.publishMessage("cmd/rain-forest/show-bird", MqttQos.atMostOnce, builder.payload!);
   }
 
   @override

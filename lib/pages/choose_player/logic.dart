@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:mqtt_client/mqtt_client.dart';
-import 'package:mqtt_client/mqtt_server_client.dart';
+
+import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../data/network/utils.dart';
 import 'data/player.dart';
@@ -16,7 +16,8 @@ class ChoosePlayerLogic extends GetxController {
   String get gameName => GameShowRepository().gameName!;
   final selectedPlayers = List<PlayerInfo?>.generate(4, (index) => null);
   bool get bSelectComplete => selectedPlayers.every((element) => element != null);
-  MqttServerClient? _client;
+  final baseUrl = 'http://10.0.0.4:12333';
+  late final Socket positionSocket;
 
   //3、4、5、6桌坐人，每桌上两人
   int getPosition(int index) {
@@ -27,62 +28,61 @@ class ChoosePlayerLogic extends GetxController {
   void onInit() async {
     super.onInit();
     players = await playerApi.fetchPlayers();
-    final client = getMQTTClient();
-    _client = client;
-    client.onConnected = () async {
-      client.subscribe("event/game-round/position-update", MqttQos.atMostOnce);
-      client.subscribe("event/game-round/position-clear", MqttQos.atLeastOnce);
-      client.updates!.listen((c) {
-        final recMess = c[0].payload as MqttPublishMessage;
-        final topic = c[0].topic;
-        final payload = jsonDecode(MqttPublishPayload.bytesToStringAsString(recMess.payload.message));
-        final int team = payload['position'] < 5 ? 0 : 1;
-        //如果队伍不同跳过
-        if (team != Global.team) return;
-        final index = (payload['position'] - 1) % 4;
-        if (topic == "event/game-round/position-update") {
-          final player = PlayerInfo.fromJson(payload);
-          if (selectedPlayers[index]?.id == player.id) return;
-          selectedPlayers[index] = player;
-          update();
-          update(["countdown"]);
-        } else if (topic == "event/game-round/position-clear") {
-          if (selectedPlayers[index] == null) return;
-          selectedPlayers[index] = null;
-          update();
-          update(["countdown"]);
-        }
-      });
-    };
-    client.connect();
-    update();
+    final option = OptionBuilder().setTransports(['websocket']).build();
+    positionSocket = io('$baseUrl/listener/position', option);
+    positionSocket.on('position_state', (data) {
+      for (final item in data) {
+        final int position = item['position'];
+        final index = (position - 1) % 4;
+        final int team = position < 5 ? 0 : 1;
+        if (team != Global.team) continue;
+        final player = PlayerInfo.fromJson(item['player']);
+        selectedPlayers[index] = player;
+      }
+      update();
+      update(["countdown"]);
+    });
+    positionSocket.on('position_update', (data) {
+      final int position = data['position'];
+      final index = (position - 1) % 4;
+      final int team = position < 5 ? 0 : 1;
+      if (team != Global.team) return;
+      if (data['player'] == null) {
+        if (selectedPlayers[index] == null) return;
+        selectedPlayers[index] = null;
+      } else {
+        final player = PlayerInfo.fromJson(data['player']);
+        if (selectedPlayers[index]?.id == player.id) return;
+        selectedPlayers[index] = player;
+      }
+      update();
+      update(["countdown"]);
+    });
   }
 
   @override
   void onClose() {
-    if (_client != null) {
-      _client!.disconnect();
-    }
+    positionSocket.close();
     super.onClose();
   }
 
   List<PlayerInfo> get unselectedPlayers {
     final result = <PlayerInfo>[];
     for (final player in players) {
-      if (!selectedPlayers.any((element) => player.username == element?.username)) {
+      if (!selectedPlayers.any((element) => player.id == element?.id)) {
         result.add(player);
       }
     }
     return result;
   }
 
-  void choosePosition(index, username) {
+  void updatePosition(int index, int? playerId) {
     try {
-      final player = players.firstWhere((element) => element.username == username);
+      final player = players.firstWhere((element) => element.id == playerId);
       selectedPlayers[index] = player;
       update();
       update(["countdown"]);
-      playerApi.updatePosition(username, getPosition(index));
+      playerApi.updatePosition(getPosition(index), playerId);
     } on StateError {
       return;
     }
@@ -90,7 +90,7 @@ class ChoosePlayerLogic extends GetxController {
 
   void removePlayer(index) {
     selectedPlayers[index] = null;
-    playerApi.clearPosition(getPosition(index));
+    playerApi.updatePosition(getPosition(index), null);
     update(["countdown"]);
   }
 
@@ -98,8 +98,8 @@ class ChoosePlayerLogic extends GetxController {
     players = await playerApi.fetchPlayers();
     for (int i = 0; i < 4; i++) {
       if (selectedPlayers[i] == null) continue;
-      final username = selectedPlayers[i]!.username;
-      final player = players.firstWhere((element) => element.username == username);
+      final playerId = selectedPlayers[i]!.id;
+      final player = players.firstWhere((element) => element.id == playerId);
       selectedPlayers[i] = player;
     }
     update();

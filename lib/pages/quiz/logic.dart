@@ -18,9 +18,9 @@ class QuizState {
 }
 
 class QuizLogic extends GetxController {
-  late final int startTimestamp;
+  late final int quizRoundStartTimestamp;
   late final int questionCount;
-  int get countdown => max(0, (startTimestamp - DateTime.now().millisecondsSinceEpoch) ~/ 1000);
+  int get countdown => max(0, (quizRoundStartTimestamp - DateTime.now().millisecondsSinceEpoch) ~/ 1000);
   bool joinedQuiz = false;
   QuizState? quizState;
   List<SettlementInfo> records = [];
@@ -48,7 +48,7 @@ class QuizLogic extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    startTimestamp = Get.arguments["startTimestamp"];
+    quizRoundStartTimestamp = Get.arguments["waitingSeconds"] * 1000 + DateTime.now().millisecondsSinceEpoch;
     questionCount = Get.arguments["questionCount"];
     quizRepository = QuizRepository(
       onQuestionRound: (question) {

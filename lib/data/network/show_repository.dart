@@ -4,8 +4,7 @@ class GameShowRepository {
   static GameShowRepository? _instance;
   factory GameShowRepository() => _instance ?? GameShowRepository._internal();
   final dio = Dio();
-  final baseUrl = "http://10.1.4.13:1337/api/game-show";
-  // final baseUrl = "http://www.mir2021.xyz:1337/api/game-show";
+  final baseUrl = "http://10.1.4.16:1337/api";
   int? showId;
   int? roundId;
   int currentRound = 0;
@@ -20,7 +19,7 @@ class GameShowRepository {
     final response = await dio.get("$baseUrl/show/state");
     showId = response.data['showId'];
     roundId = response.data['roundId'];
-    currentRound = response.data['currentRound'];
+    currentRound = response.data['currentRound'] ?? 0;
     gameName = response.data['gameName'];
   }
 }

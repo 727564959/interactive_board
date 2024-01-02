@@ -8,52 +8,29 @@ class PlayerApi {
   factory PlayerApi() => _instance ?? PlayerApi._internal();
   final dio = Dio();
   final showRepository = GameShowRepository();
-  final baseUrl = "http://10.1.4.13:1337/api/game-show";
+  final baseUrl = "http://10.0.0.4:1337/api";
   PlayerApi._internal() {
     _instance = this;
   }
 
   Future<List<PlayerInfo>> fetchPlayers() async {
     final response = await dio.get(
-      "$baseUrl/show/users",
-      queryParameters: {"showId": 1, "tableId": Global.tableId},
+      "$baseUrl/shows/${showRepository.showId}/players",
+      queryParameters: {
+        "tableId": Global.tableId,
+        "bJoinedCount": true,
+      },
     );
-    List players = response.data['playerList'];
+    List players = response.data;
+    print(players);
     return players.map((player) => PlayerInfo.fromJson(player)).toList();
   }
 
-  Future<List<PlayerInfo?>> fetchPlayersPosition() async {
-    final response = await dio.get(
-      "$baseUrl/round/user-positions",
-      queryParameters: {"roundId": showRepository.currentRound},
-    );
-    final result = List<PlayerInfo?>.generate(8, (index) => null);
-    for (final item in response.data["playerList"]) {
-      final int position = item['position'];
-      final player = PlayerInfo.fromJson(item);
-      result[position] = player;
-    }
-    return result;
-  }
-
-  Future<void> updatePosition(String username, int position) async {
-    print(username);
-    print(position);
+  Future<void> updatePosition(int position, int? playerId) async {
     await dio.post(
-      "$baseUrl/round/user-positions",
+      "$baseUrl/rounds/${showRepository.roundId}/update-positions",
       data: {
-        "roundId": showRepository.roundId,
-        "username": username,
-        "position": position,
-      },
-    );
-  }
-
-  Future<void> clearPosition(int position) async {
-    await dio.post(
-      "$baseUrl/round/user-positions",
-      data: {
-        "roundId": showRepository.roundId,
+        "playerId": playerId,
         "position": position,
       },
     );
