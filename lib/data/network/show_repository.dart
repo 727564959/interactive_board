@@ -9,6 +9,7 @@ class GameShowRepository {
   int? roundId;
   int currentRound = 0;
   String? gameName;
+  String? mode;
 
   GameShowRepository._internal() {
     _instance = this;
@@ -20,6 +21,7 @@ class GameShowRepository {
     showId = response.data['showId'];
     roundId = response.data['roundId'];
     currentRound = response.data['currentRound'] ?? 0;
-    gameName = response.data['gameName'];
+    gameName = response.data['game'];
+    mode = response.data['mode'];
   }
 }

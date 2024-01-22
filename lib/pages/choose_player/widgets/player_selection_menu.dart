@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'target_item.dart';
@@ -12,24 +13,48 @@ class PlayerSelectionMenu extends StatelessWidget {
   double get itemWidth => width * 0.16;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(
-          4,
-          (index) => GetBuilder<ChoosePlayerLogic>(
-            builder: (logic) {
-              return TargetItem(
-                width: itemWidth,
-                deviceId: ascii.decode([0x41 + index]),
-                index: index,
-              );
-            },
-          ),
+    final List<Widget> children = [];
+    for (final position in logic.selectedPlayers.keys) {
+      children.add(
+        GetBuilder<ChoosePlayerLogic>(
+          builder: (logic) {
+            return TargetItem(
+              width: itemWidth,
+              deviceId: ascii.decode([0x40 + position]),
+              position: position,
+            );
+          },
         ),
-      ),
-    );
+      );
+    }
+    if (children.length <= 4) {
+      return SizedBox(
+        width: width,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: children,
+        ),
+      );
+    } else {
+      return SizedBox(
+        width: width,
+        child: Column(
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: children.getRange(0, 4).toList(),
+            ),
+            SizedBox(height: 20.w),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: children.getRange(4, children.length).toList(),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }

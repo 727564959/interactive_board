@@ -21,11 +21,11 @@ class ProcessController {
       Get.offAllNamed(AppRoutes.quiz, arguments: data);
     });
     showSocket = io('$baseUrl/listener/game-show', option);
-    showSocket.on('start', (data) async {
+    showSocket.on('show_starting', (data) async {
       await GameShowRepository().updateShowState();
       Get.offAllNamed(AppRoutes.choosePlayer);
     });
-    showSocket.on('stop', (data) async {
+    showSocket.on('waiting_show', (data) async {
       await GameShowRepository().updateShowState();
       Get.offAllNamed(AppRoutes.main);
     });

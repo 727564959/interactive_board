@@ -11,11 +11,11 @@ class TargetItem extends StatefulWidget {
     Key? key,
     required this.width,
     required this.deviceId,
-    required this.index,
+    required this.position,
   }) : super(key: key);
   final double width;
   final String deviceId;
-  final int index;
+  final int position;
   @override
   State<TargetItem> createState() => _TargetItemState();
 }
@@ -27,8 +27,8 @@ class _TargetItemState extends State<TargetItem> with TickerProviderStateMixin, 
   late final AnimationController selectedController;
   late final AnimationController tagController;
   final logic = Get.find<ChoosePlayerLogic>();
-  int get index => widget.index;
-  PlayerInfo? get player => logic.selectedPlayers[index];
+  int get position => widget.position;
+  PlayerInfo? get player => logic.selectedPlayers[position];
   @override
   void initState() {
     super.initState();
@@ -54,6 +54,53 @@ class _TargetItemState extends State<TargetItem> with TickerProviderStateMixin, 
     final width = widget.width;
     final height = widget.width * 1.5;
 
+    if (player != null && player?.tableId != Global.tableId) {
+      return SizedBox(
+        width: width,
+        height: height,
+        child: Stack(
+          children: [
+            HexagonAvatar(
+              width: width,
+              avatarUrl: player!.avatarUrl,
+              tag: player!.nickname,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: width * 0.43,
+                height: height * 0.17,
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(Global.getAssetImageUrl("avatar/vr_icon_light.png")),
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      widget.deviceId,
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: width * 0.11,
+                        decoration: TextDecoration.none,
+                        fontFamily: 'BurbankBold',
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ).animate(autoPlay: false, controller: tagController, target: 1.0).scale(
+                      duration: 100.ms,
+                      begin: const Offset(0.0, 0.0),
+                      end: const Offset(1.0, 1.0),
+                    ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return DragTarget<PlayerInfo>(
       onWillAccept: (data) {
         if (player == null) {
@@ -70,7 +117,7 @@ class _TargetItemState extends State<TargetItem> with TickerProviderStateMixin, 
         if (player == data) {
           tagController.reset();
           tagController.forward();
-          logic.removePlayer(index);
+          logic.removePlayer(position);
           nullTargetController.reverse();
           changeController.reset();
           changeController1.reset();
@@ -88,7 +135,7 @@ class _TargetItemState extends State<TargetItem> with TickerProviderStateMixin, 
         }
       },
       onAccept: (data) {
-        logic.updatePosition(index, data.id);
+        logic.updatePosition(position, data.id);
         selectedController.reset();
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           selectedController.forward();
@@ -108,7 +155,6 @@ class _TargetItemState extends State<TargetItem> with TickerProviderStateMixin, 
             height: height,
           ).animate(autoPlay: false, controller: nullTargetController).scale(
                 duration: 100.ms,
-                // curve: Curves.decelerate,
                 begin: const Offset(1.0, 1.0),
                 end: const Offset(0.7, 0.7),
               );
@@ -127,7 +173,7 @@ class _TargetItemState extends State<TargetItem> with TickerProviderStateMixin, 
               _PlayerTargetItem(
                 width: width,
                 height: height,
-                index: index,
+                position: position,
               )
                   .animate(autoPlay: false, controller: selectedController)
                   .scale(
@@ -195,13 +241,13 @@ class _PlayerTargetItem extends StatelessWidget {
     Key? key,
     required this.width,
     required this.height,
-    required this.index,
+    required this.position,
   }) : super(key: key);
 
   final double width;
   final double height;
-  PlayerInfo? get player => logic.selectedPlayers[index];
-  final int index;
+  PlayerInfo? get player => logic.selectedPlayers[position];
+  final int position;
 
   final logic = Get.find<ChoosePlayerLogic>();
   @override
