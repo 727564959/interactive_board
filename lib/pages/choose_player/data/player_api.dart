@@ -25,6 +25,18 @@ class PlayerApi {
     return players.map((player) => PlayerInfo.fromJson(player, Global.tableId)).toList();
   }
 
+  Future<List<PositionInfo>> fetchPositions() async {
+    final response = await dio.get("$baseUrl/rounds/${showRepository.roundId}/positions");
+    final result = <PositionInfo>[];
+    for (final item in response.data) {
+      final int tableId = item['tableId'];
+      final PlayerInfo player = PlayerInfo.fromJson(item['player'], tableId);
+      final int position = item['position'];
+      result.add(PositionInfo(player: player, position: position));
+    }
+    return result;
+  }
+
   Future<void> updatePosition(int position, int? playerId) async {
     await dio.post(
       "$baseUrl/rounds/${showRepository.roundId}/update-positions",

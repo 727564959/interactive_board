@@ -41,28 +41,29 @@ class ChoosePlayerLogic extends GetxController {
     }
 
     players = await playerApi.fetchPlayers();
+    final positions = await playerApi.fetchPositions();
+    for (final item in positions) {
+      if (!selectedPlayers.containsKey(item.position)) return;
+      selectedPlayers[item.position] = item.player;
+    }
+    update();
+
     final option = OptionBuilder().setTransports(['websocket']).build();
     positionSocket = io('$baseUrl/listener/position', option);
-    positionSocket.on('position_state', (data) {
-      for (final item in data) {
-        final int position = item['position'];
-        if (!selectedPlayers.containsKey(position)) return;
-        final player = PlayerInfo.fromJson(item['player'], item['tableId']);
-        selectedPlayers[position] = player;
-      }
-      update();
-    });
     positionSocket.on('position_update', (data) {
       final int position = data['position'];
       if (!selectedPlayers.containsKey(position)) return;
-      if (data['player'] == null) {
-        if (selectedPlayers[position] == null) return;
-        selectedPlayers[position] = null;
-      } else {
-        final player = PlayerInfo.fromJson(data['player'], data['tableId']);
-        if (selectedPlayers[position]?.id == player.id) return;
-        selectedPlayers[position] = player;
-      }
+      final player = PlayerInfo.fromJson(data['player'], data['tableId']);
+      if (selectedPlayers[position]?.id == player.id) return;
+      selectedPlayers[position] = player;
+      update();
+    });
+
+    positionSocket.on('position_remove', (data) {
+      final int position = data['position'];
+      if (!selectedPlayers.containsKey(position)) return;
+      if (selectedPlayers[position] == null) return;
+      selectedPlayers[position] = null;
       update();
     });
   }

@@ -28,3 +28,9 @@ class PlayerInfo {
     );
   }
 }
+
+class PositionInfo {
+  PositionInfo({required this.player, required this.position});
+  PlayerInfo player;
+  int position;
+}
