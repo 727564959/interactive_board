@@ -12,8 +12,8 @@ class GameRecordsApi {
   factory GameRecordsApi() => _instance ?? GameRecordsApi._internal();
   final dio = Dio();
   final showRepository = GameShowRepository();
-  final baseUrl = "http://10.1.4.13:1337/api/game-show";
-  // final baseUrl = "http://www.mir2021.xyz:1337/api/game-show";
+  // final baseUrl = "http://10.1.4.13:1337/api/game-show";
+  final baseUrl = "http://www.mir2021.xyz:1337/api/game-show";
   GameRecordsApi._internal() {
     _instance = this;
   }

@@ -37,15 +37,22 @@ class _Content extends StatelessWidget {
   final bool bAnimate;
   @override
   Widget build(BuildContext context) {
-    final content = Image.asset(Global.getAssetImageUrl("game_title/background.png"));
+    final content =
+        Image.asset(Global.getAssetImageUrl("game_title/background.png"));
     return !bAnimate
         ? content
-        : content.animate().moveX(begin: 800, end: 0, curve: Curves.elasticOut, duration: 1000.ms);
+        : content.animate().moveX(
+            begin: 800, end: 0, curve: Curves.elasticOut, duration: 1000.ms);
   }
 }
 
 class _Title extends StatelessWidget {
-  const _Title({Key? key, required this.gameName, required this.width, required this.bAnimate}) : super(key: key);
+  const _Title(
+      {Key? key,
+      required this.gameName,
+      required this.width,
+      required this.bAnimate})
+      : super(key: key);
   final String gameName;
   final double width;
   final bool bAnimate;
@@ -55,7 +62,9 @@ class _Title extends StatelessWidget {
       gameName,
       style: TextStyle(
         fontFamily: 'Burbank',
-        color: Global.team == 0 ? const Color(0xFFc93000) : const Color(0xFF6B16BF),
+        color: Global.team == 0
+            ? const Color(0xFFc93000)
+            : const Color(0xFF6B16BF),
         decoration: TextDecoration.none,
         fontSize: width * 0.09,
         fontWeight: FontWeight.bold,
@@ -63,12 +72,15 @@ class _Title extends StatelessWidget {
     );
     return !bAnimate
         ? title
-        : title.animate(autoPlay: bAnimate).scale(delay: 100.ms, curve: Curves.easeIn, duration: 300.ms);
+        : title
+            .animate(autoPlay: bAnimate)
+            .scale(delay: 100.ms, curve: Curves.easeIn, duration: 300.ms);
   }
 }
 
 class _DecorateShape extends StatelessWidget {
-  const _DecorateShape({Key? key, required this.width, required this.bAnimate}) : super(key: key);
+  const _DecorateShape({Key? key, required this.width, required this.bAnimate})
+      : super(key: key);
   final double width;
   final bool bAnimate;
   @override
@@ -91,6 +103,10 @@ class _DecorateShape extends StatelessWidget {
         ),
       ],
     );
-    return !bAnimate ? decorate : decorate.animate().moveX(begin: -70, end: 0, curve: Curves.easeOut, duration: 300.ms);
+    return !bAnimate
+        ? decorate
+        : decorate
+            .animate()
+            .moveX(begin: -70, end: 0, curve: Curves.easeOut, duration: 300.ms);
   }
 }

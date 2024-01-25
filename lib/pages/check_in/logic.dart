@@ -14,7 +14,7 @@ enum PageState { setAvatarPage, addPlayerPage }
 
 class CheckInLogic extends GetxController {
   final checkInApi = CheckInApi();
-  String get gameName => GameShowRepository().gameName!;
+  // String get gameName => GameShowRepository().gameName!;
   List<UserInfo> userList = [];
   List<ResourceInfo> avatarInfo = [];
   bool isCheckIn = false;

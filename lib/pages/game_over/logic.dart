@@ -18,11 +18,12 @@ class GameOverLogic extends GetxController {
   int get showId => GameShowRepository().showId!;
 
   late final int startTimestamp;
-  int get countdown => max(0, (startTimestamp - DateTime.now().millisecondsSinceEpoch) ~/ 1000);
+  int get countdown =>
+      max(0, (startTimestamp - DateTime.now().millisecondsSinceEpoch) ~/ 1000);
   int delayedTime = 5;
 
   // PageState pageState = PageState.winnerText;
-  PageState pageState = PageState.statistics;
+  PageState pageState = PageState.glory;
 
   @override
   void onInit() async {
@@ -52,7 +53,9 @@ class GameOverLogic extends GetxController {
         // pageState = PageState.glory;
         // update(['page']);
         // this.onInit();
-        GameShowRepository().updateShowState().then((value) => Get.offAllNamed(AppRoutes.choosePlayer));
+        GameShowRepository()
+            .updateShowState()
+            .then((value) => Get.offAllNamed(AppRoutes.choosePlayer));
       } else if (pageState == PageState.glory) {
         print("荣誉展示");
         // delayedTime = 5;

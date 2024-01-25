@@ -15,6 +15,7 @@ class GameGloryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
+        alignment: AlignmentDirectional.center,
         children: [
           SizedBox(
             width: 1.0.sw,
@@ -36,13 +37,45 @@ class GameGloryPage extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            child: Image.asset(
-              Global.getAssetImageUrl('glory_wall/glory_wall_bg.png'),
-              width: 1.0.sw,
-              height: 1.0.sh,
+          Container(
+            // margin: const EdgeInsets.symmetric(vertical: 120),
+            margin: const EdgeInsets.fromLTRB(0, 100, 0, 0),
+            height: 380,
+            child: ListView(
+              // This next line does the trick.
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Container(
+                  width: 540,
+                  color: Colors.red,
+                ),
+                Container(
+                  width: 540,
+                  color: Colors.blue,
+                ),
+                Container(
+                  width: 540,
+                  color: Colors.green,
+                ),
+                Container(
+                  width: 540,
+                  color: Colors.yellow,
+                ),
+                Container(
+                  width: 540,
+                  color: Colors.orange,
+                ),
+              ],
             ),
           ),
+          // SizedBox(
+          //   child: Image.asset(
+          //     Global.getAssetImageUrl('glory_wall/glory_wall_bg.png'),
+          //     width: 0.5.sw,
+          //     height: 0.5.sh,
+          //   ),
+          // ),
+
           // SizedBox(
           //   width: 1.0.sw,
           //   height: 1.0.sh,

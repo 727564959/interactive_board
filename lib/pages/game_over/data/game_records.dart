@@ -20,10 +20,10 @@ class GameRecords {
 
   factory GameRecords.fromJson(Map<String, dynamic> json) {
     // print("json $json");
-    // final String avatarUrl =
-    //     "http://www.mir2021.xyz:1337${json['player']['avatarUrl']}";
     final String avatarUrl =
-        "http://10.1.4.13:1337${json['player']['avatarUrl']}";
+        "http://www.mir2021.xyz:1337${json['player']['avatarUrl']}";
+    // final String avatarUrl =
+    //     "http://10.1.4.13:1337${json['player']['avatarUrl']}";
     // print("avatarUrl $avatarUrl");
     return GameRecords(
       username: json['player']['username'],

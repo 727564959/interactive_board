@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'common.dart';
 import 'app_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -10,7 +10,6 @@ import 'package:interactive_board/common.dart';
 import 'package:interactive_board/pages/check_in/data/user_info.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 import 'package:interactive_board/pages/check_in/widgets/user_list.dart';
-import 'package:interactive_board/pages/choose_player/data/player.dart';
 
 import '../../../app_routes.dart';
 import '../../../widgets/parallelogram_avatar.dart';
@@ -43,7 +42,7 @@ class AvatarDeaignPage extends StatelessWidget {
                   child: GetBuilder<CheckInLogic>(
                     builder: (logic) {
                       return Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+// mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _BgLeftView(),
                           _MiddleView(),
@@ -329,12 +328,8 @@ class _SaveAvatarButton extends StatelessWidget {
       onTap: () async {
         print("保存avatar");
         await checkInApi.updatePlayerInfo(
-            logic.selectedId ?? (logic.userList[0].id),
-            logic.currentNickName,
-            logic.headId,
-            logic.currentIsMale);
-        final index = logic.userList
-            .indexWhere((element) => element.id == logic.selectedId);
+            logic.selectedId ?? (logic.userList[0].id), logic.currentNickName, logic.headId, logic.currentIsMale);
+        final index = logic.userList.indexWhere((element) => element.id == logic.selectedId);
         logic.userList[index] = UserInfo(
           id: logic.userList[index].id,
           nickname: logic.currentNickName,
@@ -354,8 +349,7 @@ class _SaveAvatarButton extends StatelessWidget {
               height: 150.h,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                      Global.getCheckInImageUrl("success_dialog.png")),
+                  image: AssetImage(Global.getCheckInImageUrl("success_dialog.png")),
                   // fit: BoxFit.cover,
                   fit: BoxFit.fill,
                 ),
@@ -433,8 +427,7 @@ class _PersonModel extends StatelessWidget {
 }
 
 class _ModelShape extends StatelessWidget {
-  _ModelShape({Key? key, required this.width, required this.bAnimate})
-      : super(key: key);
+  _ModelShape({Key? key, required this.width, required this.bAnimate}) : super(key: key);
   final double width;
   final bool bAnimate;
   final logic = Get.find<CheckInLogic>();
@@ -509,8 +502,12 @@ class _ModelShape extends StatelessWidget {
                           width: width * 0.6,
                         )
                       : CachedNetworkImage(
+<<<<<<< HEAD
                           imageUrl:
                               logic.avatarInfo[0].url,
+=======
+                          imageUrl: logic.avatarInfo[0].transparentBackgroundUrl,
+>>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                           // imageUrl: logic.userList[0].avatarUrl,
                           fit: BoxFit.fitWidth,
                           width: width * 0.6,
@@ -607,8 +604,7 @@ class _RightView extends StatelessWidget {
         onTapUp: (detail) {
           logic.clickHead(item.id, item.url);
         },
-        child: ParallelogramAvatar(
-            width: 180.w, avatarUrl: item.url, isRequest: true),
+        child: ParallelogramAvatar(width: 180.w, avatarUrl: item.url, isRequest: true),
         // child: Column(
         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //   children: [
@@ -662,8 +658,7 @@ class _RightView extends StatelessWidget {
                 //更优美的方式来设置
                 foregroundColor: MaterialStateProperty.resolveWith(
                   (states) {
-                    if (states.contains(MaterialState.focused) &&
-                        !states.contains(MaterialState.pressed)) {
+                    if (states.contains(MaterialState.focused) && !states.contains(MaterialState.pressed)) {
                       //获取焦点时的颜色
                       return Colors.blue;
                     } else if (states.contains(MaterialState.pressed)) {
@@ -698,8 +693,7 @@ class _RightView extends StatelessWidget {
                 //更优美的方式来设置
                 foregroundColor: MaterialStateProperty.resolveWith(
                   (states) {
-                    if (states.contains(MaterialState.focused) &&
-                        !states.contains(MaterialState.pressed)) {
+                    if (states.contains(MaterialState.focused) && !states.contains(MaterialState.pressed)) {
                       //获取焦点时的颜色
                       return Colors.blue;
                     } else if (states.contains(MaterialState.pressed)) {
@@ -746,14 +740,16 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
+<<<<<<< HEAD
                                         logic.avatarInfo[0].id,
                                         logic.avatarInfo[0]
                                             .url);
+=======
+                                        logic.avatarInfo[0].id, logic.avatarInfo[0].transparentBackgroundUrl);
+>>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[0].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[0].url, isRequest: true),
                                 )
                                 // child: ParallelogramAvatar(
                                 //     width: 180.w,
@@ -764,28 +760,32 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
+<<<<<<< HEAD
                                         logic.avatarInfo[1].id,
                                         logic.avatarInfo[1]
                                             .url);
+=======
+                                        logic.avatarInfo[1].id, logic.avatarInfo[1].transparentBackgroundUrl);
+>>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[1].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[1].url, isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
+<<<<<<< HEAD
                                         logic.avatarInfo[2].id,
                                         logic.avatarInfo[2]
                                             .url);
+=======
+                                        logic.avatarInfo[2].id, logic.avatarInfo[2].transparentBackgroundUrl);
+>>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[2].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[2].url, isRequest: true),
                                 )),
                           ],
                         ),
@@ -797,42 +797,48 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
+<<<<<<< HEAD
                                         logic.avatarInfo[3].id,
                                         logic.avatarInfo[3]
                                             .url);
+=======
+                                        logic.avatarInfo[3].id, logic.avatarInfo[3].transparentBackgroundUrl);
+>>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[3].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[3].url, isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
+<<<<<<< HEAD
                                         logic.avatarInfo[4].id,
                                         logic.avatarInfo[4]
                                             .url);
+=======
+                                        logic.avatarInfo[4].id, logic.avatarInfo[4].transparentBackgroundUrl);
+>>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[4].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[4].url, isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
+<<<<<<< HEAD
                                         logic.avatarInfo[5].id,
                                         logic.avatarInfo[5]
                                             .url);
+=======
+                                        logic.avatarInfo[5].id, logic.avatarInfo[5].transparentBackgroundUrl);
+>>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[5].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[5].url, isRequest: true),
                                 )),
                           ],
                         ),
@@ -844,42 +850,48 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
+<<<<<<< HEAD
                                         logic.avatarInfo[6].id,
                                         logic.avatarInfo[6]
                                             .url);
+=======
+                                        logic.avatarInfo[6].id, logic.avatarInfo[6].transparentBackgroundUrl);
+>>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[6].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[6].url, isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
+<<<<<<< HEAD
                                         logic.avatarInfo[7].id,
                                         logic.avatarInfo[7]
                                             .url);
+=======
+                                        logic.avatarInfo[7].id, logic.avatarInfo[7].transparentBackgroundUrl);
+>>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[7].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[7].url, isRequest: true),
                                 )),
                             Align(
                                 alignment: Alignment.center,
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
+<<<<<<< HEAD
                                         logic.avatarInfo[8].id,
                                         logic.avatarInfo[8]
                                             .url);
+=======
+                                        logic.avatarInfo[8].id, logic.avatarInfo[8].transparentBackgroundUrl);
+>>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
-                                      width: 180.w,
-                                      avatarUrl: logic.avatarInfo[8].url,
-                                      isRequest: true),
+                                      width: 180.w, avatarUrl: logic.avatarInfo[8].url, isRequest: true),
                                 )),
                           ],
                         ),
