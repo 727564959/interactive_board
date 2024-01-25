@@ -2,14 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:interactive_board/pages/check_in/data/avatar_info.dart';
 
 import '../../../common.dart';
-import '../../../data/network/show_repository.dart';
 import 'user_info.dart';
 
 class CheckInApi {
   static CheckInApi? _instance;
   factory CheckInApi() => _instance ?? CheckInApi._internal();
   final dio = Dio();
-  final showRepository = GameShowRepository();
   // final baseUrl = "http://10.1.4.13:1337/api/game-show";
   final baseUrl = "http://10.1.4.16:1337/api";
   CheckInApi._internal() {
@@ -27,8 +25,7 @@ class CheckInApi {
 
   Future<List<UserInfo>> fetchUsers() async {
     print("是否进入了查询用户信息方法");
-    print("444444 $showRepository");
-    print("hhhhhh ${showRepository.showId}");
+
     final response = await dio.get(
       "$baseUrl/shows/3/players",
       queryParameters: {"tableId": Global.tableId},

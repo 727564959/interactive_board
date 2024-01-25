@@ -1,11 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:mqtt_client/mqtt_client.dart';
-import 'package:mqtt_client/mqtt_server_client.dart';
-import '../../data/network/show_repository.dart';
 import '../../common.dart';
-import '../../data/network/utils.dart';
 import 'data/avatar_info.dart';
 import 'data/checkin_api.dart';
 import 'data/user_info.dart';
@@ -22,7 +18,6 @@ class CheckInLogic extends GetxController {
   String isAvatarType = "head";
   String headId = "";
   bool currentIsMale = true;
-  MqttServerClient? _client;
   String currentUrl = "";
   bool checkinBtnIsDown = false;
   bool isUpdateName = false;
@@ -144,8 +139,6 @@ class CheckInLogic extends GetxController {
   // }
 
   void birdShow() {
-    var builder = MqttClientPayloadBuilder();
-    _client?.publishMessage("cmd/rain-forest/show-bird", MqttQos.atMostOnce, builder.payload!);
   }
 
   // 点击add player按钮
@@ -177,21 +170,6 @@ class CheckInLogic extends GetxController {
     final avatar = avatarInfo.firstWhere((element) => element.id == headId);
     currentUrl = avatar.url;
     print("头像: $avatarInfo");
-    final client = getMQTTClient();
-    _client = client;
-    // client.onConnected = () async {
-    //   client.updates!.listen((c) {
-    //     final recMess = c[0].payload as MqttPublishMessage;
-    //     final topic = c[0].topic;
-    //     final payload = jsonDecode(MqttPublishPayload.bytesToStringAsString(recMess.payload.message));
-    //   });
-    // };
-    client.connect();
   }
 
-  @override
-  void onClose() {
-    _client?.disconnect();
-    super.onClose();
-  }
 }

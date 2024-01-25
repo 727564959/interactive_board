@@ -65,7 +65,7 @@ class GamingRankLogic extends GetxController {
         });
       }
     }, onGameOver: () {
-      Get.offAllNamed(AppRoutes.gameOver);
+      Get.offAllNamed(AppRoutes.gameOver, arguments:  Get.arguments);
     });
   }
 

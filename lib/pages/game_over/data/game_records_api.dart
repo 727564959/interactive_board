@@ -4,24 +4,22 @@ import 'dart:ffi';
 import 'package:dio/dio.dart';
 import 'package:interactive_board/pages/game_over/data/SettlementInfo.dart';
 import 'game_records.dart';
-import '../../../data/network/show_repository.dart';
 import 'team_score.dart';
 
 class GameRecordsApi {
   static GameRecordsApi? _instance;
   factory GameRecordsApi() => _instance ?? GameRecordsApi._internal();
   final dio = Dio();
-  final showRepository = GameShowRepository();
   // final baseUrl = "http://10.1.4.13:1337/api/game-show";
   final baseUrl = "http://www.mir2021.xyz:1337/api/game-show";
   GameRecordsApi._internal() {
     _instance = this;
   }
 
-  Future<List<GameRecords>> fetchRecords() async {
+  Future<List<GameRecords>> fetchRecords(int roundId) async {
     final response = await dio.get(
       "$baseUrl/round/records",
-      queryParameters: {"roundId": showRepository.roundId},
+      queryParameters: {"roundId": roundId},
     );
     // print("showRepository.roundId ${showRepository.roundId}");
     // print("response $response");
@@ -57,10 +55,10 @@ class GameRecordsApi {
   }
 
   // Future<List<TeamScore>> fetchTeamScore() async {
-  Future<String> fetchTeamScore() async {
+  Future<String> fetchTeamScore(int roundId) async {
     final response = await dio.get(
       "$baseUrl/round/records",
-      queryParameters: {"roundId": showRepository.roundId},
+      queryParameters: {"roundId": roundId},
     );
     // print("response $response");
     // print("teamScore ${response.data['teamScore']}");

@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:interactive_board/modules/initialize_page/logic.dart';
 import '../../common.dart';
 
-import '../../data/network/show_repository.dart';
-
 class InitializePage extends StatelessWidget {
   InitializePage({Key? key}) : super(key: key);
   final logic = Get.find<InitializeLogic>();
@@ -46,7 +44,6 @@ class _TableButton extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
   final int tableId;
-  final showRepository = GameShowRepository();
   final void Function() onPressed;
   @override
   Widget build(BuildContext context) {

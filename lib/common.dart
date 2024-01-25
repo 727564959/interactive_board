@@ -25,6 +25,8 @@ class Global {
   static String getGifUrl(String filename) => "assets/images/gif/$filename";
   // checkin的图片资源
   static String getCheckInImageUrl(String filename) => "assets/images/check_in/$filename";
+  // checkin的图片资源
+  static String getSetAvatarImageUrl(String filename) => "assets/images/set_avatar/$filename";
 
   static const String baseApiUrl = 'http://127.0.0.1:1337/api';
   static TextStyle getNormalTextStyle(double fontSize) {

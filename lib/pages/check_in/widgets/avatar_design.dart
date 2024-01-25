@@ -502,12 +502,8 @@ class _ModelShape extends StatelessWidget {
                           width: width * 0.6,
                         )
                       : CachedNetworkImage(
-<<<<<<< HEAD
                           imageUrl:
                               logic.avatarInfo[0].url,
-=======
-                          imageUrl: logic.avatarInfo[0].transparentBackgroundUrl,
->>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                           // imageUrl: logic.userList[0].avatarUrl,
                           fit: BoxFit.fitWidth,
                           width: width * 0.6,
@@ -740,13 +736,9 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
-<<<<<<< HEAD
                                         logic.avatarInfo[0].id,
                                         logic.avatarInfo[0]
                                             .url);
-=======
-                                        logic.avatarInfo[0].id, logic.avatarInfo[0].transparentBackgroundUrl);
->>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w, avatarUrl: logic.avatarInfo[0].url, isRequest: true),
@@ -760,13 +752,9 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
-<<<<<<< HEAD
                                         logic.avatarInfo[1].id,
                                         logic.avatarInfo[1]
                                             .url);
-=======
-                                        logic.avatarInfo[1].id, logic.avatarInfo[1].transparentBackgroundUrl);
->>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w, avatarUrl: logic.avatarInfo[1].url, isRequest: true),
@@ -776,13 +764,9 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
-<<<<<<< HEAD
                                         logic.avatarInfo[2].id,
                                         logic.avatarInfo[2]
                                             .url);
-=======
-                                        logic.avatarInfo[2].id, logic.avatarInfo[2].transparentBackgroundUrl);
->>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w, avatarUrl: logic.avatarInfo[2].url, isRequest: true),
@@ -797,13 +781,9 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
-<<<<<<< HEAD
                                         logic.avatarInfo[3].id,
                                         logic.avatarInfo[3]
                                             .url);
-=======
-                                        logic.avatarInfo[3].id, logic.avatarInfo[3].transparentBackgroundUrl);
->>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w, avatarUrl: logic.avatarInfo[3].url, isRequest: true),
@@ -813,13 +793,9 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
-<<<<<<< HEAD
                                         logic.avatarInfo[4].id,
                                         logic.avatarInfo[4]
                                             .url);
-=======
-                                        logic.avatarInfo[4].id, logic.avatarInfo[4].transparentBackgroundUrl);
->>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w, avatarUrl: logic.avatarInfo[4].url, isRequest: true),
@@ -829,13 +805,9 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
-<<<<<<< HEAD
                                         logic.avatarInfo[5].id,
                                         logic.avatarInfo[5]
                                             .url);
-=======
-                                        logic.avatarInfo[5].id, logic.avatarInfo[5].transparentBackgroundUrl);
->>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w, avatarUrl: logic.avatarInfo[5].url, isRequest: true),
@@ -850,13 +822,9 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
-<<<<<<< HEAD
                                         logic.avatarInfo[6].id,
                                         logic.avatarInfo[6]
                                             .url);
-=======
-                                        logic.avatarInfo[6].id, logic.avatarInfo[6].transparentBackgroundUrl);
->>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w, avatarUrl: logic.avatarInfo[6].url, isRequest: true),
@@ -866,13 +834,9 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
-<<<<<<< HEAD
                                         logic.avatarInfo[7].id,
                                         logic.avatarInfo[7]
                                             .url);
-=======
-                                        logic.avatarInfo[7].id, logic.avatarInfo[7].transparentBackgroundUrl);
->>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w, avatarUrl: logic.avatarInfo[7].url, isRequest: true),
@@ -882,13 +846,9 @@ class _RightView extends StatelessWidget {
                                 child: GestureDetector(
                                   onTapUp: (detail) {
                                     logic.clickHead(
-<<<<<<< HEAD
                                         logic.avatarInfo[8].id,
                                         logic.avatarInfo[8]
                                             .url);
-=======
-                                        logic.avatarInfo[8].id, logic.avatarInfo[8].transparentBackgroundUrl);
->>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w, avatarUrl: logic.avatarInfo[8].url, isRequest: true),

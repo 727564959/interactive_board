@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
+import 'package:interactive_board/data/model/show_state.dart';
 import '../../app_routes.dart';
 import 'data/game_records.dart';
 import 'data/game_records_api.dart';
-import '../../data/network/show_repository.dart';
 
 import 'dart:math';
 
@@ -13,9 +13,10 @@ class GameOverLogic extends GetxController {
   List<GameRecords> records = [];
   // List<TeamScore> teamScore = [];
   String teamScore = "";
-  String get gameName => GameShowRepository().gameName!;
-  int get roundId => GameShowRepository().roundId!;
-  int get showId => GameShowRepository().showId!;
+  ShowState get showState => Get.arguments;
+  String get gameName => showState.game;
+  int get roundId => showState.roundId;
+  int get showId => showState.showId;
 
   late final int startTimestamp;
   int get countdown =>
@@ -28,9 +29,9 @@ class GameOverLogic extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    records = await gameRecordsApi.fetchRecords();
+    records = await gameRecordsApi.fetchRecords(roundId);
     // records = records.sort((a, b) => a.tableId - b.tableId);
-    teamScore = await gameRecordsApi.fetchTeamScore();
+    teamScore = await gameRecordsApi.fetchTeamScore(roundId);
 
     print("records logic $records");
     print("teamScore logic $teamScore");
@@ -53,9 +54,6 @@ class GameOverLogic extends GetxController {
         // pageState = PageState.glory;
         // update(['page']);
         // this.onInit();
-        GameShowRepository()
-            .updateShowState()
-            .then((value) => Get.offAllNamed(AppRoutes.choosePlayer));
       } else if (pageState == PageState.glory) {
         print("荣誉展示");
         // delayedTime = 5;

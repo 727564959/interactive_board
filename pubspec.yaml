@@ -44,7 +44,6 @@ dependencies:
   cached_network_image: ^3.2.3
   flutter_animate: ^4.2.0+1
   animate_do: ^3.1.2
-  mqtt_client: ^10.0.0
   timer_count_down: ^2.2.2
   step_progress_indicator: ^1.0.2
   flutter_gif: ^0.0.4
@@ -53,12 +52,8 @@ dependencies:
   shared_preferences: ^2.2.2
   soundpool: ^2.4.1
   synchronized: ^3.1.0
-<<<<<<< HEAD
-  socket_io_client: ^2.0.0
   tabbed_sliverlist: ^0.1.0
-=======
   socket_io_client: ^2.0.3+1
->>>>>>> 65b214628bb89f11b0382268e4d717f95345663d
 
 dev_dependencies:
   flutter_test:
