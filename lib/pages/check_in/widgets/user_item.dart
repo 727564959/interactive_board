@@ -25,17 +25,17 @@ class _UserItemState extends State<UserItem> with TickerProviderStateMixin {
   String get nickname => widget.nickname;
   String get userId => widget.userId;
   final logic = Get.find<CheckInLogic>();
-  late final AnimationController controller;
+  // late final AnimationController controller;
 
   @override
   void initState() {
-    controller = AnimationController(vsync: this);
+    // controller = AnimationController(vsync: this);
     super.initState();
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    // controller.dispose();
     super.dispose();
   }
 
@@ -55,56 +55,108 @@ class _UserItemState extends State<UserItem> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final height = width / 4;
+    // final height = width / 4;
+    final height = width / 3;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (userId == logic.selectedId) {
-        controller.forward();
+        // controller.forward();
       } else {
-        controller.reverse();
+        // controller.reverse();
       }
     });
     return Container(
       margin: EdgeInsets.symmetric(vertical: height / 10),
       width: width,
       height: height,
+      decoration: BoxDecoration(
+        color: Colors.black26,
+        // borderRadius: BorderRadius.circular(25.px)
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        border: Border.all(
+          color: Colors.yellow,
+          width: 0.5,
+        ),
+      ),
       child: Stack(
-        children: [
-          Center(
-            child: Image.asset(
-              backgroundUrl,
-              // width: userId != logic.selectedId ? width : width / 0.8,
-              width:
-                  (userId == logic.userList[0].id && logic.selectedId == null)
-                      ? (width / 0.8)
-                      : (userId != logic.selectedId ? width : width / 0.8),
-              height: height,
-              fit: BoxFit.fill,
-            ).animate(controller: controller, autoPlay: false).scale(
-                  begin: const Offset(1.0, 1.0),
-                  end: const Offset(1.05, 1.1),
-                  duration: 300.ms,
-                ),
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: width,
-                child: Text(
-                  nickname,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Burbank',
-                    color: Colors.black,
-                    decoration: TextDecoration.none,
-                    fontSize: width * 0.2,
-                    fontWeight: FontWeight.normal,
+          children: [
+            Row(
+                children: [
+                  SizedBox(
+                    width: width,
+                    child: Center(
+                      child: Text(
+                        nickname,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Burbank',
+                          color: Colors.white,
+                          decoration: TextDecoration.none,
+                          fontSize: width * 0.2,
+                          letterSpacing: 3,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                    // child: Text(
+                    //   nickname,
+                    //   textAlign: TextAlign.center,
+                    //   style: TextStyle(
+                    //     fontFamily: 'Burbank',
+                    //     color: Colors.white,
+                    //     decoration: TextDecoration.none,
+                    //     fontSize: width * 0.2,
+                    //     letterSpacing: 3,
+                    //     fontWeight: FontWeight.normal,
+                    //   ),
+                    // ),
                   ),
-                ),
-              ),
-            ],
-          ),
-        ],
+                ],
+            ),
+          ],
       ),
     );
+    // return Container(
+    //   margin: EdgeInsets.symmetric(vertical: height / 10),
+    //   width: width,
+    //   height: height,
+    //   child: Stack(
+    //     children: [
+    //       // Center(
+    //       //   child: Image.asset(
+    //       //     backgroundUrl,
+    //       //     // width: userId != logic.selectedId ? width : width / 0.8,
+    //       //     width:
+    //       //         (userId == logic.userList[0].id && logic.selectedId == null)
+    //       //             ? (width / 0.8)
+    //       //             : (userId != logic.selectedId ? width : width / 0.8),
+    //       //     height: height,
+    //       //     fit: BoxFit.fill,
+    //       //   ).animate(controller: controller, autoPlay: false).scale(
+    //       //         begin: const Offset(1.0, 1.0),
+    //       //         end: const Offset(1.05, 1.1),
+    //       //         duration: 300.ms,
+    //       //       ),
+    //       // ),
+    //       Row(
+    //         children: [
+    //           SizedBox(
+    //             width: width,
+    //             child: Text(
+    //               nickname,
+    //               textAlign: TextAlign.center,
+    //               style: TextStyle(
+    //                 fontFamily: 'Burbank',
+    //                 color: Colors.white,
+    //                 decoration: TextDecoration.none,
+    //                 fontSize: width * 0.2,
+    //                 fontWeight: FontWeight.normal,
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }

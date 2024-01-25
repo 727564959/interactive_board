@@ -10,11 +10,13 @@ import 'data/avatar_info.dart';
 import 'data/checkin_api.dart';
 import 'data/user_info.dart';
 
+enum PageState { setAvatarPage, addPlayerPage }
+
 class CheckInLogic extends GetxController {
   final checkInApi = CheckInApi();
   String get gameName => GameShowRepository().gameName!;
   List<UserInfo> userList = [];
-  List<AvatarInfo> avatarInfo = [];
+  List<ResourceInfo> avatarInfo = [];
   bool isCheckIn = false;
   String currentNickName = "";
   String isAvatarType = "head";
@@ -24,10 +26,17 @@ class CheckInLogic extends GetxController {
   String currentUrl = "";
   bool checkinBtnIsDown = false;
   bool isUpdateName = false;
+  // 设置avatar中的返回上一页按钮是否按下
+  bool addGoBackIsDown = false;
+  // 保存avatar按钮是否按下
+  bool saveAvatarIsDown = false;
 
   String? selectedId;
 
-  void clickItem(String id, String nickname, String avatarUrl, bool isMale) async {
+  PageState pageState = PageState.setAvatarPage;
+
+  // void clickItem(String id, String nickname, String avatarUrl, bool isMale) async {
+  void clickItem(String id, String nickname, String avatarUrl, String isMale) async {
     print("点击了item");
     currentNickName = nickname;
     if (id == selectedId) {
@@ -39,7 +48,7 @@ class CheckInLogic extends GetxController {
     // avatarInfo = await checkInApi.fetchAvatars();
     update();
 
-    currentIsMale = isMale;
+    currentIsMale = isMale == "Male" ? true : false;
     update(['bodyPage']);
     currentUrl = avatarUrl;
     update(['headPage']);
@@ -47,7 +56,6 @@ class CheckInLogic extends GetxController {
 
   void isUpdateNameFun(bool t) {
     isUpdateName = t;
-
     update();
     update(['setNickname']);
   }
@@ -60,9 +68,12 @@ class CheckInLogic extends GetxController {
       id: userList[index].id,
       nickname: text,
       avatarUrl: currentUrl,
-      username: userList[index].username,
-      isMale: currentIsMale,
+      // username: userList[index].username,
+      // isMale: currentIsMale,
       headgearId: headId,
+      headgearName: userList[index].headgearName,
+      bodyId: userList[index].bodyId,
+      bodyName: userList[index].bodyName,
     );
     isUpdateName = false;
     currentNickName = text;
@@ -76,6 +87,18 @@ class CheckInLogic extends GetxController {
     print("12345: $sign");
     checkinBtnIsDown = sign;
     update(['checkIn']);
+  }
+  // 返回按钮是否按下
+  void goBackBtnDown(bool sign) {
+    print("12345: $sign");
+    addGoBackIsDown = sign;
+    update(['goBackBtn']);
+  }
+  // 保存avatar是否按下
+  void saveAvatarBtnDown(bool sign) {
+    print("12345: $sign");
+    saveAvatarIsDown = sign;
+    update(['saveAvatarBtn']);
   }
 
   void clickHead(String id, String transparentBackgroundUrl) {
@@ -125,16 +148,34 @@ class CheckInLogic extends GetxController {
     _client?.publishMessage("cmd/rain-forest/show-bird", MqttQos.atMostOnce, builder.payload!);
   }
 
+  // 点击add player按钮
+  void clickAddPlayer() {
+    print("呵呵呵呵呵呵呵");
+    pageState = PageState.addPlayerPage;
+    update(['avatarHomePage']);
+  }
+
+  // 点击Done按钮
+  void clickDone() {
+    print("呃呃呃呃呃呃");
+    pageState = PageState.setAvatarPage;
+    update(['avatarHomePage']);
+  }
+
   @override
   void onInit() async {
     super.onInit();
     userList = await checkInApi.fetchUsers();
+    print(await checkInApi.fetchAvatars());
+    print(await checkInApi.fetchBodies());
+    print("用户数据: $userList");
     currentNickName = userList[0].nickname;
-    currentIsMale = userList[0].isMale;
+    // currentIsMale = userList[0].isMale;
+    currentIsMale = userList[0].bodyName == 'Male' ? true : false;
     headId = userList[0].headgearId;
     avatarInfo = await checkInApi.fetchAvatars();
     final avatar = avatarInfo.firstWhere((element) => element.id == headId);
-    currentUrl = avatar.transparentBackgroundUrl;
+    currentUrl = avatar.url;
     print("头像: $avatarInfo");
     final client = getMQTTClient();
     _client = client;

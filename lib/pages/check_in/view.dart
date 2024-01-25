@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
+import 'package:interactive_board/pages/check_in/widgets/avatar_design_new.dart';
 
 import '../../common.dart';
 import 'widgets/avatar_design.dart';
@@ -52,7 +53,8 @@ class CheckInPage extends StatelessWidget {
             return Container();
           } else {
             print("设计");
-            return AvatarDeaignPage();
+            // return AvatarDeaignPage();
+            return AvatarDesignPage();
           }
         }),
         // Positioned(
@@ -69,12 +71,12 @@ class CheckInPage extends StatelessWidget {
         //     ),
         //   ),
         // ),
-        Align(
-          alignment: Alignment.topLeft,
-          child: _GoBackButton(
-            width: 143.w,
-          ),
-        ),
+        // Align(
+        //   alignment: Alignment.topLeft,
+        //   child: _GoBackButton(
+        //     width: 143.w,
+        //   ),
+        // ),
       ],
     ));
   }

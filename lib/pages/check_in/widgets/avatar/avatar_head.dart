@@ -12,7 +12,7 @@ class AvatarHeadPage extends StatelessWidget {
   final double width;
   final String avatarUrl;
   final logic = Get.find<CheckInLogic>();
-  List<AvatarInfo> get avatarInfo => logic.avatarInfo;
+  List<ResourceInfo> get avatarInfo => logic.avatarInfo;
 
   @override
   Widget build(BuildContext context) {

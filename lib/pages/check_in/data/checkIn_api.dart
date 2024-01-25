@@ -10,47 +10,62 @@ class CheckInApi {
   factory CheckInApi() => _instance ?? CheckInApi._internal();
   final dio = Dio();
   final showRepository = GameShowRepository();
-  final baseUrl = "http://10.1.4.13:1337/api/game-show";
+  // final baseUrl = "http://10.1.4.13:1337/api/game-show";
+  final baseUrl = "http://10.1.4.16:1337/api";
   CheckInApi._internal() {
     _instance = this;
   }
 
   Future<UserInfo> fetchUser(String id) async {
-    final options = Options(headers: {
-      "Authorization": "Bearer b81574102f5a012d9a235d3b1ce81c6000eb4e72636b696"
-          "4029cd96795ea95989305748b8863f4f2d0726614e5f39bbdda702f81913fbe14238"
-          "68569a0dfea202ac3fb459d50adb1ee7aa4e0e261d5a2f091af81b1cff0a96b2da7a7"
-          "f725c26f13256977cacdb3297403ca5512afc17b128619c531eb5ac85a4588536bddd"
-          "f38"
-    });
     final response = await dio.get(
-      "http://10.1.4.13:1337/api/users/$id",
+      "http://10.1.4.16:1337/api/users/$id",
       queryParameters: {"populate[headgear][populate][0]": "avatar"},
-      options: options,
+
     );
     return UserInfo.fromStrapiJson(response.data);
   }
 
   Future<List<UserInfo>> fetchUsers() async {
+    print("是否进入了查询用户信息方法");
+    print("444444 $showRepository");
+    print("hhhhhh ${showRepository.showId}");
     final response = await dio.get(
-      "$baseUrl/show/users",
-      queryParameters: {"showId": 1, "tableId": Global.tableId},
+      "$baseUrl/shows/3/players",
+      queryParameters: {"tableId": Global.tableId},
     );
-    List userList = response.data['playerList'];
+    // List userList = response.data['playerList'];
+    print("测试接口 $response");
+    List userList = response.data;
     return userList.map((user) => UserInfo.fromJson(user)).toList();
   }
 
-  Future<List<AvatarInfo>> fetchAvatars() async {
+  Future<List<ResourceInfo>> fetchBodies() async {
     final response = await dio.get(
-      "http://10.1.4.13:1337/api/headgears",
+      "http://10.1.4.16:1337/api/bodies",
       queryParameters: {
-        "populate[0]": "avatar",
-        "populate[1]": "transparentBackgroundAvatar",
+        "populate[0]": "image",
+      },
+
+    );
+    print(response.data);
+    final result = <ResourceInfo>[];
+    for (final item in response.data["data"]) {
+      result.add(ResourceInfo.fromJson(item));
+    }
+    return result;
+  }
+
+  Future<List<ResourceInfo>> fetchAvatars() async {
+    final response = await dio.get(
+      "http://10.1.4.16:1337/api/headgears",
+      queryParameters: {
+        "populate[0]": "image",
       },
     );
-    final result = <AvatarInfo>[];
+    print(response.data);
+    final result = <ResourceInfo>[];
     for (final item in response.data["data"]) {
-      result.add(AvatarInfo.fromJson(item));
+      result.add(ResourceInfo.fromJson(item));
     }
     return result;
   }
@@ -58,21 +73,13 @@ class CheckInApi {
   Future<void> updatePlayerInfo(
       String userId, String nickname, String headgearId, bool isMale) async {
     print("12345上山打老虎");
-    final options = Options(headers: {
-      "Authorization": "Bearer b81574102f5a012d9a235d3b1ce81c6000eb4e72636b696"
-          "4029cd96795ea95989305748b8863f4f2d0726614e5f39bbdda702f81913fbe14238"
-          "68569a0dfea202ac3fb459d50adb1ee7aa4e0e261d5a2f091af81b1cff0a96b2da7a7"
-          "f725c26f13256977cacdb3297403ca5512afc17b128619c531eb5ac85a4588536bddd"
-          "f38"
-    });
     final response = await dio.put(
-      "http://10.1.4.13:1337/api/users/$userId",
+      "http://10.1.4.16:1337/api/users/$userId",
       data: {
         "nickname": nickname,
         "headgear": headgearId,
         "isMale": isMale,
       },
-      options: options,
     );
   }
 }

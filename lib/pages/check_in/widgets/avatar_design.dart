@@ -339,9 +339,12 @@ class _SaveAvatarButton extends StatelessWidget {
           id: logic.userList[index].id,
           nickname: logic.currentNickName,
           avatarUrl: logic.currentUrl,
-          username: logic.userList[index].username,
-          isMale: logic.currentIsMale,
+          // username: logic.userList[index].username,
+          // isMale: logic.currentIsMale,
           headgearId: logic.headId,
+          headgearName: logic.userList[index].headgearName,
+          bodyId: logic.userList[index].bodyId,
+          bodyName: logic.userList[index].bodyName,
         );
         // logic.testSave();
         Get.dialog(
@@ -507,7 +510,7 @@ class _ModelShape extends StatelessWidget {
                         )
                       : CachedNetworkImage(
                           imageUrl:
-                              logic.avatarInfo[0].transparentBackgroundUrl,
+                              logic.avatarInfo[0].url,
                           // imageUrl: logic.userList[0].avatarUrl,
                           fit: BoxFit.fitWidth,
                           width: width * 0.6,
@@ -602,7 +605,7 @@ class _RightView extends StatelessWidget {
       final item = logic.avatarInfo[i];
       final widget = GestureDetector(
         onTapUp: (detail) {
-          logic.clickHead(item.id, item.transparentBackgroundUrl);
+          logic.clickHead(item.id, item.url);
         },
         child: ParallelogramAvatar(
             width: 180.w, avatarUrl: item.url, isRequest: true),
@@ -678,7 +681,7 @@ class _RightView extends StatelessWidget {
                     return Colors.blue[200];
                   }
                   //默认不使用背景颜色
-                  return null;
+                  // return logic.isBtnBg == "head" ? Colors.blue[200] : null;
                 }),
               ),
             ),
@@ -714,7 +717,7 @@ class _RightView extends StatelessWidget {
                     return Colors.blue[200];
                   }
                   //默认不使用背景颜色
-                  return null;
+                  // return logic.isBtnBg == "body" ? Colors.blue[200] : null;
                 }),
               ),
             ),
@@ -745,7 +748,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(
                                         logic.avatarInfo[0].id,
                                         logic.avatarInfo[0]
-                                            .transparentBackgroundUrl);
+                                            .url);
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w,
@@ -763,7 +766,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(
                                         logic.avatarInfo[1].id,
                                         logic.avatarInfo[1]
-                                            .transparentBackgroundUrl);
+                                            .url);
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w,
@@ -777,7 +780,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(
                                         logic.avatarInfo[2].id,
                                         logic.avatarInfo[2]
-                                            .transparentBackgroundUrl);
+                                            .url);
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w,
@@ -796,7 +799,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(
                                         logic.avatarInfo[3].id,
                                         logic.avatarInfo[3]
-                                            .transparentBackgroundUrl);
+                                            .url);
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w,
@@ -810,7 +813,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(
                                         logic.avatarInfo[4].id,
                                         logic.avatarInfo[4]
-                                            .transparentBackgroundUrl);
+                                            .url);
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w,
@@ -824,7 +827,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(
                                         logic.avatarInfo[5].id,
                                         logic.avatarInfo[5]
-                                            .transparentBackgroundUrl);
+                                            .url);
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w,
@@ -843,7 +846,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(
                                         logic.avatarInfo[6].id,
                                         logic.avatarInfo[6]
-                                            .transparentBackgroundUrl);
+                                            .url);
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w,
@@ -857,7 +860,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(
                                         logic.avatarInfo[7].id,
                                         logic.avatarInfo[7]
-                                            .transparentBackgroundUrl);
+                                            .url);
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w,
@@ -871,7 +874,7 @@ class _RightView extends StatelessWidget {
                                     logic.clickHead(
                                         logic.avatarInfo[8].id,
                                         logic.avatarInfo[8]
-                                            .transparentBackgroundUrl);
+                                            .url);
                                   },
                                   child: ParallelogramAvatar(
                                       width: 180.w,

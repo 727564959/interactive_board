@@ -1,42 +1,48 @@
 class UserInfo {
   UserInfo({
     required this.id,
-    required this.headgearId,
     required this.nickname,
     required this.avatarUrl,
-    required this.username,
-    required this.isMale,
+    required this.headgearId,
+    required this.headgearName,
+    required this.bodyId,
+    required this.bodyName,
   });
   final String id;
-  final String username;
   final String nickname;
-  final String headgearId;
   final String avatarUrl;
-  final bool isMale;
+  final String headgearId;
+  final String headgearName;
+  final String bodyId;
+  final String bodyName;
 
   factory UserInfo.fromStrapiJson(Map<String, dynamic> json) {
-    final headgear = json['headgear'];
-    final String avatarUrl = "http://10.1.4.13:1337${headgear['avatar']["formats"]["thumbnail"]['url']}";
+    // final headgear = json['headgear'];
+    final headgear = json['gameResource'];
+    final String avatarUrl = "http://10.1.4.16:1337${headgear['avatar']["formats"]["thumbnail"]['url']}";
 
     return UserInfo(
       id: json['id'].toString(),
       nickname: json['nickname'],
       avatarUrl: avatarUrl,
-      username: json['username'],
-      isMale: json['isMale'],
-      headgearId: headgear['id'].toString(),
+      headgearId: headgear['headgearId'].toString(),
+      headgearName: headgear['headgearName'],
+      bodyId: headgear['bodyId'].toString(),
+      bodyName: headgear['bodyName'],
     );
   }
 
   factory UserInfo.fromJson(Map<String, dynamic> json) {
-    final String avatarUrl = "http://10.1.4.13:1337${json['avatarUrl']}";
+    final String avatarUrl = "http://10.1.4.16:1337${json['avatarUrl']}";
+    final headgear = json['gameResource'];
     return UserInfo(
       id: json['id'].toString(),
       nickname: json['nickname'],
       avatarUrl: avatarUrl,
-      username: json['username'],
-      isMale: json['isMale'],
-      headgearId: json['headgearId'].toString(),
+      headgearId: headgear['headgearId'].toString(),
+      headgearName: headgear['headgearName'],
+      bodyId: headgear['bodyId'].toString(),
+      bodyName: headgear['bodyName'],
     );
   }
 }

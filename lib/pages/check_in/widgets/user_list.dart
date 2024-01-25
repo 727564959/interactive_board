@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/data/avatar_info.dart';
 import '../logic.dart';
@@ -18,8 +19,10 @@ class UserList extends StatelessWidget {
           .firstWhere((element) => element.id == item.headgearId);
       final widget = GestureDetector(
         onTapUp: (detail) {
+          // logic.clickItem(item.id, item.nickname,
+          //     avatarInfo.url, item.isMale);
           logic.clickItem(item.id, item.nickname,
-              avatarInfo.transparentBackgroundUrl, item.isMale);
+              avatarInfo.url, item.bodyName);
           // logic.clickItem(item.id, item.nickname,
           //     logic.avatarInfo[i].transparentBackgroundUrl, item.isMale);
         },
@@ -33,10 +36,18 @@ class UserList extends StatelessWidget {
         //     );
         //   },
         // ),
-        child: UserItem(
+        // child: UserItem(
+        //   width: width,
+        //   nickname: item.nickname,
+        //   userId: item.id,
+        // ),
+        child: SizedBox(
           width: width,
-          nickname: item.nickname,
-          userId: item.id,
+          child: UserItem(
+            width: width * 0.98,
+            nickname: item.nickname,
+            userId: item.id,
+          ),
         ),
       );
       result.add(widget);
@@ -47,6 +58,7 @@ class UserList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(top: height / 10),
       width: width,
       height: height,
       child: Column(

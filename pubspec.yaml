@@ -54,6 +54,7 @@ dependencies:
   soundpool: ^2.4.1
   synchronized: ^3.1.0
   socket_io_client: ^2.0.0
+  tabbed_sliverlist: ^0.1.0
 
 dev_dependencies:
   flutter_test:
@@ -99,6 +100,7 @@ flutter:
     - assets/images/check_in/
     - assets/images/check_in/avatar/
     - assets/images/check_in/selection_panel/
+    - assets/images/set_avatar/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
