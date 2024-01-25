@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
 import 'pages/check_in/binding.dart';
 import 'pages/check_in/view.dart';
-import 'pages/choose_player/view.dart';
+import 'modules/before_game/choose_player/view.dart';
 import 'pages/game_over/binding.dart';
-import 'pages/home/view.dart';
-import 'pages/choose_player/binding.dart';
-import 'pages/gaming_rank/view.dart';
-import 'pages/gaming_rank/binding.dart';
-import 'pages/quiz/view.dart';
-import 'pages/quiz/binding.dart';
-
+import 'modules/initialize_page/view.dart';
+import 'modules/initialize_page/binding.dart';
+import 'modules/before_game/choose_player/binding.dart';
+import 'modules/gaming/gaming_rank/view.dart';
+import 'modules/gaming/gaming_rank/binding.dart';
+import 'modules/quiz/view.dart';
+import 'modules/quiz/binding.dart';
 import 'pages/game_over/view.dart';
 
 class AppRoutes {
@@ -24,7 +24,8 @@ class AppRoutes {
   static final List<GetPage> getPages = [
     GetPage(
       name: main,
-      page: () => const HomePage(),
+      page: () => InitializePage(),
+      binding: InitializeBinding(),
     ),
     GetPage(
       name: choosePlayer,

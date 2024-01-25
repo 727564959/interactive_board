@@ -12,7 +12,7 @@ import 'data/user_info.dart';
 
 class CheckInLogic extends GetxController {
   final checkInApi = CheckInApi();
-  String get gameName => GameShowRepository().gameName!;
+  // String get gameName => GameShowRepository().gameName!;
   List<UserInfo> userList = [];
   List<AvatarInfo> avatarInfo = [];
   bool isCheckIn = false;
