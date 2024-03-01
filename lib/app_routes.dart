@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'pages/check_in/binding.dart';
+import 'pages/check_in/welcome_page.dart';
 import 'pages/check_in/view.dart';
 import 'modules/before_game/choose_player/view.dart';
 import 'pages/game_over/binding.dart';
@@ -57,7 +58,8 @@ class AppRoutes {
     ),
     GetPage(
       name: checkIn,
-      page: () => CheckInPage(),
+      // page: () => CheckInPage(),
+      page: () => WelcomePage(),
       bindings: [CheckInBinding()],
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,

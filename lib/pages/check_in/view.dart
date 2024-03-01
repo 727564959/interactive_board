@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 import 'package:interactive_board/pages/check_in/widgets/avatar_design_new.dart';
+import 'package:interactive_board/pages/check_in/widgets/before_checkIn/check_in_home.dart';
 
 import '../../common.dart';
 import 'widgets/avatar_design.dart';
@@ -51,10 +52,12 @@ class CheckInPage extends StatelessWidget {
           if (!logic.isCheckIn) {
             print("默认");
             return Container();
+            // return Get.to(() => CheckInHomePage(), arguments: Get.arguments);
           } else {
             print("设计");
             // return AvatarDeaignPage();
-            return AvatarDesignPage();
+            // return AvatarDesignPage();
+            return CheckInHomePage();
           }
         }),
         // Positioned(

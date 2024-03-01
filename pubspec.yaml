@@ -54,6 +54,8 @@ dependencies:
   synchronized: ^3.1.0
   tabbed_sliverlist: ^0.1.0
   socket_io_client: ^2.0.3+1
+  card_swiper : ^3.0.0
+  country_pickers: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -10,7 +10,6 @@ import 'package:get/get.dart';
 import 'package:interactive_board/common.dart';
 import 'package:interactive_board/pages/check_in/data/user_info.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
-import 'package:interactive_board/pages/check_in/widgets/avatar/avatar_model.dart';
 import 'package:interactive_board/pages/check_in/widgets/user_list.dart';
 
 import '../../../app_routes.dart';
@@ -19,7 +18,10 @@ import '../data/checkIn_api.dart';
 
 import 'package:flutter_gif/flutter_gif.dart';
 
+import '../view.dart';
 import 'add_player/add_player_info.dart';
+import 'after_checkIn/player_info_show.dart';
+import 'avatar/avatar_model.dart';
 
 class AvatarDesignPage extends StatelessWidget {
   AvatarDesignPage({Key? key}) : super(key: key);
@@ -46,30 +48,31 @@ class AvatarDesignPage extends StatelessWidget {
                   width: 1.0.sw,
                   child: GetBuilder<CheckInLogic>(
                     builder: (logic) {
-                      if (logic.pageState == PageState.setAvatarPage) {
-                        return Column(
-                          children: [
-                            // 顶部文本信息
-                            _SetAvatarTitle(),
-                            // 中间的用户信息和avatar信息
-                            _SetAvatarContent(),
-                            // 底部的功能按钮
-                            _SetAvatarBtnInfo(),
-                          ],
-                        );
-                      } else {
-                        return FormTestRoute(key: UniqueKey());
-                      }
-                      // return Column(
-                      //   children: [
-                      //     // 顶部文本信息
-                      //     _SetAvatarTitle(),
-                      //     // 中间的用户信息和avatar信息
-                      //     _SetAvatarContent(),
-                      //     // 底部的功能按钮
-                      //     _SetAvatarBtnInfo(),
-                      //   ],
-                      // );
+                      // print("状态值: ${logic.pageState}");
+                      // if (logic.pageState == PageState.setAvatarPage) {
+                      //   return Column(
+                      //     children: [
+                      //       // 顶部文本信息
+                      //       _SetAvatarTitle(),
+                      //       // 中间的用户信息和avatar信息
+                      //       _SetAvatarContent(),
+                      //       // 底部的功能按钮
+                      //       // _SetAvatarBtnInfo(),
+                      //     ],
+                      //   );
+                      // } else {
+                      //   return AddPlayerInfo(key: UniqueKey());
+                      // }
+                      return Column(
+                        children: [
+                          // 顶部文本信息
+                          _SetAvatarTitle(),
+                          // 中间的用户信息和avatar信息
+                          _SetAvatarContent(),
+                          // 底部的功能按钮
+                          // _SetAvatarBtnInfo(),
+                        ],
+                      );
                     },
                   ),
                 ),
@@ -106,7 +109,7 @@ class _SetAvatarTitle extends StatelessWidget {
                 child: SizedBox(
                   width: 0.2.sw,
                   child: Text(
-                    "Add Player",
+                    "Set Avatar",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 60.sp,
@@ -118,51 +121,51 @@ class _SetAvatarTitle extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
-                alignment: const Alignment(0.5, 1.5),
-                child: Row(
-                    children: [
-                      SizedBox(
-                        width: 0.64.sw,
-                        child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            SizedBox(
-                              width: 0.24.sw,
-                              child: Text(
-                                "The game will start in ",
-                                style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 50.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white,
-                                  letterSpacing: 3.sp,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 0.1.sw,
-                              child: Text(
-                                "05:23",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 50.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white,
-                                  letterSpacing: 3.sp,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                ),
-              ),
+              // Align(
+              //   alignment: const Alignment(0.5, 1.5),
+              //   child: Row(
+              //       children: [
+              //         SizedBox(
+              //           width: 0.64.sw,
+              //           child: Row(
+              //             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //             mainAxisAlignment: MainAxisAlignment.center,
+              //             crossAxisAlignment: CrossAxisAlignment.end,
+              //             children: [
+              //               SizedBox(
+              //                 width: 0.24.sw,
+              //                 child: Text(
+              //                   "The game will start in ",
+              //                   style: TextStyle(
+              //                     // fontWeight: FontWeight.bold,
+              //                     fontSize: 50.sp,
+              //                     decoration: TextDecoration.none,
+              //                     fontFamily: 'BurbankBold',
+              //                     color: Colors.white,
+              //                     letterSpacing: 3.sp,
+              //                   ),
+              //                 ),
+              //               ),
+              //               SizedBox(
+              //                 width: 0.1.sw,
+              //                 child: Text(
+              //                   "05:23",
+              //                   style: TextStyle(
+              //                     fontWeight: FontWeight.bold,
+              //                     fontSize: 50.sp,
+              //                     decoration: TextDecoration.none,
+              //                     fontFamily: 'BurbankBold',
+              //                     color: Colors.white,
+              //                     letterSpacing: 3.sp,
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ],
+              //   ),
+              // ),
               Align(
                 alignment: const Alignment(0.5, 1.5),
                 child: Row(
@@ -225,27 +228,94 @@ class _SetAvatarContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final content = SizedBox(
       width: 0.96.sw,
-      height: 0.8.sh,
+      height: 0.9.sh,
       child: Stack(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Align(
-                // alignment: const Alignment(0.05, 1.35),
-                // child: UserList(
-                //   key: UniqueKey(),
-                //   width: 295.w,
-                //   height: 1.0.sh,
-                // ),
                 child: Column(
                   children: [
-                    UserList(
-                      key: UniqueKey(),
-                      width: 295.w,
-                      height: 0.6.sh,
+                    // UserList(
+                    //   key: UniqueKey(),
+                    //   width: 295.w,
+                    //   height: 0.6.sh,
+                    // ),
+                    SizedBox(
+                      width: 0.23.sw,
+                      height: 0.3.sh,
+                      child: GetBuilder<CheckInLogic>(
+                        builder: (logic) {
+                          return Row(
+                            children: [
+                              _EditNicknameButton(),
+                            ],
+                          );
+                        },
+                      ),
                     ),
-                    _AddPlayerButton(width: 306.w),
+                    SizedBox(
+                      width: 0.23.sw,
+                      height: 0.35.sh,
+                      child: GetBuilder<CheckInLogic>(
+                        builder: (logic) {
+                          return Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 20.0, left: 20.0),
+                                child: SizedBox(
+                                  width: 0.24.sw,
+                                  child: Text(
+                                    "After saving,",
+                                    style: TextStyle(
+                                      fontSize: 32.sp,
+                                      decoration: TextDecoration.none,
+                                      fontFamily: 'BurbankBold',
+                                      color: Colors.white,
+                                      letterSpacing: 3.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 0.0, left: 20.0),
+                                child: SizedBox(
+                                  width: 0.24.sw,
+                                  child: Text(
+                                    "changes apply",
+                                    style: TextStyle(
+                                      fontSize: 32.sp,
+                                      decoration: TextDecoration.none,
+                                      fontFamily: 'BurbankBold',
+                                      color: Colors.white,
+                                      letterSpacing: 3.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 0.0, left: 20.0),
+                                child: SizedBox(
+                                  width: 0.24.sw,
+                                  child: Text(
+                                    "in the next game.",
+                                    style: TextStyle(
+                                      fontSize: 32.sp,
+                                      decoration: TextDecoration.none,
+                                      fontFamily: 'BurbankBold',
+                                      color: Colors.white,
+                                      letterSpacing: 3.sp,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                    _SaveAndBackButton(width: 384.w),
                   ],
                 ),
                 // child: SizedBox(
@@ -263,16 +333,25 @@ class _SetAvatarContent extends StatelessWidget {
                 // ),
               ),
               Align(
-                // alignment: const Alignment(-1, -1),
+                alignment: const Alignment(-1, -1),
                 child: _PersonModel(width: 700.w),
               ),
               Align(
-                alignment: const Alignment(-1, -1),
-                child: SizedBox(
-                  width: 700.w,
-                  height: 700.h,
-                ),
+                // alignment: const Alignment(-1, -1),
+                // child: SizedBox(
+                //   width: 700.w,
+                //   height: 700.h,
+                // ),
                 // child: AvatarModel(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  margin: EdgeInsets.only(top: 0.0, left: 0.0),
+                  constraints: BoxConstraints.tightFor(width: 0.34.sw, height: 0.7.sh),//卡片大小
+                  child: AvatarModel(),
+                ),
               ),
             ],
           )
@@ -280,6 +359,96 @@ class _SetAvatarContent extends StatelessWidget {
       ),
     );
     return content;
+  }
+}
+// 修改nickname
+class _EditNicknameButton extends StatelessWidget {
+  _EditNicknameButton({
+    Key? key,
+  }) : super(key: key);
+  final logic = Get.find<CheckInLogic>();
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        print("修改名字");
+        logic.isUpdateNameFun(true);
+      },
+      child: GetBuilder<CheckInLogic>(
+        id: "editNickname",
+        builder: (logic) {
+          return Container(
+            decoration: BoxDecoration(
+              color: Colors.deepOrangeAccent,
+            ),
+            margin: EdgeInsets.only(top: 0.0, left: 0.0),
+            constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h),//卡片大小
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 0.0, left: 20.0),
+                  child: Text(
+                    logic.currentNickName,
+                        style: TextStyle(
+                          fontSize: 60.sp,
+                          decoration: TextDecoration.none,
+                          fontFamily: 'BurbankBold',
+                          color: Colors.black,
+                          letterSpacing: 3.sp,
+                        ),
+                      ),
+                  // child: !logic.isUpdateName ? Text(
+                  //     "Sophia Davis",
+                  //     style: TextStyle(
+                  //       fontSize: 60.sp,
+                  //       decoration: TextDecoration.none,
+                  //       fontFamily: 'BurbankBold',
+                  //       color: Colors.black,
+                  //       letterSpacing: 3.sp,
+                  //     ),
+                  //   ) : TextField(
+                  //     controller: TextEditingController(),
+                  //     decoration: InputDecoration(
+                  //       hintText: '请输入nickname',
+                  //       hintStyle: TextStyle(
+                  //         fontFamily: 'Burbank',
+                  //         color: Colors.white,
+                  //         decoration: TextDecoration.none,
+                  //         fontSize: 24.sp,
+                  //         fontWeight: FontWeight.normal,
+                  //       ),
+                  //     ),
+                  //     // onChanged: (text) {
+                  //     onSubmitted: (text) {
+                  //       print("输入改变时" + text);
+                  //       logic.testUpd(text);
+                  //     },
+                  //     style: TextStyle(
+                  //       fontFamily: 'Burbank',
+                  //       color: Colors.white,
+                  //       decoration: TextDecoration.none,
+                  //       fontSize: 36.sp,
+                  //       fontWeight: FontWeight.normal,
+                  //     ),
+                  //   ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0.0, left: 20.0),
+                  child: Image.asset(
+                    Global.getSetAvatarImageUrl('set_avatar_edit_icon.png'),
+                    fit: BoxFit.fitHeight,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 // 底部的功能按钮区域
@@ -315,7 +484,7 @@ class _PersonModel extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      height: 1.0.sh,
+      height: 0.8.sh,
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
@@ -369,39 +538,87 @@ class _ModelShape extends StatelessWidget {
             ),
           ),
         ),
-        // Align(
-        //   alignment: const Alignment(0.285, -0.739),
-        //   child: GestureDetector(
-        //     // 点击事件
-        //     onTap: () {
-        //       // print("单击返回");
-        //     },
-        //     child: GetBuilder<CheckInLogic>(
-        //       id: "headPage",
-        //       builder: (logic) {
-        //         return Container(
-        //           width: 280.w,
-        //           height: 280.h,
-        //           child: logic.currentUrl != ""
-        //               ? CachedNetworkImage(
-        //             imageUrl: logic.currentUrl,
-        //             fit: BoxFit.fitWidth,
-        //             width: width * 0.6,
-        //           )
-        //               : CachedNetworkImage(
-        //             imageUrl:
-        //             logic.avatarInfo[0].url,
-        //             fit: BoxFit.fitWidth,
-        //             width: width * 0.6,
-        //           ),
-        //         );
-        //       },
-        //     ),
-        //   ),
-        // ),
+        Align(
+          // alignment: const Alignment(0.285, -0.739),
+          alignment: const Alignment(0.225, -0.85),
+          child: GestureDetector(
+            // 点击事件
+            onTap: () {
+              // print("单击返回");
+            },
+            child: GetBuilder<CheckInLogic>(
+              id: "headPage",
+              builder: (logic) {
+                return Container(
+                  width: 240.w,
+                  height: 240.h,
+                  child: logic.currentUrl != ""
+                      ? CachedNetworkImage(
+                    imageUrl: logic.currentUrl,
+                    fit: BoxFit.fitWidth,
+                    width: width * 0.6,
+                  )
+                      : CachedNetworkImage(
+                    imageUrl:
+                    logic.avatarInfo[0].url,
+                    fit: BoxFit.fitWidth,
+                    width: width * 0.6,
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
       ],
     );
     return decorate;
+  }
+}
+// 添加用户按钮
+class _SaveAndBackButton extends StatelessWidget {
+  _SaveAndBackButton({
+    Key? key,
+    required this.width,
+  }) : super(key: key);
+  final double width;
+  final logic = Get.find<CheckInLogic>();
+  String get backgroundUri => Global.getSetAvatarImageUrl("save_and_back_btn.png");
+
+  final testTabId = Global.tableId;
+  // final testTabId = 3;
+
+  final checkInApi = CheckInApi();
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        // logic.checkInFun(false);
+        print("保存avatar");
+        int num1 = int.parse(logic.selectedId.toString());
+        int num2 = int.parse(logic.headId.toString());
+        await checkInApi.updatePlayer(
+            num1, logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
+        logic.userList = await checkInApi.fetchUsers();
+        Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
+      },
+      child: GetBuilder<CheckInLogic>(
+        id: "saveAndBackBtn",
+        builder: (logic) {
+          return Container(
+            height: width * 0.72,
+            width: width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(backgroundUri),
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 // 添加用户按钮
@@ -414,7 +631,8 @@ class _AddPlayerButton extends StatelessWidget {
   final logic = Get.find<CheckInLogic>();
   String get backgroundUri => Global.getSetAvatarImageUrl("add_btn.png");
 
-  final testTabId = Global.tableId;
+  // final testTabId = Global.tableId;
+  final testTabId = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -472,6 +690,7 @@ class _GoBackButton extends StatelessWidget {
       onTap: () {
         print("单击返回");
         logic.checkInFun(false);
+        Get.to(() => CheckInPage(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
         id: "goBackBtn",
@@ -534,7 +753,7 @@ class _SaveAvatarButton extends StatelessWidget {
           avatarUrl: logic.currentUrl,
           // username: logic.userList[index].username,
           // isMale: logic.currentIsMale,
-          headgearId: logic.headId,
+          headgearId: logic.headId.toString(),
           headgearName: logic.userList[index].headgearName,
           bodyId: logic.userList[index].bodyId,
           bodyName: logic.userList[index].bodyName,
