@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String baseApiUrl = 'http://10.1.4.16:1337/api';
-const String baseSocketIoUrl = 'http://10.1.4.16:12333';
-const String baseStrapiUrl = 'http://10.1.4.16:1337';
+const String baseApiUrl = 'http://10.1.4.13:1337/api';
+const String baseSocketIoUrl = 'http://10.1.4.13:12333';
+const String baseStrapiUrl = 'http://10.1.4.13:1337';
+const String baseResovaProxyUrl = "http://47.109.80.75:45279/resova-api";
 
 class Global {
   static int? _tableId;
@@ -14,7 +15,7 @@ class Global {
     SharedPreferences.getInstance().then((prefs) => prefs.setInt('tableId', tableId));
   }
 
-  static get team => (_tableId ?? 0) < 5 ? 0 : 1;
+  static get team => (_tableId ?? 0) < 3 ? 0 : 1;
   static String getAssetImageUrl(String filename) {
     return team == 0 ? "assets/images/team_wolf/$filename" : "assets/images/team_shark/$filename";
   }

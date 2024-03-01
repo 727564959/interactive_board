@@ -50,22 +50,22 @@ class GamingRankLogic extends GetxController {
       for (final item in payload) {
         final int position = item['position'];
         final int playerId = item['playerId'];
-        final int score = item['score'];
+        final int scores = item['score'];
         lock.synchronized(() async {
           final i = playerRecords.indexWhere((e) => e.player.id == playerId);
           if (i == -1) {
             final player = await recordsRepository.fetchPlayerInfo(playerId, position);
-            final record = PlayerRecord(player: player, score: score);
+            final record = PlayerRecord(player: player, score: scores);
             playerRecords.add(record);
             update(["player_card", "leaderboard"]);
           } else {
-            playerRecords[i].score = score;
+            playerRecords[i].score = scores;
             update(["leaderboard"]);
           }
         });
       }
     }, onGameOver: () {
-      Get.offAllNamed(AppRoutes.gameOver, arguments:  Get.arguments);
+      Get.offAllNamed(AppRoutes.gameOver, arguments: Get.arguments);
     });
   }
 

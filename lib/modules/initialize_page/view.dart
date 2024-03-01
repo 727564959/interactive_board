@@ -20,7 +20,7 @@ class InitializePage extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [1, 2, 3, 4, 5, 6, 7, 8]
+            children: [1, 2, 3, 4]
                 .map(
                   (e) => _TableButton(
                     tableId: e,
@@ -38,7 +38,7 @@ class InitializePage extends StatelessWidget {
 }
 
 class _TableButton extends StatelessWidget {
-  _TableButton({
+  const _TableButton({
     Key? key,
     required this.tableId,
     required this.onPressed,

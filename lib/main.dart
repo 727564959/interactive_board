@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'app_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutes.main,
           getPages: AppRoutes.getPages,
+          builder: EasyLoading.init(),
         );
       },
     );

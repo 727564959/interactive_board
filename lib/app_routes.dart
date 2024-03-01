@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'modules/check_in/choose_table/view.dart';
+import 'modules/check_in/complete_page/view.dart';
 import 'pages/check_in/binding.dart';
 import 'pages/check_in/view.dart';
 import 'modules/before_game/choose_player/view.dart';
@@ -11,6 +13,8 @@ import 'modules/gaming/gaming_rank/binding.dart';
 import 'modules/quiz/view.dart';
 import 'modules/quiz/binding.dart';
 import 'pages/game_over/view.dart';
+import 'modules/check_in/verification_code/view.dart';
+import 'modules/check_in/binding.dart' as new_check;
 
 class AppRoutes {
   static const String main = "/home";
@@ -20,6 +24,7 @@ class AppRoutes {
   // 游戏结算
   static const String gameOver = "/game_over";
   static const String checkIn = "/check_in";
+  static const String verificationCode = "/verification_code";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -59,6 +64,13 @@ class AppRoutes {
       name: checkIn,
       page: () => CheckInPage(),
       bindings: [CheckInBinding()],
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ),
+    GetPage(
+      name: verificationCode,
+      page: () => VerificationPage(),
+      bindings: [new_check.CheckInBinding()],
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
     ),

@@ -54,14 +54,9 @@ class ChoosePlayerLogic extends GetxController {
     final roundNumber = showState.roundNumber;
     if (mode == 'event') {
       selectedPlayers[tableId] = null;
-    } else if (mode == 'normal' && roundNumber % 2 == tableId % 2) {
-      if (tableId % 2 == 1) {
-        selectedPlayers[tableId] = null;
-        selectedPlayers[tableId + 1] = null;
-      } else {
-        selectedPlayers[tableId - 1] = null;
-        selectedPlayers[tableId] = null;
-      }
+    } else if (mode == 'normal') {
+      selectedPlayers[tableId * 2 - 1] = null;
+      selectedPlayers[tableId * 2] = null;
     } else if (mode == 'free-4') {
       selectedPlayers.addAll({2: null, 3: null, 6: null, 7: null});
     } else if (mode == 'free-8') {
