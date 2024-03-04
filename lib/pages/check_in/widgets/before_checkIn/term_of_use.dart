@@ -5,6 +5,7 @@ import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../common.dart';
 import '../add_player/add_player_info.dart';
+import '../avatar_design_new.dart';
 import 'group_setting.dart';
 
 class TermOfUsePage extends StatelessWidget {
@@ -147,9 +148,15 @@ class _AgreeButton extends StatelessWidget {
       onTap: () {
         print("接受了协议");
         print("54321 $testTabId");
+        print("54321 ${logic.isFirstCheckIn}");
         // 判断是否是初始进行checkin，是就跳转到groupsetting，反之跳转到用户信息录入
         // logic.isFirstCheckIn ? Get.to(() => GroupSettingPage(), arguments: Get.arguments) : Get.to(() => AddPlayerInfo(), arguments: Get.arguments);
-        Get.to(() => AddPlayerInfo(), arguments: Get.arguments);
+        // Get.to(() => AddPlayerInfo(), arguments: Get.arguments);
+        logic.isFirstCheckIn ? (logic.currentNickName = logic.userList[0].nickname) : "";
+        logic.isFirstCheckIn ? (logic.selectedId = logic.userList[0].id) : "";
+        logic.firstName = "";
+        logic.lastName = "";
+        logic.isFirstCheckIn ? Get.to(() => AvatarDesignPage(), arguments: Get.arguments) : Get.to(() => AddPlayerInfo(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
         id: "agreeBtn",

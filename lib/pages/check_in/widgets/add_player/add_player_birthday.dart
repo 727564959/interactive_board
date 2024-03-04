@@ -200,8 +200,7 @@ class _AddBirthdayButton extends StatelessWidget {
 
   final testTabId = Global.tableId;
 
-  // get checkInApi => CheckInApi();
-  // final testTabId = 3;
+  get checkInApi => CheckInApi();
 
   @override
   Widget build(BuildContext context) {
@@ -209,17 +208,15 @@ class _AddBirthdayButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         print("接受了协议");
-        print("54321 ${logic.userList}");
+        logic.userList = await checkInApi.fetchUsers();
         int index = logic.userList.length - 1;
         print("54321 $index");
         print("54321 ${logic.userList[index].bodyName}");
         logic.selectedId = logic.userList[index].id;
         print("54321 ${logic.selectedId}");
         logic.currentUrl = logic.userList[index].avatarUrl;
-        // logic.userList = await checkInApi.fetchUsers();
-        // logic.currentIsMale = logic.userList[index].bodyName == 'Male' ? true : false;
-        // logic.headId = logic.userList[index].headgearId;
-        // logic.currentUrl = logic.userList[index].avatarUrl;
+        logic.currentNickName = logic.userList[index].nickname;
+        print("54321 ${logic.currentNickName}");
         Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(

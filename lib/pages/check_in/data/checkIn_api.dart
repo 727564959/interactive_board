@@ -26,13 +26,22 @@ class CheckInApi {
     print("是否进入了查询用户信息方法");
 
     final response = await dio.get(
-      "$baseUrl/shows/6/players",
+      "$baseUrl/shows/3/players",
       queryParameters: {"tableId": Global.tableId},
     );
     // List userList = response.data['playerList'];
     print("测试接口 $response");
     List userList = response.data;
     return userList.map((user) => UserInfo.fromJson(user)).toList();
+  }
+
+  Future<Map> fetchSingleUsers(String id) async {
+    print("是否进入了查询单个玩家方法");
+    final response = await dio.get("$baseUrl/players/$id/base");
+    print("测试接口 $response");
+
+    Map<String, dynamic> result = response.data;
+    return result;
   }
 
   Future<List<ResourceInfo>> fetchBodies() async {
@@ -65,7 +74,8 @@ class CheckInApi {
     return result;
   }
 
-  Future<void> updatePlayerInfo(String userId, String nickname, String headgearId, bool isMale) async {
+  Future<void> updatePlayerInfo(
+      String userId, String nickname, String headgearId, bool isMale) async {
     print("12345上山打老虎");
     final response = await dio.put(
       "http://10.1.4.13:1337/api/users/$userId",
@@ -77,10 +87,11 @@ class CheckInApi {
     );
   }
 
-  Future<void> updatePlayer(int userId, String nickname, int headgearId, int bodyId) async {
-    print("12345上山打老虎 $userId");
-    print("12345上山打老虎 $nickname");
-    print("12345上山打老虎 $headgearId");
+  Future<void> updatePlayer(
+      int userId, String nickname, int headgearId, int bodyId) async {
+    // print("12345上山打老虎 $userId");
+    // print("12345上山打老虎 $nickname");
+    // print("12345上山打老虎 $headgearId");
     print("12345上山打老虎 $bodyId");
     final response = await dio.post(
       "http://10.1.4.13:1337/api/players/$userId/update-user-preference",
@@ -92,36 +103,47 @@ class CheckInApi {
     );
   }
 
-  Future<void> addPlayerFun(int tableId, String email, String phone, String firstName, String lastName) async {
-    print("12345上山打老虎 ${tableId}");
-    print("12345上山打老虎 ${email}");
-    print("12345上山打老虎 ${phone}");
-    print("12345上山打老虎 ${firstName}");
-    print("12345上山打老虎 ${lastName}");
+  Future<void> addPlayerFun(int tableId, [String? email, String? phone,
+      String? firstName, String? lastName]) async {
+    // print("12345上山打老虎 ${tableId }");
+    // print("12345上山打老虎 ${email }");
+    // print("12345上山打老虎 ${phone }");
+    // print("12345上山打老虎 ${firstName }");
+    print("12345上山打老虎 ${lastName }");
+    // final result = {
+    //   "tableId": tableId,
+    //   "username": firstName,
+    //   "nickname": lastName,
+    //   "phone": phone,
+    //   "email": email,
+    // };
+    final firstMap = tableId != null ? {"tableId": tableId} : {};
+    final secondMap  = firstName != null ? {"username": firstName} : {};
+    final thirdlyMap = lastName != null ? {"nickname": lastName} : {};
+    final fourthlyMap = phone != null ? {"phone": phone} : {};
+    final fifthMap = email != null ? {"email": email} : {};
+    final result = {
+      ...firstMap,
+      ...secondMap,
+      ...thirdlyMap,
+      ...fourthlyMap,
+      ...fifthMap,
+    };
+    print("$result");
     try {
       await dio.post(
-        "http://10.1.4.13:1337/api/shows/6/player-joined",
-        data: {
-          "tableId": tableId,
-          "username": firstName,
-          "nickname": lastName,
-          "phone": phone,
-          "email": email,
-        },
+        "http://10.1.4.13:1337/api/shows/3/player-joined",
+        // data: {
+        //   "tableId": tableId,
+        //   "username": firstName,
+        //   "nickname": lastName,
+        //   "phone": phone,
+        //   "email": email,
+        // },
+        data: result
       );
     } catch (e) {
       print("asassas $e");
     }
-
-    // final response = await dio.post(
-    //   "http://10.1.4.13:1337/api/shows/3/player-joined",
-    //   data: {
-    //     "tableId": tableId,
-    //     "username": firstName,
-    //     "nickname": lastName,
-    //     "phone": phone,
-    //     "email": email,
-    //   },
-    // );
   }
 }

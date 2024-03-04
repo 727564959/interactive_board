@@ -228,7 +228,30 @@ class AvatarModel extends StatelessWidget {
                       // )
                       child: Column(
                         children: [
-                          Row(
+                          Global.team == 0 ? Row(
+                              children: [
+                                GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickBody(true);
+                                  },
+                                  child: Image.asset(
+                                    Global.getCheckInImageUrl('selection_panel/Red_man_s.png'),
+                                    fit: BoxFit.fitHeight,
+                                    width: 210.w,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTapUp: (detail) {
+                                    logic.clickBody(false);
+                                  },
+                                  child: Image.asset(
+                                    Global.getCheckInImageUrl('selection_panel/Red_Women_s.png'),
+                                    fit: BoxFit.fitHeight,
+                                    width: 210.w,
+                                  ),
+                                ),
+                              ]
+                          ) : Row(
                               children: [
                                 GestureDetector(
                                   onTapUp: (detail) {
@@ -250,32 +273,56 @@ class AvatarModel extends StatelessWidget {
                                     width: 210.w,
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    logic.clickBody(true);
-                                  },
-                                  child: Image.asset(
-                                    Global.getCheckInImageUrl('selection_panel/Red_man_s.png'),
-                                    fit: BoxFit.fitHeight,
-                                    width: 210.w,
-                                  ),
-                                ),
                               ]
                           ),
-                          Row(
-                              children: [
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    logic.clickBody(false);
-                                  },
-                                  child: Image.asset(
-                                    Global.getCheckInImageUrl('selection_panel/Red_Women_s.png'),
-                                    fit: BoxFit.fitHeight,
-                                    width: 210.w,
-                                  ),
-                                ),
-                              ]
-                          ),
+                          // Row(
+                          //     children: [
+                          //       GestureDetector(
+                          //         onTapUp: (detail) {
+                          //           logic.clickBody(true);
+                          //         },
+                          //         child: Image.asset(
+                          //           Global.getCheckInImageUrl('selection_panel/Blue_man_s.png'),
+                          //           fit: BoxFit.fitHeight,
+                          //           width: 210.w,
+                          //         ),
+                          //       ),
+                          //       GestureDetector(
+                          //         onTapUp: (detail) {
+                          //           logic.clickBody(false);
+                          //         },
+                          //         child: Image.asset(
+                          //           Global.getCheckInImageUrl('selection_panel/Blue_Women_s.png'),
+                          //           fit: BoxFit.fitHeight,
+                          //           width: 210.w,
+                          //         ),
+                          //       ),
+                          //       GestureDetector(
+                          //         onTapUp: (detail) {
+                          //           logic.clickBody(true);
+                          //         },
+                          //         child: Image.asset(
+                          //           Global.getCheckInImageUrl('selection_panel/Red_man_s.png'),
+                          //           fit: BoxFit.fitHeight,
+                          //           width: 210.w,
+                          //         ),
+                          //       ),
+                          //     ]
+                          // ),
+                          // Row(
+                          //     children: [
+                          //       GestureDetector(
+                          //         onTapUp: (detail) {
+                          //           logic.clickBody(false);
+                          //         },
+                          //         child: Image.asset(
+                          //           Global.getCheckInImageUrl('selection_panel/Red_Women_s.png'),
+                          //           fit: BoxFit.fitHeight,
+                          //           width: 210.w,
+                          //         ),
+                          //       ),
+                          //     ]
+                          // ),
                         ],
                       ),
                   );

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 
+import '../../../../app_routes.dart';
 import '../../../../common.dart';
 import '../before_checkIn/term_of_use.dart';
 
@@ -58,7 +59,7 @@ class PlayerInfoShow extends StatelessWidget {
                                         SizedBox(
                                           width: 0.05.sw,
                                           child: Text(
-                                            " Table 1",
+                                            "Table " + Global.tableId.toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 28.sp,
@@ -131,11 +132,15 @@ class PlayerInfoShow extends StatelessWidget {
                             //   ],
                             // ),
                             _NicknameArea(),
-                            Row(
+                            Column(
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(top: 20.0, left: 80.0),
                                   child: _AddPlayerButton(width: 306.w),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 60.0, left: 80.0),
+                                  child: _GoBackButton(width: 84.w),
                                 ),
                               ],
                             ),
@@ -201,6 +206,7 @@ class _NicknameArea extends StatelessWidget {
           );
         },
       ),
+
     );
   }
 }
@@ -233,7 +239,6 @@ class _AddPlayerButton extends StatelessWidget {
   String get backgroundUri => Global.getSetAvatarImageUrl("add_btn.png");
 
   final testTabId = Global.tableId;
-  // final testTabId = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -241,6 +246,9 @@ class _AddPlayerButton extends StatelessWidget {
       // 点击事件
       onTap: () {
         print("添加用户");
+        // 将点击跳过按钮置回初始状态
+        logic.isClickSkip = false;
+        logic.isFirstCheckIn = false;
         Get.to(() => TermOfUsePage(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
@@ -248,6 +256,52 @@ class _AddPlayerButton extends StatelessWidget {
         builder: (logic) {
           return Container(
             height: width * 0.3,
+            width: width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(backgroundUri),
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+// 返回按钮
+class _GoBackButton extends StatelessWidget {
+  _GoBackButton({
+    Key? key,
+    required this.width,
+  }) : super(key: key);
+  final double width;
+  final logic = Get.find<CheckInLogic>();
+  String get backgroundUri => !logic.addGoBackIsDown
+      ? Global.getSetAvatarImageUrl("back_btn_default.png")
+      : Global.getSetAvatarImageUrl("back_btn_selected.png");
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 按下
+      onTapDown: (details) {
+        logic.goBackBtnDown(true);
+      },
+      // 抬起
+      onTapUp: (details) {
+        logic.goBackBtnDown(false);
+      },
+      // 点击事件
+      onTap: () {
+        print("单击返回");
+        Get.offAllNamed(AppRoutes.choosePlayer, arguments: Get.arguments);
+      },
+      child: GetBuilder<CheckInLogic>(
+        id: "goBackBtn",
+        builder: (logic) {
+          return Container(
+            height: width * 0.72,
             width: width,
             decoration: BoxDecoration(
               image: DecorationImage(

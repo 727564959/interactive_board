@@ -10,6 +10,7 @@ import '../../../../common.dart';
 import '../../data/checkIn_api.dart';
 import '../../logic.dart';
 import '../avatar_design_new.dart';
+import '../update_currentTime.dart';
 import 'add_player_birthday.dart';
 
 class AddPlayerInfo extends StatelessWidget {
@@ -141,35 +142,40 @@ class _SetAvatarTitle extends StatelessWidget {
                 child: Row(
                   children: [
                     SizedBox(
-                      width: 0.1.sw,
+                      width: 0.15.sw,
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        // crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          SizedBox(
-                            width: 0.05.sw,
-                            child: Text(
-                              dateTime,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 32.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
+                          Container(
+                            margin: EdgeInsets.only(top: 20.0, left: 0.0.sw),
+                            child: SizedBox(
+                              width: 0.08.sw,
+                              child: KmTimer(),
+                              // child: Text(
+                              //   "09:56",
+                              //   style: TextStyle(
+                              //     fontSize: 32.sp,
+                              //     decoration: TextDecoration.none,
+                              //     fontFamily: 'BurbankBold',
+                              //     color: Colors.white,
+                              //     letterSpacing: 3.sp,
+                              //   ),
+                              // ),
                             ),
                           ),
-                          SizedBox(
-                            width: 0.05.sw,
-                            child: Text(
-                              " Table 1",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 28.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.deepOrange,
-                                letterSpacing: 3.sp,
+                          Container(
+                            margin: EdgeInsets.only(top: 20.0, left: 0.0),
+                            child: SizedBox(
+                              width: 0.07.sw,
+                              child: Text(
+                                "Table " + Global.tableId.toString(),
+                                style: TextStyle(
+                                  fontSize: 32.sp,
+                                  decoration: TextDecoration.none,
+                                  fontFamily: 'BurbankBold',
+                                  color: Colors.deepOrange,
+                                  letterSpacing: 3.sp,
+                                ),
                               ),
                             ),
                           ),
@@ -232,6 +238,7 @@ class _PlayerForm extends StatelessWidget {
                                   TextField(
                                     decoration: InputDecoration(
                                       labelText: "",
+                                      // fillColor: Colors.red,
                                     ),
                                     onChanged: (v) {
                                       print("onChange: $v");
@@ -400,6 +407,7 @@ class _PlayerForm extends StatelessWidget {
                                                 print(value);
                                                 logic.phone = value;
                                               },
+                                              style: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
                                             ),
                                           ),
                                         ],
@@ -467,7 +475,6 @@ class _NextButton extends StatelessWidget {
   String get backgroundUri => Global.getSetAvatarImageUrl("group_setting_input.png");
 
   final testTabId = Global.tableId;
-  // final testTabId = 3;
 
   get checkInApi => CheckInApi();
 
@@ -477,10 +484,12 @@ class _NextButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         String testPhone = "+(" + logic.countryName + ")" + logic.phone;
+        // String fullName = logic.firstName + "" + logic.lastName;
         await checkInApi.addPlayerFun(
             testTabId, logic.email, testPhone, logic.firstName, logic.lastName);
         logic.userList = await checkInApi.fetchUsers();
         logic.currentNickName = logic.lastName;
+        print("${logic.currentNickName}");
         Get.to(() => AddPlayerBirthday(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
@@ -509,13 +518,19 @@ class _SkipButton extends StatelessWidget {
   final logic = Get.find<CheckInLogic>();
 
   final testTabId = Global.tableId;
-  // final testTabId = 3;
+  get checkInApi => CheckInApi();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
-      onTap: () {
+      onTap: () async {
+        logic.userList = await checkInApi.fetchUsers();
+        logic.playerNum++;
+        logic.currentNickName = "Player" + logic.playerNum.toString();
+        print("ppp ${logic.currentNickName}");
+        logic.currentUrl = logic.userList[0].avatarUrl;
+        logic.isClickSkip = true;
         Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(

@@ -26,6 +26,10 @@ import 'avatar/avatar_model.dart';
 class AvatarDesignPage extends StatelessWidget {
   AvatarDesignPage({Key? key}) : super(key: key);
   final logic = Get.find<CheckInLogic>();
+  // @override
+  // void onInit() async {
+  //   updateUserList();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +88,11 @@ class AvatarDesignPage extends StatelessWidget {
     );
   }
 }
-
+// void updateUserList() async {
+//   final logic = Get.find<CheckInLogic>();
+//   final checkInApi = CheckInApi();
+//   logic.userList = await checkInApi.fetchUsers();
+// }
 // 顶部的文本信息
 class _SetAvatarTitle extends StatelessWidget {
   const _SetAvatarTitle({
@@ -194,7 +202,7 @@ class _SetAvatarTitle extends StatelessWidget {
                           SizedBox(
                             width: 0.05.sw,
                             child: Text(
-                              " Table 1",
+                              "Table " + Global.tableId.toString(),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 28.sp,
@@ -249,7 +257,8 @@ class _SetAvatarContent extends StatelessWidget {
                         builder: (logic) {
                           return Row(
                             children: [
-                              _EditNicknameButton(),
+                              // _EditNicknameButton(),
+                              _EditNicknameText(),
                             ],
                           );
                         },
@@ -361,6 +370,52 @@ class _SetAvatarContent extends StatelessWidget {
     return content;
   }
 }
+class _EditNicknameText extends StatelessWidget {
+  _EditNicknameText({
+    Key? key,
+  }) : super(key: key);
+  final logic = Get.find<CheckInLogic>();
+  // TextEditingController _nameTextFieldController = new TextEditingController(text: "testststs");
+
+  @override
+  Widget build(BuildContext context) {
+    print("ppp ${logic.currentNickName}");
+    TextEditingController _nameTextFieldController = new TextEditingController(text: logic.currentNickName);
+    return Container(
+      // decoration: BoxDecoration(
+      //   color: Colors.deepOrangeAccent,
+      // ),
+      margin: EdgeInsets.only(top: 0.0, left: 0.0),
+      constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h),//卡片大小
+      child: Scaffold(
+        body: Stack(
+          children: [
+            TextField(
+              controller: _nameTextFieldController,
+              decoration: InputDecoration(
+                // hintText: logic.currentNickName,
+                // border: InputBorder.none,
+                fillColor: Colors.deepOrangeAccent,
+                filled: true,
+                suffixIcon: Icon(Icons.edit, size: 40,),
+                isCollapsed: true,
+                contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+                // suffix: Text('.com'),
+                // suffixStyle: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
+              ),
+              onChanged: (v) {
+                print("onChange: $v");
+                // print("tetetettet: ${_nameTextFieldController.text}");
+                logic.currentNickName = v;
+              },
+              style: TextStyle(fontSize: 60.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 // 修改nickname
 class _EditNicknameButton extends StatelessWidget {
   _EditNicknameButton({
@@ -374,7 +429,7 @@ class _EditNicknameButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         print("修改名字");
-        logic.isUpdateNameFun(true);
+        // logic.isUpdateNameFun(true);
       },
       child: GetBuilder<CheckInLogic>(
         id: "editNickname",
@@ -393,14 +448,15 @@ class _EditNicknameButton extends StatelessWidget {
                   margin: EdgeInsets.only(top: 0.0, left: 20.0),
                   child: Text(
                     logic.currentNickName,
-                        style: TextStyle(
-                          fontSize: 60.sp,
-                          decoration: TextDecoration.none,
-                          fontFamily: 'BurbankBold',
-                          color: Colors.black,
-                          letterSpacing: 3.sp,
-                        ),
-                      ),
+                    style: TextStyle(
+                      fontSize: 60.sp,
+                      decoration: TextDecoration.none,
+                      fontFamily: 'BurbankBold',
+                      color: Colors.black,
+                      letterSpacing: 3.sp,
+                    ),
+                  ),
+
                   // child: !logic.isUpdateName ? Text(
                   //     "Sophia Davis",
                   //     style: TextStyle(
@@ -515,6 +571,7 @@ class _ModelShape extends StatelessWidget {
             child: GetBuilder<CheckInLogic>(
               id: "bodyPage",
               builder: (logic) {
+                // print("wwww ${logic.currentIsMale}");
                 return logic.currentIsMale
                     ? (Global.team == 0
                     ? Image.asset(
@@ -585,7 +642,6 @@ class _SaveAndBackButton extends StatelessWidget {
   String get backgroundUri => Global.getSetAvatarImageUrl("save_and_back_btn.png");
 
   final testTabId = Global.tableId;
-  // final testTabId = 3;
 
   final checkInApi = CheckInApi();
 
@@ -596,10 +652,31 @@ class _SaveAndBackButton extends StatelessWidget {
       onTap: () async {
         // logic.checkInFun(false);
         print("保存avatar");
+        print("sssr ${logic.selectedId}");
+        print("sssr ${logic.headId}");
+        print("sssr ${logic.currentNickName}");
         int num1 = int.parse(logic.selectedId.toString());
         int num2 = int.parse(logic.headId.toString());
-        await checkInApi.updatePlayer(
-            num1, logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
+        // 如果在添加用户信息页面点击了跳过，则需要先添加用户信息，再进行形象信息更新保存；反之则直接更新形象信息
+        if(logic.isClickSkip) {
+          // 添加用户(加入游戏show)
+          await checkInApi.addPlayerFun(
+              testTabId, null, null, null, logic.currentNickName);
+          // 更新用户列表
+          logic.userList = await checkInApi.fetchUsers();
+          int index = logic.userList.length - 1;
+          print("ooop ${index}");
+          logic.selectedId = logic.userList[index].id;
+          print("rtrt ${logic.selectedId}");
+          // 更新形象信息
+          await checkInApi.updatePlayer(
+              num1, logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
+        }
+        else {
+          // 更新形象信息
+          await checkInApi.updatePlayer(
+              int.parse(logic.selectedId.toString()), logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
+        }
         logic.userList = await checkInApi.fetchUsers();
         Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
       },
