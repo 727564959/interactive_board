@@ -60,7 +60,7 @@ class CheckInHomePage extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.grey,
+                                color: Colors.white24,
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               margin: EdgeInsets.only(top: 60.0, left: 120.0),
@@ -78,7 +78,7 @@ class CheckInHomePage extends StatelessWidget {
                                         fontSize: 35.sp,
                                         decoration: TextDecoration.none,
                                         fontFamily: 'BurbankBold',
-                                        color: Colors.white,
+                                        color: Colors.white60,
                                         letterSpacing: 3.sp,
                                       ),
                                     ),
@@ -86,14 +86,14 @@ class CheckInHomePage extends StatelessWidget {
                                   Align(
                                     alignment: const Alignment(-0.8, 0.0),
                                     child: Text(
-                                      "Sophia Davis",
+                                      logic.singlePlayer.length > 0 ? logic.singlePlayer['nickname'] : "",
                                       style: TextStyle(
                                         // fontWeight: FontWeight.bold,
-                                        fontSize: 50.sp,
+                                        fontSize: 60.sp,
                                         decoration: TextDecoration.none,
                                         fontFamily: 'BurbankBold',
                                         color: Colors.white,
-                                        letterSpacing: 3.sp,
+                                        letterSpacing: 5.sp,
                                       ),
                                     ),
                                   ),
@@ -102,7 +102,7 @@ class CheckInHomePage extends StatelessWidget {
                             ),
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.grey,
+                                color: Colors.white24,
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               margin: EdgeInsets.only(top: 60.0, left: 10.0),
@@ -120,7 +120,7 @@ class CheckInHomePage extends StatelessWidget {
                                         fontSize: 35.sp,
                                         decoration: TextDecoration.none,
                                         fontFamily: 'BurbankBold',
-                                        color: Colors.white,
+                                        color: Colors.white60,
                                         letterSpacing: 3.sp,
                                       ),
                                     ),
@@ -128,14 +128,14 @@ class CheckInHomePage extends StatelessWidget {
                                   Align(
                                     alignment: const Alignment(-0.8, 0.0),
                                     child: Text(
-                                      "21/02/2024 - 19 PM",
+                                      "",
                                       style: TextStyle(
                                         // fontWeight: FontWeight.bold,
                                         fontSize: 50.sp,
                                         decoration: TextDecoration.none,
                                         fontFamily: 'BurbankBold',
                                         color: Colors.white,
-                                        letterSpacing: 3.sp,
+                                        letterSpacing: 5.sp,
                                       ),
                                     ),
                                   ),
@@ -156,7 +156,7 @@ class CheckInHomePage extends StatelessWidget {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.grey,
+                                  color: Colors.white24,
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
                                 ),
                                 margin: EdgeInsets.only(top: 10.0, left: 120.0),
@@ -174,7 +174,7 @@ class CheckInHomePage extends StatelessWidget {
                                           fontSize: 35.sp,
                                           decoration: TextDecoration.none,
                                           fontFamily: 'BurbankBold',
-                                          color: Colors.white,
+                                          color: Colors.white60,
                                           letterSpacing: 3.sp,
                                         ),
                                       ),
@@ -182,14 +182,14 @@ class CheckInHomePage extends StatelessWidget {
                                     Align(
                                       alignment: const Alignment(-0.8, 0.0),
                                       child: Text(
-                                        "+1 (1234) 434-8473",
+                                        logic.singlePlayer.length > 0 ? logic.singlePlayer['phone'] : "",
                                         style: TextStyle(
                                           // fontWeight: FontWeight.bold,
-                                          fontSize: 50.sp,
+                                          fontSize: 60.sp,
                                           decoration: TextDecoration.none,
                                           fontFamily: 'BurbankBold',
                                           color: Colors.white,
-                                          letterSpacing: 3.sp,
+                                          letterSpacing: 5.sp,
                                         ),
                                       ),
                                     ),
@@ -198,7 +198,7 @@ class CheckInHomePage extends StatelessWidget {
                               ),
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.grey,
+                                  color: Colors.white24,
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
                                 ),
                                 margin: EdgeInsets.only(top: 10.0, left: 10.0),
@@ -216,7 +216,7 @@ class CheckInHomePage extends StatelessWidget {
                                           fontSize: 35.sp,
                                           decoration: TextDecoration.none,
                                           fontFamily: 'BurbankBold',
-                                          color: Colors.white,
+                                          color: Colors.white60,
                                           letterSpacing: 3.sp,
                                         ),
                                       ),
@@ -224,14 +224,14 @@ class CheckInHomePage extends StatelessWidget {
                                     Align(
                                       alignment: const Alignment(-0.8, 0.0),
                                       child: Text(
-                                        "Player@gmail.com",
+                                        logic.singlePlayer.length > 0 ? logic.singlePlayer['email'] : "",
                                         style: TextStyle(
                                           // fontWeight: FontWeight.bold,
-                                          fontSize: 50.sp,
+                                          fontSize: 60.sp,
                                           decoration: TextDecoration.none,
                                           fontFamily: 'BurbankBold',
                                           color: Colors.white,
-                                          letterSpacing: 3.sp,
+                                          letterSpacing: 5.sp,
                                         ),
                                       ),
                                     ),
@@ -265,7 +265,6 @@ class _NoProblemButton extends StatelessWidget {
   String get backgroundUri => Global.getSetAvatarImageUrl("no_problem_btn.png");
 
   final testTabId = Global.tableId;
-  // final testTabId = 3;
 
   @override
   Widget build(BuildContext context) {

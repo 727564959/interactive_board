@@ -7,6 +7,7 @@ import '../../../../common.dart';
 import 'widgets/add_player/add_player_info.dart';
 import 'widgets/before_checkIn/check_in_home.dart';
 import 'widgets/before_checkIn/term_of_use.dart';
+import 'widgets/update_currentTime.dart';
 
 class WelcomePage extends StatelessWidget {
   WelcomePage({Key? key}) : super(key: key);
@@ -34,16 +35,17 @@ class WelcomePage extends StatelessWidget {
                                   margin: EdgeInsets.only(top: 20.0, left: 0.8.sw),
                                   child: SizedBox(
                                     width: 0.08.sw,
-                                    child: Text(
-                                      "09:56",
-                                      style: TextStyle(
-                                        fontSize: 32.sp,
-                                        decoration: TextDecoration.none,
-                                        fontFamily: 'BurbankBold',
-                                        color: Colors.white,
-                                        letterSpacing: 3.sp,
-                                      ),
-                                    ),
+                                    child: KmTimer(),
+                                    // child: Text(
+                                    //   "09:56",
+                                    //   style: TextStyle(
+                                    //     fontSize: 32.sp,
+                                    //     decoration: TextDecoration.none,
+                                    //     fontFamily: 'BurbankBold',
+                                    //     color: Colors.white,
+                                    //     letterSpacing: 3.sp,
+                                    //   ),
+                                    // ),
                                   ),
                                 ),
                                 Container(
@@ -51,7 +53,7 @@ class WelcomePage extends StatelessWidget {
                                   child: SizedBox(
                                     width: 0.12.sw,
                                     child: Text(
-                                      "Table 1",
+                                      "Table " + Global.tableId.toString(),
                                       style: TextStyle(
                                         fontSize: 32.sp,
                                         decoration: TextDecoration.none,
@@ -161,7 +163,6 @@ class _EnterButton extends StatelessWidget {
   String get backgroundUri => Global.getSetAvatarImageUrl("enter_btn.png");
 
   final testTabId = Global.tableId;
-  // final testTabId = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -169,8 +170,8 @@ class _EnterButton extends StatelessWidget {
       // 点击事件
       onTap: () {
         // 判断是否是初始进行checkin，是就跳转到groupsetting，反之跳转到用户信息录入
-        // Get.to(() => CheckInHomePage(), arguments: Get.arguments);
-        Get.to(() => TermOfUsePage(), arguments: Get.arguments);
+        Get.to(() => CheckInHomePage(), arguments: Get.arguments);
+        // Get.to(() => TermOfUsePage(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
         id: "enetrBtn",

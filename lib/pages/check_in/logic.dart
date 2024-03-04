@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:interactive_board/pages/check_in/data/single_player.dart';
 import '../../common.dart';
 import 'data/avatar_info.dart';
 import 'data/checkin_api.dart';
@@ -13,6 +14,8 @@ class CheckInLogic extends GetxController {
   // String get gameName => GameShowRepository().gameName!;
   List<UserInfo> userList = [];
   List<ResourceInfo> avatarInfo = [];
+  // Map<String,dynamic> singlePlayer = {};
+  Map singlePlayer = {};
   bool isCheckIn = false;
   String currentNickName = "";
   String isAvatarType = "head";
@@ -29,6 +32,8 @@ class CheckInLogic extends GetxController {
   bool groupSettingBtnIsInput = false;
   // 是否是第一次进行签到
   bool isFirstCheckIn = true;
+  // 是否点击了跳过按钮
+  bool isClickSkip = false;
 
   String? selectedId;
 
@@ -41,6 +46,8 @@ class CheckInLogic extends GetxController {
   String firstName = "";
   String lastName = "";
   String countryName = "";
+
+  int playerNum = 0;
 
   // void clickItem(String id, String nickname, String avatarUrl, bool isMale) async {
   void clickItem(String id, String nickname, String avatarUrl, String isMale) async {
@@ -186,11 +193,14 @@ class CheckInLogic extends GetxController {
     currentIsMale = userList[0].bodyName == 'Male' ? true : false;
     headId = userList[0].headgearId;
     avatarInfo = await checkInApi.fetchAvatars();
+    singlePlayer = await checkInApi.fetchSingleUsers(userList[0].id);
+    print("单用户: ${singlePlayer}");
+    // print("单用户: ${singlePlayer['id']}");
     final avatar = avatarInfo.firstWhere((element) => element.id == headId);
     print("gfgfgfg: $avatar");
     currentUrl = avatar.url;
     print("头像: $avatarInfo");
-    checkInApi.updatePlayer(68, "abc",3,1);
+    // checkInApi.updatePlayer(68, "abc",3,1);
   }
 
 }
