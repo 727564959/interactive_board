@@ -1,13 +1,16 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'app_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-void main() {
+void main() async {
+  await initializeDateFormatting('zh_CN', null);
+
   runApp(const MyApp());
 }
 

@@ -25,14 +25,31 @@ class CheckInLogic extends GetxController {
   bool addGoBackIsDown = false;
   // 保存avatar按钮是否按下
   bool saveAvatarIsDown = false;
+  // 设置group的按钮是否输入
+  bool groupSettingBtnIsInput = false;
+  // 是否是第一次进行签到
+  bool isFirstCheckIn = true;
 
   String? selectedId;
 
   PageState pageState = PageState.setAvatarPage;
 
+  String birthdayStr = "Please select a date";
+
+  String email = "";
+  String phone = "";
+  String firstName = "";
+  String lastName = "";
+  String countryName = "";
+
   // void clickItem(String id, String nickname, String avatarUrl, bool isMale) async {
   void clickItem(String id, String nickname, String avatarUrl, String isMale) async {
     print("点击了item");
+    print("123 $selectedId");
+    print("123 $id");
+    print("123 $nickname");
+    print("123 $avatarUrl");
+    print("123 $isMale");
     currentNickName = nickname;
     if (id == selectedId) {
       selectedId = null;
@@ -51,8 +68,9 @@ class CheckInLogic extends GetxController {
 
   void isUpdateNameFun(bool t) {
     isUpdateName = t;
-    update();
-    update(['setNickname']);
+    // update();
+    // update(['setNickname']);
+    update(['editNickname']);
   }
 
   void testUpd(String text) {
@@ -74,7 +92,8 @@ class CheckInLogic extends GetxController {
     currentNickName = text;
 
     update();
-    update(['setNickname']);
+    // update(['setNickname']);
+    update(['editNickname']);
   }
 
   void checkinBtnDown(bool sign) {
@@ -162,14 +181,16 @@ class CheckInLogic extends GetxController {
     print(await checkInApi.fetchAvatars());
     print(await checkInApi.fetchBodies());
     print("用户数据: $userList");
-    currentNickName = userList[0].nickname;
+    // currentNickName = userList[userList.length - 1].nickname;
     // currentIsMale = userList[0].isMale;
     currentIsMale = userList[0].bodyName == 'Male' ? true : false;
     headId = userList[0].headgearId;
     avatarInfo = await checkInApi.fetchAvatars();
     final avatar = avatarInfo.firstWhere((element) => element.id == headId);
+    print("gfgfgfg: $avatar");
     currentUrl = avatar.url;
     print("头像: $avatarInfo");
+    checkInApi.updatePlayer(68, "abc",3,1);
   }
 
 }

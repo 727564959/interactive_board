@@ -30,6 +30,7 @@ class VerifyInfo {
       name: customerMap["name"],
       telephone: customerMap["telephone"],
     );
+    print(map);
     return VerifyInfo(
       startingTime: startingTime,
       showId: map["showId"],

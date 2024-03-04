@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
+import '../../app_routes.dart';
 import 'binding.dart';
 import 'verification_code/view.dart';
 import 'data/booking.dart';
@@ -12,6 +13,13 @@ class CheckInLogic extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    print("onInit");
+  }
+
+  @override
+  void onClose() {
+    print("onClose");
+    super.onDelete();
   }
 
   void selectTable(int tableId) {

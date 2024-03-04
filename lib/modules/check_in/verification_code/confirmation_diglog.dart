@@ -25,7 +25,12 @@ class ConfirmationDialog extends StatelessWidget {
           _InfoItem(title: "Name", value: verifyInfo.customer.name),
           _InfoItem(title: "Email", value: verifyInfo.customer.email),
           _InfoItem(title: "Phone Number", value: verifyInfo.customer.telephone),
-          _InfoItem(title: "Game Show", value: DateFormat("dd/MM/yyyy - kka").format(verifyInfo.startingTime)),
+          _InfoItem(
+            title: "Game Show",
+            value: DateFormat("dd/MM/yyyy - kka").format(
+              verifyInfo.startingTime.add(8.hours),
+            ),
+          ),
           const SizedBox(height: 50),
           Center(
             child: CheckInButton(

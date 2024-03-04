@@ -26,6 +26,7 @@ class PlayerApi {
     final response = await dio.get("$baseApiUrl/rounds/$roundId/positions");
     final result = <PositionInfo>[];
     for (final item in response.data) {
+      if (!(item as Map).containsKey('tableId')) continue;
       final int tableId = item['tableId'];
       final PlayerInfo player = PlayerInfo.fromJson(item['player'], tableId);
       final int position = item['position'];

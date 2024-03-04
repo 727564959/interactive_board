@@ -33,8 +33,8 @@ class CompletePage extends StatelessWidget {
               const SizedBox(height: 70),
               Text(
                 "Welcome, ${verifyInfo.customer.name}! \nYour game start time is "
-                "${DateFormat('kk:mm').format(verifyInfo.startingTime)}, please be seated by "
-                "${DateFormat('kk:mm').format(verifyInfo.startingTime.subtract(15.minutes))}. Enjoy!",
+                "${DateFormat('kk:mm').format(verifyInfo.startingTime.add(8.hours))}, please be seated by "
+                "${DateFormat('kk:mm').format(verifyInfo.startingTime.add(8.hours - 15.minutes))}. Enjoy!",
                 style: const TextStyle(fontSize: 50),
               ),
               const SizedBox(height: 100),
