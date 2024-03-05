@@ -163,7 +163,7 @@ class _SetAvatarTitle extends StatelessWidget {
                           SizedBox(
                             width: 0.05.sw,
                             child: Text(
-                              " Table 1",
+                              "Table " + Global.tableId.toString(),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 28.sp,
@@ -207,14 +207,15 @@ class _AddBirthdayButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        print("接受了协议");
-        logic.userList = await checkInApi.fetchUsers();
+        print("从生日选择跳转到形象设计");
+        // 更新用户信息
+        logic.updateUserList();
         int index = logic.userList.length - 1;
         print("54321 $index");
-        print("54321 ${logic.userList[index].bodyName}");
         logic.selectedId = logic.userList[index].id;
         print("54321 ${logic.selectedId}");
         logic.currentUrl = logic.userList[index].avatarUrl;
+        logic.currentIsMale = logic.userList[index].bodyName == "Male" ? true : false;
         logic.currentNickName = logic.userList[index].nickname;
         print("54321 ${logic.currentNickName}");
         Get.to(() => AvatarDesignPage(), arguments: Get.arguments);

@@ -167,6 +167,11 @@ class CheckInLogic extends GetxController {
   void birdShow() {
   }
 
+  void updateUserList() async {
+    userList = await checkInApi.fetchUsers();
+    update();
+  }
+
   // 点击add player按钮
   void clickAddPlayer() {
     print("呵呵呵呵呵呵呵");

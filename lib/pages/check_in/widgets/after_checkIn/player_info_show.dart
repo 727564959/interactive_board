@@ -5,6 +5,8 @@ import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../app_routes.dart';
 import '../../../../common.dart';
+import '../../data/checkIn_api.dart';
+import '../avatar_design_new.dart';
 import '../before_checkIn/term_of_use.dart';
 
 class PlayerInfoShow extends StatelessWidget {
@@ -181,7 +183,7 @@ class _NicknameArea extends StatelessWidget {
             // decoration: BoxDecoration(
             //   color: Colors.deepOrangeAccent,
             // ),
-            margin: EdgeInsets.only(top: 80.0, left: 80.0),
+            margin: EdgeInsets.only(top: 80.0, left: 80.0, right: 80.0),
             // constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h),//卡片大小
             child: Wrap(
               // 子项间距
@@ -214,19 +216,67 @@ class _NicknameArea extends StatelessWidget {
 Widget getItem(int index) {
   final logic = Get.find<CheckInLogic>();
   var item = logic.userList[index % logic.userList.length];
-  return Chip(
-    // 文字标签
-    label: Text(item.nickname,
-          style: TextStyle(
-            fontSize: 60.sp,
-            decoration: TextDecoration.none,
-            fontFamily: 'BurbankBold',
-            color: Colors.black,
-            letterSpacing: 3.sp,
-          ),),
-    // 删除按钮，添加后回自动设置 Icon
-    onDeleted: () {},
-  );
+  final checkInApi = CheckInApi();
+  return ActionChip(
+      pressElevation: 10,
+      // tooltip: "点击",
+      label: Text(item.nickname,
+        style: TextStyle(
+          fontSize: 60.sp,
+          decoration: TextDecoration.none,
+          fontFamily: 'BurbankBold',
+          color: Colors.black,
+          letterSpacing: 3.sp,
+        ),
+      ),
+      //长按提示
+      // labelPadding: EdgeInsets.all(10),
+      backgroundColor: Color(0xffFFBD80),
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(2.0),
+      ),
+      onPressed: () async {
+        print("点击 ${item.id}");
+        // 将点击跳过按钮置回初始状态
+        logic.isClickSkip = false;
+        logic.isFirstCheckIn = false;
+        logic.singlePlayer = await checkInApi.fetchSingleUsers(item.id);
+        print("点击 ${logic.singlePlayer}");
+        final index = logic.userList.indexWhere((element) => element.id == item.id);
+        print("点击 ${index}");
+        print("点击 ${logic.userList[index]}");
+        // 更新
+        logic.selectedId = item.id;
+        print("54321 ${logic.selectedId}");
+        logic.currentUrl = logic.userList[index].avatarUrl;
+        logic.currentIsMale = logic.userList[index].bodyName == "Male" ? true : false;
+        logic.currentNickName = logic.userList[index].nickname;
+        // 更新用户信息
+        logic.updateUserList();
+        // 跳转到形象设计页面
+        Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
+      });
+  // return Chip(
+  //   // 文字标签
+  //   label: Text(item.nickname,
+  //         style: TextStyle(
+  //           fontSize: 60.sp,
+  //           decoration: TextDecoration.none,
+  //           fontFamily: 'BurbankBold',
+  //           color: Colors.black,
+  //           letterSpacing: 3.sp,
+  //         ),
+  //   ),
+  //   // backgroundColor: Colors.orangeAccent,
+  //   backgroundColor: Color(0xffFFBD80),
+  //   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+  //   shape: RoundedRectangleBorder(
+  //     borderRadius: BorderRadius.circular(2.0),
+  //   ),
+  //   // 删除按钮，添加后回自动设置 Icon
+  //   // onDeleted: () {},
+  // );
 }
 // 添加用户按钮
 class _AddPlayerButton extends StatelessWidget {
