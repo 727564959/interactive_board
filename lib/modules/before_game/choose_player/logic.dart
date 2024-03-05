@@ -62,11 +62,10 @@ class ChoosePlayerLogic extends GetxController {
     } else if (mode == 'free-8') {
       selectedPlayers.addAll({1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null});
     }
-
     players = await playerApi.fetchPlayers(showState.showId);
     final positions = await playerApi.fetchPositions(showState.roundId);
     for (final item in positions) {
-      if (!selectedPlayers.containsKey(item.position)) return;
+      if (!selectedPlayers.containsKey(item.position)) continue;
       selectedPlayers[item.position] = item.player;
     }
     update();
