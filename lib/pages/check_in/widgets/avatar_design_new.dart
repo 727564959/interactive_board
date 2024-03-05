@@ -395,7 +395,8 @@ class _EditNicknameText extends StatelessWidget {
               decoration: InputDecoration(
                 // hintText: logic.currentNickName,
                 // border: InputBorder.none,
-                fillColor: Colors.deepOrangeAccent,
+                // fillColor: Colors.deepOrangeAccent,
+                fillColor: Color(0xffFFBD80),
                 filled: true,
                 suffixIcon: Icon(Icons.edit, size: 40,),
                 isCollapsed: true,
@@ -655,7 +656,7 @@ class _SaveAndBackButton extends StatelessWidget {
         print("sssr ${logic.selectedId}");
         print("sssr ${logic.headId}");
         print("sssr ${logic.currentNickName}");
-        int num1 = int.parse(logic.selectedId.toString());
+        // int num1 = int.parse(logic.selectedId.toString());
         int num2 = int.parse(logic.headId.toString());
         // 如果在添加用户信息页面点击了跳过，则需要先添加用户信息，再进行形象信息更新保存；反之则直接更新形象信息
         if(logic.isClickSkip) {
@@ -670,14 +671,15 @@ class _SaveAndBackButton extends StatelessWidget {
           print("rtrt ${logic.selectedId}");
           // 更新形象信息
           await checkInApi.updatePlayer(
-              num1, logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
+              int.parse(logic.selectedId.toString()), logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
         }
         else {
           // 更新形象信息
           await checkInApi.updatePlayer(
               int.parse(logic.selectedId.toString()), logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
         }
-        logic.userList = await checkInApi.fetchUsers();
+        // 更新用户信息
+        logic.updateUserList();
         Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(

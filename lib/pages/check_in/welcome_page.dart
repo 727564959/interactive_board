@@ -109,8 +109,10 @@ class WelcomePage extends StatelessWidget {
                                 width: 0.8.sw,
                                 child: Text(
                                   "Sophia Davis !",
+                                  // logic.singlePlayer.length > 0 ? logic.singlePlayer['nickname'] : "",
+                                  // logic.userList.length > 0 ? logic.userList[0].nickname + " !" : "",
                                   style: TextStyle(
-                                    fontSize: 150.sp,
+                                    fontSize: 130.sp,
                                     decoration: TextDecoration.none,
                                     fontFamily: 'BurbankBold',
                                     color: Colors.white,

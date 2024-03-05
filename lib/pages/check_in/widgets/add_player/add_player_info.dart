@@ -12,6 +12,7 @@ import '../../logic.dart';
 import '../avatar_design_new.dart';
 import '../update_currentTime.dart';
 import 'add_player_birthday.dart';
+import 'player_add_form.dart';
 
 class AddPlayerInfo extends StatelessWidget {
   AddPlayerInfo({Key? key}) : super(key: key);
@@ -39,6 +40,16 @@ class AddPlayerInfo extends StatelessWidget {
                           _SetAvatarTitle(),
                           // 中间的用户信息填报
                           _PlayerForm(),
+                          // SizedBox(
+                          //   height: 0.8.sh,
+                          //   child: Scaffold(
+                          //     body: Stack(
+                          //       children: [
+                          //         PlayerAddForm(),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
                           // 底部按钮区域
                           _BottomBtns(),
                         ],
@@ -449,6 +460,7 @@ class _BottomBtns extends StatelessWidget {
     final content = Container(
       margin: EdgeInsets.only(top: 0.0, left: 0.0),
       constraints: BoxConstraints.tightFor(width: 0.94.sw, height: 200.h),//卡片大小
+      // constraints: BoxConstraints.tightFor(width: 0.94.sw, height: 50.h),
       alignment: Alignment.center,
       child: Stack(
         children: [
@@ -530,7 +542,10 @@ class _SkipButton extends StatelessWidget {
         logic.currentNickName = "Player" + logic.playerNum.toString();
         print("ppp ${logic.currentNickName}");
         logic.currentUrl = logic.userList[0].avatarUrl;
+        logic.currentIsMale = logic.userList[0].bodyName == "Male" ? true : false;
         logic.isClickSkip = true;
+        // 更新用户信息
+        logic.updateUserList();
         Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
