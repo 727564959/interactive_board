@@ -105,7 +105,7 @@ class _SetAvatarButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        await Get.toNamed(AppRoutes.checkIn);
+        await Get.offAllNamed(AppRoutes.checkIn, arguments: Get.arguments);
         logic.updatePlayerInfo();
       },
       child: GetBuilder<ChoosePlayerLogic>(
