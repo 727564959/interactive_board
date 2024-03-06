@@ -5,9 +5,9 @@ import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../common.dart';
 import 'widgets/add_player/add_player_info.dart';
+import 'widgets/avatar_title.dart';
 import 'widgets/before_checkIn/check_in_home.dart';
 import 'widgets/before_checkIn/term_of_use.dart';
-import 'widgets/update_currentTime.dart';
 
 class WelcomePage extends StatelessWidget {
   WelcomePage({Key? key}) : super(key: key);
@@ -24,51 +24,8 @@ class WelcomePage extends StatelessWidget {
               color: Colors.black,
               child: Column(
                 children: [
-                  SizedBox(
-                      width: 1.0.sw,
-                      height: 0.1.sh,
-                      child: GetBuilder<CheckInLogic>(
-                          builder: (logic) {
-                            return Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(top: 20.0, left: 0.8.sw),
-                                  child: SizedBox(
-                                    width: 0.08.sw,
-                                    child: KmTimer(),
-                                    // child: Text(
-                                    //   "09:56",
-                                    //   style: TextStyle(
-                                    //     fontSize: 32.sp,
-                                    //     decoration: TextDecoration.none,
-                                    //     fontFamily: 'BurbankBold',
-                                    //     color: Colors.white,
-                                    //     letterSpacing: 3.sp,
-                                    //   ),
-                                    // ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 20.0, left: 0.0),
-                                  child: SizedBox(
-                                    width: 0.12.sw,
-                                    child: Text(
-                                      "Table " + Global.tableId.toString(),
-                                      style: TextStyle(
-                                        fontSize: 32.sp,
-                                        decoration: TextDecoration.none,
-                                        fontFamily: 'BurbankBold',
-                                        color: Colors.deepOrange,
-                                        letterSpacing: 3.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }
-                      )
-                  ),
+                  // 顶部文本信息
+                  AvatarTitlePage(titleText: ""),
                   SizedBox(
                     width: 1.0.sw,
                     height: 0.25.sh,

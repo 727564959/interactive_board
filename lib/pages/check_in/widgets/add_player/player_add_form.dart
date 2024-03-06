@@ -185,33 +185,6 @@ class _PlayerAddFormState extends State<PlayerAddForm> {
             ],
           ),
           // _NextButton(width: 800.w),
-
-          // TextFormField(
-          //   // autofocus: true,
-          //   controller: _unameController,
-          //   decoration: InputDecoration(
-          //     labelText: "用户名",
-          //     hintText: "用户名或邮箱",
-          //     icon: Icon(Icons.person),
-          //   ),
-          //   // 校验用户名
-          //   validator: (v) {
-          //     return v!.trim().isNotEmpty ? null : "用户名不能为空";
-          //   },
-          // ),
-          // TextFormField(
-          //   controller: _pwdController,
-          //   decoration: InputDecoration(
-          //     labelText: "密码",
-          //     hintText: "您的登录密码",
-          //     icon: Icon(Icons.lock),
-          //   ),
-          //   obscureText: true,
-          //   //校验密码
-          //   validator: (v) {
-          //     return v!.trim().length > 5 ? null : "密码不能少于6位";
-          //   },
-          // ),
           // 登录按钮
           Padding(
             padding: const EdgeInsets.only(top: 100.0),

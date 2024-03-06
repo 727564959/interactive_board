@@ -6,6 +6,7 @@ import 'package:interactive_board/pages/check_in/logic.dart';
 import '../../../../common.dart';
 import '../../data/checkIn_api.dart';
 import '../avatar_design_new.dart';
+import '../avatar_title.dart';
 
 class AddPlayerBirthday extends StatelessWidget {
   AddPlayerBirthday({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class AddPlayerBirthday extends StatelessWidget {
               child: Column(
                 children: [
                   // 顶部文本信息
-                  _SetAvatarTitle(),
+                  AvatarTitlePage(titleText: "Add Player"),
                   SizedBox(
                     child: GetBuilder<CheckInLogic>(
                       builder: (logic) {
@@ -103,91 +104,6 @@ class AddPlayerBirthday extends StatelessWidget {
         ));
   }
 }
-class _SetAvatarTitle extends StatelessWidget {
-  const _SetAvatarTitle({
-    Key? key,
-  }) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    print("12345 ${DateTime.now().toString().substring(0, 19)}");
-    final String dateTime = DateTime.now().toString().substring(11, 16);
-    final content = SizedBox(
-      width: 0.94.sw,
-      height: 100.h,
-      child: Stack(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Align(
-                alignment: const Alignment(0.5, 1.5),
-                child: SizedBox(
-                  width: 0.2.sw,
-                  child: Text(
-                    "Add Player",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 60.sp,
-                      decoration: TextDecoration.none,
-                      fontFamily: 'BurbankBold',
-                      color: Colors.white,
-                      letterSpacing: 3.sp,
-                    ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: const Alignment(0.5, 1.5),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 0.1.sw,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          SizedBox(
-                            width: 0.05.sw,
-                            child: Text(
-                              dateTime,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 32.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 0.05.sw,
-                            child: Text(
-                              "Table " + Global.tableId.toString(),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 28.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.deepOrange,
-                                letterSpacing: 3.sp,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-    return content;
-  }
-}
 // 同意条款的按钮
 class _AddBirthdayButton extends StatelessWidget {
   _AddBirthdayButton({
@@ -224,7 +140,7 @@ class _AddBirthdayButton extends StatelessWidget {
         id: "agreeBtn",
         builder: (logic) {
           return Container(
-            height: width * 0.5,
+            height: width * 0.4,
             width: width,
             decoration: BoxDecoration(
               image: DecorationImage(

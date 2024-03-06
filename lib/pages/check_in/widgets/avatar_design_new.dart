@@ -19,9 +19,9 @@ import '../data/checkIn_api.dart';
 import 'package:flutter_gif/flutter_gif.dart';
 
 import '../view.dart';
-import 'add_player/add_player_info.dart';
 import 'after_checkIn/player_info_show.dart';
 import 'avatar/avatar_model.dart';
+import 'avatar_title.dart';
 
 class AvatarDesignPage extends StatelessWidget {
   AvatarDesignPage({Key? key}) : super(key: key);
@@ -42,7 +42,8 @@ class AvatarDesignPage extends StatelessWidget {
             width: 1.0.sw,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(Global.getCheckInImageUrl("background_new.png")),
+                image:
+                    AssetImage(Global.getCheckInImageUrl("background_new.png")),
                 fit: BoxFit.cover,
               ),
             ),
@@ -52,25 +53,10 @@ class AvatarDesignPage extends StatelessWidget {
                   width: 1.0.sw,
                   child: GetBuilder<CheckInLogic>(
                     builder: (logic) {
-                      // print("状态值: ${logic.pageState}");
-                      // if (logic.pageState == PageState.setAvatarPage) {
-                      //   return Column(
-                      //     children: [
-                      //       // 顶部文本信息
-                      //       _SetAvatarTitle(),
-                      //       // 中间的用户信息和avatar信息
-                      //       _SetAvatarContent(),
-                      //       // 底部的功能按钮
-                      //       // _SetAvatarBtnInfo(),
-                      //     ],
-                      //   );
-                      // } else {
-                      //   return AddPlayerInfo(key: UniqueKey());
-                      // }
                       return Column(
                         children: [
                           // 顶部文本信息
-                          _SetAvatarTitle(),
+                          AvatarTitlePage(titleText: "Set avatar"),
                           // 中间的用户信息和avatar信息
                           _SetAvatarContent(),
                           // 底部的功能按钮
@@ -88,145 +74,12 @@ class AvatarDesignPage extends StatelessWidget {
     );
   }
 }
+
 // void updateUserList() async {
 //   final logic = Get.find<CheckInLogic>();
 //   final checkInApi = CheckInApi();
 //   logic.userList = await checkInApi.fetchUsers();
 // }
-// 顶部的文本信息
-class _SetAvatarTitle extends StatelessWidget {
-  const _SetAvatarTitle({
-    Key? key,
-  }) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    // DateTime dateTime = DateTime.now();
-    print("12345 ${DateTime.now().toString().substring(0, 19)}");
-    final String dateTime = DateTime.now().toString().substring(11, 16);
-    final content = SizedBox(
-      width: 0.94.sw,
-      height: 100.h,
-      child: Stack(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Align(
-                alignment: const Alignment(0.5, 1.5),
-                child: SizedBox(
-                  width: 0.2.sw,
-                  child: Text(
-                    "Set Avatar",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 60.sp,
-                      decoration: TextDecoration.none,
-                      fontFamily: 'BurbankBold',
-                      color: Colors.white,
-                      letterSpacing: 3.sp,
-                    ),
-                  ),
-                ),
-              ),
-              // Align(
-              //   alignment: const Alignment(0.5, 1.5),
-              //   child: Row(
-              //       children: [
-              //         SizedBox(
-              //           width: 0.64.sw,
-              //           child: Row(
-              //             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //             mainAxisAlignment: MainAxisAlignment.center,
-              //             crossAxisAlignment: CrossAxisAlignment.end,
-              //             children: [
-              //               SizedBox(
-              //                 width: 0.24.sw,
-              //                 child: Text(
-              //                   "The game will start in ",
-              //                   style: TextStyle(
-              //                     // fontWeight: FontWeight.bold,
-              //                     fontSize: 50.sp,
-              //                     decoration: TextDecoration.none,
-              //                     fontFamily: 'BurbankBold',
-              //                     color: Colors.white,
-              //                     letterSpacing: 3.sp,
-              //                   ),
-              //                 ),
-              //               ),
-              //               SizedBox(
-              //                 width: 0.1.sw,
-              //                 child: Text(
-              //                   "05:23",
-              //                   style: TextStyle(
-              //                     fontWeight: FontWeight.bold,
-              //                     fontSize: 50.sp,
-              //                     decoration: TextDecoration.none,
-              //                     fontFamily: 'BurbankBold',
-              //                     color: Colors.white,
-              //                     letterSpacing: 3.sp,
-              //                   ),
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ],
-              //   ),
-              // ),
-              Align(
-                alignment: const Alignment(0.5, 1.5),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 0.1.sw,
-                      child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          SizedBox(
-                            width: 0.05.sw,
-                            child: Text(
-                              dateTime,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 32.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 0.05.sw,
-                            child: Text(
-                              "Table " + Global.tableId.toString(),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 28.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.deepOrange,
-                                letterSpacing: 3.sp,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-    return content;
-  }
-}
 // 名称、人物模型、头像和身体信息
 class _SetAvatarContent extends StatelessWidget {
   const _SetAvatarContent({
@@ -236,7 +89,7 @@ class _SetAvatarContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final content = SizedBox(
       width: 0.96.sw,
-      height: 0.9.sh,
+      height: 0.8.sh,
       child: Stack(
         children: [
           Row(
@@ -252,7 +105,7 @@ class _SetAvatarContent extends StatelessWidget {
                     // ),
                     SizedBox(
                       width: 0.23.sw,
-                      height: 0.3.sh,
+                      height: 0.2.sh,
                       child: GetBuilder<CheckInLogic>(
                         builder: (logic) {
                           return Row(
@@ -336,7 +189,7 @@ class _SetAvatarContent extends StatelessWidget {
                 //           width: 295.w,
                 //           height: 0.5.sh,
                 //         ),
-                //         _AddPlayerButton(width: 306.w),
+                //         _AddPlayerButton(width: 432.w),
                 //       ],
                 //     )
                 // ),
@@ -358,7 +211,8 @@ class _SetAvatarContent extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   margin: EdgeInsets.only(top: 0.0, left: 0.0),
-                  constraints: BoxConstraints.tightFor(width: 0.34.sw, height: 0.7.sh),//卡片大小
+                  constraints: BoxConstraints.tightFor(
+                      width: 0.34.sw, height: 0.7.sh), //卡片大小
                   child: AvatarModel(),
                 ),
               ),
@@ -370,6 +224,7 @@ class _SetAvatarContent extends StatelessWidget {
     return content;
   }
 }
+
 class _EditNicknameText extends StatelessWidget {
   _EditNicknameText({
     Key? key,
@@ -380,43 +235,46 @@ class _EditNicknameText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("ppp ${logic.currentNickName}");
-    TextEditingController _nameTextFieldController = new TextEditingController(text: logic.currentNickName);
+    TextEditingController _nameTextFieldController =
+        new TextEditingController(text: logic.currentNickName);
     return Container(
-      // decoration: BoxDecoration(
-      //   color: Colors.deepOrangeAccent,
-      // ),
       margin: EdgeInsets.only(top: 0.0, left: 0.0),
-      constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h),//卡片大小
-      child: Scaffold(
-        body: Stack(
-          children: [
-            TextField(
-              controller: _nameTextFieldController,
-              decoration: InputDecoration(
-                // hintText: logic.currentNickName,
-                // border: InputBorder.none,
-                // fillColor: Colors.deepOrangeAccent,
-                fillColor: Color(0xffFFBD80),
-                filled: true,
-                suffixIcon: Icon(Icons.edit, size: 40,),
-                isCollapsed: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
-                // suffix: Text('.com'),
-                // suffixStyle: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
-              ),
-              onChanged: (v) {
-                print("onChange: $v");
-                // print("tetetettet: ${_nameTextFieldController.text}");
-                logic.currentNickName = v;
-              },
-              style: TextStyle(fontSize: 60.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
-            ),
-          ],
+      constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h), //卡片大小
+      child: TextField(
+        controller: _nameTextFieldController,
+        decoration: InputDecoration(
+          // hintText: logic.currentNickName,
+          // border: InputBorder.none,
+          // fillColor: Colors.deepOrangeAccent,
+          fillColor: Color(0xffFFBD80),
+          filled: true,
+          suffixIcon: Icon(
+            Icons.edit,
+            size: 40,
+          ),
+          isCollapsed: true,
+          contentPadding:
+          EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+          // suffix: Text('.com'),
+          // suffixStyle: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
+        ),
+        onChanged: (v) {
+          print("onChange: $v");
+          // print("tetetettet: ${_nameTextFieldController.text}");
+          logic.currentNickName = v;
+        },
+        style: TextStyle(
+          fontSize: 60.sp,
+          decoration: TextDecoration.none,
+          fontFamily: 'BurbankBold',
+          color: Colors.white,
+          letterSpacing: 3.sp,
         ),
       ),
     );
   }
 }
+
 // 修改nickname
 class _EditNicknameButton extends StatelessWidget {
   _EditNicknameButton({
@@ -440,7 +298,8 @@ class _EditNicknameButton extends StatelessWidget {
               color: Colors.deepOrangeAccent,
             ),
             margin: EdgeInsets.only(top: 0.0, left: 0.0),
-            constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h),//卡片大小
+            constraints:
+                BoxConstraints.tightFor(width: 428.w, height: 118.h), //卡片大小
             child: Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -508,6 +367,7 @@ class _EditNicknameButton extends StatelessWidget {
     );
   }
 }
+
 // 底部的功能按钮区域
 class _SetAvatarBtnInfo extends StatelessWidget {
   const _SetAvatarBtnInfo({
@@ -523,7 +383,9 @@ class _SetAvatarBtnInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _GoBackButton(width: 84.w),
-              _SaveAvatarButton(width: 316.w,),
+              _SaveAvatarButton(
+                width: 316.w,
+              ),
             ],
           )
         ],
@@ -532,6 +394,7 @@ class _SetAvatarBtnInfo extends StatelessWidget {
     return content;
   }
 }
+
 // 人物模型
 class _PersonModel extends StatelessWidget {
   const _PersonModel({Key? key, required this.width}) : super(key: key);
@@ -551,6 +414,7 @@ class _PersonModel extends StatelessWidget {
     );
   }
 }
+
 // 模型图层
 class _ModelShape extends StatelessWidget {
   _ModelShape({Key? key, required this.width, required this.bAnimate})
@@ -575,23 +439,23 @@ class _ModelShape extends StatelessWidget {
                 // print("wwww ${logic.currentIsMale}");
                 return logic.currentIsMale
                     ? (Global.team == 0
-                    ? Image.asset(
-                  Global.getCheckInImageUrl('avatar/Red_man.png'),
-                  width: width * 0.5,
-                )
-                    : Image.asset(
-                  Global.getCheckInImageUrl('avatar/Blue_man.png'),
-                  width: width * 0.5,
-                ))
+                        ? Image.asset(
+                            Global.getCheckInImageUrl('avatar/Red_man.png'),
+                            width: width * 0.5,
+                          )
+                        : Image.asset(
+                            Global.getCheckInImageUrl('avatar/Blue_man.png'),
+                            width: width * 0.5,
+                          ))
                     : (Global.team == 0
-                    ? Image.asset(
-                  Global.getCheckInImageUrl('avatar/Red_Women.png'),
-                  width: width * 0.5,
-                )
-                    : Image.asset(
-                  Global.getCheckInImageUrl('avatar/Blue_Women.png'),
-                  width: width * 0.5,
-                ));
+                        ? Image.asset(
+                            Global.getCheckInImageUrl('avatar/Red_Women.png'),
+                            width: width * 0.5,
+                          )
+                        : Image.asset(
+                            Global.getCheckInImageUrl('avatar/Blue_Women.png'),
+                            width: width * 0.5,
+                          ));
               },
             ),
           ),
@@ -612,16 +476,15 @@ class _ModelShape extends StatelessWidget {
                   height: 240.h,
                   child: logic.currentUrl != ""
                       ? CachedNetworkImage(
-                    imageUrl: logic.currentUrl,
-                    fit: BoxFit.fitWidth,
-                    width: width * 0.6,
-                  )
+                          imageUrl: logic.currentUrl,
+                          fit: BoxFit.fitWidth,
+                          width: width * 0.6,
+                        )
                       : CachedNetworkImage(
-                    imageUrl:
-                    logic.avatarInfo[0].url,
-                    fit: BoxFit.fitWidth,
-                    width: width * 0.6,
-                  ),
+                          imageUrl: logic.avatarInfo[0].url,
+                          fit: BoxFit.fitWidth,
+                          width: width * 0.6,
+                        ),
                 );
               },
             ),
@@ -632,6 +495,7 @@ class _ModelShape extends StatelessWidget {
     return decorate;
   }
 }
+
 // 添加用户按钮
 class _SaveAndBackButton extends StatelessWidget {
   _SaveAndBackButton({
@@ -640,7 +504,8 @@ class _SaveAndBackButton extends StatelessWidget {
   }) : super(key: key);
   final double width;
   final logic = Get.find<CheckInLogic>();
-  String get backgroundUri => Global.getSetAvatarImageUrl("save_and_back_btn.png");
+  String get backgroundUri =>
+      Global.getSetAvatarImageUrl("save_and_back_btn.png");
 
   final testTabId = Global.tableId;
 
@@ -659,7 +524,7 @@ class _SaveAndBackButton extends StatelessWidget {
         // int num1 = int.parse(logic.selectedId.toString());
         int num2 = int.parse(logic.headId.toString());
         // 如果在添加用户信息页面点击了跳过，则需要先添加用户信息，再进行形象信息更新保存；反之则直接更新形象信息
-        if(logic.isClickSkip) {
+        if (logic.isClickSkip) {
           // 添加用户(加入游戏show)
           await checkInApi.addPlayerFun(
               testTabId, null, null, null, logic.currentNickName);
@@ -670,13 +535,12 @@ class _SaveAndBackButton extends StatelessWidget {
           logic.selectedId = logic.userList[index].id;
           print("rtrt ${logic.selectedId}");
           // 更新形象信息
-          await checkInApi.updatePlayer(
-              int.parse(logic.selectedId.toString()), logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
-        }
-        else {
+          await checkInApi.updatePlayer(int.parse(logic.selectedId.toString()),
+              logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
+        } else {
           // 更新形象信息
-          await checkInApi.updatePlayer(
-              int.parse(logic.selectedId.toString()), logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
+          await checkInApi.updatePlayer(int.parse(logic.selectedId.toString()),
+              logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
         }
         // 更新用户信息
         logic.updateUserList();
@@ -700,6 +564,7 @@ class _SaveAndBackButton extends StatelessWidget {
     );
   }
 }
+
 // 添加用户按钮
 class _AddPlayerButton extends StatelessWidget {
   _AddPlayerButton({
@@ -708,7 +573,7 @@ class _AddPlayerButton extends StatelessWidget {
   }) : super(key: key);
   final double width;
   final logic = Get.find<CheckInLogic>();
-  String get backgroundUri => Global.getSetAvatarImageUrl("add_btn.png");
+  String get backgroundUri => Global.getSetAvatarImageUrl("add_player_btn.png");
 
   // final testTabId = Global.tableId;
   final testTabId = 3;
@@ -741,6 +606,7 @@ class _AddPlayerButton extends StatelessWidget {
     );
   }
 }
+
 // 返回按钮
 class _GoBackButton extends StatelessWidget {
   _GoBackButton({
@@ -789,6 +655,7 @@ class _GoBackButton extends StatelessWidget {
     );
   }
 }
+
 // 保存avatar按钮
 class _SaveAvatarButton extends StatelessWidget {
   _SaveAvatarButton({
