@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/data/single_player.dart';
 import '../../common.dart';
+import '../../data/model/show_state.dart';
 import 'data/avatar_info.dart';
 import 'data/checkin_api.dart';
 import 'data/user_info.dart';
@@ -14,6 +15,7 @@ class CheckInLogic extends GetxController {
   // String get gameName => GameShowRepository().gameName!;
   List<UserInfo> userList = [];
   List<ResourceInfo> avatarInfo = [];
+  ShowState get showState => Get.arguments;
   // Map<String,dynamic> singlePlayer = {};
   Map singlePlayer = {};
   bool isCheckIn = false;
@@ -167,8 +169,9 @@ class CheckInLogic extends GetxController {
   void birdShow() {
   }
 
-  void updateUserList() async {
-    userList = await checkInApi.fetchUsers();
+  void updateUserList(int showId) async {
+    print("身体的id: $showId");
+    userList = await checkInApi.fetchUsers(showId);
     update();
   }
 
@@ -189,7 +192,7 @@ class CheckInLogic extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    userList = await checkInApi.fetchUsers();
+    userList = await checkInApi.fetchUsers(showState.showId);
     print(await checkInApi.fetchAvatars());
     print(await checkInApi.fetchBodies());
     print("用户数据: $userList");

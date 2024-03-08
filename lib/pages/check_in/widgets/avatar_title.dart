@@ -22,7 +22,7 @@ class AvatarTitlePage extends StatelessWidget {
       //   color: Colors.red,
       //   borderRadius: BorderRadius.all(Radius.circular(10)),
       // ),
-      margin: EdgeInsets.only(top: 40.0, left: 0.0),
+      margin: EdgeInsets.only(top: 20.0, left: 0.0),
       constraints: BoxConstraints.tightFor(width: 1.0.sw, height: 100.sp),//卡片大小
       child: Row(
         // mainAxisSize: MainAxisSize.min,

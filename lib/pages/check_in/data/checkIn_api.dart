@@ -16,17 +16,17 @@ class CheckInApi {
 
   Future<UserInfo> fetchUser(String id) async {
     final response = await dio.get(
-      "http://10.1.4.13:1337/api/users/$id",
+      "$baseUrl/users/$id",
       queryParameters: {"populate[headgear][populate][0]": "avatar"},
     );
     return UserInfo.fromStrapiJson(response.data);
   }
 
-  Future<List<UserInfo>> fetchUsers() async {
+  Future<List<UserInfo>> fetchUsers(int showId) async {
     print("是否进入了查询用户信息方法");
-
+    print("$showId");
     final response = await dio.get(
-      "$baseUrl/shows/6/players",
+      "$baseUrl/shows/$showId/players",
       queryParameters: {"tableId": Global.tableId},
     );
     // List userList = response.data['playerList'];
@@ -46,7 +46,7 @@ class CheckInApi {
 
   Future<List<ResourceInfo>> fetchBodies() async {
     final response = await dio.get(
-      "http://10.1.4.13:1337/api/bodies",
+      "$baseUrl/bodies",
       queryParameters: {
         "populate[0]": "image",
       },
@@ -61,7 +61,7 @@ class CheckInApi {
 
   Future<List<ResourceInfo>> fetchAvatars() async {
     final response = await dio.get(
-      "http://10.1.4.13:1337/api/headgears",
+      "$baseUrl/headgears",
       queryParameters: {
         "populate[0]": "image",
       },
@@ -77,7 +77,7 @@ class CheckInApi {
   Future<void> updatePlayerInfo(String userId, String nickname, String headgearId, bool isMale) async {
     print("12345上山打老虎");
     final response = await dio.put(
-      "http://10.1.4.13:1337/api/users/$userId",
+      "$baseUrl/users/$userId",
       data: {
         "nickname": nickname,
         "headgear": headgearId,
@@ -92,7 +92,7 @@ class CheckInApi {
     // print("12345上山打老虎 $headgearId");
     print("12345上山打老虎 $bodyId");
     final response = await dio.post(
-      "http://10.1.4.13:1337/api/players/$userId/update-user-preference",
+      "$baseUrl/players/$userId/update-user-preference",
       data: {
         "nickname": nickname,
         "headgearId": headgearId,
@@ -101,22 +101,20 @@ class CheckInApi {
     );
   }
 
-  Future<void> addPlayerFun(int tableId, [String? email, String? phone, String? firstName, String? lastName]) async {
+  Future<void> addPlayerFun(int showId, int tableId, [String? email, String? phone, String? firstName, String? lastName]) async {
     // print("12345上山打老虎 ${tableId }");
     // print("12345上山打老虎 ${email }");
     // print("12345上山打老虎 ${phone }");
     // print("12345上山打老虎 ${firstName }");
     print("12345上山打老虎 ${lastName}");
-    // final result = {
-    //   "tableId": tableId,
-    //   "username": firstName,
-    //   "nickname": lastName,
-    //   "phone": phone,
-    //   "email": email,
-    // };
+    String userName = (firstName != null && lastName != null) ? (firstName + " " + lastName) : (
+        (firstName != null ? firstName : (lastName != null ? lastName : ''))
+    );
     final firstMap = tableId != null ? {"tableId": tableId} : {};
-    final secondMap = firstName != null ? {"username": firstName} : {};
-    final thirdlyMap = lastName != null ? {"nickname": lastName} : {};
+    // final secondMap = firstName != null ? {"username": firstName} : {};
+    // final thirdlyMap = lastName != null ? {"nickname": lastName} : {};
+    final secondMap = userName != null ? {"username": userName} : {};
+    final thirdlyMap = firstName != null ? {"nickname": firstName} : {};
     final fourthlyMap = phone != null ? {"phone": phone} : {};
     final fifthMap = email != null ? {"email": email} : {};
     final result = {
@@ -126,19 +124,15 @@ class CheckInApi {
       ...fourthlyMap,
       ...fifthMap,
     };
-    print("$result");
-    try {
-      await dio.post("http://10.1.4.13:1337/api/shows/6/player-joined",
-          // data: {
-          //   "tableId": tableId,
-          //   "username": firstName,
-          //   "nickname": lastName,
-          //   "phone": phone,
-          //   "email": email,
-          // },
-          data: result);
-    } catch (e) {
-      print("asassas $e");
-    }
+    print("哈哈哈哈哈 $result");
+    await dio.post("$baseUrl/shows/$showId/player-joined",
+        data: result);
+
+    // try {
+    //   await dio.post("http://10.1.4.13:1337/api/shows/3/player-joined",
+    //       data: result);
+    // } catch (e) {
+    //   print("asassas $e");
+    // }
   }
 }

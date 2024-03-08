@@ -1,8 +1,10 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_picker_dropdown.dart';
 import 'package:country_pickers/utils/utils.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -40,6 +42,12 @@ class AddPlayerInfo extends StatelessWidget {
                           // 顶部文本信息
                           AvatarTitlePage(titleText: "Add Player"),
                           // 中间的用户信息填报
+                          // ListView(
+                          //     shrinkWrap: true,
+                          //     children: <Widget>[
+                          //       _PlayerForm(),
+                          //     ]
+                          // ),
                           _PlayerForm(),
                           // SizedBox(
                           //   height: 0.8.sh,
@@ -68,11 +76,19 @@ class AddPlayerInfo extends StatelessWidget {
 }
 // 中间的用户信息录入
 class _PlayerForm extends StatelessWidget {
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  // // 创建 focusNode
+  // FocusNode _emailFocusNode = FocusNode();
+  // FocusNode _phoneFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 1.0.sw,
-      height: 0.65.sh,
+      height: 0.6.sh,
       child: GetBuilder<CheckInLogic>(
           builder: (logic) {
             return Column(
@@ -80,7 +96,7 @@ class _PlayerForm extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 60.0, left: 120.0),
+                      margin: EdgeInsets.only(top: 40.0, left: 120.0),
                       constraints: BoxConstraints.tightFor(width: 750.w, height: 240.h),//卡片大小
                       // alignment: Alignment.center, //卡片内文字居中
                       child: Column(
@@ -101,6 +117,7 @@ class _PlayerForm extends StatelessWidget {
                           ),
                           SizedBox(
                             child: TextField(
+                              controller: _firstNameController,
                               decoration: InputDecoration(
                                 fillColor: Color(0xff212121),
                                 filled: true,
@@ -131,7 +148,7 @@ class _PlayerForm extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 60.0, left: 10.0),
+                      margin: EdgeInsets.only(top: 40.0, left: 10.0),
                       constraints: BoxConstraints.tightFor(width: 750.w, height: 240.h),//卡片大小
                       alignment: Alignment.center, //卡片内文字居中
                       child: Column(
@@ -152,6 +169,7 @@ class _PlayerForm extends StatelessWidget {
                           ),
                           SizedBox(
                             child: TextField(
+                              controller: _lastNameController,
                               decoration: InputDecoration(
                                 fillColor: Color(0xff212121),
                                 filled: true,
@@ -171,6 +189,10 @@ class _PlayerForm extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              // 名字校验
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(15),
+                              ],
                               onChanged: (v) {
                                 print("onChange: $v");
                                 logic.lastName = v;
@@ -207,6 +229,8 @@ class _PlayerForm extends StatelessWidget {
                           SizedBox(
                             child: TextField(
                               keyboardType: TextInputType.emailAddress,
+                              controller: _emailController,
+                              // focusNode: _emailFocusNode,
                               decoration: InputDecoration(
                                 fillColor: Color(0xff212121),
                                 filled: true,
@@ -228,7 +252,12 @@ class _PlayerForm extends StatelessWidget {
                                     width: 2, //宽度为5
                                   ),
                                 ),
+                                // errorText: _getErrorText(),
+                                // errorStyle: TextStyle(fontSize: 12),
+                                // errorMaxLines: 1,
+                                // errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 2,)),
                               ),
+                              autocorrect: false,
                               // 邮箱校验
                               inputFormatters: [
                                 LengthLimitingTextInputFormatter(30),
@@ -237,6 +266,9 @@ class _PlayerForm extends StatelessWidget {
                                 // )
                                 // FilteringTextInputFormatter.allow(
                                 //   RegExp('^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\$'),
+                                // )
+                                // FilteringTextInputFormatter.allow(
+                                //   RegExp('^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}\$'),
                                 // )
                               ],
                               onChanged: (v) {
@@ -286,6 +318,8 @@ class _PlayerForm extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    controller: _phoneController,
+                                    // focusNode: _phoneFocusNode,
                                     keyboardType: TextInputType.phone,
                                     decoration: InputDecoration(
                                       fillColor: Color(0xff212121),
@@ -309,7 +343,7 @@ class _PlayerForm extends StatelessWidget {
                                     // 电话号码校验
                                     inputFormatters: [
                                       FilteringTextInputFormatter.allow(
-                                        RegExp("[0-9]+"),
+                                        RegExp(r'[0-9]+'),
                                       )
                                     ],
                                     onChanged: (value) {
@@ -369,7 +403,6 @@ class _BottomBtns extends StatelessWidget {
     final content = Container(
       margin: EdgeInsets.only(top: 0.0, left: 0.0),
       constraints: BoxConstraints.tightFor(width: 0.94.sw, height: 200.h),//卡片大小
-      // constraints: BoxConstraints.tightFor(width: 0.94.sw, height: 50.h),
       alignment: Alignment.center,
       child: Stack(
         children: [
@@ -406,12 +439,23 @@ class _NextButton extends StatelessWidget {
       onTap: () async {
         String testPhone = "+(" + logic.countryName + ")" + logic.phone;
         // String fullName = logic.firstName + "" + logic.lastName;
-        await checkInApi.addPlayerFun(
-            testTabId, logic.email, testPhone, logic.firstName, logic.lastName);
-        logic.userList = await checkInApi.fetchUsers();
-        logic.currentNickName = logic.lastName;
-        print("${logic.currentNickName}");
-        Get.to(() => AddPlayerBirthday(), arguments: Get.arguments);
+        try {
+          await checkInApi.addPlayerFun(
+              testTabId, logic.email, testPhone, logic.firstName, logic.lastName);
+          EasyLoading.dismiss(animation: false);
+          logic.userList = await checkInApi.fetchUsers();
+          logic.currentNickName = logic.lastName;
+          print("${logic.currentNickName}");
+          Get.to(() => AddPlayerBirthday());
+        } on DioException catch (e) {
+          EasyLoading.dismiss();
+          if (e.response == null) EasyLoading.showError("Network Error!");
+          EasyLoading.showError(e.response?.data["error"]["message"]);
+        }
+        // logic.userList = await checkInApi.fetchUsers();
+        // logic.currentNickName = logic.lastName;
+        // print("${logic.currentNickName}");
+        // Get.to(() => AddPlayerBirthday());
       },
       child: GetBuilder<CheckInLogic>(
         id: "editNextBtn",
@@ -454,7 +498,7 @@ class _SkipButton extends StatelessWidget {
         logic.currentIsMale = logic.userList[0].bodyName == "Male" ? true : false;
         logic.isClickSkip = true;
         // 更新用户信息
-        logic.updateUserList();
+        logic.updateUserList(logic.showState.showId);
         Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(

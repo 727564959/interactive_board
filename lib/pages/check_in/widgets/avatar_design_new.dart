@@ -526,10 +526,9 @@ class _SaveAndBackButton extends StatelessWidget {
         // 如果在添加用户信息页面点击了跳过，则需要先添加用户信息，再进行形象信息更新保存；反之则直接更新形象信息
         if (logic.isClickSkip) {
           // 添加用户(加入游戏show)
-          await checkInApi.addPlayerFun(
-              testTabId, null, null, null, logic.currentNickName);
+          await checkInApi.addPlayerFun(logic.showState.showId, testTabId, null, null, logic.currentNickName, null);
           // 更新用户列表
-          logic.userList = await checkInApi.fetchUsers();
+          logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
           int index = logic.userList.length - 1;
           print("ooop ${index}");
           logic.selectedId = logic.userList[index].id;
@@ -543,7 +542,7 @@ class _SaveAndBackButton extends StatelessWidget {
               logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
         }
         // 更新用户信息
-        logic.updateUserList();
+        logic.updateUserList(logic.showState.showId);
         Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(

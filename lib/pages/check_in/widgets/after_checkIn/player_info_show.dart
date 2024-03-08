@@ -69,6 +69,30 @@ class PlayerInfoShow extends StatelessWidget {
                   },
                 ),
               ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     color: Colors.red,
+              //   ),
+              //   margin: EdgeInsets.only(top: 0.0, left: 0.0),
+              //   constraints: BoxConstraints.tightFor(width: 0.9.sw),
+              //   child: Column(
+              //     children: [
+              //       _NicknameArea(),
+              //       Column(
+              //         children: [
+              //           Container(
+              //             margin: EdgeInsets.only(top: 20.0, left: 80.0),
+              //             child: _AddPlayerButton(width: 432.w),
+              //           ),
+              //           Container(
+              //             margin: EdgeInsets.only(top: 60.0, left: 80.0),
+              //             child: _GoBackButton(width: 84.w),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(
                 child: GetBuilder<CheckInLogic>(
                   builder: (logic) {
@@ -130,7 +154,7 @@ class _NicknameArea extends StatelessWidget {
             // decoration: BoxDecoration(
             //   color: Colors.deepOrangeAccent,
             // ),
-            margin: EdgeInsets.only(top: 50.0, left: 55.0, right: 80.0),
+            margin: EdgeInsets.only(top: 50.0, left: 0.0, right: 80.0),
             // constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h),//卡片大小
             child: Wrap(
               // 子项间距
@@ -203,7 +227,7 @@ Widget getItem(int index) {
             logic.userList[index].bodyName == "Male" ? true : false;
         logic.currentNickName = logic.userList[index].nickname;
         // 更新用户信息
-        logic.updateUserList();
+        logic.updateUserList(logic.showState.showId);
         // 跳转到形象设计页面
         Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
       });

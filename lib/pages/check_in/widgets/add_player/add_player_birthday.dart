@@ -33,10 +33,6 @@ class AddPlayerBirthday extends StatelessWidget {
                         return Row(
                           children: [
                             Container(
-                              // decoration: BoxDecoration(
-                              //   color: Colors.grey,
-                              //   borderRadius: BorderRadius.all(Radius.circular(10)),
-                              // ),
                               margin: EdgeInsets.only(top: 60.0, left: 120.0),
                               constraints: BoxConstraints.tightFor(width: 0.8.sw, height: 0.2.sh),//卡片大小
                               child: Column(
@@ -72,21 +68,34 @@ class AddPlayerBirthday extends StatelessWidget {
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               margin: EdgeInsets.only(top: 60.0, left: 0.35.sw),
-                              constraints: BoxConstraints.tightFor(width: 0.3.sw, height: 0.2.sh),//卡片大小
-                              child: ElevatedButton(
-                                  onPressed: () async {
-                                    var select_day_time = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(), //起始时间
-                                      firstDate: DateTime(1900, 1, 1), //最小可以选日期
-                                      lastDate: DateTime(2030, 5, 1), //最大可选日期
-                                    );
-                                    print('select_day_time$select_day_time');
-                                    logic.birthdayStr =
-                                      "${select_day_time?.year}-${select_day_time?.month}-${select_day_time?.day}";
-                                    // birthdayStr = "${select_day_time?.year}-${select_day_time?.month}-${select_day_time?.day}";
-                                  },
-                                  child: Text(logic.birthdayStr)),
+                              constraints: BoxConstraints.tightFor(width: 0.3.sw, height: 0.2.sh),
+                              child: Container(),
+                              // child: ElevatedButton(
+                              //     onPressed: () async {
+                              //       var select_day_time = await showDatePicker(
+                              //         context: context,
+                              //         initialDate: DateTime.now(), //起始时间
+                              //         firstDate: DateTime(1900, 1, 1), //最小可以选日期
+                              //         lastDate: DateTime(2050, 12, 31), //最大可选日期
+                              //         errorFormatText: '错误的日期格式',
+                              //         errorInvalidText: '日期格式非法',
+                              //         fieldHintText: '月/日/年',
+                              //         fieldLabelText: '填写日期',
+                              //       );
+                              //       print('select_day_time$select_day_time');
+                              //       logic.birthdayStr = "${select_day_time?.year}-${select_day_time?.month}-${select_day_time?.day}";
+                              //     },
+                              //     child: Text(
+                              //               logic.birthdayStr,
+                              //               style: TextStyle(
+                              //                 fontSize: 60.sp,
+                              //                 decoration: TextDecoration.none,
+                              //                 fontFamily: 'BurbankBold',
+                              //                 color: Colors.white,
+                              //                 letterSpacing: 3.sp,
+                              //               ),
+                              //           ),
+                              // ),
                             ),
                           ],
                         );
@@ -103,6 +112,33 @@ class AddPlayerBirthday extends StatelessWidget {
           ],
         ));
   }
+}
+Future<DateTime?> _showDatePickerForInputOnly(BuildContext context) {
+  return showDatePicker(
+    context: context,
+    initialDate: DateTime.now(), // 初始化选中日期
+    firstDate: DateTime(1900, 1, 1), // 开始日期
+    lastDate: DateTime(2050, 12, 31), // 结束日期
+    currentDate: DateTime.now(), // 当前日期
+    initialEntryMode: DatePickerEntryMode.inputOnly, // 日历弹框模式
+    // selectableDayPredicate: (daytime) {
+    //   // 自定义哪些日期可选
+    //   if (daytime == DateTime(2000)) {
+    //     return false;
+    //   }
+    //   return true;
+    // },
+    initialDatePickerMode: DatePickerMode.year, // 日期选择模式 默认为天
+    helpText: "请选择年份", // 左上角提示
+    cancelText: "Cancel", // 取消按钮 文案
+    confirmText: "OK", // 确认按钮 文案
+    useRootNavigator: true, // 是否使用根导航器
+    errorFormatText: "输入格式有误", // 输入日期 格式错误提示
+    errorInvalidText: "输入年份不合法", // 输入日期 不在first 与 last 之间提示
+    fieldHintText: "请输入年份", // 输入框为空时提示
+    fieldLabelText: "输入正确的年份", // 输入框上方 提示
+    textDirection: TextDirection.ltr, // 水平方向 显示方向 默认 ltr
+  );
 }
 // 同意条款的按钮
 class _AddBirthdayButton extends StatelessWidget {
@@ -125,7 +161,7 @@ class _AddBirthdayButton extends StatelessWidget {
       onTap: () async {
         print("从生日选择跳转到形象设计");
         // 更新用户信息
-        logic.updateUserList();
+        logic.updateUserList(logic.showState.showId);
         int index = logic.userList.length - 1;
         print("54321 $index");
         logic.selectedId = logic.userList[index].id;
