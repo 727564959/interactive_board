@@ -137,6 +137,13 @@ class _PlayerForm extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              // 名字校验
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(15),
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'[A-Za-z]+'),
+                                )
+                              ],
                               onChanged: (v) {
                                 print("onChange: $v");
                                 logic.firstName = v;
@@ -192,6 +199,9 @@ class _PlayerForm extends StatelessWidget {
                               // 名字校验
                               inputFormatters: [
                                 LengthLimitingTextInputFormatter(15),
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'[A-Za-z]+'),
+                                )
                               ],
                               onChanged: (v) {
                                 print("onChange: $v");
@@ -303,60 +313,98 @@ class _PlayerForm extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: CountryPickerDropdown(
-                                    initialValue: 'us',
-                                    itemBuilder: _buildDropdownItem,
-                                    onValuePicked: (Country country) {
-                                      print("${country.phoneCode}");
-                                      print("${country.name}");
-                                      logic.countryName = country.phoneCode;
-                                    },
+                            child: TextField(
+                              controller: _phoneController,
+                              // focusNode: _phoneFocusNode,
+                              keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                fillColor: Color(0xff212121),
+                                filled: true,
+                                contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+                                // 默认可编辑时的边框
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xff5A5858), //边线颜色为白色
+                                    width: 2, //边线宽度为2
                                   ),
                                 ),
-                                Expanded(
-                                  child: TextField(
-                                    controller: _phoneController,
-                                    // focusNode: _phoneFocusNode,
-                                    keyboardType: TextInputType.phone,
-                                    decoration: InputDecoration(
-                                      fillColor: Color(0xff212121),
-                                      filled: true,
-                                      contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
-                                      // 默认可编辑时的边框
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Color(0xff5A5858), //边线颜色为白色
-                                          width: 2, //边线宽度为2
-                                        ),
-                                      ),
-                                      // 输入时的边框
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.blue, //边框颜色为白色
-                                          width: 2, //宽度为5
-                                        ),
-                                      ),
-                                    ),
-                                    // 电话号码校验
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]+'),
-                                      )
-                                    ],
-                                    onChanged: (value) {
-                                      // this.phoneNo=value;
-                                      print(value);
-                                      logic.phone = value;
-                                    },
-                                    style: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
+                                // 输入时的边框
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.blue, //边框颜色为白色
+                                    width: 2, //宽度为5
                                   ),
                                 ),
+                              ),
+                              // 电话号码校验
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]+'),
+                                )
                               ],
+                              onChanged: (value) {
+                                // this.phoneNo=value;
+                                print(value);
+                                logic.phone = value;
+                              },
+                              style: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
                             ),
                           ),
+                          // SizedBox(
+                          //   child: Row(
+                          //     children: <Widget>[
+                          //       Expanded(
+                          //         child: CountryPickerDropdown(
+                          //           initialValue: 'us',
+                          //           itemBuilder: _buildDropdownItem,
+                          //           onValuePicked: (Country country) {
+                          //             print("${country.phoneCode}");
+                          //             print("${country.name}");
+                          //             logic.countryName = country.phoneCode;
+                          //           },
+                          //         ),
+                          //       ),
+                          //       Expanded(
+                          //         child: TextField(
+                          //           controller: _phoneController,
+                          //           // focusNode: _phoneFocusNode,
+                          //           keyboardType: TextInputType.phone,
+                          //           decoration: InputDecoration(
+                          //             fillColor: Color(0xff212121),
+                          //             filled: true,
+                          //             contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+                          //             // 默认可编辑时的边框
+                          //             enabledBorder: OutlineInputBorder(
+                          //               borderSide: BorderSide(
+                          //                 color: Color(0xff5A5858), //边线颜色为白色
+                          //                 width: 2, //边线宽度为2
+                          //               ),
+                          //             ),
+                          //             // 输入时的边框
+                          //             focusedBorder: OutlineInputBorder(
+                          //               borderSide: BorderSide(
+                          //                 color: Colors.blue, //边框颜色为白色
+                          //                 width: 2, //宽度为5
+                          //               ),
+                          //             ),
+                          //           ),
+                          //           // 电话号码校验
+                          //           inputFormatters: [
+                          //             FilteringTextInputFormatter.allow(
+                          //               RegExp(r'[0-9]+'),
+                          //             )
+                          //           ],
+                          //           onChanged: (value) {
+                          //             // this.phoneNo=value;
+                          //             print(value);
+                          //             logic.phone = value;
+                          //           },
+                          //           style: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
@@ -437,21 +485,27 @@ class _NextButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        String testPhone = "+(" + logic.countryName + ")" + logic.phone;
-        // String fullName = logic.firstName + "" + logic.lastName;
-        try {
-          await checkInApi.addPlayerFun(
-              testTabId, logic.email, testPhone, logic.firstName, logic.lastName);
-          EasyLoading.dismiss(animation: false);
-          logic.userList = await checkInApi.fetchUsers();
-          logic.currentNickName = logic.lastName;
-          print("${logic.currentNickName}");
-          Get.to(() => AddPlayerBirthday());
-        } on DioException catch (e) {
-          EasyLoading.dismiss();
-          if (e.response == null) EasyLoading.showError("Network Error!");
-          EasyLoading.showError(e.response?.data["error"]["message"]);
+        if(logic.email != null && logic.phone != null && logic.firstName != null) {
+          // String testPhone = "+(" + logic.countryName + ")" + logic.phone;
+          String testPhone = "+(1)" + logic.phone;
+          // String fullName = logic.firstName + "" + logic.lastName;
+          try {
+            await checkInApi.addPlayerFun(logic.showState.showId, testTabId, logic.email, testPhone, logic.firstName, logic.lastName);
+            EasyLoading.dismiss(animation: false);
+            logic.userList = await checkInApi.fetchUsers();
+            logic.currentNickName = logic.firstName;
+            print("${logic.currentNickName}");
+            Get.to(() => AddPlayerBirthday());
+          } on DioException catch (e) {
+            EasyLoading.dismiss();
+            if (e.response == null) EasyLoading.showError("Network Error!");
+            EasyLoading.showError(e.response?.data["error"]["message"]);
+          }
         }
+        else {
+          EasyLoading.showError("请填入信息!");
+        }
+
         // logic.userList = await checkInApi.fetchUsers();
         // logic.currentNickName = logic.lastName;
         // print("${logic.currentNickName}");
