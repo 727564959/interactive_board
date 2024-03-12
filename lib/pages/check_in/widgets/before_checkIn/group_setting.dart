@@ -39,7 +39,7 @@ class GroupSettingPage extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 1.0.sw,
-                    height: 0.2.sh,
+                    height: 0.15.sh,
                     child: GetBuilder<CheckInLogic>(
                       builder: (logic) {
                         return Row(
@@ -72,7 +72,7 @@ class GroupSettingPage extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.grey,
+                                color: Colors.white24,
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               margin: EdgeInsets.only(top: 20.0, left: 120.0),
@@ -95,14 +95,26 @@ class GroupSettingPage extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  Align(
-                                    alignment: const Alignment(0.0, 0.0),
+                                  SizedBox(
                                     child: TextField(
-                                      // autofocus: true,
                                       decoration: InputDecoration(
-                                          labelText: "",
-                                          hintText: "Input Name",
-                                          // prefixIcon: Icon(Icons.person)
+                                        fillColor: Color(0xff212121),
+                                        filled: true,
+                                        contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+                                        // 默认可编辑时的边框
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0xff5A5858), //边线颜色为白色
+                                            width: 2, //边线宽度为2
+                                          ),
+                                        ),
+                                        // 输入时的边框
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.blue, //边框颜色为白色
+                                            width: 2, //宽度为5
+                                          ),
+                                        ),
                                       ),
                                       style: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
                                     ),
@@ -112,7 +124,7 @@ class GroupSettingPage extends StatelessWidget {
                             ),
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.grey,
+                                color: Colors.white24,
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               margin: EdgeInsets.only(top: 20.0, left: 10.0),

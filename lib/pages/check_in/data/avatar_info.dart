@@ -7,7 +7,7 @@ class ResourceInfo {
 
   factory ResourceInfo.fromJson(Map<String, dynamic> json) {
     final path = json['attributes']["image"]['data']['attributes']["formats"]["thumbnail"]['url'];
-    final avatarUrl = "http://10.1.4.16:1337$path";
+    final avatarUrl = "http://10.1.4.13:1337$path";
     return ResourceInfo(
       id: json['id'].toString(),
       name: json['attributes']['name'],

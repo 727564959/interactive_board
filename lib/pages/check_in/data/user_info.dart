@@ -19,7 +19,7 @@ class UserInfo {
   factory UserInfo.fromStrapiJson(Map<String, dynamic> json) {
     // final headgear = json['headgear'];
     final headgear = json['gameResource'];
-    final String avatarUrl = "http://10.1.4.16:1337${headgear['avatar']["formats"]["thumbnail"]['url']}";
+    final String avatarUrl = "http://10.1.4.13:1337${headgear['avatar']["formats"]["thumbnail"]['url']}";
 
     return UserInfo(
       id: json['id'].toString(),
@@ -33,7 +33,7 @@ class UserInfo {
   }
 
   factory UserInfo.fromJson(Map<String, dynamic> json) {
-    final String avatarUrl = "http://10.1.4.16:1337${json['avatarUrl']}";
+    final String avatarUrl = "http://10.1.4.13:1337${json['avatarUrl']}";
     final headgear = json['gameResource'];
     return UserInfo(
       id: json['id'].toString(),

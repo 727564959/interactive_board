@@ -5,6 +5,7 @@ import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../common.dart';
 import '../add_player/add_player_info.dart';
+import '../after_checkIn/player_info_show.dart';
 import '../avatar_design_new.dart';
 import 'group_setting.dart';
 
@@ -25,7 +26,7 @@ class TermOfUsePage extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 1.0.sw,
-                    height: 0.2.sh,
+                    height: 0.15.sh,
                     child: GetBuilder<CheckInLogic>(
                       builder: (logic) {
                         return Row(
@@ -118,6 +119,7 @@ class TermOfUsePage extends StatelessWidget {
                     ),
                   ),
                   _AgreeButton(width: 800.w),
+                  if(logic.userList.length > 1) _BackButton(),
                 ],
               ),
             ),
@@ -139,7 +141,6 @@ class _AgreeButton extends StatelessWidget {
   String get backgroundUri => Global.getSetAvatarImageUrl("agree_btn.png");
 
   final testTabId = Global.tableId;
-  // final testTabId = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -154,21 +155,66 @@ class _AgreeButton extends StatelessWidget {
         // Get.to(() => AddPlayerInfo(), arguments: Get.arguments);
         logic.isFirstCheckIn ? (logic.currentNickName = logic.userList[0].nickname) : "";
         logic.isFirstCheckIn ? (logic.selectedId = logic.userList[0].id) : "";
-        logic.firstName = "";
-        logic.lastName = "";
-        logic.isFirstCheckIn ? Get.to(() => AvatarDesignPage(), arguments: Get.arguments) : Get.to(() => AddPlayerInfo(), arguments: Get.arguments);
+        logic.isFirstCheckIn ? Get.to(() => GroupSettingPage(), arguments: Get.arguments) : Get.to(() => AddPlayerInfo(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
         id: "agreeBtn",
         builder: (logic) {
           return Container(
-            height: width * 0.3,
+            height: width * 0.25,
             width: width,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(backgroundUri),
                 fit: BoxFit.fitWidth,
               ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+// 返回到addPlayer页面
+class _BackButton extends StatelessWidget {
+  _BackButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
+      },
+      child: GetBuilder<CheckInLogic>(
+        id: "backBtn",
+        builder: (logic) {
+          // return Row(
+          //   mainAxisSize: MainAxisSize.max,
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Text(
+          //       "Back",
+          //       style: TextStyle(
+          //         fontSize: 35.sp,
+          //         decoration: TextDecoration.none,
+          //         fontFamily: 'BurbankBold',
+          //         color: Color(0xff13EFEF),
+          //         letterSpacing: 3.sp,
+          //       ),
+          //     )
+          //   ],
+          // );
+          return Text(
+            "Back",
+            style: TextStyle(
+              fontSize: 35.sp,
+              decoration: TextDecoration.none,
+              fontFamily: 'BurbankBold',
+              color: Color(0xff13EFEF),
+              letterSpacing: 3.sp,
             ),
           );
         },

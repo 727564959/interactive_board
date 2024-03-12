@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../common.dart';
 import '../../data/checkIn_api.dart';
+import '../after_checkIn/player_info_show.dart';
 import '../avatar_design_new.dart';
 import '../avatar_title.dart';
 
@@ -69,33 +71,51 @@ class AddPlayerBirthday extends StatelessWidget {
                               ),
                               margin: EdgeInsets.only(top: 60.0, left: 0.35.sw),
                               constraints: BoxConstraints.tightFor(width: 0.3.sw, height: 0.2.sh),
-                              child: Container(),
-                              // child: ElevatedButton(
-                              //     onPressed: () async {
-                              //       var select_day_time = await showDatePicker(
-                              //         context: context,
-                              //         initialDate: DateTime.now(), //起始时间
-                              //         firstDate: DateTime(1900, 1, 1), //最小可以选日期
-                              //         lastDate: DateTime(2050, 12, 31), //最大可选日期
-                              //         errorFormatText: '错误的日期格式',
-                              //         errorInvalidText: '日期格式非法',
-                              //         fieldHintText: '月/日/年',
-                              //         fieldLabelText: '填写日期',
-                              //       );
-                              //       print('select_day_time$select_day_time');
-                              //       logic.birthdayStr = "${select_day_time?.year}-${select_day_time?.month}-${select_day_time?.day}";
-                              //     },
-                              //     child: Text(
-                              //               logic.birthdayStr,
-                              //               style: TextStyle(
-                              //                 fontSize: 60.sp,
-                              //                 decoration: TextDecoration.none,
-                              //                 fontFamily: 'BurbankBold',
-                              //                 color: Colors.white,
-                              //                 letterSpacing: 3.sp,
-                              //               ),
-                              //           ),
-                              // ),
+                              child: ElevatedButton(
+                                  onPressed: () async {
+                                    var select_day_time = await showDatePicker(
+                                      context: context,
+                                      initialDate: logic.birthdayStr == "Please select a date" ? DateTime.now() : DateTime.parse(logic.birthdayStr), //起始时间
+                                      // initialDate: DateTime.now(), //起始时间
+                                      firstDate: DateTime(1900, 1, 1), //最小可以选日期
+                                      lastDate: DateTime(2050, 12, 31), //最大可选日期
+                                      errorFormatText: '错误的日期格式',
+                                      errorInvalidText: '日期格式非法',
+                                      fieldHintText: '月/日/年',
+                                      fieldLabelText: '填写日期',
+                                    );
+                                    print('select_day_time$select_day_time');
+                                    // 当前年份
+                                    int currentYear = DateTime.now().year;
+                                    // 选择的年份
+                                    var selectYear = select_day_time?.year;
+                                    print('selectYear$selectYear');
+                                    // 是否选择了日期
+                                    if(select_day_time != null) {
+                                      // 如果小于13岁给出提示，反之直接选择
+                                      if(currentYear - int.parse(selectYear.toString()) <= 13) {
+                                        EasyLoading.showError("Players should be over 13 yearss");
+                                      }
+                                      else {
+                                        // 调用生日选择
+                                        logic.confirmBirthdayFun(select_day_time);
+                                      }
+                                    }
+                                    else {
+                                      EasyLoading.showError("Please select a date!");
+                                    }
+                                  },
+                                  child: Text(
+                                            logic.birthdayStr,
+                                            style: TextStyle(
+                                              fontSize: 60.sp,
+                                              decoration: TextDecoration.none,
+                                              fontFamily: 'BurbankBold',
+                                              color: Colors.white,
+                                              letterSpacing: 3.sp,
+                                            ),
+                                        ),
+                              ),
                             ),
                           ],
                         );
@@ -103,6 +123,7 @@ class AddPlayerBirthday extends StatelessWidget {
                     ),
                   ),
                   _AddBirthdayButton(width: 800.w),
+                  _BackButton(),
                 ],
               ),
             ),
@@ -140,7 +161,7 @@ Future<DateTime?> _showDatePickerForInputOnly(BuildContext context) {
     textDirection: TextDirection.ltr, // 水平方向 显示方向 默认 ltr
   );
 }
-// 同意条款的按钮
+// 添加生日
 class _AddBirthdayButton extends StatelessWidget {
   _AddBirthdayButton({
     Key? key,
@@ -148,7 +169,7 @@ class _AddBirthdayButton extends StatelessWidget {
   }) : super(key: key);
   final double width;
   final logic = Get.find<CheckInLogic>();
-  String get backgroundUri => Global.getSetAvatarImageUrl("group_setting_input.png");
+  // String get backgroundUri => Global.getSetAvatarImageUrl("group_setting_input.png");
 
   final testTabId = Global.tableId;
 
@@ -170,19 +191,70 @@ class _AddBirthdayButton extends StatelessWidget {
         logic.currentIsMale = logic.userList[index].bodyName == "Male" ? true : false;
         logic.currentNickName = logic.userList[index].nickname;
         print("54321 ${logic.currentNickName}");
+        // 添加用户(加入游戏show)
         Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
-        id: "agreeBtn",
+        id: "birthdayBtn",
         builder: (logic) {
           return Container(
-            height: width * 0.4,
-            width: width,
+            // height: width * 0.4,
+            // width: width,
+            // decoration: BoxDecoration(
+            //   image: DecorationImage(
+            //     image: AssetImage(backgroundUri),
+            //     fit: BoxFit.fitWidth,
+            //   ),
+            // ),
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(backgroundUri),
-                fit: BoxFit.fitWidth,
+              color: Color(0xff13EFEF),
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+            margin: EdgeInsets.only(top: 100.0, left: 0.0, bottom: 30.0),
+            constraints: BoxConstraints.tightFor(width: width * 0.8, height: 80.h),
+            child: Center(
+              child: Text(
+                "NEXT",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 35.sp,
+                  decoration: TextDecoration.none,
+                  fontFamily: 'BurbankBold',
+                  color: Color(0xff000000),
+                  letterSpacing: 3.sp,
+                ),
               ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+// 返回到addPlayer页面
+class _BackButton extends StatelessWidget {
+  _BackButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
+      },
+      child: GetBuilder<CheckInLogic>(
+        id: "backBtn",
+        builder: (logic) {
+          return Text(
+            "Back",
+            style: TextStyle(
+              fontSize: 35.sp,
+              decoration: TextDecoration.none,
+              fontFamily: 'BurbankBold',
+              color: Color(0xff13EFEF),
+              letterSpacing: 3.sp,
             ),
           );
         },

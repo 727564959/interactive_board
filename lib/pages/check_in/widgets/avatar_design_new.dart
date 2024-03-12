@@ -258,6 +258,12 @@ class _EditNicknameText extends StatelessWidget {
           // suffix: Text('.com'),
           // suffixStyle: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
         ),
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(15),
+          FilteringTextInputFormatter.allow(
+            RegExp(r'[A-Za-z0-9]+'),
+          )
+        ],
         onChanged: (v) {
           print("onChange: $v");
           // print("tetetettet: ${_nameTextFieldController.text}");
@@ -521,6 +527,8 @@ class _SaveAndBackButton extends StatelessWidget {
         print("sssr ${logic.selectedId}");
         print("sssr ${logic.headId}");
         print("sssr ${logic.currentNickName}");
+        print("currentIsMale ${logic.currentIsMale}");
+        print("isClickSkip ${logic.isClickSkip}");
         // int num1 = int.parse(logic.selectedId.toString());
         int num2 = int.parse(logic.headId.toString());
         // 如果在添加用户信息页面点击了跳过，则需要先添加用户信息，再进行形象信息更新保存；反之则直接更新形象信息
@@ -541,6 +549,7 @@ class _SaveAndBackButton extends StatelessWidget {
           await checkInApi.updatePlayer(int.parse(logic.selectedId.toString()),
               logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
         }
+        print("showState ${logic.showState.showId}");
         // 更新用户信息
         logic.updateUserList(logic.showState.showId);
         Get.to(() => PlayerInfoShow(), arguments: Get.arguments);

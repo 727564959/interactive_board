@@ -175,6 +175,14 @@ class CheckInLogic extends GetxController {
     update();
   }
 
+  // 选择生日确定
+  void confirmBirthdayFun(var val) {
+    print("选择生日 $val");
+    birthdayStr = "${val?.year}" + "-" + (val?.month <= 9 ? "0" : "") + "${val?.month}" + "-" + (val?.day <= 9 ? "0" : "") + "${val?.day}";
+    print("选择生日 $birthdayStr");
+    update();
+  }
+
   // 点击add player按钮
   void clickAddPlayer() {
     print("呵呵呵呵呵呵呵");

@@ -28,17 +28,17 @@ class PlayerInfoShow extends StatelessWidget {
           child: Column(
             children: [
               // 顶部文本信息
-              AvatarTitlePage(titleText: "Add Player"),
+              AvatarTitlePage(titleText: ""),
               SizedBox(
                 child: GetBuilder<CheckInLogic>(
                   builder: (logic) {
                     return Column(
                       children: [
                         Align(
-                          heightFactor: 2,
-                          alignment: const Alignment(-0.8, 1.0),
+                          heightFactor: 1.5,
+                          alignment: const Alignment(-0.7, 1.0),
                           child: Text(
-                            "Hi, there!",
+                            "Hi, there !",
                             style: TextStyle(
                               // fontWeight: FontWeight.bold,
                               fontSize: 120.sp,
@@ -51,7 +51,7 @@ class PlayerInfoShow extends StatelessWidget {
                         ),
                         Align(
                           heightFactor: 1,
-                          alignment: const Alignment(-0.8, 0.0),
+                          alignment: const Alignment(-0.65, 0.0),
                           child: Text(
                             "Set your avatar",
                             style: TextStyle(
@@ -98,20 +98,24 @@ class PlayerInfoShow extends StatelessWidget {
                   builder: (logic) {
                     return Column(
                       children: [
-                        // Row(
-                        //   children: [
-                        //     _NicknameArea(),
-                        //   ],
-                        // ),
                         _NicknameArea(),
                         Column(
                           children: [
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     Container(
+                            //       margin: EdgeInsets.only(top: 20.0, left: 0.0),
+                            //       child: _AddPlayerButton(width: 432.w),
+                            //     ),
+                            //   ],
+                            // ),
                             Container(
-                              margin: EdgeInsets.only(top: 20.0, left: 80.0),
+                              margin: EdgeInsets.only(top: 20.0, left: 0.0),
                               child: _AddPlayerButton(width: 432.w),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 60.0, left: 80.0),
+                              margin: EdgeInsets.only(top: 60.0, left: 0.0),
                               child: _GoBackButton(width: 84.w),
                             ),
                           ],
@@ -152,18 +156,20 @@ class _NicknameArea extends StatelessWidget {
         builder: (logic) {
           return Container(
             // decoration: BoxDecoration(
-            //   color: Colors.deepOrangeAccent,
+            //   color: Colors.red,
             // ),
-            margin: EdgeInsets.only(top: 50.0, left: 0.0, right: 80.0),
-            // constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h),//卡片大小
+            margin: EdgeInsets.only(top: 50.0, left: 0.0, right: 0.0),
+            constraints: BoxConstraints.tightFor(width: 0.78.sw),//卡片大小
             child: Wrap(
-              // 子项间距
+              // 主轴(水平)方向间距
               spacing: 10,
-              // 行间距
+              // 纵轴（垂直）方向间距
               runSpacing: 20,
-              children: List.generate(
-                  logic.userList.length, (index) => getItem(index)),
+              alignment: WrapAlignment.start, //沿主轴方向居中
+              // crossAxisAlignment: WrapCrossAlignment.start,
+              children: List.generate(logic.userList.length, (index) => getItem(index)),
             ),
+
             // child: Container(
             //   margin: EdgeInsets.only(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0),
             //   child: Text(
@@ -215,16 +221,14 @@ Widget getItem(int index) {
         logic.isFirstCheckIn = false;
         logic.singlePlayer = await checkInApi.fetchSingleUsers(item.id);
         print("点击 ${logic.singlePlayer}");
-        final index =
-            logic.userList.indexWhere((element) => element.id == item.id);
+        final index = logic.userList.indexWhere((element) => element.id == item.id);
         print("点击 ${index}");
         print("点击 ${logic.userList[index]}");
         // 更新
         logic.selectedId = item.id;
         print("54321 ${logic.selectedId}");
         logic.currentUrl = logic.userList[index].avatarUrl;
-        logic.currentIsMale =
-            logic.userList[index].bodyName == "Male" ? true : false;
+        logic.currentIsMale = logic.userList[index].bodyName == "Male" ? true : false;
         logic.currentNickName = logic.userList[index].nickname;
         // 更新用户信息
         logic.updateUserList(logic.showState.showId);

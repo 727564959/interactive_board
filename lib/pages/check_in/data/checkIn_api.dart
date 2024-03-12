@@ -90,7 +90,7 @@ class CheckInApi {
     // print("12345上山打老虎 $userId");
     // print("12345上山打老虎 $nickname");
     // print("12345上山打老虎 $headgearId");
-    print("12345上山打老虎 $bodyId");
+    // print("12345上山打老虎 $bodyId");
     final response = await dio.post(
       "$baseUrl/players/$userId/update-user-preference",
       data: {
@@ -106,7 +106,7 @@ class CheckInApi {
     // print("12345上山打老虎 ${email }");
     // print("12345上山打老虎 ${phone }");
     // print("12345上山打老虎 ${firstName }");
-    print("12345上山打老虎 ${lastName}");
+    // print("12345上山打老虎 ${lastName}");
     String userName = (firstName != null && lastName != null) ? (firstName + " " + lastName) : (
         (firstName != null ? firstName : (lastName != null ? lastName : ''))
     );
