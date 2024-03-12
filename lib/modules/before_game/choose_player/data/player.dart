@@ -1,3 +1,5 @@
+import '../../../../common.dart';
+
 class PlayerInfo {
   PlayerInfo({
     required this.id,
@@ -17,7 +19,7 @@ class PlayerInfo {
     if (json['avatarUrl'] == null) {
       avatarUrl = "";
     } else {
-      avatarUrl = "http://10.1.4.16:1337${json['avatarUrl']}";
+      avatarUrl = "$baseStrapiUrl${json['avatarUrl']}";
     }
     return PlayerInfo(
       id: json['id'],

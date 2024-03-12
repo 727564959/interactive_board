@@ -1,3 +1,5 @@
+import '../../../common.dart';
+
 class UserInfo {
   UserInfo({
     required this.id,
@@ -19,7 +21,7 @@ class UserInfo {
   factory UserInfo.fromStrapiJson(Map<String, dynamic> json) {
     // final headgear = json['headgear'];
     final headgear = json['gameResource'];
-    final String avatarUrl = "http://10.1.4.13:1337${headgear['avatar']["formats"]["thumbnail"]['url']}";
+    final String avatarUrl = "$baseStrapiUrl${headgear['avatar']["formats"]["thumbnail"]['url']}";
 
     return UserInfo(
       id: json['id'].toString(),
