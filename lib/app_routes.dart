@@ -15,7 +15,6 @@ import 'modules/quiz/view.dart';
 import 'modules/quiz/binding.dart';
 import 'pages/game_over/view.dart';
 import 'modules/check_in/verification_code/view.dart';
-import 'modules/check_in/binding.dart' as new_check;
 
 class AppRoutes {
   static const String main = "/home";
@@ -72,7 +71,6 @@ class AppRoutes {
     GetPage(
       name: verificationCode,
       page: () => VerificationPage(),
-      bindings: [new_check.CheckInBinding()],
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
     ),

@@ -1,17 +1,20 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:interactive_board/modules/check_in/choose_table/view.dart';
-import 'package:interactive_board/modules/check_in/data/booking.dart';
-import 'package:interactive_board/modules/check_in/logic.dart';
-import 'package:interactive_board/modules/check_in/widget/button.dart';
+
+import '../choose_table/view.dart';
+import '../data/booking.dart';
+import '../widget/button.dart';
+import 'logic.dart';
 
 class ConfirmationDialog extends StatelessWidget {
-  ConfirmationDialog({Key? key, required this.verifyInfo}) : super(key: key);
-  final VerifyInfo verifyInfo;
-  final logic = Get.find<CheckInLogic>();
+  ConfirmationDialog({Key? key, required this.bookingInfo, required this.code}) : super(key: key);
+  final BookingInfo bookingInfo;
+  final String code;
+  final logic = Get.find<VerificationCodeLogic>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,13 +25,13 @@ class ConfirmationDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _InfoItem(title: "Name", value: verifyInfo.customer.name),
-          _InfoItem(title: "Email", value: verifyInfo.customer.email),
-          _InfoItem(title: "Phone Number", value: verifyInfo.customer.telephone),
+          _InfoItem(title: "Name", value: bookingInfo.customer.name),
+          _InfoItem(title: "Email", value: bookingInfo.customer.email),
+          _InfoItem(title: "Phone Number", value: bookingInfo.customer.phone),
           _InfoItem(
             title: "Game Show",
             value: DateFormat("dd/MM/yyyy - kka").format(
-              verifyInfo.startingTime.add(8.hours),
+              bookingInfo.bookingTime.add(8.hours),
             ),
           ),
           const SizedBox(height: 50),
@@ -36,11 +39,24 @@ class ConfirmationDialog extends StatelessWidget {
             child: CheckInButton(
               title: "No Problem",
               onPress: () async {
-                final fullTables = await logic.fetchFullTables(verifyInfo.showId);
-                Get.to(() => ChooseTablePage(
-                      fullTables: fullTables,
-                      verityInfo: verifyInfo,
-                    ));
+                EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+                try {
+                  final showInfo = await logic.ticketValidation(code, bookingInfo.bookingTime);
+                  EasyLoading.dismiss(animation: false);
+
+                  await Get.to(
+                    () => ChooseTablePage(
+                      showInfo: showInfo,
+                      customer: bookingInfo.customer,
+                    ),
+                  );
+                  WidgetsBinding.instance!.addPostFrameCallback((d) => Get.back());
+                  logic.codeController.clear();
+                } on DioException catch (e) {
+                  EasyLoading.dismiss();
+                  if (e.response == null) EasyLoading.showError("Network Error!");
+                  EasyLoading.showError(e.response?.data["error"]["message"]);
+                }
               },
             ),
           ),

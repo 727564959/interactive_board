@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:interactive_board/app_routes.dart';
+
 import 'package:intl/intl.dart';
 import 'package:interactive_board/modules/check_in/data/booking.dart';
-import 'package:interactive_board/modules/check_in/logic.dart';
 import 'package:interactive_board/modules/check_in/widget/button.dart';
 
 import '../../../common.dart';
 
 class CompletePage extends StatelessWidget {
-  CompletePage({Key? key, required this.verifyInfo}) : super(key: key);
-  final VerifyInfo verifyInfo;
-  final logic = Get.find<CheckInLogic>();
+  const CompletePage({
+    Key? key,
+    required this.tableId,
+    required this.customer,
+    required this.startTime,
+  }) : super(key: key);
+  final int tableId;
+  final Customer customer;
+  final DateTime startTime;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +39,9 @@ class CompletePage extends StatelessWidget {
               ),
               const SizedBox(height: 70),
               Text(
-                "Welcome, ${verifyInfo.customer.name}! \nYour game start time is "
-                "${DateFormat('kk:mm').format(verifyInfo.startingTime.add(8.hours))}, please be seated by "
-                "${DateFormat('kk:mm').format(verifyInfo.startingTime.add(8.hours - 15.minutes))}. Enjoy!",
+                "Welcome, ${customer.name}! \nYour game start time is "
+                "${DateFormat('kk:mm').format(startTime.add(8.hours))}, please be seated by "
+                "${DateFormat('kk:mm').format(startTime.add(8.hours - 15.minutes))}. Enjoy!",
                 style: const TextStyle(fontSize: 50),
               ),
               const SizedBox(height: 100),
@@ -44,7 +51,7 @@ class CompletePage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                " Table ${logic.selectedTableId!}",
+                " Table $tableId",
                 style: const TextStyle(fontSize: 150, fontWeight: FontWeight.bold),
               ),
               // const Text(
@@ -52,7 +59,17 @@ class CompletePage extends StatelessWidget {
               //   style: TextStyle(fontSize: 70, fontWeight: FontWeight.bold),
               // ),
               const SizedBox(height: 80),
-              CheckInButton(title: "Back", onPress: logic.backToVerificationPage),
+              CheckInButton(
+                title: "Back",
+                onPress: () {
+                  Get.searchDelegate(null).toNamedAndOffUntil(
+                    AppRoutes.verificationCode,
+                    (p0) {
+                      return p0.name == AppRoutes.verificationCode;
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),

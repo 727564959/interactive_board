@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:interactive_board/modules/check_in/logic.dart';
+import 'logic.dart';
 import '../../../common.dart';
 import '../widget/button.dart';
 import 'confirmation_diglog.dart';
@@ -10,9 +10,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class VerificationPage extends StatelessWidget {
   VerificationPage({Key? key}) : super(key: key);
-  final transactionIdController = TextEditingController();
-  final emailController = TextEditingController();
-  final logic = Get.find<CheckInLogic>();
+  // final codeController = TextEditingController();
+  final logic = Get.put(VerificationCodeLogic());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,19 +31,17 @@ class VerificationPage extends StatelessWidget {
                 style: TextStyle(fontSize: 50),
               ),
               const SizedBox(height: 70),
-              _CheckInInput(title: "Transaction ID", controller: transactionIdController),
-              _CheckInInput(title: "Email", controller: emailController),
+              _CheckInInput(title: "Code", controller: logic.codeController),
               const SizedBox(height: 100),
               CheckInButton(
                 title: "Next",
                 onPress: () async {
-                  final transactionId = int.parse(transactionIdController.text);
-                  final email = emailController.text;
                   EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+                  final code = logic.codeController.text;
                   try {
-                    final verifyInfo = await logic.verifyValidity(transactionId, email);
+                    final bookingInfo = await logic.queryBookInfo(code);
                     EasyLoading.dismiss(animation: false);
-                    Get.dialog(Dialog(child: ConfirmationDialog(verifyInfo: verifyInfo)));
+                    Get.dialog(Dialog(child: ConfirmationDialog(bookingInfo: bookingInfo, code: code)));
                   } on DioException catch (e) {
                     EasyLoading.dismiss();
                     if (e.response == null) EasyLoading.showError("Network Error!");
@@ -74,7 +71,7 @@ class _CheckInInput extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          width: 200,
+          width: 100,
           child: Text(title),
         ),
         Container(

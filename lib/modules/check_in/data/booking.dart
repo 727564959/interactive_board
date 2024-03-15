@@ -1,41 +1,31 @@
 class Customer {
   String email;
   String name;
-  String telephone;
+  String phone;
   Customer({
     required this.email,
     required this.name,
-    required this.telephone,
+    required this.phone,
   });
 }
 
-class VerifyInfo {
-  DateTime startingTime;
-  int showId;
-  int transactionId;
-  int bookingId;
+class BookingInfo {
+  DateTime bookingTime;
   Customer customer;
-  VerifyInfo({
-    required this.startingTime,
-    required this.showId,
-    required this.transactionId,
-    required this.bookingId,
+  BookingInfo({
+    required this.bookingTime,
     required this.customer,
   });
-  factory VerifyInfo.fromJson(dynamic map) {
+  factory BookingInfo.fromJson(dynamic map) {
     final customerMap = map["customer"];
-    final startingTime = DateTime.parse(map["startingTime"]);
+    final bookingTime = DateTime.parse(map["booking"]["time"]);
     final customer = Customer(
       email: customerMap["email"],
       name: customerMap["name"],
-      telephone: customerMap["telephone"],
+      phone: customerMap["phone"],
     );
-    print(map);
-    return VerifyInfo(
-      startingTime: startingTime,
-      showId: map["showId"],
-      transactionId: map["transactionId"],
-      bookingId: map["bookingId"],
+    return BookingInfo(
+      bookingTime: bookingTime,
       customer: customer,
     );
   }

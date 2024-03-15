@@ -236,10 +236,10 @@ packages:
     dependency: "direct main"
     description:
       name: get
-      sha256: "324e6808b3cac1e13d26785a8a7b5df674b02907ebbd29a5b4e5ffa14d68c1e4"
+      sha256: c8a73b46de3a0a0a385e7549fc03625eb03734b1a0d1f363c2052e9a3aec43db
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0-release-candidate-4"
+    version: "5.0.0-release-candidate-5"
   google_fonts:
     dependency: "direct main"
     description:
