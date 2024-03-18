@@ -32,7 +32,7 @@ class ChoosePlayerPage extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: 60.h),
-                GameTitleWidget(gameName: logic.showState.game, width: 0.3.sw, bAnimate: true),
+                // GameTitleWidget(gameName: logic.showState.game, width: 0.3.sw, bAnimate: true),
                 SizedBox(height: 50.h),
                 SizedBox(
                   height: 0.6.sw * 0.16 * 1.5 * 2 + 20.w,

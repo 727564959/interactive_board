@@ -1,3 +1,4 @@
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/data/network/process_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';

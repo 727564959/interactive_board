@@ -20,14 +20,14 @@ class ProcessController {
 
   void listeningEvents() {
     final option = OptionBuilder().setTransports(['websocket']).enableReconnection().disableAutoConnect().build();
-    _quizSocket = io('$baseSocketIoUrl/listener/quiz', option);
-    _quizSocket.on('start', (data) {
-      Get.toNamed(AppRoutes.quiz, arguments: data);
-    });
-    _quizSocket.connect();
+    // _quizSocket = io('$baseSocketIoUrl/listener/quiz', option);
+    // _quizSocket.on('start', (data) {
+    //   Get.toNamed(AppRoutes.quiz, arguments: data);
+    // });
+    // _quizSocket.connect();
 
     _showSocket = io('$baseSocketIoUrl/listener/game-show', option);
-    _showSocket.on('show_starting', (data) async {
+    _showSocket.on('show_state', (data) async {
       final state = ShowState.fromJson(data);
       Get.offAllNamed(AppRoutes.choosePlayer, arguments: state);
     });
@@ -39,7 +39,7 @@ class ProcessController {
   }
 
   void disposeSocketIO() {
-    _quizSocket.close();
+    // _quizSocket.close();
     _showSocket.close();
   }
 

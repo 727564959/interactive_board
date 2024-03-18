@@ -42,8 +42,7 @@ class AvatarDesignPage extends StatelessWidget {
             width: 1.0.sw,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image:
-                    AssetImage(Global.getCheckInImageUrl("background_new.png")),
+                image: AssetImage(Global.getCheckInImageUrl("background_new.png")),
                 fit: BoxFit.cover,
               ),
             ),
@@ -211,8 +210,7 @@ class _SetAvatarContent extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   margin: EdgeInsets.only(top: 0.0, left: 0.0),
-                  constraints: BoxConstraints.tightFor(
-                      width: 0.34.sw, height: 0.7.sh), //卡片大小
+                  constraints: BoxConstraints.tightFor(width: 0.34.sw, height: 0.7.sh), //卡片大小
                   child: AvatarModel(),
                 ),
               ),
@@ -235,8 +233,7 @@ class _EditNicknameText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("ppp ${logic.currentNickName}");
-    TextEditingController _nameTextFieldController =
-        new TextEditingController(text: logic.currentNickName);
+    TextEditingController _nameTextFieldController = new TextEditingController(text: logic.currentNickName);
     return Container(
       margin: EdgeInsets.only(top: 0.0, left: 0.0),
       constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h), //卡片大小
@@ -253,8 +250,7 @@ class _EditNicknameText extends StatelessWidget {
             size: 40,
           ),
           isCollapsed: true,
-          contentPadding:
-          EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+          contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
           // suffix: Text('.com'),
           // suffixStyle: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
         ),
@@ -304,8 +300,7 @@ class _EditNicknameButton extends StatelessWidget {
               color: Colors.deepOrangeAccent,
             ),
             margin: EdgeInsets.only(top: 0.0, left: 0.0),
-            constraints:
-                BoxConstraints.tightFor(width: 428.w, height: 118.h), //卡片大小
+            constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h), //卡片大小
             child: Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -423,8 +418,7 @@ class _PersonModel extends StatelessWidget {
 
 // 模型图层
 class _ModelShape extends StatelessWidget {
-  _ModelShape({Key? key, required this.width, required this.bAnimate})
-      : super(key: key);
+  _ModelShape({Key? key, required this.width, required this.bAnimate}) : super(key: key);
   final double width;
   final bool bAnimate;
   final logic = Get.find<CheckInLogic>();
@@ -510,8 +504,7 @@ class _SaveAndBackButton extends StatelessWidget {
   }) : super(key: key);
   final double width;
   final logic = Get.find<CheckInLogic>();
-  String get backgroundUri =>
-      Global.getSetAvatarImageUrl("save_and_back_btn.png");
+  String get backgroundUri => Global.getSetAvatarImageUrl("save_and_back_btn.png");
 
   final testTabId = Global.tableId;
 
@@ -534,24 +527,24 @@ class _SaveAndBackButton extends StatelessWidget {
         // 如果在添加用户信息页面点击了跳过，则需要先添加用户信息，再进行形象信息更新保存；反之则直接更新形象信息
         if (logic.isClickSkip) {
           // 添加用户(加入游戏show)
-          await checkInApi.addPlayerFun(logic.showState.showId, testTabId, null, null, logic.currentNickName, null);
-          // 更新用户列表
-          logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
+          // await checkInApi.addPlayerFun(logic.showState.showId, testTabId, null, null, logic.currentNickName, null);
+          // // 更新用户列表
+          // logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
           int index = logic.userList.length - 1;
           print("ooop ${index}");
           logic.selectedId = logic.userList[index].id;
           print("rtrt ${logic.selectedId}");
           // 更新形象信息
-          await checkInApi.updatePlayer(int.parse(logic.selectedId.toString()),
-              logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
+          await checkInApi.updatePlayer(
+              int.parse(logic.selectedId.toString()), logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
         } else {
           // 更新形象信息
-          await checkInApi.updatePlayer(int.parse(logic.selectedId.toString()),
-              logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
+          await checkInApi.updatePlayer(
+              int.parse(logic.selectedId.toString()), logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
         }
         print("showState ${logic.showState.showId}");
         // 更新用户信息
-        logic.updateUserList(logic.showState.showId);
+        // logic.updateUserList(logic.showState.showId);
         Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
@@ -695,12 +688,8 @@ class _SaveAvatarButton extends StatelessWidget {
         print("保存avatar");
         print("用户数据: ${logic.userList}");
         await checkInApi.updatePlayerInfo(
-            logic.selectedId ?? (logic.userList[0].id),
-            logic.currentNickName,
-            logic.headId,
-            logic.currentIsMale);
-        final index = logic.userList
-            .indexWhere((element) => element.id == logic.selectedId);
+            logic.selectedId ?? (logic.userList[0].id), logic.currentNickName, logic.headId, logic.currentIsMale);
+        final index = logic.userList.indexWhere((element) => element.id == logic.selectedId);
         logic.userList[index] = UserInfo(
           id: logic.userList[index].id,
           nickname: logic.currentNickName,
@@ -720,8 +709,7 @@ class _SaveAvatarButton extends StatelessWidget {
               height: 150.h,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                      Global.getCheckInImageUrl("success_dialog.png")),
+                  image: AssetImage(Global.getCheckInImageUrl("success_dialog.png")),
                   // fit: BoxFit.cover,
                   fit: BoxFit.fill,
                 ),

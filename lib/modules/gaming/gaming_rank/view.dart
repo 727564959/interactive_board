@@ -28,7 +28,7 @@ class GamingRankPage extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 50),
-              GameTitleWidget(gameName: logic.gameName, width: 0.45.sw),
+              // GameTitleWidget(gameName: logic.gameName, width: 0.45.sw),
               const SizedBox(height: 50),
               SizedBox(
                 width: 0.85.sw,

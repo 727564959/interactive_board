@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String baseApiUrl = 'http://10.1.4.13:1337/api';
-const String baseSocketIoUrl = 'http://10.1.4.13:12333';
-const String baseStrapiUrl = 'http://10.1.4.13:1337';
+// const String baseApiUrl = 'http://10.1.4.13:1337/api';
+// const String baseSocketIoUrl = 'http://10.1.4.13:12333';
+// const String baseStrapiUrl = 'http://10.1.4.13:1337';
 const String baseResovaProxyUrl = "http://47.109.80.75:45279/resova-api";
-// const String baseApiUrl = 'http://10.1.4.16:1337/api';
-// const String baseSocketIoUrl = 'http://10.1.4.16:12333';
-// const String baseStrapiUrl = 'http://10.1.4.16:1337';
+const String baseResovaUrl = "http://10.1.4.16:25146";
+const String baseApiUrl = 'http://10.1.4.16:1337/api';
+const String baseSocketIoUrl = 'http://10.1.4.16:12333';
+const String baseStrapiUrl = 'http://10.1.4.16:1337';
 
 class Global {
   static int? _tableId;

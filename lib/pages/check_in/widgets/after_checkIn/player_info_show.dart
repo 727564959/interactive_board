@@ -159,7 +159,7 @@ class _NicknameArea extends StatelessWidget {
             //   color: Colors.red,
             // ),
             margin: EdgeInsets.only(top: 50.0, left: 0.0, right: 0.0),
-            constraints: BoxConstraints.tightFor(width: 0.78.sw),//卡片大小
+            constraints: BoxConstraints.tightFor(width: 0.78.sw), //卡片大小
             child: Wrap(
               // 主轴(水平)方向间距
               spacing: 10,
@@ -189,6 +189,7 @@ class _NicknameArea extends StatelessWidget {
     );
   }
 }
+
 // 获取子项目
 Widget getItem(int index) {
   final logic = Get.find<CheckInLogic>();
@@ -231,7 +232,7 @@ Widget getItem(int index) {
         logic.currentIsMale = logic.userList[index].bodyName == "Male" ? true : false;
         logic.currentNickName = logic.userList[index].nickname;
         // 更新用户信息
-        logic.updateUserList(logic.showState.showId);
+        // logic.updateUserList(logic.showState.showId);
         // 跳转到形象设计页面
         Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
       });

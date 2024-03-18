@@ -111,12 +111,14 @@ class CheckInLogic extends GetxController {
     checkinBtnIsDown = sign;
     update(['checkIn']);
   }
+
   // 返回按钮是否按下
   void goBackBtnDown(bool sign) {
     print("12345: $sign");
     addGoBackIsDown = sign;
     update(['goBackBtn']);
   }
+
   // 保存avatar是否按下
   void saveAvatarBtnDown(bool sign) {
     print("12345: $sign");
@@ -166,8 +168,7 @@ class CheckInLogic extends GetxController {
   //   update();
   // }
 
-  void birdShow() {
-  }
+  void birdShow() {}
 
   void updateUserList(int showId) async {
     print("身体的id: $showId");
@@ -178,7 +179,13 @@ class CheckInLogic extends GetxController {
   // 选择生日确定
   void confirmBirthdayFun(var val) {
     print("选择生日 $val");
-    birthdayStr = "${val?.year}" + "-" + (val?.month <= 9 ? "0" : "") + "${val?.month}" + "-" + (val?.day <= 9 ? "0" : "") + "${val?.day}";
+    birthdayStr = "${val?.year}" +
+        "-" +
+        (val?.month <= 9 ? "0" : "") +
+        "${val?.month}" +
+        "-" +
+        (val?.day <= 9 ? "0" : "") +
+        "${val?.day}";
     print("选择生日 $birthdayStr");
     update();
   }
@@ -200,7 +207,7 @@ class CheckInLogic extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    userList = await checkInApi.fetchUsers(showState.showId);
+    // userList = await checkInApi.fetchUsers(showState.showId);
     print(await checkInApi.fetchAvatars());
     print(await checkInApi.fetchBodies());
     print("用户数据: $userList");
@@ -218,5 +225,4 @@ class CheckInLogic extends GetxController {
     print("头像: $avatarInfo");
     // checkInApi.updatePlayer(68, "abc",3,1);
   }
-
 }
