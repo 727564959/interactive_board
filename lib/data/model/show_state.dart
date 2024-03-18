@@ -1,3 +1,26 @@
+enum ShowStatus {
+  waiting,
+  showPreparing,
+  gamePreparing,
+  gaming,
+  complete;
+
+  factory ShowStatus.status(String status) {
+    if (status == "waiting") {
+      return ShowStatus.waiting;
+    } else if (status == "show_preparing") {
+      return ShowStatus.showPreparing;
+    } else if (status == "game_preparing") {
+      return ShowStatus.gamePreparing;
+    } else if (status == "gaming") {
+      return ShowStatus.gaming;
+    } else if (status == "complete") {
+      return ShowStatus.complete;
+    }
+    throw TypeError();
+  }
+}
+
 class ShowState {
   ShowState({
     required this.showId,
@@ -5,15 +28,15 @@ class ShowState {
     required this.details,
   });
   final int? showId;
-  final String status;
+  final ShowStatus status;
   final dynamic details;
   factory ShowState.fromJson(Map<String, dynamic> json) {
     late final dynamic details;
-    final String status = json['status'];
+    final status = ShowStatus.status(json['status']);
 
-    if (status == "waiting") {
+    if (status == ShowStatus.waiting) {
       details = null;
-    } else if (status == "show_preparing") {
+    } else if (status == ShowStatus.showPreparing) {
       final detailsData = json['details'];
       final startTime = DateTime.parse(detailsData["startTime"]);
       final customers = <CustomerItem>[];
