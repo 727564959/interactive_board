@@ -29,12 +29,23 @@ class ProcessController {
     _showSocket = io('$baseSocketIoUrl/listener/game-show', option);
     _showSocket.on('show_state', (data) async {
       final state = ShowState.fromJson(data);
+      if (state.status == ShowStatus.gamePreparing) {
+        Get.offAllNamed(AppRoutes.choosePlayer, arguments: state);
+      }
+      if (state.status == ShowStatus.showPreparing) {
+        Get.offAllNamed(AppRoutes.checkIn, arguments: state);
+      }
+    });
+    _showSocket.on('start_show', (data) async {
+      final state = ShowState.fromJson(data);
       Get.offAllNamed(AppRoutes.choosePlayer, arguments: state);
     });
 
-    _showSocket.on('waiting_show', (data) async {
-      Get.offAllNamed(AppRoutes.checkIn);
+    _showSocket.on('stop_show', (data) async {
+      final state = ShowState.fromJson(data);
+      Get.offAllNamed(AppRoutes.checkIn, arguments: state);
     });
+
     _showSocket.connect();
   }
 

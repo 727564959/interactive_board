@@ -12,6 +12,9 @@ class ChoosePlayerLogic extends GetxController {
   final playerApi = PlayerApi();
   List<PlayerInfo> players = [];
   ShowState get showState => Get.arguments;
+  get showId => showState.showId;
+  get showInfo => showState.details as GamingDetails;
+
   final Map<int, PlayerInfo?> selectedPlayers = {};
   bool get bSelectComplete => selectedPlayers.values.every((element) => element != null);
   late final Socket positionSocket;
@@ -50,24 +53,23 @@ class ChoosePlayerLogic extends GetxController {
     positionSocket.connect();
 
     final tableId = Global.tableId;
-    // final mode = showState.mode;
-    // final roundNumber = showState.roundNumber;
-    // if (mode == 'event') {
-    //   selectedPlayers[tableId] = null;
-    // } else if (mode == 'normal') {
-    //   selectedPlayers[tableId * 2 - 1] = null;
-    //   selectedPlayers[tableId * 2] = null;
-    // } else if (mode == 'free-4') {
-    //   selectedPlayers.addAll({2: null, 3: null, 6: null, 7: null});
-    // } else if (mode == 'free-8') {
-    //   selectedPlayers.addAll({1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null});
-    // }
-    // players = await playerApi.fetchPlayers(showState.showId);
-    // final positions = await playerApi.fetchPositions(showState.roundId);
-    // for (final item in positions) {
-    //   if (!selectedPlayers.containsKey(item.position)) continue;
-    //   selectedPlayers[item.position] = item.player;
-    // }
+    final mode = showInfo.mode;
+    if (mode == 'event') {
+      selectedPlayers[tableId] = null;
+    } else if (mode == 'normal') {
+      selectedPlayers[tableId * 2 - 1] = null;
+      selectedPlayers[tableId * 2] = null;
+    } else if (mode == 'free-4') {
+      selectedPlayers.addAll({2: null, 3: null, 6: null, 7: null});
+    } else if (mode == 'free-8') {
+      selectedPlayers.addAll({1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null});
+    }
+    players = await playerApi.fetchPlayers(showId);
+    final positions = await playerApi.fetchPositions(showInfo.roundId);
+    for (final item in positions) {
+      if (!selectedPlayers.containsKey(item.position)) continue;
+      selectedPlayers[item.position] = item.player;
+    }
     update();
   }
 
@@ -82,7 +84,7 @@ class ChoosePlayerLogic extends GetxController {
     selectedPlayers[position] = player;
     update();
     try {
-      // playerApi.updatePosition(showState.roundId, position, playerId);
+      playerApi.updatePosition(showInfo.roundId, position, playerId);
     } on StateError {
       return;
     } on DioException {
@@ -93,14 +95,14 @@ class ChoosePlayerLogic extends GetxController {
   void removePlayer(position) {
     selectedPlayers[position] = null;
     try {
-      // playerApi.updatePosition(showState.roundId, position, null);
+      playerApi.updatePosition(showInfo.roundId, position, null);
     } on DioException {
       updatePlayerInfo();
     }
   }
 
   void updatePlayerInfo() async {
-    // players = await playerApi.fetchPlayers(showState.showId);
+    players = await playerApi.fetchPlayers(showInfo.showId);
     for (final position in selectedPlayers.keys) {
       if (selectedPlayers[position] == null) continue;
       final playerId = selectedPlayers[position]!.id;

@@ -8,7 +8,7 @@ import 'data/player.dart';
 import 'data/player_records_repository.dart';
 
 class GamingRankLogic extends GetxController {
-  // String get gameName => (Get.arguments as ShowState).game;
+  String get gameName => ((Get.arguments as ShowState).details as GamingDetails).game;
   late RecordsRepository recordsRepository;
   bool bGameStart = false;
   final List<PlayerRecord> playerRecords = [];
