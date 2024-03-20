@@ -9,14 +9,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../../../app_routes.dart';
 import '../../../../common.dart';
+import '../../../../modules/set_avatar/logic.dart';
+import '../../../../widgets/check_in_title.dart';
 import '../../data/checkIn_api.dart';
 import '../../logic.dart';
 import '../after_checkIn/player_info_show.dart';
-import '../avatar_design_new.dart';
-import '../avatar_title.dart';
 import 'add_player_birthday.dart';
-import 'player_add_form.dart';
 
 class AddPlayerInfo extends StatelessWidget {
   AddPlayerInfo({Key? key}) : super(key: key);
@@ -41,25 +41,8 @@ class AddPlayerInfo extends StatelessWidget {
                       return Column(
                         children: [
                           // 顶部文本信息
-                          AvatarTitlePage(titleText: "Add Player"),
-                          // 中间的用户信息填报
-                          // ListView(
-                          //     shrinkWrap: true,
-                          //     children: <Widget>[
-                          //       _PlayerForm(),
-                          //     ]
-                          // ),
+                          CheckInTitlePage(titleText: "Add Player"),
                           _PlayerForm(),
-                          // SizedBox(
-                          //   height: 0.8.sh,
-                          //   child: Scaffold(
-                          //     body: Stack(
-                          //       children: [
-                          //         PlayerAddForm(),
-                          //       ],
-                          //     ),
-                          //   ),
-                          // ),
                           // 底部按钮区域
                           _BottomBtns(),
                         ],
@@ -1047,21 +1030,25 @@ class _NextButton extends StatelessWidget {
       onTap: () async {
         // if(logic.email != null && logic.phone != null && logic.firstName != null) {
         // String testPhone = "+(" + logic.countryName + ")" + logic.phone;
-        String testPhone = "+(1)" + logic.phone;
+        // String testPhone = "+(1)" + logic.phone;
         // String fullName = logic.firstName + "" + logic.lastName;
-        try {
-          await checkInApi.addPlayerFun(
-              logic.showState.showId, testTabId, logic.email, testPhone, logic.firstName, logic.lastName);
-          EasyLoading.dismiss(animation: false);
-          logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
-          logic.currentNickName = logic.firstName;
-          print("${logic.currentNickName}");
-          Get.to(() => AddPlayerBirthday(), arguments: Get.arguments);
-        } on DioException catch (e) {
-          EasyLoading.dismiss();
-          if (e.response == null) EasyLoading.showError("Network Error!");
-          EasyLoading.showError(e.response?.data["error"]["message"]);
-        }
+
+        // try {
+        //   await checkInApi.addPlayerFun(
+        //       logic.showState.showId, testTabId, logic.email, testPhone, logic.firstName, logic.lastName);
+        //   EasyLoading.dismiss(animation: false);
+        //   logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
+        //   logic.currentNickName = logic.firstName;
+        //   print("${logic.currentNickName}");
+        //   Get.to(() => AddPlayerBirthday(), arguments: Get.arguments);
+        // } on DioException catch (e) {
+        //   EasyLoading.dismiss();
+        //   if (e.response == null) EasyLoading.showError("Network Error!");
+        //   EasyLoading.showError(e.response?.data["error"]["message"]);
+        // }
+
+        Get.to(() => AddPlayerBirthday(), arguments: Get.arguments);
+
         // }
         // else {
         //   EasyLoading.showError("请填入信息!");
@@ -1125,16 +1112,32 @@ class _SkipButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
-        logic.playerNum++;
-        logic.currentNickName = "Player" + logic.playerNum.toString();
-        print("ppp ${logic.currentNickName}");
-        logic.currentUrl = logic.userList[0].avatarUrl;
-        logic.currentIsMale = logic.userList[0].bodyName == "Male" ? true : false;
-        logic.isClickSkip = true;
+        // logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
+        // logic.playerNum++;
+        // logic.currentNickName = "Player" + logic.playerNum.toString();
+        // print("ppp ${logic.currentNickName}");
+        // logic.currentUrl = logic.userList[0].avatarUrl;
+        // logic.currentIsMale = logic.userList[0].bodyName == "Male" ? true : false;
+        // logic.isClickSkip = true;
         // 更新用户信息
         // logic.updateUserList(logic.showState.showId);
-        Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
+        // Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
+
+        Map<String, dynamic> skipUserInfo = await checkInApi.addSkipPlayer();
+        print("跳过后的返回 $skipUserInfo");
+        // 加入到show
+        await checkInApi.addPlayerToShow(Get.arguments['showId'], Global.tableId, skipUserInfo['userId']);
+        // print("跳过后的返回 ${skipUserInfo['userId']}");
+        print("跳过后的返回 ${Get.arguments}");
+        // print("跳过后的返回 ${logic.showState}");
+        Map<String, dynamic> jsonObj = {
+          "userId": skipUserInfo['userId'],
+          "showId": Get.arguments['showId'],
+          "showStatus": Get.arguments['showStatus']
+        };
+        Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+        Get.find<SetAvatarLogic>().updatePlayer(skipUserInfo['userId'].toString());
+        await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
       },
       child: GetBuilder<CheckInLogic>(
         id: "skipBtn",

@@ -41,7 +41,7 @@ class ShowState {
       final startTime = DateTime.parse(detailsData["startTime"]);
       final customers = <CustomerItem>[];
       for (final item in detailsData["customers"]) {
-        customers.add(CustomerItem(userId: item["userId"], tableId: item["tableId"]));
+        customers.add(CustomerItem(userId: item["consumerId"], tableId: item["tableId"]));
       }
       details = ShowPreparingDetails(
         showId: detailsData["showId"],

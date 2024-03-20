@@ -1,3 +1,5 @@
+import '../../../common.dart';
+
 class SinglePlayer {
   SinglePlayer({
     required this.id,
@@ -21,7 +23,7 @@ class SinglePlayer {
   final String bodyName;
 
   factory SinglePlayer.fromJson(Map<String, dynamic> json) {
-    final String avatarUrl = "http://10.1.4.16:1337${json['avatarUrl']}";
+    final String avatarUrl = "${baseStrapiUrl}${json['avatarUrl']}";
     return SinglePlayer(
       id: json['id'],
       nickname: json['nickname'],
@@ -40,5 +42,10 @@ class SinglePlayer {
     'nickname': nickname,
     'email': email,
     'phone': phone,
+    'avatarUrl': avatarUrl,
+    'headgearId': headgearId,
+    'headgearName': headgearName,
+    'bodyId': bodyId,
+    'bodyName': bodyName,
   };
 }

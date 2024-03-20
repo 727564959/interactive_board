@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 
+import '../../../../app_routes.dart';
 import '../../../../common.dart';
-import '../avatar_design_new.dart';
 
 import 'package:card_swiper/card_swiper.dart';
+
+import '../../../../modules/set_avatar/view.dart';
 
 class GroupSettingPage extends StatelessWidget {
   GroupSettingPage({Key? key}) : super(key: key);
@@ -226,16 +230,22 @@ class _NextDefaultButton extends StatelessWidget {
       : Global.getSetAvatarImageUrl("group_setting_input.png");
 
   final testTabId = Global.tableId;
-  // final testTabId = 3;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
-      onTap: () {
-        print("groupsetting");
+      onTap: () async {
+        print("groupsetting ${logic.showState.status}");
         logic.isFirstCheckIn = false;
-        Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
+        // Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
+        Map<String, dynamic> jsonObj = {
+          "userId": logic.consumerId,
+          "showId": logic.showState.showId,
+          "showStatus": logic.showState.status.toString(),
+        };
+        // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
+        await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
       },
       child: GetBuilder<CheckInLogic>(
         id: "groupsettingBtn",

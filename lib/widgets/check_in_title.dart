@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../common.dart';
 import 'dart:async';
 
-class AvatarTitlePage extends StatelessWidget {
-  AvatarTitlePage({
+class CheckInTitlePage extends StatelessWidget {
+  CheckInTitlePage({
     Key? key,
     required this.titleText,
   }) : super(key: key);
   final String titleText;
-
-  final logic = Get.find<CheckInLogic>();
 
   @override
   Widget build(BuildContext context) {
@@ -109,27 +105,5 @@ class _CurrentTimerState extends State<CurrentTimer> {
         letterSpacing: 3.sp,
       ),
     );
-    // return Scaffold(
-    //   body: new Container(
-    //     child: Row(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: [
-    //         // Padding(
-    //         //     padding: EdgeInsets.only(top: 200)
-    //         // ),
-    //         Text(
-    //           "${dateTime.hour}:${dateTime.minute.toString().padLeft(2,'0')}",
-    //           style: TextStyle(
-    //             fontSize: 32.sp,
-    //             decoration: TextDecoration.none,
-    //             fontFamily: 'BurbankBold',
-    //             color: Colors.white,
-    //             letterSpacing: 3.sp,
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

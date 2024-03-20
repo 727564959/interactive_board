@@ -5,16 +5,16 @@ import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../app_routes.dart';
 import '../../../../common.dart';
+import '../../../../modules/set_avatar/data/setAvatar_api.dart';
+import '../../../../modules/set_avatar/logic.dart';
+import '../../../../modules/set_avatar/view.dart';
+import '../../../../widgets/check_in_title.dart';
 import '../../data/checkIn_api.dart';
-import '../avatar_design_new.dart';
-import '../avatar_title.dart';
 import '../before_checkIn/term_of_use.dart';
 
 class PlayerInfoShow extends StatelessWidget {
   PlayerInfoShow({Key? key}) : super(key: key);
   final logic = Get.find<CheckInLogic>();
-
-  final String dateTime = DateTime.now().toString().substring(11, 16);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class PlayerInfoShow extends StatelessWidget {
           child: Column(
             children: [
               // 顶部文本信息
-              AvatarTitlePage(titleText: ""),
+              CheckInTitlePage(titleText: ""),
               SizedBox(
                 child: GetBuilder<CheckInLogic>(
                   builder: (logic) {
@@ -195,6 +195,7 @@ Widget getItem(int index) {
   final logic = Get.find<CheckInLogic>();
   var item = logic.userList[index % logic.userList.length];
   final checkInApi = CheckInApi();
+  final setAvatarApi = SetAvatarApi();
   return ActionChip(
       pressElevation: 10,
       // tooltip: "点击",
@@ -218,23 +219,34 @@ Widget getItem(int index) {
       onPressed: () async {
         print("点击 ${item.id}");
         // 将点击跳过按钮置回初始状态
-        logic.isClickSkip = false;
-        logic.isFirstCheckIn = false;
-        logic.singlePlayer = await checkInApi.fetchSingleUsers(item.id);
-        print("点击 ${logic.singlePlayer}");
-        final index = logic.userList.indexWhere((element) => element.id == item.id);
-        print("点击 ${index}");
-        print("点击 ${logic.userList[index]}");
-        // 更新
-        logic.selectedId = item.id;
-        print("54321 ${logic.selectedId}");
-        logic.currentUrl = logic.userList[index].avatarUrl;
-        logic.currentIsMale = logic.userList[index].bodyName == "Male" ? true : false;
-        logic.currentNickName = logic.userList[index].nickname;
-        // 更新用户信息
-        // logic.updateUserList(logic.showState.showId);
-        // 跳转到形象设计页面
-        Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
+        // logic.isClickSkip = false;
+        // logic.isFirstCheckIn = false;
+        // logic.singlePlayer = await checkInApi.fetchSingleUsers(item.id);
+        // print("点击 ${logic.singlePlayer}");
+        // final index = logic.userList.indexWhere((element) => element.id == item.id);
+        // print("点击 ${index}");
+        // print("点击 ${logic.userList[index]}");
+        // // 更新
+        // logic.selectedId = item.id;
+        // print("54321 ${logic.selectedId}");
+        // logic.currentUrl = logic.userList[index].avatarUrl;
+        // logic.currentIsMale = logic.userList[index].bodyName == "Male" ? true : false;
+        // logic.currentNickName = logic.userList[index].nickname;
+        // // 更新用户信息
+        // // logic.updateUserList(logic.showState.showId);
+        // // 跳转到形象设计页面
+        // // Get.to(() => AvatarDesignPage(), arguments: item);
+
+        print("参数 ${Get.arguments}");
+        Map<String, dynamic> jsonObj = {
+          "userId": item.id,
+          "showId": Get.arguments['showId'],
+        };
+        print("参数 ${jsonObj}");
+        Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+        Get.find<SetAvatarLogic>().updatePlayer(item.id);
+        // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
+        await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
       });
   // return Chip(
   //   // 文字标签
@@ -326,7 +338,7 @@ class _GoBackButton extends StatelessWidget {
       // 点击事件
       onTap: () {
         print("单击返回");
-        Get.offAllNamed(AppRoutes.choosePlayer, arguments: Get.arguments);
+        Get.offAllNamed(AppRoutes.choosePlayer);
       },
       child: GetBuilder<CheckInLogic>(
         id: "goBackBtn",

@@ -6,7 +6,6 @@ import 'package:interactive_board/pages/check_in/logic.dart';
 import '../../../../common.dart';
 import '../add_player/add_player_info.dart';
 import '../after_checkIn/player_info_show.dart';
-import '../avatar_design_new.dart';
 import 'group_setting.dart';
 
 class TermOfUsePage extends StatelessWidget {

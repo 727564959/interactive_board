@@ -4,10 +4,9 @@ import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../common.dart';
-import 'widgets/add_player/add_player_info.dart';
-import 'widgets/avatar_title.dart';
+import '../../widgets/check_in_title.dart';
+import '../../widgets/debouncer.dart';
 import 'widgets/before_checkIn/check_in_home.dart';
-import 'widgets/before_checkIn/term_of_use.dart';
 
 class WelcomePage extends StatelessWidget {
   WelcomePage({Key? key}) : super(key: key);
@@ -25,7 +24,7 @@ class WelcomePage extends StatelessWidget {
               child: Column(
                 children: [
                   // 顶部文本信息
-                  AvatarTitlePage(titleText: ""),
+                  CheckInTitlePage(titleText: ""),
                   SizedBox(
                     width: 1.0.sw,
                     height: 0.25.sh,
@@ -65,9 +64,8 @@ class WelcomePage extends StatelessWidget {
                               child: SizedBox(
                                 width: 0.8.sw,
                                 child: Text(
-                                  "Sophia Davis !",
-                                  // logic.singlePlayer.length > 0 ? logic.singlePlayer['nickname'] : "",
-                                  // logic.userList.length > 0 ? logic.userList[0].nickname + " !" : "",
+                                  // "Sophia Davis !",
+                                  logic.singlePlayer.length > 0 ? logic.singlePlayer['nickname'] : "",
                                   style: TextStyle(
                                     fontSize: 130.sp,
                                     decoration: TextDecoration.none,
@@ -83,7 +81,7 @@ class WelcomePage extends StatelessWidget {
                               child: SizedBox(
                                 width: 0.8.sw,
                                 child: Text(
-                                  "Your Games will start at 18:15",
+                                  "Your Games will start at " + logic.showStartTime.substring(11, 16),
                                   style: TextStyle(
                                     fontSize: 50.sp,
                                     decoration: TextDecoration.none,
@@ -123,14 +121,21 @@ class _EnterButton extends StatelessWidget {
 
   final testTabId = Global.tableId;
 
+  // final debouncer = Debouncer(delay: Duration(seconds: 2));
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
       onTap: () {
+        print("当前桌： $testTabId");
         // 判断是否是初始进行checkin，是就跳转到groupsetting，反之跳转到用户信息录入
         Get.to(() => CheckInHomePage(), arguments: Get.arguments);
         // Get.to(() => TermOfUsePage(), arguments: Get.arguments);
+        // 使用防抖工具，确保点击事件在2秒内只执行一次
+        // debouncer.run(() {
+        //   print('Button Clicked!');
+        // });
       },
       child: GetBuilder<CheckInLogic>(
         id: "enetrBtn",

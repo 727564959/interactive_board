@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/data/single_player.dart';
@@ -17,6 +18,10 @@ class CheckInLogic extends GetxController {
   List<ResourceInfo> avatarInfo = [];
   ShowState get showState => Get.arguments;
   // Map<String,dynamic> singlePlayer = {};
+  // 游戏show的开始时间
+  String showStartTime = "";
+  // 当前桌的消费者id
+  int? consumerId;
   Map singlePlayer = {};
   bool isCheckIn = false;
   String currentNickName = "";
@@ -176,6 +181,23 @@ class CheckInLogic extends GetxController {
     update();
   }
 
+  void updatePlayer(String userId) async {
+    print("身体的id: $userId");
+    singlePlayer = await checkInApi.fetchSingleUsers(userId);
+    avatarInfo = await checkInApi.fetchAvatars();
+    for (int i = 0; i < userList.length; i++) {
+      print(userList[i].id);
+      if(singlePlayer['id'].toString() == userList[i].id) {
+        headId = userList[i].headgearId;
+        currentIsMale = userList[i].bodyName == 'Male' ? true : false;
+      }
+    }
+    currentNickName = singlePlayer['nickname'];
+    final avatar = avatarInfo.firstWhere((element) => element.id == headId);
+    currentUrl = avatar.url;
+    update();
+  }
+
   // 选择生日确定
   void confirmBirthdayFun(var val) {
     print("选择生日 $val");
@@ -205,18 +227,37 @@ class CheckInLogic extends GetxController {
   }
 
   @override
+  void onReady () async {
+    print('onReady called');
+    super.onReady();
+  }
+
+  @override
   void onInit() async {
     super.onInit();
-    // userList = await checkInApi.fetchUsers(showState.showId);
-    print(await checkInApi.fetchAvatars());
-    print(await checkInApi.fetchBodies());
+    print("show的状态数据: ${showState.status}");
+    userList = await checkInApi.fetchUsers(showState.showId??1);
     print("用户数据: $userList");
     // currentNickName = userList[userList.length - 1].nickname;
     // currentIsMale = userList[0].isMale;
     currentIsMale = userList[0].bodyName == 'Male' ? true : false;
     headId = userList[0].headgearId;
     avatarInfo = await checkInApi.fetchAvatars();
-    singlePlayer = await checkInApi.fetchSingleUsers(userList[0].id);
+
+    if (showState.status == ShowStatus.showPreparing) {
+      ShowPreparingDetails showPreparingDetails = showState.details;
+      print("show开始时间: ${showPreparingDetails}");
+      showStartTime = showPreparingDetails.startTime.toString();
+      print("show开始时间: ${showStartTime}");
+      List<CustomerItem> customerItem = showPreparingDetails.customers;
+      for (int i = 0; i < customerItem.length; i++) {
+        print(customerItem[i]);
+        if(Global.tableId == customerItem[i].tableId) {
+          consumerId = customerItem[i].userId;
+        }
+      }
+    }
+    singlePlayer = await checkInApi.fetchSingleUsers(consumerId.toString());
     print("单用户: ${singlePlayer}");
     // print("单用户: ${singlePlayer['id']}");
     final avatar = avatarInfo.firstWhere((element) => element.id == headId);
@@ -224,5 +265,6 @@ class CheckInLogic extends GetxController {
     currentUrl = avatar.url;
     print("头像: $avatarInfo");
     // checkInApi.updatePlayer(68, "abc",3,1);
+    update();
   }
 }

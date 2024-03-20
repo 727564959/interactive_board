@@ -128,7 +128,7 @@ class CheckInHomePage extends StatelessWidget {
                                   Align(
                                     alignment: const Alignment(-0.8, 0.0),
                                     child: Text(
-                                      "",
+                                      logic.showStartTime,
                                       style: TextStyle(
                                         // fontWeight: FontWeight.bold,
                                         fontSize: 50.sp,

@@ -6,20 +6,21 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 
 import '../../../../common.dart';
-import '../../../../widgets/parallelogram_avatar.dart';
-import '../../logic.dart';
+import '../logic.dart';
 
 class AvatarModel extends StatelessWidget {
   AvatarModel({Key? key}) : super(key: key);
 
-  final logic = Get.find<CheckInLogic>();
+  final logic = Get.find<SetAvatarLogic>();
   final listitems = [
     'item1','item2','item3'
   ];
 
   @override
   Widget build(BuildContext context) {
-    print("1111111 ${logic.userList}");
+    // print("1111111 ${logic.userList}");
+    print("2222222 ${logic}");
+    print("1111111 ${logic.avatarInfo}");
     return Scaffold(
       body: TabbedList(
           tabLength: 2,
@@ -275,54 +276,6 @@ class AvatarModel extends StatelessWidget {
                                 ),
                               ]
                           ),
-                          // Row(
-                          //     children: [
-                          //       GestureDetector(
-                          //         onTapUp: (detail) {
-                          //           logic.clickBody(true);
-                          //         },
-                          //         child: Image.asset(
-                          //           Global.getCheckInImageUrl('selection_panel/Blue_man_s.png'),
-                          //           fit: BoxFit.fitHeight,
-                          //           width: 210.w,
-                          //         ),
-                          //       ),
-                          //       GestureDetector(
-                          //         onTapUp: (detail) {
-                          //           logic.clickBody(false);
-                          //         },
-                          //         child: Image.asset(
-                          //           Global.getCheckInImageUrl('selection_panel/Blue_Women_s.png'),
-                          //           fit: BoxFit.fitHeight,
-                          //           width: 210.w,
-                          //         ),
-                          //       ),
-                          //       GestureDetector(
-                          //         onTapUp: (detail) {
-                          //           logic.clickBody(true);
-                          //         },
-                          //         child: Image.asset(
-                          //           Global.getCheckInImageUrl('selection_panel/Red_man_s.png'),
-                          //           fit: BoxFit.fitHeight,
-                          //           width: 210.w,
-                          //         ),
-                          //       ),
-                          //     ]
-                          // ),
-                          // Row(
-                          //     children: [
-                          //       GestureDetector(
-                          //         onTapUp: (detail) {
-                          //           logic.clickBody(false);
-                          //         },
-                          //         child: Image.asset(
-                          //           Global.getCheckInImageUrl('selection_panel/Red_Women_s.png'),
-                          //           fit: BoxFit.fitHeight,
-                          //           width: 210.w,
-                          //         ),
-                          //       ),
-                          //     ]
-                          // ),
                         ],
                       ),
                   );

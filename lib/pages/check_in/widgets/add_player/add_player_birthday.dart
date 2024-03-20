@@ -1,14 +1,16 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 
+import '../../../../app_routes.dart';
 import '../../../../common.dart';
+import '../../../../modules/set_avatar/logic.dart';
+import '../../../../widgets/check_in_title.dart';
 import '../../data/checkIn_api.dart';
 import '../after_checkIn/player_info_show.dart';
-import '../avatar_design_new.dart';
-import '../avatar_title.dart';
 
 class AddPlayerBirthday extends StatelessWidget {
   AddPlayerBirthday({Key? key}) : super(key: key);
@@ -28,7 +30,7 @@ class AddPlayerBirthday extends StatelessWidget {
           child: Column(
             children: [
               // 顶部文本信息
-              AvatarTitlePage(titleText: "Add Player"),
+              CheckInTitlePage(titleText: "Add Player"),
               SizedBox(
                 child: GetBuilder<CheckInLogic>(
                   builder: (logic) {
@@ -197,18 +199,67 @@ class _AddBirthdayButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         print("从生日选择跳转到形象设计");
-        // 更新用户信息
-        // logic.updateUserList(logic.showState.showId);
-        int index = logic.userList.length - 1;
-        print("54321 $index");
-        logic.selectedId = logic.userList[index].id;
-        print("54321 ${logic.selectedId}");
-        logic.currentUrl = logic.userList[index].avatarUrl;
-        logic.currentIsMale = logic.userList[index].bodyName == "Male" ? true : false;
-        logic.currentNickName = logic.userList[index].nickname;
-        print("54321 ${logic.currentNickName}");
-        // 添加用户(加入游戏show)
-        Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
+        // // 更新用户信息
+        // // logic.updateUserList(logic.showState.showId);
+        // int index = logic.userList.length - 1;
+        // print("54321 $index");
+        // logic.selectedId = logic.userList[index].id;
+        // print("54321 ${logic.selectedId}");
+        // logic.currentUrl = logic.userList[index].avatarUrl;
+        // logic.currentIsMale = logic.userList[index].bodyName == "Male" ? true : false;
+        // logic.currentNickName = logic.userList[index].nickname;
+        // print("54321 ${logic.currentNickName}");
+        // // 添加用户(加入游戏show)
+        // // Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
+
+        print("54321 ${logic.email}");
+        // 用户查重
+        Map<String, dynamic> checkingUser = await checkInApi.checkingPlayer(logic.email);
+        // logic.birthdayStr;
+        print("查重返回 ${checkingUser.isEmpty}");
+        print("参数 ${Get.arguments}");
+        // print("参数 ${logic.showState}");
+        if(checkingUser.isEmpty) {
+          print("是新增!!!!!");
+          String testPhone = "+(1)" + logic.phone;
+          try {
+            Map<String, dynamic> addUserInfo = await checkInApi.addPlayerFun(Get.arguments['showId'], testTabId, logic.email, testPhone, logic.firstName, logic.lastName, logic.birthdayStr);
+            EasyLoading.dismiss(animation: false);
+            // logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
+            // logic.currentNickName = logic.firstName;
+            // print("${logic.currentNickName}");
+            // Get.to(() => AddPlayerBirthday(), arguments: Get.arguments);
+
+            // 加入到show
+            await checkInApi.addPlayerToShow(Get.arguments['showId'], Global.tableId, addUserInfo['userId']);
+            Map<String, dynamic> jsonObj = {
+              "userId": addUserInfo['userId'],
+              "showId": Get.arguments['showId'],
+              "showStatus": Get.arguments['showStatus']
+            };
+            Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+            Get.find<SetAvatarLogic>().updatePlayer(addUserInfo['userId'].toString());
+            await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+          } on DioException catch (e) {
+            EasyLoading.dismiss();
+            if (e.response == null) EasyLoading.showError("Network Error!");
+            EasyLoading.showError(e.response?.data["error"]["message"]);
+          }
+        }
+        else {
+          print("是更新!!!!!");
+          // 加入到show
+          await checkInApi.addPlayerToShow(Get.arguments['showId'], Global.tableId, checkingUser['userId']);
+          Map<String, dynamic> jsonObj = {
+            "userId": checkingUser['userId'],
+            "showId": Get.arguments['showId'],
+            "showStatus": Get.arguments['showStatus']
+          };
+          Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+          Get.find<SetAvatarLogic>().updatePlayer(checkingUser['userId'].toString());
+          await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+        }
+        // await Get.offAllNamed(AppRoutes.setAvatar, arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
         id: "birthdayBtn",
