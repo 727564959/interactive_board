@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 import 'package:interactive_board/pages/check_in/widgets/before_checkIn/term_of_use.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../common.dart';
 
@@ -128,7 +129,9 @@ class CheckInHomePage extends StatelessWidget {
                                   Align(
                                     alignment: const Alignment(-0.8, 0.0),
                                     child: Text(
-                                      logic.showStartTime,
+                                      DateFormat("dd/MM/yyyy - kka").format(
+                                        logic.startTime.add(8.hours),
+                                      ),
                                       style: TextStyle(
                                         // fontWeight: FontWeight.bold,
                                         fontSize: 50.sp,

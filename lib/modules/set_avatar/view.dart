@@ -381,6 +381,7 @@ class _SaveAndBackButton extends StatelessWidget {
           // 更新形象信息
 
         print("currentNickName：${logic.currentNickName}");
+        print("showState：${Get.arguments}");
           await setAvatarApi.updatePlayer(logic.singlePlayer['id'], logic.currentNickName, num2, logic.currentIsMale ? 10 : 11);
           Map<String, dynamic> jsonObj = {
             "tableId": Global.tableId,

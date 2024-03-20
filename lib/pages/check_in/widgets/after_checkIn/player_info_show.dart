@@ -114,10 +114,10 @@ class PlayerInfoShow extends StatelessWidget {
                               margin: EdgeInsets.only(top: 20.0, left: 0.0),
                               child: _AddPlayerButton(width: 432.w),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(top: 60.0, left: 0.0),
-                              child: _GoBackButton(width: 84.w),
-                            ),
+                            // Container(
+                            //   margin: EdgeInsets.only(top: 60.0, left: 0.0),
+                            //   child: _GoBackButton(width: 84.w),
+                            // ),
                           ],
                         ),
                       ],
@@ -241,6 +241,7 @@ Widget getItem(int index) {
         Map<String, dynamic> jsonObj = {
           "userId": item.id,
           "showId": Get.arguments['showId'],
+          "showStatus": Get.arguments['showStatus']
         };
         print("参数 ${jsonObj}");
         Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);

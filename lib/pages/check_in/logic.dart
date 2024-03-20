@@ -19,7 +19,8 @@ class CheckInLogic extends GetxController {
   ShowState get showState => Get.arguments;
   // Map<String,dynamic> singlePlayer = {};
   // 游戏show的开始时间
-  String showStartTime = "";
+  // String showStartTime = "";
+  DateTime get startTime => (showState.details as ShowPreparingDetails).startTime;
   // 当前桌的消费者id
   int? consumerId;
   Map singlePlayer = {};
@@ -244,11 +245,11 @@ class CheckInLogic extends GetxController {
     headId = userList[0].headgearId;
     avatarInfo = await checkInApi.fetchAvatars();
 
-    if (showState.status == ShowStatus.showPreparing) {
+    if (showState.status == ShowStatus.showPreparing || showState.status == ShowStatus.complete) {
       ShowPreparingDetails showPreparingDetails = showState.details;
       print("show开始时间: ${showPreparingDetails}");
-      showStartTime = showPreparingDetails.startTime.toString();
-      print("show开始时间: ${showStartTime}");
+      // showStartTime = showPreparingDetails.startTime.toString();
+      // print("show开始时间: ${showStartTime}");
       List<CustomerItem> customerItem = showPreparingDetails.customers;
       for (int i = 0; i < customerItem.length; i++) {
         print(customerItem[i]);
@@ -256,15 +257,20 @@ class CheckInLogic extends GetxController {
           consumerId = customerItem[i].userId;
         }
       }
+
+      singlePlayer = await checkInApi.fetchSingleUsers(consumerId.toString());
+      print("单用户: ${singlePlayer}");
+      // print("单用户: ${singlePlayer['id']}");
+      final avatar = avatarInfo.firstWhere((element) => element.id == headId);
+      print("gfgfgfg: $avatar");
+      currentUrl = avatar.url;
+      print("头像: $avatarInfo");
+      // checkInApi.updatePlayer(68, "abc",3,1);
     }
-    singlePlayer = await checkInApi.fetchSingleUsers(consumerId.toString());
-    print("单用户: ${singlePlayer}");
-    // print("单用户: ${singlePlayer['id']}");
-    final avatar = avatarInfo.firstWhere((element) => element.id == headId);
-    print("gfgfgfg: $avatar");
-    currentUrl = avatar.url;
-    print("头像: $avatarInfo");
-    // checkInApi.updatePlayer(68, "abc",3,1);
+    else {
+
+    }
+
     update();
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../common.dart';
 import '../../widgets/check_in_title.dart';
@@ -81,7 +82,7 @@ class WelcomePage extends StatelessWidget {
                               child: SizedBox(
                                 width: 0.8.sw,
                                 child: Text(
-                                  "Your Games will start at " + logic.showStartTime.substring(11, 16),
+                                  "Your Games will start at ${DateFormat('kk:mm').format(logic.startTime.add(8.hours))}",
                                   style: TextStyle(
                                     fontSize: 50.sp,
                                     decoration: TextDecoration.none,

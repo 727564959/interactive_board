@@ -6,6 +6,7 @@ import 'package:interactive_board/modules/before_game/comfirm_selection/view.dar
 import 'package:timer_count_down/timer_count_down.dart';
 
 import '../../../common.dart';
+import '../../../pages/check_in/widgets/after_checkIn/player_info_show.dart';
 import '../../../widgets/game_title.dart';
 
 import 'logic.dart';
@@ -105,6 +106,7 @@ class _SetAvatarButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
+        // await Get.offAllNamed(AppRoutes.checkIn, arguments: Get.arguments);
         await Get.offAllNamed(AppRoutes.checkIn, arguments: Get.arguments);
         logic.updatePlayerInfo();
       },
