@@ -9,7 +9,7 @@ class CheckInApi {
   factory CheckInApi() => _instance ?? CheckInApi._internal();
   final dio = Dio();
   // final baseUrl = "http://10.1.4.13:1337/api/game-show";
-  final baseUrl = "http://10.1.4.13:1337/api";
+  final baseUrl = "http://10.1.4.16:1337/api";
   CheckInApi._internal() {
     _instance = this;
   }
@@ -60,10 +60,11 @@ class CheckInApi {
   }
 
   Future<List<ResourceInfo>> fetchAvatars() async {
+    print("获取头像信息接口");
     final response = await dio.get(
-      "$baseUrl/headgears",
+      "$baseUrl/game-items",
       queryParameters: {
-        "populate[0]": "image",
+        "populate[0]": "icon",
       },
     );
     print(response.data);
@@ -100,9 +101,27 @@ class CheckInApi {
       },
     );
   }
+  // 查重
+  Future<Map> checkingPlayer(String email) async {
+    print("通过邮箱进行玩家查重");
+    print("object $email");
+    try {
+      final response = await dio.get(
+        "$baseUrl/players/query-id",
+        queryParameters: {"email": email},
+      );
+      print("object $response");
+      Map<String, dynamic> result = response.data;
+      return result;
+    } on DioException {
+      Map<String, dynamic> result = {};
+      return result;
+    }
 
-  Future<void> addPlayerFun(int showId, int tableId, [String? email, String? phone, String? firstName, String? lastName]) async {
-    // print("12345上山打老虎 ${tableId }");
+  }
+  // 正常添加玩家
+  Future<void> addPlayerFun(int showId, int tableId, [String? email, String? phone, String? firstName, String? lastName, String? birthday]) async {
+    print("12345上山打老虎 ${showId }");
     // print("12345上山打老虎 ${email }");
     // print("12345上山打老虎 ${phone }");
     // print("12345上山打老虎 ${firstName }");
@@ -113,20 +132,28 @@ class CheckInApi {
     final firstMap = tableId != null ? {"tableId": tableId} : {};
     // final secondMap = firstName != null ? {"username": firstName} : {};
     // final thirdlyMap = lastName != null ? {"nickname": lastName} : {};
-    final secondMap = userName != null ? {"username": userName} : {};
-    final thirdlyMap = firstName != null ? {"nickname": firstName} : {};
+    // final secondMap = userName != null ? {"username": userName} : {};
+    // final thirdlyMap = firstName != null ? {"nickname": firstName} : {};
+    final secondMap = userName != null ? {"name": userName} : {};
     final fourthlyMap = phone != null ? {"phone": phone} : {};
     final fifthMap = email != null ? {"email": email} : {};
+    final sixthMap = birthday != null ? {"birthday": birthday} : {};
     final result = {
       ...firstMap,
       ...secondMap,
-      ...thirdlyMap,
+      // ...thirdlyMap,
       ...fourthlyMap,
       ...fifthMap,
+      ...sixthMap,
     };
     print("哈哈哈哈哈 $result");
-    await dio.post("$baseUrl/shows/$showId/player-joined",
+    // final response = await dio.post("$baseUrl/shows/$showId/player-joined",
+    //     data: result);
+    final response = await dio.post("$baseUrl/players/register",
         data: result);
+
+    print(response.data);
+    return response.data;
 
     // try {
     //   await dio.post("http://10.1.4.13:1337/api/shows/3/player-joined",
@@ -134,5 +161,24 @@ class CheckInApi {
     // } catch (e) {
     //   print("asassas $e");
     // }
+  }
+  // 添加玩家时，点击了跳过
+  Future<void> addSkipPlayer() async {
+    final response = await dio.post("$baseUrl/players/register-temp",
+        data: {});
+    print(response.data);
+    return response.data;
+  }
+  // 玩家加入show
+  Future<void> addPlayerToShow(int showId, int tableId, int userId) async {
+    final firstMap = tableId != null ? {"tableId": tableId} : {};
+    final secondMap = userId != null ? {"userId": userId} : {};
+    final result = {
+      ...firstMap,
+      ...secondMap,
+    };
+    await dio.post("$baseUrl/shows/$showId/player-joined",
+        data: result);
+    print("哈哈哈哈哈 $result");
   }
 }
