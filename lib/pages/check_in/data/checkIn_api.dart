@@ -181,4 +181,9 @@ class CheckInApi {
         data: result);
     print("哈哈哈哈哈 $result");
   }
+  // 查询当前的游戏show状态
+  // Future<ShowState> fetchShowState() async {
+  //   final response = await dio.get("http://$baseApiUrl/show/state");
+  //   return ShowState.fromJson(response.data);
+  // }
 }

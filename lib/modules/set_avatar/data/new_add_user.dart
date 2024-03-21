@@ -17,7 +17,9 @@ class NewAddUser {
       showStatus: json['showStatus'],
     );
   }
-  // Map<String, dynamic> toJson() => {
-  //   'userId': userId,
-  // };
+  Map<String, dynamic> toJson() => {
+    'userId': userId,
+    'showId': showId,
+    'showStatus': showStatus,
+  };
 }

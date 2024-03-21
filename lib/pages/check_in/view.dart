@@ -20,8 +20,6 @@ class CheckInPage extends StatelessWidget {
         body: Stack(
       children: [
         GetBuilder<CheckInLogic>(builder: (logic) {
-          print("状态信息： ${Get.arguments}");
-          print("状态信息： ${Get.arguments.status}");
           if (Get.arguments.status == ShowStatus.gamePreparing || Get.arguments.status == ShowStatus.gaming) {
             print("添加玩家");
             return PlayerInfoShow();
@@ -30,26 +28,6 @@ class CheckInPage extends StatelessWidget {
             return WelcomePage();
           }
         }),
-        // Positioned(
-        //   left: 20,
-        //   top: 20,
-        //   child: Text(
-        //     "Table ${Global.tableId}",
-        //     style: TextStyle(
-        //       fontWeight: FontWeight.bold,
-        //       fontSize: 80.sp,
-        //       decoration: TextDecoration.none,
-        //       fontFamily: 'Burbank',
-        //       color: Colors.white,
-        //     ),
-        //   ),
-        // ),
-        // Align(
-        //   alignment: Alignment.topLeft,
-        //   child: _GoBackButton(
-        //     width: 143.w,
-        //   ),
-        // ),
       ],
     ));
   }
