@@ -219,8 +219,11 @@ class _AddBirthdayButton extends StatelessWidget {
               "showId": Get.arguments.showId,
               "status": Get.arguments.status.toString()
             };
-            Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
-            Get.find<SetAvatarLogic>().updatePlayer(addUserInfo['userId'].toString());
+            print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
+            if(Get.isRegistered<SetAvatarLogic>()) {
+              Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
+              Get.find<SetAvatarLogic>().updatePlayer(addUserInfo['userId'].toString());
+            }
             await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
           } on DioException catch (e) {
             EasyLoading.dismiss();
@@ -237,8 +240,11 @@ class _AddBirthdayButton extends StatelessWidget {
             "showId": Get.arguments.showId,
             "status": Get.arguments.status.toString()
           };
-          Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
-          Get.find<SetAvatarLogic>().updatePlayer(checkingUser['userId'].toString());
+          print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
+          if(Get.isRegistered<SetAvatarLogic>()) {
+            Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
+            Get.find<SetAvatarLogic>().updatePlayer(checkingUser['userId'].toString());
+          }
           await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
         }
       },

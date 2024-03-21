@@ -236,7 +236,7 @@ class _NextDefaultButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        print("groupsetting ${logic.showState.status}");
+        // print("groupsetting ${logic.showState.status}");
         logic.isFirstCheckIn = false;
         // Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
         Map<String, dynamic> jsonObj = {

@@ -232,9 +232,11 @@ class _AddPlayerButton extends StatelessWidget {
         logic.isClickSkip = false;
         logic.isFirstCheckIn = false;
         print("添加用户的跳转： ${Get.arguments}");
-        if(!Get.isRegistered<SetAvatarLogic>()) {
-          Get.put(SetAvatarLogic());
-        }
+        // Map<String, dynamic> jsonObj = {
+        //   "userId": logic.consumerId,
+        //   "showId": Get.arguments.showId,
+        //   "status": Get.arguments.status.toString()
+        // };
         Get.to(() => TermOfUsePage(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(

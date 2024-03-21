@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../common.dart';
+import '../../../../modules/set_avatar/logic.dart';
 import '../add_player/add_player_info.dart';
 import '../after_checkIn/player_info_show.dart';
 import 'group_setting.dart';
@@ -154,6 +155,9 @@ class _AgreeButton extends StatelessWidget {
         // Get.to(() => AddPlayerInfo(), arguments: Get.arguments);
         logic.isFirstCheckIn ? (logic.currentNickName = logic.userList[0].nickname) : "";
         logic.isFirstCheckIn ? (logic.selectedId = logic.userList[0].id) : "";
+        // if(!Get.isRegistered<SetAvatarLogic>()) {
+        //   Get.put(SetAvatarLogic());
+        // }
         logic.isFirstCheckIn ? Get.to(() => GroupSettingPage(), arguments: Get.arguments) : Get.to(() => AddPlayerInfo(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(

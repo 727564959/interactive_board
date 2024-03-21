@@ -1081,20 +1081,23 @@ class _SkipButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         Map<String, dynamic> skipUserInfo = await checkInApi.addSkipPlayer();
-        print("跳过后的返回 $skipUserInfo");
+        // print("跳过后的返回 $skipUserInfo");
         print("跳过后的返回 ${Get.arguments}");
         // 加入到show
         await checkInApi.addPlayerToShow(Get.arguments.showId, Global.tableId, skipUserInfo['userId']);
         // print("跳过后的返回 ${skipUserInfo['userId']}");
-        print("跳过后的返回 ${Get.arguments.showId}");
+        // print("跳过后的返回 ${Get.arguments.showId}");
         // print("跳过后的返回 ${logic.showState}");
         Map<String, dynamic> jsonObj = {
           "userId": skipUserInfo['userId'],
           "showId": Get.arguments.showId,
           "status": Get.arguments.status.toString()
         };
-        Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
-        Get.find<SetAvatarLogic>().updatePlayer(skipUserInfo['userId'].toString());
+        print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
+        if(Get.isRegistered<SetAvatarLogic>()) {
+          Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
+          Get.find<SetAvatarLogic>().updatePlayer(skipUserInfo['userId'].toString());
+        }
         await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
       },
       child: GetBuilder<CheckInLogic>(
