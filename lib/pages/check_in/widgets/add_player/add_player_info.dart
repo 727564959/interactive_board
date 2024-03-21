@@ -1125,6 +1125,7 @@ class _SkipButton extends StatelessWidget {
 
         Map<String, dynamic> skipUserInfo = await checkInApi.addSkipPlayer();
         print("跳过后的返回 $skipUserInfo");
+        // print("跳过后的返回 ${Get.arguments.showId}");
         // 加入到show
         await checkInApi.addPlayerToShow(Get.arguments['showId'], Global.tableId, skipUserInfo['userId']);
         // print("跳过后的返回 ${skipUserInfo['userId']}");

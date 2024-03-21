@@ -292,6 +292,7 @@ class _AddPlayerButton extends StatelessWidget {
         // 将点击跳过按钮置回初始状态
         logic.isClickSkip = false;
         logic.isFirstCheckIn = false;
+        // print("添加用户的跳转： ${Get.arguments}");
         Get.to(() => TermOfUsePage(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(

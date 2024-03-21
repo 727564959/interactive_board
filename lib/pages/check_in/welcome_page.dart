@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../common.dart';
 import '../../widgets/check_in_title.dart';
-import '../../widgets/debouncer.dart';
+// import '../../widgets/debouncer.dart';
 import 'widgets/before_checkIn/check_in_home.dart';
 
 class WelcomePage extends StatelessWidget {

@@ -14,7 +14,8 @@ class SetAvatarLogic extends GetxController {
   Map singlePlayer = {};
   List<ResourceInfo> avatarInfo = [];
   // NewAddUser get newAddUser => Get.arguments;
-  NewAddUser newAddUser = NewAddUser(userId: Get.arguments['userId'], showId: Get.arguments['showId'], showStatus: Get.arguments['showStatus']);
+  NewAddUser newAddUser = NewAddUser.fromJson(Get.arguments);
+  // NewAddUser newAddUser = NewAddUser(userId: Get.arguments['userId'], showId: Get.arguments['showId'], showStatus: Get.arguments['showStatus']);
   // int consumerId = Get.arguments;
   List<UserInfo> userList = [];
 
