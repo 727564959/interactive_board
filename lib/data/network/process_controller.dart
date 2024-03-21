@@ -29,6 +29,9 @@ class ProcessController {
     _showSocket = io('$baseSocketIoUrl/listener/game-show', option);
     _showSocket.on('show_state', (data) async {
       final state = ShowState.fromJson(data);
+      if (state.status == ShowStatus.waiting) {
+        Get.offAllNamed(AppRoutes.takeARest);
+      }
       if (state.status == ShowStatus.gamePreparing) {
         Get.offAllNamed(AppRoutes.choosePlayer, arguments: state);
       }
@@ -43,9 +46,12 @@ class ProcessController {
 
     _showSocket.on('stop_show', (data) async {
       final state = ShowState.fromJson(data);
+      Get.offAllNamed(AppRoutes.takeARest);
+    });
+    _showSocket.on('publish_show', (data) async {
+      final state = ShowState.fromJson(data);
       Get.offAllNamed(AppRoutes.checkIn, arguments: state);
     });
-
     _showSocket.connect();
   }
 
