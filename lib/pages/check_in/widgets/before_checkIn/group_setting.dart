@@ -242,7 +242,7 @@ class _NextDefaultButton extends StatelessWidget {
         Map<String, dynamic> jsonObj = {
           "userId": logic.consumerId,
           "showId": logic.showState.showId,
-          "showStatus": logic.showState.status.toString(),
+          "status": logic.showState.status.toString(),
         };
         // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
         await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);

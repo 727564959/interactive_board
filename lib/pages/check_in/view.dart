@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
-import 'package:interactive_board/pages/check_in/widgets/before_checkIn/check_in_home.dart';
 
 import '../../common.dart';
 import '../../data/model/show_state.dart';

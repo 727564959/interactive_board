@@ -1028,49 +1028,17 @@ class _NextButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        // if(logic.email != null && logic.phone != null && logic.firstName != null) {
-        // String testPhone = "+(" + logic.countryName + ")" + logic.phone;
-        // String testPhone = "+(1)" + logic.phone;
-        // String fullName = logic.firstName + "" + logic.lastName;
-
-        // try {
-        //   await checkInApi.addPlayerFun(
-        //       logic.showState.showId, testTabId, logic.email, testPhone, logic.firstName, logic.lastName);
-        //   EasyLoading.dismiss(animation: false);
-        //   logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
-        //   logic.currentNickName = logic.firstName;
-        //   print("${logic.currentNickName}");
-        //   Get.to(() => AddPlayerBirthday(), arguments: Get.arguments);
-        // } on DioException catch (e) {
-        //   EasyLoading.dismiss();
-        //   if (e.response == null) EasyLoading.showError("Network Error!");
-        //   EasyLoading.showError(e.response?.data["error"]["message"]);
-        // }
-
-        Get.to(() => AddPlayerBirthday(), arguments: Get.arguments);
-
-        // }
-        // else {
-        //   EasyLoading.showError("请填入信息!");
-        // }
-
-        // logic.userList = await checkInApi.fetchUsers();
-        // logic.currentNickName = logic.lastName;
-        // print("${logic.currentNickName}");
-        // Get.to(() => AddPlayerBirthday());
+        if(logic.email.isNotEmpty && logic.phone.isNotEmpty && logic.firstName.isNotEmpty && logic.lastName.isNotEmpty) {
+          Get.to(() => AddPlayerBirthday(), arguments: Get.arguments);
+        }
+        else {
+          EasyLoading.showError("Please fill in the information !");
+        }
       },
       child: GetBuilder<CheckInLogic>(
         id: "editNextBtn",
         builder: (logic) {
           return Container(
-            // height: width * 0.25,
-            // width: width,
-            // decoration: BoxDecoration(
-            //   image: DecorationImage(
-            //     image: AssetImage(backgroundUri),
-            //     fit: BoxFit.fitWidth,
-            //   ),
-            // ),
             decoration: BoxDecoration(
               color: Color(0xff13EFEF),
               borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -1112,31 +1080,20 @@ class _SkipButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        // logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
-        // logic.playerNum++;
-        // logic.currentNickName = "Player" + logic.playerNum.toString();
-        // print("ppp ${logic.currentNickName}");
-        // logic.currentUrl = logic.userList[0].avatarUrl;
-        // logic.currentIsMale = logic.userList[0].bodyName == "Male" ? true : false;
-        // logic.isClickSkip = true;
-        // 更新用户信息
-        // logic.updateUserList(logic.showState.showId);
-        // Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
-
         Map<String, dynamic> skipUserInfo = await checkInApi.addSkipPlayer();
         print("跳过后的返回 $skipUserInfo");
-        // print("跳过后的返回 ${Get.arguments.showId}");
-        // 加入到show
-        await checkInApi.addPlayerToShow(Get.arguments['showId'], Global.tableId, skipUserInfo['userId']);
-        // print("跳过后的返回 ${skipUserInfo['userId']}");
         print("跳过后的返回 ${Get.arguments}");
+        // 加入到show
+        await checkInApi.addPlayerToShow(Get.arguments.showId, Global.tableId, skipUserInfo['userId']);
+        // print("跳过后的返回 ${skipUserInfo['userId']}");
+        print("跳过后的返回 ${Get.arguments.showId}");
         // print("跳过后的返回 ${logic.showState}");
         Map<String, dynamic> jsonObj = {
           "userId": skipUserInfo['userId'],
-          "showId": Get.arguments['showId'],
-          "showStatus": Get.arguments['showStatus']
+          "showId": Get.arguments.showId,
+          "status": Get.arguments.status.toString()
         };
-        Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+        Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
         Get.find<SetAvatarLogic>().updatePlayer(skipUserInfo['userId'].toString());
         await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
       },
@@ -1166,16 +1123,6 @@ class _SkipButton extends StatelessWidget {
               ),
             ),
           );
-          // return Text(
-          //   "SKIP",
-          //   style: TextStyle(
-          //     fontSize: 35.sp,
-          //     decoration: TextDecoration.none,
-          //     fontFamily: 'BurbankBold',
-          //     color: Color(0xff13EFEF),
-          //     letterSpacing: 3.sp,
-          //   ),
-          // );
         },
       ),
     );

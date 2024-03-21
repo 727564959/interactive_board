@@ -2,14 +2,11 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:get/get.dart';
-import 'package:interactive_board/pages/check_in/data/single_player.dart';
 import '../../common.dart';
 import '../../data/model/show_state.dart';
 import 'data/avatar_info.dart';
 import 'data/checkin_api.dart';
 import 'data/user_info.dart';
-
-enum PageState { setAvatarPage, addPlayerPage }
 
 class CheckInLogic extends GetxController {
   final checkInApi = CheckInApi();
@@ -26,12 +23,9 @@ class CheckInLogic extends GetxController {
   Map singlePlayer = {};
   bool isCheckIn = false;
   String currentNickName = "";
-  String isAvatarType = "head";
   String headId = "";
   bool currentIsMale = true;
   String currentUrl = "";
-  bool checkinBtnIsDown = false;
-  bool isUpdateName = false;
   // 设置avatar中的返回上一页按钮是否按下
   bool addGoBackIsDown = false;
   // 保存avatar按钮是否按下
@@ -45,8 +39,6 @@ class CheckInLogic extends GetxController {
 
   String? selectedId;
 
-  PageState pageState = PageState.setAvatarPage;
-
   String birthdayStr = "Please select a date";
 
   String email = "";
@@ -56,67 +48,6 @@ class CheckInLogic extends GetxController {
   String countryName = "";
 
   int playerNum = 0;
-
-  // void clickItem(String id, String nickname, String avatarUrl, bool isMale) async {
-  void clickItem(String id, String nickname, String avatarUrl, String isMale) async {
-    print("点击了item");
-    print("123 $selectedId");
-    print("123 $id");
-    print("123 $nickname");
-    print("123 $avatarUrl");
-    print("123 $isMale");
-    currentNickName = nickname;
-    if (id == selectedId) {
-      selectedId = null;
-    } else {
-      selectedId = id;
-    }
-    // userList = await checkInApi.fetchUsers();
-    // avatarInfo = await checkInApi.fetchAvatars();
-    update();
-
-    currentIsMale = isMale == "Male" ? true : false;
-    update(['bodyPage']);
-    currentUrl = avatarUrl;
-    update(['headPage']);
-  }
-
-  void isUpdateNameFun(bool t) {
-    isUpdateName = t;
-    // update();
-    // update(['setNickname']);
-    update(['editNickname']);
-  }
-
-  void testUpd(String text) {
-    print("$text");
-    final index =
-        userList.indexWhere((element) => selectedId != null ? element.id == selectedId : element.id == userList[0].id);
-    userList[index] = UserInfo(
-      id: userList[index].id,
-      nickname: text,
-      avatarUrl: currentUrl,
-      // username: userList[index].username,
-      // isMale: currentIsMale,
-      headgearId: headId,
-      headgearName: userList[index].headgearName,
-      bodyId: userList[index].bodyId,
-      bodyName: userList[index].bodyName,
-    );
-    isUpdateName = false;
-    currentNickName = text;
-
-    update();
-    // update(['setNickname']);
-    update(['editNickname']);
-  }
-
-  void checkinBtnDown(bool sign) {
-    print("切换");
-    print("12345: $sign");
-    checkinBtnIsDown = sign;
-    update(['checkIn']);
-  }
 
   // 返回按钮是否按下
   void goBackBtnDown(bool sign) {
@@ -148,13 +79,6 @@ class CheckInLogic extends GetxController {
     update(['bodyPage']);
   }
 
-  void clickCut(String type) {
-    print("切换");
-    print("12345: $type");
-    isAvatarType = type;
-    update(['typePage']);
-  }
-
   void checkInFun(bool isClick) async {
     print("调用了");
     // update(["avatarSelect"]);
@@ -166,13 +90,6 @@ class CheckInLogic extends GetxController {
     // isCheckIn = true;
     update();
   }
-
-  // void testSave() async {
-  //   print("呱呱呱呱呱呱: $currentUrl");
-  //   checkInApi.updatePlayerInfo(
-  //       selectedId ?? (userList[0].id), currentNickName, headId, currentIsMale);
-  //   update();
-  // }
 
   void birdShow() {}
 
@@ -211,26 +128,6 @@ class CheckInLogic extends GetxController {
         "${val?.day}";
     print("选择生日 $birthdayStr");
     update();
-  }
-
-  // 点击add player按钮
-  void clickAddPlayer() {
-    print("呵呵呵呵呵呵呵");
-    pageState = PageState.addPlayerPage;
-    update(['avatarHomePage']);
-  }
-
-  // 点击Done按钮
-  void clickDone() {
-    print("呃呃呃呃呃呃");
-    pageState = PageState.setAvatarPage;
-    update(['avatarHomePage']);
-  }
-
-  @override
-  void onReady () async {
-    print('onReady called');
-    super.onReady();
   }
 
   @override

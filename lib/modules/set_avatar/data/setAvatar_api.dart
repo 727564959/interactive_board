@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../common.dart';
+import '../../../data/model/show_state.dart';
 import 'avatar_info.dart';
 import 'user_info.dart';
 
@@ -66,5 +67,10 @@ class SetAvatarApi {
         "bodyId": bodyId,
       },
     );
+  }
+  // 查询当前的游戏show状态
+  Future<ShowState> fetchShowState() async {
+    final response = await dio.get("$baseApiUrl/show/state");
+    return ShowState.fromJson(response.data);
   }
 }

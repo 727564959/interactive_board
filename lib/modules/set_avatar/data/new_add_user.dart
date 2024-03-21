@@ -4,22 +4,22 @@ class NewAddUser {
   NewAddUser({
     required this.userId,
     required this.showId,
-    required this.showStatus,
+    required this.status,
   });
   final int? userId;
   final int? showId;
-  final String showStatus;
+  final String status;
 
   factory NewAddUser.fromJson(Map<String, dynamic> json) {
     return NewAddUser(
       userId: json['userId'],
       showId: json['showId'],
-      showStatus: json['showStatus'],
+      status: json['status'],
     );
   }
-  Map<String, dynamic> toJson() => {
-    'userId': userId,
-    'showId': showId,
-    'showStatus': showStatus,
-  };
+  // Map<String, dynamic> toJson() => {
+  //   'userId': userId,
+  //   'showId': showId,
+  //   'status': status,
+  // };
 }

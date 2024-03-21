@@ -9,14 +9,14 @@ class CheckInApi {
   factory CheckInApi() => _instance ?? CheckInApi._internal();
   final dio = Dio();
   // final baseUrl = "http://10.1.4.13:1337/api/game-show";
-  final baseUrl = "http://10.1.4.16:1337/api";
+  // final baseUrl = "http://10.1.4.16:1337/api";
   CheckInApi._internal() {
     _instance = this;
   }
 
   Future<UserInfo> fetchUser(String id) async {
     final response = await dio.get(
-      "$baseUrl/users/$id",
+      "$baseApiUrl/users/$id",
       queryParameters: {"populate[headgear][populate][0]": "avatar"},
     );
     return UserInfo.fromStrapiJson(response.data);
@@ -26,7 +26,7 @@ class CheckInApi {
     print("是否进入了查询用户信息方法");
     print("$showId");
     final response = await dio.get(
-      "$baseUrl/shows/$showId/players",
+      "$baseApiUrl/shows/$showId/players",
       queryParameters: {"tableId": Global.tableId},
     );
     // List userList = response.data['playerList'];
@@ -37,7 +37,7 @@ class CheckInApi {
 
   Future<Map> fetchSingleUsers(String id) async {
     print("是否进入了查询单个玩家方法");
-    final response = await dio.get("$baseUrl/players/$id/base");
+    final response = await dio.get("$baseApiUrl/players/$id/base");
     print("测试接口 $response");
 
     Map<String, dynamic> result = response.data;
@@ -46,7 +46,7 @@ class CheckInApi {
 
   Future<List<ResourceInfo>> fetchBodies() async {
     final response = await dio.get(
-      "$baseUrl/bodies",
+      "$baseApiUrl/bodies",
       queryParameters: {
         "populate[0]": "image",
       },
@@ -62,7 +62,7 @@ class CheckInApi {
   Future<List<ResourceInfo>> fetchAvatars() async {
     print("获取头像信息接口");
     final response = await dio.get(
-      "$baseUrl/game-items",
+      "$baseApiUrl/game-items",
       queryParameters: {
         "populate[0]": "icon",
       },
@@ -78,7 +78,7 @@ class CheckInApi {
   Future<void> updatePlayerInfo(String userId, String nickname, String headgearId, bool isMale) async {
     print("12345上山打老虎");
     final response = await dio.put(
-      "$baseUrl/users/$userId",
+      "$baseApiUrl/users/$userId",
       data: {
         "nickname": nickname,
         "headgear": headgearId,
@@ -93,7 +93,7 @@ class CheckInApi {
     // print("12345上山打老虎 $headgearId");
     // print("12345上山打老虎 $bodyId");
     final response = await dio.post(
-      "$baseUrl/players/$userId/update-user-preference",
+      "$baseApiUrl/players/$userId/update-user-preference",
       data: {
         "nickname": nickname,
         "headgearId": headgearId,
@@ -107,7 +107,7 @@ class CheckInApi {
     print("object $email");
     try {
       final response = await dio.get(
-        "$baseUrl/players/query-id",
+        "$baseApiUrl/players/query-id",
         queryParameters: {"email": email},
       );
       print("object $response");
@@ -120,8 +120,8 @@ class CheckInApi {
 
   }
   // 正常添加玩家
-  Future<void> addPlayerFun(int showId, int tableId, [String? email, String? phone, String? firstName, String? lastName, String? birthday]) async {
-    print("12345上山打老虎 ${showId }");
+  Future<void> addPlayerFun(int tableId, [String? email, String? phone, String? firstName, String? lastName, String? birthday]) async {
+    // print("12345上山打老虎 ${showId }");
     // print("12345上山打老虎 ${email }");
     // print("12345上山打老虎 ${phone }");
     // print("12345上山打老虎 ${firstName }");
@@ -149,22 +149,15 @@ class CheckInApi {
     print("哈哈哈哈哈 $result");
     // final response = await dio.post("$baseUrl/shows/$showId/player-joined",
     //     data: result);
-    final response = await dio.post("$baseUrl/players/register",
+    final response = await dio.post("$baseApiUrl/players/register",
         data: result);
 
     print(response.data);
     return response.data;
-
-    // try {
-    //   await dio.post("http://10.1.4.13:1337/api/shows/3/player-joined",
-    //       data: result);
-    // } catch (e) {
-    //   print("asassas $e");
-    // }
   }
   // 添加玩家时，点击了跳过
   Future<void> addSkipPlayer() async {
-    final response = await dio.post("$baseUrl/players/register-temp",
+    final response = await dio.post("$baseApiUrl/players/register-temp",
         data: {});
     print(response.data);
     return response.data;
@@ -177,7 +170,7 @@ class CheckInApi {
       ...firstMap,
       ...secondMap,
     };
-    await dio.post("$baseUrl/shows/$showId/player-joined",
+    await dio.post("$baseApiUrl/shows/$showId/player-joined",
         data: result);
     print("哈哈哈哈哈 $result");
   }

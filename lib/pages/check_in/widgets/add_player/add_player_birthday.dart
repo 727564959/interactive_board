@@ -199,19 +199,6 @@ class _AddBirthdayButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         print("从生日选择跳转到形象设计");
-        // // 更新用户信息
-        // // logic.updateUserList(logic.showState.showId);
-        // int index = logic.userList.length - 1;
-        // print("54321 $index");
-        // logic.selectedId = logic.userList[index].id;
-        // print("54321 ${logic.selectedId}");
-        // logic.currentUrl = logic.userList[index].avatarUrl;
-        // logic.currentIsMale = logic.userList[index].bodyName == "Male" ? true : false;
-        // logic.currentNickName = logic.userList[index].nickname;
-        // print("54321 ${logic.currentNickName}");
-        // // 添加用户(加入游戏show)
-        // // Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
-
         print("54321 ${logic.email}");
         // 用户查重
         Map<String, dynamic> checkingUser = await checkInApi.checkingPlayer(logic.email);
@@ -223,21 +210,16 @@ class _AddBirthdayButton extends StatelessWidget {
           print("是新增!!!!!");
           String testPhone = "+(1)" + logic.phone;
           try {
-            Map<String, dynamic> addUserInfo = await checkInApi.addPlayerFun(Get.arguments['showId'], testTabId, logic.email, testPhone, logic.firstName, logic.lastName, logic.birthdayStr);
+            Map<String, dynamic> addUserInfo = await checkInApi.addPlayerFun(testTabId, logic.email, testPhone, logic.firstName, logic.lastName, logic.birthdayStr);
             EasyLoading.dismiss(animation: false);
-            // logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
-            // logic.currentNickName = logic.firstName;
-            // print("${logic.currentNickName}");
-            // Get.to(() => AddPlayerBirthday(), arguments: Get.arguments);
-
             // 加入到show
-            await checkInApi.addPlayerToShow(Get.arguments['showId'], Global.tableId, addUserInfo['userId']);
+            await checkInApi.addPlayerToShow(Get.arguments.showId, Global.tableId, addUserInfo['userId']);
             Map<String, dynamic> jsonObj = {
               "userId": addUserInfo['userId'],
-              "showId": Get.arguments['showId'],
-              "showStatus": Get.arguments['showStatus']
+              "showId": Get.arguments.showId,
+              "status": Get.arguments.status.toString()
             };
-            Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+            Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
             Get.find<SetAvatarLogic>().updatePlayer(addUserInfo['userId'].toString());
             await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
           } on DioException catch (e) {
@@ -249,30 +231,21 @@ class _AddBirthdayButton extends StatelessWidget {
         else {
           print("是更新!!!!!");
           // 加入到show
-          await checkInApi.addPlayerToShow(Get.arguments['showId'], Global.tableId, checkingUser['userId']);
+          // await checkInApi.addPlayerToShow(Get.arguments.showId, Global.tableId, checkingUser['userId']);
           Map<String, dynamic> jsonObj = {
             "userId": checkingUser['userId'],
-            "showId": Get.arguments['showId'],
-            "showStatus": Get.arguments['showStatus']
+            "showId": Get.arguments.showId,
+            "status": Get.arguments.status.toString()
           };
-          Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+          Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
           Get.find<SetAvatarLogic>().updatePlayer(checkingUser['userId'].toString());
           await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
         }
-        // await Get.offAllNamed(AppRoutes.setAvatar, arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
         id: "birthdayBtn",
         builder: (logic) {
           return Container(
-            // height: width * 0.4,
-            // width: width,
-            // decoration: BoxDecoration(
-            //   image: DecorationImage(
-            //     image: AssetImage(backgroundUri),
-            //     fit: BoxFit.fitWidth,
-            //   ),
-            // ),
             decoration: BoxDecoration(
               color: Color(0xff13EFEF),
               borderRadius: BorderRadius.all(Radius.circular(30)),

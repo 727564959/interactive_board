@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:interactive_board/data/model/show_state.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../app_routes.dart';
@@ -69,30 +70,6 @@ class PlayerInfoShow extends StatelessWidget {
                   },
                 ),
               ),
-              // Container(
-              //   decoration: BoxDecoration(
-              //     color: Colors.red,
-              //   ),
-              //   margin: EdgeInsets.only(top: 0.0, left: 0.0),
-              //   constraints: BoxConstraints.tightFor(width: 0.9.sw),
-              //   child: Column(
-              //     children: [
-              //       _NicknameArea(),
-              //       Column(
-              //         children: [
-              //           Container(
-              //             margin: EdgeInsets.only(top: 20.0, left: 80.0),
-              //             child: _AddPlayerButton(width: 432.w),
-              //           ),
-              //           Container(
-              //             margin: EdgeInsets.only(top: 60.0, left: 80.0),
-              //             child: _GoBackButton(width: 84.w),
-              //           ),
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
               SizedBox(
                 child: GetBuilder<CheckInLogic>(
                   builder: (logic) {
@@ -101,23 +78,15 @@ class PlayerInfoShow extends StatelessWidget {
                         _NicknameArea(),
                         Column(
                           children: [
-                            // Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.start,
-                            //   children: [
-                            //     Container(
-                            //       margin: EdgeInsets.only(top: 20.0, left: 0.0),
-                            //       child: _AddPlayerButton(width: 432.w),
-                            //     ),
-                            //   ],
-                            // ),
                             Container(
                               margin: EdgeInsets.only(top: 20.0, left: 0.0),
                               child: _AddPlayerButton(width: 432.w),
                             ),
-                            // Container(
-                            //   margin: EdgeInsets.only(top: 60.0, left: 0.0),
-                            //   child: _GoBackButton(width: 84.w),
-                            // ),
+                            if(Get.arguments.status == ShowStatus.gamePreparing)
+                            Container(
+                              margin: EdgeInsets.only(top: 20.0, left: 0.0),
+                              child: _GoBackButton(width: 84.w),
+                            ),
                           ],
                         ),
                       ],
@@ -149,7 +118,6 @@ class _NicknameArea extends StatelessWidget {
       // 点击事件
       onTap: () async {
         print("修改名字");
-        // logic.isUpdateNameFun(true);
       },
       child: GetBuilder<CheckInLogic>(
         id: "nicknameArea",
@@ -169,20 +137,6 @@ class _NicknameArea extends StatelessWidget {
               // crossAxisAlignment: WrapCrossAlignment.start,
               children: List.generate(logic.userList.length, (index) => getItem(index)),
             ),
-
-            // child: Container(
-            //   margin: EdgeInsets.only(top: 20.0, left: 20.0, bottom: 20.0, right: 20.0),
-            //   child: Text(
-            //     logic.userList[0].nickname,
-            //     style: TextStyle(
-            //       fontSize: 60.sp,
-            //       decoration: TextDecoration.none,
-            //       fontFamily: 'BurbankBold',
-            //       color: Colors.black,
-            //       letterSpacing: 3.sp,
-            //     ),
-            //   ),
-            // ),
           );
         },
       ),
@@ -193,6 +147,7 @@ class _NicknameArea extends StatelessWidget {
 // 获取子项目
 Widget getItem(int index) {
   final logic = Get.find<CheckInLogic>();
+
   var item = logic.userList[index % logic.userList.length];
   final checkInApi = CheckInApi();
   final setAvatarApi = SetAvatarApi();
@@ -218,34 +173,18 @@ Widget getItem(int index) {
       ),
       onPressed: () async {
         print("点击 ${item.id}");
-        // 将点击跳过按钮置回初始状态
-        // logic.isClickSkip = false;
-        // logic.isFirstCheckIn = false;
-        // logic.singlePlayer = await checkInApi.fetchSingleUsers(item.id);
-        // print("点击 ${logic.singlePlayer}");
-        // final index = logic.userList.indexWhere((element) => element.id == item.id);
-        // print("点击 ${index}");
-        // print("点击 ${logic.userList[index]}");
-        // // 更新
-        // logic.selectedId = item.id;
-        // print("54321 ${logic.selectedId}");
-        // logic.currentUrl = logic.userList[index].avatarUrl;
-        // logic.currentIsMale = logic.userList[index].bodyName == "Male" ? true : false;
-        // logic.currentNickName = logic.userList[index].nickname;
-        // // 更新用户信息
-        // // logic.updateUserList(logic.showState.showId);
-        // // 跳转到形象设计页面
-        // // Get.to(() => AvatarDesignPage(), arguments: item);
-
         print("参数 ${Get.arguments}");
         Map<String, dynamic> jsonObj = {
-          "userId": item.id,
-          "showId": Get.arguments['showId'],
-          "showStatus": Get.arguments['showStatus']
+          "userId": int.parse(item.id),
+          "showId": Get.arguments.showId,
+          "status": Get.arguments.status.toString()
         };
         print("参数 ${jsonObj}");
-        Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
-        Get.find<SetAvatarLogic>().updatePlayer(item.id);
+        print("object ${Get.isRegistered<SetAvatarLogic>()}");
+        if(Get.isRegistered<SetAvatarLogic>()) {
+          Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
+          Get.find<SetAvatarLogic>().updatePlayer(item.id);
+        }
         // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
         await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
       });
@@ -292,7 +231,10 @@ class _AddPlayerButton extends StatelessWidget {
         // 将点击跳过按钮置回初始状态
         logic.isClickSkip = false;
         logic.isFirstCheckIn = false;
-        // print("添加用户的跳转： ${Get.arguments}");
+        print("添加用户的跳转： ${Get.arguments}");
+        if(!Get.isRegistered<SetAvatarLogic>()) {
+          Get.put(SetAvatarLogic());
+        }
         Get.to(() => TermOfUsePage(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
@@ -338,9 +280,9 @@ class _GoBackButton extends StatelessWidget {
         logic.goBackBtnDown(false);
       },
       // 点击事件
-      onTap: () {
+      onTap: () async {
         print("单击返回");
-        Get.offAllNamed(AppRoutes.choosePlayer);
+        await Get.offAllNamed(AppRoutes.choosePlayer, arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
         id: "goBackBtn",

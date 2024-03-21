@@ -107,7 +107,8 @@ class _SetAvatarButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         // await Get.offAllNamed(AppRoutes.checkIn, arguments: Get.arguments);
-        await Get.offAllNamed(AppRoutes.checkIn, arguments: Get.arguments);
+
+        await Get.offNamed(AppRoutes.checkIn, arguments: Get.arguments);
         logic.updatePlayerInfo();
       },
       child: GetBuilder<ChoosePlayerLogic>(

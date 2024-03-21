@@ -67,6 +67,8 @@ class SetAvatarLogic extends GetxController {
   void onReady () async {
     print('onReady called');
     super.onReady();
+    updateUserList(Get.arguments.showId);
+    updatePlayer(Get.arguments.userId);
   }
 
   @override

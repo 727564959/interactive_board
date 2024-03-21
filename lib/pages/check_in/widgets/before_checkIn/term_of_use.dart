@@ -190,22 +190,6 @@ class _BackButton extends StatelessWidget {
       child: GetBuilder<CheckInLogic>(
         id: "backBtn",
         builder: (logic) {
-          // return Row(
-          //   mainAxisSize: MainAxisSize.max,
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Text(
-          //       "Back",
-          //       style: TextStyle(
-          //         fontSize: 35.sp,
-          //         decoration: TextDecoration.none,
-          //         fontFamily: 'BurbankBold',
-          //         color: Color(0xff13EFEF),
-          //         letterSpacing: 3.sp,
-          //       ),
-          //     )
-          //   ],
-          // );
           return Text(
             "Back",
             style: TextStyle(

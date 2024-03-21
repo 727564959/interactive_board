@@ -355,51 +355,26 @@ class _SaveAndBackButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        // // logic.checkInFun(false);
-        // print("保存avatar");
-        // print("sssr ${logic.selectedId}");
-        // print("sssr ${logic.headId}");
-        // print("sssr ${logic.currentNickName}");
-        // print("currentIsMale ${logic.currentIsMale}");
-        // print("isClickSkip ${logic.isClickSkip}");
-        // // int num1 = int.parse(logic.selectedId.toString());
         int num2 = int.parse(logic.headId.toString());
-        // // 如果在添加用户信息页面点击了跳过，则需要先添加用户信息，再进行形象信息更新保存；反之则直接更新形象信息
-        // if (logic.isClickSkip) {
-        //   // 添加用户(加入游戏show)
-        //   // await checkInApi.addPlayerFun(logic.showState.showId, testTabId, null, null, logic.currentNickName, null);
-        //   // // 更新用户列表
-        //   // logic.userList = await checkInApi.fetchUsers(logic.showState.showId);
-        //   int index = logic.userList.length - 1;
-        //   print("ooop ${index}");
-        //   logic.selectedId = logic.userList[index].id;
-        //   print("rtrt ${logic.selectedId}");
-        //   // 更新形象信息
-        //   await checkInApi.updatePlayer(
-        //       int.parse(logic.selectedId.toString()), logic.currentNickName, num2, logic.currentIsMale ? 1 : 2);
-        // } else {
-          // 更新形象信息
-
+        print("num2：$num2");
         print("currentNickName：${logic.currentNickName}");
         print("showState：${Get.arguments}");
-          await setAvatarApi.updatePlayer(logic.singlePlayer['id'], logic.currentNickName, num2, logic.currentIsMale ? 10 : 11);
-          Map<String, dynamic> jsonObj = {
-            "tableId": Global.tableId,
-            "showId": logic.newAddUser.showId,
-            "showStatus": logic.newAddUser.showStatus
-          };
-          // Get.put(CheckInLogic());
-          // print("参数：${Get.arguments}");
-          // logic.updateUserList(int.parse(logic.newAddUser.showId.toString()));
-          Get.find<CheckInLogic>().updateUserList(int.parse(logic.newAddUser.showId.toString()));
-          Get.find<CheckInLogic>().updatePlayer(logic.newAddUser.userId.toString());
-          Get.to(() => PlayerInfoShow(), arguments: jsonObj);
-        // }
-        // print("showState ${logic.showState.showId}");
-        // 更新用户信息
-        // logic.updateUserList(logic.showState.showId);
-        // print("跳转玩家展示");
-        // Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
+        print("logic.singlePlayer：${logic.singlePlayer['id']}");
+        print("logic.currentIsMale：${logic.currentIsMale}");
+
+        await setAvatarApi.updatePlayer(logic.singlePlayer['id'], logic.currentNickName, num2, logic.currentIsMale ? 10 : 11);
+        // Map<String, dynamic> jsonObj = {
+        //   "userId": logic.singlePlayer['id'],
+        //   "showId": logic.newAddUser.showId,
+        //   "status": logic.newAddUser.status
+        // };
+        // Get.put(CheckInLogic());
+        // print("参数：${Get.arguments}");
+        // logic.updateUserList(int.parse(logic.newAddUser.showId.toString()));
+
+        Get.find<CheckInLogic>().updateUserList(int.parse(logic.newAddUser.showId.toString()));
+        Get.find<CheckInLogic>().updatePlayer(logic.newAddUser.userId.toString());
+        Get.to(() => PlayerInfoShow(), arguments: await setAvatarApi.fetchShowState());
       },
       child: GetBuilder<SetAvatarLogic>(
         id: "saveAndBackBtn",
