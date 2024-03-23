@@ -183,6 +183,7 @@ Widget getItem(int index) {
         print("object ${Get.isRegistered<SetAvatarLogic>()}");
         if(Get.isRegistered<SetAvatarLogic>()) {
           Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
+          await Future.delayed(100.ms);
           Get.find<SetAvatarLogic>().updatePlayer(item.id);
         }
         // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);

@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../app_routes.dart';
 import '../../../../common.dart';
@@ -16,167 +18,175 @@ class AddPlayerBirthday extends StatelessWidget {
   AddPlayerBirthday({Key? key}) : super(key: key);
   final logic = Get.find<CheckInLogic>();
 
-  String birthdayStr = 'Please select a date';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        Container(
-          width: 1.0.sw,
-          height: 1.0.sh,
-          color: Colors.black,
-          child: Column(
-            children: [
-              // 顶部文本信息
-              CheckInTitlePage(titleText: "Add Player"),
-              SizedBox(
-                child: GetBuilder<CheckInLogic>(
-                  builder: (logic) {
-                    return Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 60.0, left: 120.0),
-                          constraints: BoxConstraints.tightFor(width: 0.8.sw, height: 0.2.sh), //卡片大小
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 10.0, right: 0.5.sw),
-                                child: Text(
-                                  'When’s your birthday?',
-                                  style: TextStyle(
-                                    fontSize: 60.sp,
-                                    decoration: TextDecoration.none,
-                                    fontFamily: 'BurbankBold',
-                                    color: Colors.white,
-                                    letterSpacing: 3.sp,
-                                  ),
+      body: Stack(
+        children: [
+      Container(
+        width: 1.0.sw,
+        height: 1.0.sh,
+        color: Colors.black,
+        child: Column(
+          children: [
+            // 顶部文本信息
+            CheckInTitlePage(titleText: "Add Player"),
+            SizedBox(
+              child: GetBuilder<CheckInLogic>(
+                builder: (logic) {
+                  return Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 60.0, left: 120.0),
+                        constraints: BoxConstraints.tightFor(width: 0.8.sw, height: 0.2.sh), //卡片大小
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 10.0, right: 0.5.sw),
+                              child: Text(
+                                'When’s your birthday?',
+                                style: TextStyle(
+                                  fontSize: 60.sp,
+                                  decoration: TextDecoration.none,
+                                  fontFamily: 'BurbankBold',
+                                  color: Colors.white,
+                                  letterSpacing: 3.sp,
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.only(top: 30.0),
-                                child: Text(
-                                  'Collecting your birthday information to friendly gaming experience.  we will not disclose this information. Please rest assured.',
-                                  style: TextStyle(
-                                    fontSize: 35.sp,
-                                    decoration: TextDecoration.none,
-                                    fontFamily: 'BurbankBold',
-                                    color: Colors.white,
-                                    letterSpacing: 3.sp,
-                                  ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 30.0),
+                              child: Text(
+                                'Collecting your birthday information to friendly gaming experience.  we will not disclose this information. Please rest assured.',
+                                style: TextStyle(
+                                  fontSize: 35.sp,
+                                  decoration: TextDecoration.none,
+                                  fontFamily: 'BurbankBold',
+                                  color: Colors.white,
+                                  letterSpacing: 3.sp,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    );
-                  },
-                ),
+                      ),
+                    ],
+                  );
+                },
               ),
-              SizedBox(
-                child: GetBuilder<CheckInLogic>(
-                  builder: (logic) {
-                    return Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            SizedBox(
+              child: GetBuilder<CheckInLogic>(
+                builder: (logic) {
+                  // logic.birthdayStr = 'Please enter your birthday';
+                  return Row(
+                    children: [
+                      Container(
+                        // decoration: BoxDecoration(
+                        //   color: Colors.grey,
+                        //   borderRadius: BorderRadius.all(Radius.circular(10)),
+                        // ),
+                        margin: EdgeInsets.only(top: 20.0, left: 0.35.sw),
+                        constraints: BoxConstraints.tightFor(width: 0.3.sw, height: 0.2.sh),
+                        // constraints: BoxConstraints.tightFor(width: 0.3.sw),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Color(0xff000000)),//背景颜色
+                            side: MaterialStateProperty.all(BorderSide(width: 1,color: Color(0xffffffff))),//边框
                           ),
-                          margin: EdgeInsets.only(top: 60.0, left: 0.35.sw),
-                          constraints: BoxConstraints.tightFor(width: 0.3.sw, height: 0.2.sh),
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              var select_day_time = await showDatePicker(
-                                context: context,
-                                initialDate: logic.birthdayStr == "Please select a date"
-                                    ? DateTime.now()
-                                    : DateTime.parse(logic.birthdayStr), //起始时间
-                                // initialDate: DateTime.now(), //起始时间
-                                firstDate: DateTime(1900, 1, 1), //最小可以选日期
-                                lastDate: DateTime(2050, 12, 31), //最大可选日期
-                                errorFormatText: '错误的日期格式',
-                                errorInvalidText: '日期格式非法',
-                                fieldHintText: '月/日/年',
-                                fieldLabelText: '填写日期',
-                              );
-                              print('select_day_time$select_day_time');
-                              // 当前年份
-                              int currentYear = DateTime.now().year;
-                              // 选择的年份
-                              var selectYear = select_day_time?.year;
-                              print('selectYear$selectYear');
-                              // 是否选择了日期
-                              if (select_day_time != null) {
-                                // 如果小于13岁给出提示，反之直接选择
-                                if (currentYear - int.parse(selectYear.toString()) <= 13) {
-                                  EasyLoading.showError("Players should be over 13 yearss");
-                                } else {
-                                  // 调用生日选择
-                                  logic.confirmBirthdayFun(select_day_time);
-                                }
+                          onPressed: () async {
+                            var select_day_time = await showDatePicker(
+                              context: context,
+                              initialEntryMode: DatePickerEntryMode.inputOnly,
+                              builder: (context, child) {
+                                return Theme(
+                                  data: ThemeData(
+                                    // primarySwatch: Colors.amber,
+                                    primarySwatch: createMaterialColor(Color(0xff13EFEF)),
+                                  ),
+                                  child: child!,
+                                );
+                              },
+                              initialDate: logic.birthdayStr == "Please enter your birthday"
+                                  ? DateTime.now()
+                                  : DateTime.parse(logic.birthdayStr), //起始时间
+                              // initialDate: DateTime.now(), //起始时间
+                              firstDate: DateTime(1900, 1, 1), //最小可以选日期
+                              // lastDate: DateTime(2050, 12, 31), //最大可选日期
+                              lastDate: DateTime.now(),
+                              errorFormatText: 'Wrong date format',
+                              errorInvalidText: 'Invalid date format',
+                              fieldHintText: '月/日/年',
+                              fieldLabelText: 'Please enter your birthday',
+                            );
+                            print('select_day_time$select_day_time');
+                            // 当前年份
+                            int currentYear = DateTime.now().year;
+                            // 选择的年份
+                            var selectYear = select_day_time?.year;
+                            print('selectYear$selectYear');
+                            // 是否选择了日期
+                            if (select_day_time != null) {
+                              // 如果小于13岁给出提示，反之直接选择
+                              if (currentYear - int.parse(selectYear.toString()) <= 13) {
+                                EasyLoading.showError("Players should be over 13 yearss");
                               } else {
-                                EasyLoading.showError("Please select a date!");
+                                // 调用生日选择
+                                logic.confirmBirthdayFun(select_day_time);
                               }
-                            },
-                            child: Text(
-                              logic.birthdayStr,
-                              style: TextStyle(
-                                fontSize: 60.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
+                            } else {
+                              EasyLoading.showError("Please select a date!");
+                            }
+                          },
+                          child: Text(
+                            logic.birthdayStr,
+                            style: TextStyle(
+                              fontSize: 45.sp,
+                              decoration: TextDecoration.none,
+                              fontFamily: 'BurbankBold',
+                              color: Colors.white,
+                              letterSpacing: 3.sp,
                             ),
                           ),
                         ),
-                      ],
-                    );
-                  },
-                ),
+                      ),
+                    ],
+                  );
+                },
               ),
-              _AddBirthdayButton(width: 800.w),
-              _BackButton(),
-            ],
-          ),
+            ),
+            _AddBirthdayButton(width: 800.w),
+            _BackButton(),
+          ],
         ),
-        GetBuilder<CheckInLogic>(builder: (logic) {
-          return Container();
-        }),
-      ],
-    ));
+      ),
+      GetBuilder<CheckInLogic>(builder: (logic) {
+        return Container();
+      }),
+    ],
+      )
+    );
   }
 }
 
-Future<DateTime?> _showDatePickerForInputOnly(BuildContext context) {
-  return showDatePicker(
-    context: context,
-    initialDate: DateTime.now(), // 初始化选中日期
-    firstDate: DateTime(1900, 1, 1), // 开始日期
-    lastDate: DateTime(2050, 12, 31), // 结束日期
-    currentDate: DateTime.now(), // 当前日期
-    initialEntryMode: DatePickerEntryMode.inputOnly, // 日历弹框模式
-    // selectableDayPredicate: (daytime) {
-    //   // 自定义哪些日期可选
-    //   if (daytime == DateTime(2000)) {
-    //     return false;
-    //   }
-    //   return true;
-    // },
-    initialDatePickerMode: DatePickerMode.year, // 日期选择模式 默认为天
-    helpText: "请选择年份", // 左上角提示
-    cancelText: "Cancel", // 取消按钮 文案
-    confirmText: "OK", // 确认按钮 文案
-    useRootNavigator: true, // 是否使用根导航器
-    errorFormatText: "输入格式有误", // 输入日期 格式错误提示
-    errorInvalidText: "输入年份不合法", // 输入日期 不在first 与 last 之间提示
-    fieldHintText: "请输入年份", // 输入框为空时提示
-    fieldLabelText: "输入正确的年份", // 输入框上方 提示
-    textDirection: TextDirection.ltr, // 水平方向 显示方向 默认 ltr
-  );
+MaterialColor createMaterialColor(Color color) {
+  List strengths = <double>[.05];
+  Map<int, Color> swatch = {};
+  final int r = color.red, g = color.green, b = color.blue;
+
+  for (int i = 1; i < 10; i++) {
+    strengths.add(0.1 * i);
+  }
+  strengths.forEach((strength) {
+    final double ds = 0.5 - strength;
+    swatch[(strength * 1000).round()] = Color.fromRGBO(
+      r + ((ds < 0 ? r : (255 - r)) * ds).round(),
+      g + ((ds < 0 ? g : (255 - g)) * ds).round(),
+      b + ((ds < 0 ? b : (255 - b)) * ds).round(),
+      1,
+    );
+  });
+  return MaterialColor(color.value, swatch);
 }
 
 // 添加生日

@@ -21,7 +21,6 @@ class CheckInLogic extends GetxController {
   // 当前桌的消费者id
   int? consumerId;
   Map singlePlayer = {};
-  bool isCheckIn = false;
   String currentNickName = "";
   String headId = "";
   bool currentIsMale = true;
@@ -39,7 +38,7 @@ class CheckInLogic extends GetxController {
 
   String? selectedId;
 
-  String birthdayStr = "Please select a date";
+  String birthdayStr = "Please enter your birthday";
 
   String email = "";
   String phone = "";
@@ -61,34 +60,6 @@ class CheckInLogic extends GetxController {
     print("12345: $sign");
     saveAvatarIsDown = sign;
     update(['saveAvatarBtn']);
-  }
-
-  void clickHead(String id, String transparentBackgroundUrl) {
-    print("点击了头像");
-    print("头像的id: $id");
-    print("头像的id: $transparentBackgroundUrl");
-    headId = id;
-    currentUrl = transparentBackgroundUrl;
-    update(['headPage']);
-  }
-
-  void clickBody(bool gender) {
-    print("点击了身体");
-    print("身体的id: $gender");
-    currentIsMale = gender;
-    update(['bodyPage']);
-  }
-
-  void checkInFun(bool isClick) async {
-    print("调用了");
-    // update(["avatarSelect"]);
-    if (isClick) {
-      isCheckIn = true;
-    } else {
-      isCheckIn = false;
-    }
-    // isCheckIn = true;
-    update();
   }
 
   void birdShow() {}

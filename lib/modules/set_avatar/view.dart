@@ -192,7 +192,9 @@ class _EditNicknameText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("ppp ${logic.singlePlayer['nickname']}");
-    TextEditingController _nameTextFieldController = new TextEditingController(text: logic.singlePlayer['nickname']);
+    print("ppp ${logic.currentNickName}");
+    // TextEditingController _nameTextFieldController = new TextEditingController(text: logic.singlePlayer['nickname']);
+    TextEditingController _nameTextFieldController = new TextEditingController(text: logic.currentNickName);
     return Container(
       margin: EdgeInsets.only(top: 0.0, left: 0.0),
       constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h), //卡片大小

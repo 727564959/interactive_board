@@ -19,7 +19,7 @@ class SetAvatarApi {
   Future<Map> fetchSingleUsers(String id) async {
     print("是否进入了查询单个玩家方法");
     final response = await dio.get("$baseApiUrl/players/$id/base");
-    print("测试接口 $response");
+    print("单个用户信息 $response");
     Map<String, dynamic> result = response.data;
     return result;
   }
@@ -32,7 +32,7 @@ class SetAvatarApi {
       queryParameters: {"tableId": Global.tableId},
     );
     // List userList = response.data['playerList'];
-    print("测试接口 $response");
+    print("用户数据 $response");
     List userList = response.data;
     return userList.map((user) => UserInfo.fromJson(user)).toList();
   }
