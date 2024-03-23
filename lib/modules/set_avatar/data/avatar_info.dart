@@ -20,3 +20,29 @@ class ResourceInfo {
   final String name;
   final String url;
 }
+
+class GameItemInfo {
+  GameItemInfo({
+    required this.id,
+    required this.name,
+    required this.type,
+    required this.icon,
+    required this.level,
+  });
+
+  factory GameItemInfo.fromJson(Map<String, dynamic> json) {
+    final icon = "$baseStrapiUrl${json["icon"]}";
+    return GameItemInfo(
+      id: json["id"],
+      name: json["name"],
+      type: json["type"],
+      icon: icon,
+      level: json["level"],
+    );
+  }
+  final int id;
+  final String name;
+  final String type;
+  final int level;
+  final String icon;
+}

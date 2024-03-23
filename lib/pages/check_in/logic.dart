@@ -6,6 +6,7 @@ import '../../common.dart';
 import '../../data/model/show_state.dart';
 import 'data/avatar_info.dart';
 import 'data/checkin_api.dart';
+import 'data/team_info.dart';
 import 'data/user_info.dart';
 
 class CheckInLogic extends GetxController {
@@ -17,7 +18,12 @@ class CheckInLogic extends GetxController {
   // Map<String,dynamic> singlePlayer = {};
   // 游戏show的开始时间
   // String showStartTime = "";
-  DateTime get startTime => (showState.details as ShowPreparingDetails).startTime;
+  DateTime get startTime =>
+      (showState.details as ShowPreparingDetails).startTime;
+  // 队伍icon合集
+  List<TeamInfo> teamInfo = [];
+  // 当前队伍能用的头像
+  List<GameItemInfo> gameItemInfo = [];
   // 当前桌的消费者id
   int? consumerId;
   Map singlePlayer = {};
@@ -47,6 +53,9 @@ class CheckInLogic extends GetxController {
   String countryName = "";
 
   int playerNum = 0;
+
+  String teamName = "";
+  int? teamInfoIndex;
 
   // 返回按钮是否按下
   void goBackBtnDown(bool sign) {
@@ -81,7 +90,7 @@ class CheckInLogic extends GetxController {
         currentIsMale = userList[i].bodyName == 'Male' ? true : false;
       }
     }
-    currentNickName = singlePlayer['nickname'];
+    currentNickName = singlePlayer['name'];
     final avatar = avatarInfo.firstWhere((element) => element.id == headId);
     currentUrl = avatar.url;
     update();
@@ -101,12 +110,44 @@ class CheckInLogic extends GetxController {
     update();
   }
 
+  // 队伍icon选择，clickTeamName：当前点击icon名称；index：对应的teamInfo数组索引
+  void selectTeamIcon(String clickTeamName, int index) {
+    // 如果相等就置空，反之直接设置
+    if(teamName == clickTeamName) {
+      teamName = "";
+      teamInfoIndex = null;
+    }
+    else {
+      teamName = clickTeamName;
+      teamInfoIndex = index;
+    }
+    update();
+  }
+
+  // 爆宝箱头套方法
+  void explosiveChestFun(userId) async {
+    final gameItem = await checkInApi.fetchUserGameItems(userId);
+    for(int i = 0; i < gameItem.length; i++) {
+      if(gameItem[i].type == "headgear") {
+        gameItemInfo.add(gameItem[i]);
+        // print("爆出来的头像: ${gameItemInfo}");
+      }
+    }
+    // gameItemInfo = await checkInApi.fetchUserGameItems(userId);
+    print("爆出来的头像: ${gameItemInfo}");
+    // 刷新当前页面
+    update(['treasureChest']);
+  }
+
   @override
   void onInit() async {
     super.onInit();
-    final gameitems = await checkInApi.fetchUserGameItems(83);
-    final items = await checkInApi.fetchSelectableTeamInfo();
-    await checkInApi.updateTeamInfo(3, items[0]);
+    try {
+      teamInfo = await checkInApi.fetchSelectableTeamInfo();
+      print("当前队伍能选择的队伍icon: ${teamInfo}");
+    } catch (e) {
+      print("查询队伍icon报错 $e");
+    }
 
     print("show的状态数据: ${showState.status}");
     userList = await checkInApi.fetchUsers(showState.showId ?? 1);
@@ -117,7 +158,8 @@ class CheckInLogic extends GetxController {
     headId = userList[0].headgearId;
     avatarInfo = await checkInApi.fetchAvatars();
 
-    if (showState.status == ShowStatus.showPreparing || showState.status == ShowStatus.complete) {
+    if (showState.status == ShowStatus.showPreparing ||
+        showState.status == ShowStatus.complete) {
       ShowPreparingDetails showPreparingDetails = showState.details;
       print("show开始时间: ${showPreparingDetails}");
       // showStartTime = showPreparingDetails.startTime.toString();

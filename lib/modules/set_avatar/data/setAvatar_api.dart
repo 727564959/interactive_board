@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../../../common.dart';
 import '../../../data/model/show_state.dart';
-import 'avatar_info.dart';
+import '../../../pages/check_in/data/avatar_info.dart';
 import 'user_info.dart';
 
 class SetAvatarApi {
@@ -55,10 +55,10 @@ class SetAvatarApi {
   // 更新玩家的形象
   Future<void> updatePlayer(int userId, String nickname, int headgearId,
       int bodyId) async {
-    print("12345上山打老虎 $userId");
-    print("12345上山打老虎 $nickname");
-    print("12345上山打老虎 $headgearId");
-    print("12345上山打老虎 $bodyId");
+    // print("12345上山打老虎 $userId");
+    // print("12345上山打老虎 $nickname");
+    // print("12345上山打老虎 $headgearId");
+    // print("12345上山打老虎 $bodyId");
     final response = await dio.post(
       "$baseApiUrl/players/$userId/update-user-preference",
       data: {
@@ -72,5 +72,16 @@ class SetAvatarApi {
   Future<ShowState> fetchShowState() async {
     final response = await dio.get("$baseApiUrl/show/state");
     return ShowState.fromJson(response.data);
+  }
+
+  Future<List<GameItemInfo>> fetchUserGameItems(userId) async {
+    final response = await dio.get(
+      "$baseApiUrl/players/$userId/game-items",
+    );
+    final result = <GameItemInfo>[];
+    for (final item in response.data) {
+      result.add(GameItemInfo.fromJson(item));
+    }
+    return result;
   }
 }

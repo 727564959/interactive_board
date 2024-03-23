@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:interactive_board/modules/set_avatar/data/new_add_user.dart';
 import '../../common.dart';
 import '../../data/model/show_state.dart';
-import '../set_avatar/data/avatar_info.dart';
+import '../../pages/check_in/data/avatar_info.dart';
 import 'data/setAvatar_api.dart';
 import 'data/user_info.dart';
 
@@ -18,6 +18,10 @@ class SetAvatarLogic extends GetxController {
   // NewAddUser newAddUser = NewAddUser(userId: Get.arguments['userId'], showId: Get.arguments['showId'], showStatus: Get.arguments['showStatus']);
   // int consumerId = Get.arguments;
   List<UserInfo> userList = [];
+  // 当前队伍能用的头像
+  List<GameItemInfo> gameItemInfoHead = [];
+  // 当前队伍能用的身体
+  List<GameItemInfo> gameItemInfoBody = [];
 
   String headId = "";
   bool currentIsMale = true;
@@ -52,23 +56,50 @@ class SetAvatarLogic extends GetxController {
     avatarInfo = await setAvatarApi.fetchAvatars();
     for (int i = 0; i < userList.length; i++) {
       print(userList[i].id);
-      if(singlePlayer['id'].toString() == userList[i].id) {
+      if (singlePlayer['id'].toString() == userList[i].id) {
         headId = userList[i].headgearId;
         currentIsMale = userList[i].bodyName == 'Male' ? true : false;
+        currentNickName = userList[i].nickname;
       }
     }
-    currentNickName = singlePlayer['nickname'];
-    final avatar = avatarInfo.firstWhere((element) => element.id == headId);
-    currentUrl = avatar.url;
+    // currentNickName = singlePlayer['name'];
+    // final avatar = avatarInfo.firstWhere((element) => element.id == headId);
+    // currentUrl = avatar.url;
+    update();
+  }
+
+  // 查询当前用户的头套和身体
+  void explosiveChestFun(userId) async {
+    final gameItem = await setAvatarApi.fetchUserGameItems(userId);
+    gameItemInfoHead = [];
+    gameItemInfoBody = [];
+    for(int i = 0; i < gameItem.length; i++) {
+      if(gameItem[i].type == "headgear") {
+        gameItemInfoHead.add(gameItem[i]);
+        // print("爆出来的头像: ${gameItemInfo}");
+      }
+      if(gameItem[i].type == "body") {
+        gameItemInfoBody.add(gameItem[i]);
+        // print("爆出来的头像: ${gameItemInfo}");
+      }
+    }
+    // gameItemInfo = await checkInApi.fetchUserGameItems(userId);
+    print("爆出来的头像: ${gameItemInfoHead}");
+    print("爆出来的身体: ${gameItemInfoBody}");
+    print("哈哈哈哈: ${headId}");
+    final avatar = gameItemInfoHead.firstWhere((element) => element.id.toString() == headId);
+    currentUrl = avatar.icon;
+    // 刷新当前页面
     update();
   }
 
   @override
-  void onReady () async {
+  void onReady() async {
     print('onReady called');
     super.onReady();
     updateUserList(Get.arguments.showId);
     updatePlayer(Get.arguments.userId);
+    explosiveChestFun(Get.arguments.userId);
   }
 
   @override
@@ -77,21 +108,24 @@ class SetAvatarLogic extends GetxController {
     // await Future.delayed(100.ms);
     print("需要展示的玩家ID: $newAddUser");
     print("需要展示的玩家ID: ${newAddUser.userId}");
-    userList = await setAvatarApi.fetchUsers(newAddUser.showId??1);
+    userList = await setAvatarApi.fetchUsers(newAddUser.showId ?? 1);
     print("当桌的所有用户: ${userList}");
     avatarInfo = await setAvatarApi.fetchAvatars();
-    singlePlayer = await setAvatarApi.fetchSingleUsers(newAddUser.userId.toString());
+    singlePlayer =
+        await setAvatarApi.fetchSingleUsers(newAddUser.userId.toString());
+    explosiveChestFun(newAddUser.userId.toString());
     print("单用户: ${singlePlayer}");
     // print("单用户: ${singlePlayer['id']}");
     print("头像信息: ${avatarInfo}");
     for (int i = 0; i < userList.length; i++) {
       print(userList[i].id);
-      if(singlePlayer['id'].toString() == userList[i].id) {
+      if (singlePlayer['id'].toString() == userList[i].id) {
         headId = userList[i].headgearId;
         currentIsMale = userList[i].bodyName == 'Male' ? true : false;
+        currentNickName = userList[i].nickname;
       }
     }
-    currentNickName = singlePlayer['nickname'];
+    // currentNickName = singlePlayer['name'];
     print("当前头像ID: ${headId}");
     final avatar = avatarInfo.firstWhere((element) => element.id == headId);
     print("gfgfgfg: $avatar");

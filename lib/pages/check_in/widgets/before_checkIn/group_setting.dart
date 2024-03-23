@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
@@ -11,6 +13,8 @@ import '../../../../common.dart';
 import 'package:card_swiper/card_swiper.dart';
 
 import '../../../../modules/set_avatar/view.dart';
+import '../../data/checkIn_api.dart';
+import '../treasure_chest/explosive_chest.dart';
 
 class GroupSettingPage extends StatelessWidget {
   GroupSettingPage({Key? key}) : super(key: key);
@@ -43,30 +47,50 @@ class GroupSettingPage extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 1.0.sw,
-                    height: 0.15.sh,
-                    child: GetBuilder<CheckInLogic>(
-                      builder: (logic) {
-                        return Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(top: 20.0, left: 120.0),
-                              child: SizedBox(
-                                width: 0.24.sw,
-                                child: Text(
-                                  "Group settings",
-                                  style: TextStyle(
-                                    fontSize: 60.sp,
-                                    decoration: TextDecoration.none,
-                                    fontFamily: 'BurbankBold',
-                                    color: Colors.white,
-                                    letterSpacing: 3.sp,
-                                  ),
-                                ),
+                    height: 0.12.sh,
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 20.0, left: 120.0),
+                          child: SizedBox(
+                            width: 0.24.sw,
+                            child: Text(
+                              "Group settings",
+                              style: TextStyle(
+                                fontSize: 60.sp,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'BurbankBold',
+                                color: Colors.white,
+                                letterSpacing: 3.sp,
                               ),
                             ),
-                          ],
-                        );
-                      },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 1.0.sw,
+                    height: 0.05.sh,
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 0.0, left: 120.0),
+                          child: SizedBox(
+                            width: 0.3.sw,
+                            child: Text(
+                              "Please Choose Your Squad icon",
+                              style: TextStyle(
+                                fontSize: 40.sp,
+                                decoration: TextDecoration.none,
+                                fontFamily: 'BurbankBold',
+                                color: Color(0xff9B9B9B),
+                                letterSpacing: 3.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
@@ -76,51 +100,37 @@ class GroupSettingPage extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.white24,
+                                color: logic.teamName == logic.teamInfo[0].name ? Colors.white24 : null,
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
-                              margin: EdgeInsets.only(top: 20.0, left: 120.0),
-                              constraints: BoxConstraints.tightFor(width: 0.4.sw, height: 0.5.sh),//卡片大小
+                              margin: EdgeInsets.only(top: 20.0, left: 0.2.sw),
+                              constraints: BoxConstraints.tightFor(width: 0.3.sw, height: 0.55.sh),//卡片大小
                               alignment: Alignment.center, //卡片内文字居中
                               child: Column(
                                 children: [
-                                  Align(
-                                    heightFactor: 5,
-                                    alignment: const Alignment(0.0, 0.0),
-                                    child: Text(
-                                      "Create a Catchy Team Name!",
-                                      style: TextStyle(
-                                        // fontWeight: FontWeight.bold,
-                                        fontSize: 45.sp,
-                                        decoration: TextDecoration.none,
-                                        fontFamily: 'BurbankBold',
-                                        color: Colors.white,
-                                        letterSpacing: 3.sp,
-                                      ),
-                                    ),
+                                  Container(
+                                    width: 0.3.sw,
+                                    height: 0.08.sh,
+                                    child: logic.teamName == logic.teamInfo[0].name ?
+                                              Image.asset(
+                                                Global.getSetAvatarImageUrl('group_setting_select.png'),
+                                                fit: BoxFit.fitHeight,
+                                              ) : null,
                                   ),
-                                  SizedBox(
-                                    child: TextField(
-                                      decoration: InputDecoration(
-                                        fillColor: Color(0xff212121),
-                                        filled: true,
-                                        contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
-                                        // 默认可编辑时的边框
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xff5A5858), //边线颜色为白色
-                                            width: 2, //边线宽度为2
-                                          ),
-                                        ),
-                                        // 输入时的边框
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Colors.blue, //边框颜色为白色
-                                            width: 2, //宽度为5
-                                          ),
-                                        ),
+                                  Container(
+                                    width: 0.3.sw,
+                                    height: 0.42.sh,
+                                    margin: EdgeInsets.only(top: 0.02.sh),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        print("object 选择队伍icon 0");
+                                        logic.selectTeamIcon(logic.teamInfo[0].name, 0);
+                                      },
+                                      child: CachedNetworkImage(
+                                        imageUrl: logic.teamInfo[0].icon,
+                                        fit: BoxFit.fitHeight,
+                                        width: 0.2.sw,
                                       ),
-                                      style: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
                                     ),
                                   ),
                                 ],
@@ -128,37 +138,37 @@ class GroupSettingPage extends StatelessWidget {
                             ),
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.white24,
+                                color: logic.teamName == logic.teamInfo[1].name ? Colors.white24 : null,
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
-                              margin: EdgeInsets.only(top: 20.0, left: 10.0),
-                              constraints: BoxConstraints.tightFor(width: 0.4.sw, height: 0.5.sh),//卡片大小
-                              alignment: Alignment.center, //卡片内文字居中
+                              margin: EdgeInsets.only(top: 20.0, right: 0.2.sw,),
+                              constraints: BoxConstraints.tightFor(width: 0.3.sw, height: 0.55.sh),//卡片大小
+                              alignment: Alignment.center,
                               child: Column(
                                 children: [
-                                  Align(
-                                    heightFactor: 5,
-                                    alignment: const Alignment(0.0, 0.0),
-                                    child: Text(
-                                      "Pick up a flag",
-                                      style: TextStyle(
-                                        // fontWeight: FontWeight.bold,
-                                        fontSize: 45.sp,
-                                        decoration: TextDecoration.none,
-                                        fontFamily: 'BurbankBold',
-                                        color: Colors.white,
-                                        letterSpacing: 3.sp,
-                                      ),
-                                    ),
+                                  Container(
+                                    width: 0.3.sw,
+                                    height: 0.08.sh,
+                                    child: logic.teamName == logic.teamInfo[1].name ?
+                                    Image.asset(
+                                      Global.getSetAvatarImageUrl('group_setting_select.png'),
+                                      fit: BoxFit.fitHeight,
+                                    ) : null,
                                   ),
-                                  Align(
-                                    alignment: const Alignment(0.0, 0.0),
-                                    child: SizedBox(
-                                      width: 200,
-                                      height: 200,
-                                      child: CustomSwiper(
-                                        banner: banner,
-                                      )
+                                  Container(
+                                    width: 0.3.sw,
+                                    height: 0.42.sh,
+                                    margin: EdgeInsets.only(top: 0.02.sh),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        print("object 选择队伍icon 1");
+                                        logic.selectTeamIcon(logic.teamInfo[1].name, 1);
+                                      },
+                                      child: CachedNetworkImage(
+                                        imageUrl: logic.teamInfo[1].icon,
+                                        fit: BoxFit.fitHeight,
+                                        width: 0.2.sw,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -169,6 +179,106 @@ class GroupSettingPage extends StatelessWidget {
                       },
                     ),
                   ),
+                  // SizedBox(
+                  //   child: GetBuilder<CheckInLogic>(
+                  //     builder: (logic) {
+                  //       return Row(
+                  //         children: [
+                  //           Container(
+                  //             decoration: BoxDecoration(
+                  //               color: Colors.white24,
+                  //               borderRadius: BorderRadius.all(Radius.circular(10)),
+                  //             ),
+                  //             margin: EdgeInsets.only(top: 20.0, left: 120.0),
+                  //             constraints: BoxConstraints.tightFor(width: 0.4.sw, height: 0.5.sh),//卡片大小
+                  //             alignment: Alignment.center, //卡片内文字居中
+                  //             child: Column(
+                  //               children: [
+                  //                 Align(
+                  //                   heightFactor: 5,
+                  //                   alignment: const Alignment(0.0, 0.0),
+                  //                   child: Text(
+                  //                     "Create a Catchy Team Name!",
+                  //                     style: TextStyle(
+                  //                       // fontWeight: FontWeight.bold,
+                  //                       fontSize: 45.sp,
+                  //                       decoration: TextDecoration.none,
+                  //                       fontFamily: 'BurbankBold',
+                  //                       color: Colors.white,
+                  //                       letterSpacing: 3.sp,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 SizedBox(
+                  //                   child: TextField(
+                  //                     decoration: InputDecoration(
+                  //                       fillColor: Color(0xff212121),
+                  //                       filled: true,
+                  //                       contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+                  //                       // 默认可编辑时的边框
+                  //                       enabledBorder: OutlineInputBorder(
+                  //                         borderSide: BorderSide(
+                  //                           color: Color(0xff5A5858), //边线颜色为白色
+                  //                           width: 2, //边线宽度为2
+                  //                         ),
+                  //                       ),
+                  //                       // 输入时的边框
+                  //                       focusedBorder: OutlineInputBorder(
+                  //                         borderSide: BorderSide(
+                  //                           color: Colors.blue, //边框颜色为白色
+                  //                           width: 2, //宽度为5
+                  //                         ),
+                  //                       ),
+                  //                     ),
+                  //                     style: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
+                  //                   ),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //           Container(
+                  //             decoration: BoxDecoration(
+                  //               color: Colors.white24,
+                  //               borderRadius: BorderRadius.all(Radius.circular(10)),
+                  //             ),
+                  //             margin: EdgeInsets.only(top: 20.0, left: 10.0),
+                  //             constraints: BoxConstraints.tightFor(width: 0.4.sw, height: 0.5.sh),//卡片大小
+                  //             alignment: Alignment.center, //卡片内文字居中
+                  //             child: Column(
+                  //               children: [
+                  //                 Align(
+                  //                   heightFactor: 5,
+                  //                   alignment: const Alignment(0.0, 0.0),
+                  //                   child: Text(
+                  //                     "Pick up a flag",
+                  //                     style: TextStyle(
+                  //                       // fontWeight: FontWeight.bold,
+                  //                       fontSize: 45.sp,
+                  //                       decoration: TextDecoration.none,
+                  //                       fontFamily: 'BurbankBold',
+                  //                       color: Colors.white,
+                  //                       letterSpacing: 3.sp,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 Align(
+                  //                   alignment: const Alignment(0.0, 0.0),
+                  //                   child: SizedBox(
+                  //                     width: 200,
+                  //                     height: 200,
+                  //                     child: CustomSwiper(
+                  //                       banner: banner,
+                  //                     )
+                  //                   ),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   _NextDefaultButton(width: 800.w),
                 ],
               ),
@@ -188,7 +298,6 @@ class CustomSwiper extends StatefulWidget {
   @override
   _CustomSwiperState createState() => _CustomSwiperState();
 }
-
 class _CustomSwiperState extends State<CustomSwiper> {
   @override
   Widget build(BuildContext context) {
@@ -224,34 +333,58 @@ class _NextDefaultButton extends StatelessWidget {
   }) : super(key: key);
   final double width;
   final logic = Get.find<CheckInLogic>();
-  // String get backgroundUri => Global.getSetAvatarImageUrl("group_setting_default.png");
-  String get backgroundUri => !logic.groupSettingBtnIsInput
-      ? Global.getSetAvatarImageUrl("group_setting_default.png")
-      : Global.getSetAvatarImageUrl("group_setting_input.png");
+  String get backgroundUri => Global.getSetAvatarImageUrl("group_setting_input.png");
+  // String get backgroundUri => !logic.groupSettingBtnIsInput
+  //     ? Global.getSetAvatarImageUrl("group_setting_default.png")
+  //     : Global.getSetAvatarImageUrl("group_setting_input.png");
 
   final testTabId = Global.tableId;
+  get checkInApi => CheckInApi();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        // print("groupsetting ${logic.showState.status}");
-        logic.isFirstCheckIn = false;
-        // Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
-        Map<String, dynamic> jsonObj = {
-          "userId": logic.consumerId,
-          "showId": logic.showState.showId,
-          "status": logic.showState.status.toString(),
-        };
-        // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
-        await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+        // 必须选择队伍icon，logic.teamInfoIndex不为空即为选择了
+        if(logic.teamInfoIndex != null) {
+          // print("groupsetting ${logic.showState.status}");
+          logic.isFirstCheckIn = false;
+          // Get.to(() => AvatarDesignPage(), arguments: Get.arguments);
+
+          // 更新队伍的icon
+          print("队伍icon集合: ${logic.teamInfo}");
+          print("选择的队伍icon索引: ${logic.teamInfoIndex}");
+          // 更新队伍的icon
+          await checkInApi.updateTeamInfo(Get.arguments.showId, logic.teamInfo[int.parse(logic.teamInfoIndex.toString())]);
+
+          // logic.gameItemInfo = await checkInApi.fetchUserGameItems(logic.consumerId);
+          // print("爆出来的头像: ${logic.gameItemInfo}");
+          // 延迟调用爆宝箱
+          Future.delayed(2.seconds).then((value) {
+            logic.explosiveChestFun(logic.consumerId);
+          }).onError((error, stackTrace) async {
+            print("error爆宝箱 $error");
+          });
+
+          Map<String, dynamic> jsonObj = {
+            "userId": logic.consumerId,
+            "showId": logic.showState.showId,
+            "status": logic.showState.status.toString(),
+          };
+          // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
+          // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+          Get.to(() => TreasureChestPage(), arguments: jsonObj);
+        }
+        else {
+          EasyLoading.showError("Please Choose Your Squad icon !");
+        }
       },
       child: GetBuilder<CheckInLogic>(
         id: "groupsettingBtn",
         builder: (logic) {
           return Container(
-            height: width * 0.4,
+            height: width * 0.35,
             width: width,
             decoration: BoxDecoration(
               image: DecorationImage(

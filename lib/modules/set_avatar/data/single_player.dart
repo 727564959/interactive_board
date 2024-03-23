@@ -3,7 +3,7 @@ import '../../../common.dart';
 class SinglePlayer {
   SinglePlayer({
     required this.id,
-    required this.nickname,
+    required this.name,
     required this.email,
     required this.phone,
     required this.avatarUrl,
@@ -13,7 +13,7 @@ class SinglePlayer {
     required this.bodyName,
   });
   final int id;
-  final String nickname;
+  final String name;
   final String email;
   final String phone;
   final String avatarUrl;
@@ -26,7 +26,7 @@ class SinglePlayer {
     final String avatarUrl = "${baseStrapiUrl}${json['avatarUrl']}";
     return SinglePlayer(
       id: json['id'],
-      nickname: json['nickname'],
+      name: json['name'],
       email: json['email'],
       phone: json['phone'],
       avatarUrl: avatarUrl,
@@ -38,14 +38,14 @@ class SinglePlayer {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'nickname': nickname,
-    'email': email,
-    'phone': phone,
-    'avatarUrl': avatarUrl,
-    'headgearId': headgearId,
-    'headgearName': headgearName,
-    'bodyId': bodyId,
-    'bodyName': bodyName,
-  };
+        'id': id,
+        'name': name,
+        'email': email,
+        'phone': phone,
+        'avatarUrl': avatarUrl,
+        'headgearId': headgearId,
+        'headgearName': headgearName,
+        'bodyId': bodyId,
+        'bodyName': bodyName,
+      };
 }

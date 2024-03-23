@@ -195,7 +195,7 @@ class CheckInApi {
 
   Future<List<TeamInfo>> fetchSelectableTeamInfo() async {
     final response = await dio.get(
-      "$baseStrapiUrl/team-icons",
+      "$baseApiUrl/team-icons",
       queryParameters: {"populate[0]": "icon", "filters[teamId][\$eq]": Global.tableId},
     );
     final result = <TeamInfo>[];
@@ -207,7 +207,7 @@ class CheckInApi {
 
   Future<void> updateTeamInfo(int showId, TeamInfo teamInfo) async {
     await dio.post(
-      "$baseStrapiUrl/shows/$showId/update-team-info",
+      "$baseApiUrl/shows/$showId/update-team-info",
       data: {
         "tableId": Global.tableId,
         "teamName": teamInfo.name,

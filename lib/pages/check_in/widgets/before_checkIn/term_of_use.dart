@@ -158,6 +158,7 @@ class _AgreeButton extends StatelessWidget {
         // if(!Get.isRegistered<SetAvatarLogic>()) {
         //   Get.put(SetAvatarLogic());
         // }
+
         logic.isFirstCheckIn ? Get.to(() => GroupSettingPage(), arguments: Get.arguments) : Get.to(() => AddPlayerInfo(), arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(

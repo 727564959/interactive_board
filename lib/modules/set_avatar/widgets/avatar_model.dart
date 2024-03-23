@@ -58,42 +58,58 @@ class AvatarModel extends StatelessWidget {
                                   onTapUp: (detail) {
                                     print("kkkk嘎嘎嘎嘎是");
                                     print("gfgfgfg: ${logic.avatarInfo}");
+                                    print("gfgfgfg: ${logic.gameItemInfoHead}");
+                                    // logic.clickHead(
+                                    //     logic.avatarInfo[0].id,
+                                    //     logic.avatarInfo[0]
+                                    //         .url);
                                     logic.clickHead(
-                                        logic.avatarInfo[0].id,
-                                        logic.avatarInfo[0]
-                                            .url);
+                                        logic.gameItemInfoHead[0].id.toString(),
+                                        logic.gameItemInfoHead[0]
+                                            .icon);
                                   },
                                   child: CachedNetworkImage(
                                     width: 210.w,
-                                    imageUrl: logic.avatarInfo[0].url,
+                                    // imageUrl: logic.avatarInfo[0].url,
+                                    imageUrl: logic.gameItemInfoHead[0].icon,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
                                 GestureDetector(
                                   onTapUp: (detail) {
                                     print("kkkk嘎嘎嘎嘎是");
+                                    // logic.clickHead(
+                                    //     logic.avatarInfo[1].id,
+                                    //     logic.avatarInfo[1]
+                                    //         .url);
                                     logic.clickHead(
-                                        logic.avatarInfo[1].id,
-                                        logic.avatarInfo[1]
-                                            .url);
+                                        logic.gameItemInfoHead[1].id.toString(),
+                                        logic.gameItemInfoHead[1]
+                                            .icon);
                                   },
                                   child: CachedNetworkImage(
                                     width: 210.w,
-                                    imageUrl: logic.avatarInfo[1].url,
+                                    // imageUrl: logic.avatarInfo[1].url,
+                                    imageUrl: logic.gameItemInfoHead[1].icon,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
                                 GestureDetector(
                                   onTapUp: (detail) {
                                     print("kkkk嘎嘎嘎嘎是");
+                                    // logic.clickHead(
+                                    //     logic.avatarInfo[2].id,
+                                    //     logic.avatarInfo[2]
+                                    //         .url);
                                     logic.clickHead(
-                                        logic.avatarInfo[2].id,
-                                        logic.avatarInfo[2]
-                                            .url);
+                                        logic.gameItemInfoHead[2].id.toString(),
+                                        logic.gameItemInfoHead[2]
+                                            .icon);
                                   },
                                   child: CachedNetworkImage(
                                     width: 210.w,
-                                    imageUrl: logic.avatarInfo[2].url,
+                                    // imageUrl: logic.avatarInfo[2].url,
+                                    imageUrl: logic.gameItemInfoHead[2].icon,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -101,112 +117,112 @@ class AvatarModel extends StatelessWidget {
                                 //     width: 180.w, avatarUrl: logic.avatarInfo[3].url, isRequest: true),
                               ],
                             ),
-                            Row(
-                              children: [
-                                // Image.asset(
-                                //   Global.getSetAvatarImageUrl('set_avatar_edit_icon.png'),
-                                //   fit: BoxFit.fitHeight,
-                                // ),
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    print("kkkk嘎嘎嘎嘎是");
-                                    print("gfgfgfg: ${logic.avatarInfo}");
-                                    logic.clickHead(
-                                        logic.avatarInfo[3].id,
-                                        logic.avatarInfo[3]
-                                            .url);
-                                  },
-                                  child: CachedNetworkImage(
-                                    width: 210.w,
-                                    imageUrl: logic.avatarInfo[3].url,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    print("kkkk嘎嘎嘎嘎是");
-                                    logic.clickHead(
-                                        logic.avatarInfo[4].id,
-                                        logic.avatarInfo[4]
-                                            .url);
-                                  },
-                                  child: CachedNetworkImage(
-                                    width: 210.w,
-                                    imageUrl: logic.avatarInfo[4].url,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    print("kkkk嘎嘎嘎嘎是");
-                                    logic.clickHead(
-                                        logic.avatarInfo[5].id,
-                                        logic.avatarInfo[5]
-                                            .url);
-                                  },
-                                  child: CachedNetworkImage(
-                                    width: 210.w,
-                                    imageUrl: logic.avatarInfo[5].url,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                // ParallelogramAvatar(
-                                //     width: 180.w, avatarUrl: logic.avatarInfo[3].url, isRequest: true),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                // Image.asset(
-                                //   Global.getSetAvatarImageUrl('set_avatar_edit_icon.png'),
-                                //   fit: BoxFit.fitHeight,
-                                // ),
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    print("kkkk嘎嘎嘎嘎是");
-                                    print("gfgfgfg: ${logic.avatarInfo}");
-                                    logic.clickHead(
-                                        logic.avatarInfo[6].id,
-                                        logic.avatarInfo[6]
-                                            .url);
-                                  },
-                                  child: CachedNetworkImage(
-                                    width: 210.w,
-                                    imageUrl: logic.avatarInfo[6].url,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    print("kkkk嘎嘎嘎嘎是");
-                                    logic.clickHead(
-                                        logic.avatarInfo[7].id,
-                                        logic.avatarInfo[7]
-                                            .url);
-                                  },
-                                  child: CachedNetworkImage(
-                                    width: 210.w,
-                                    imageUrl: logic.avatarInfo[7].url,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    print("kkkk嘎嘎嘎嘎是");
-                                    logic.clickHead(
-                                        logic.avatarInfo[8].id,
-                                        logic.avatarInfo[8]
-                                            .url);
-                                  },
-                                  child: CachedNetworkImage(
-                                    width: 210.w,
-                                    imageUrl: logic.avatarInfo[8].url,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                                // ParallelogramAvatar(
-                                //     width: 180.w, avatarUrl: logic.avatarInfo[3].url, isRequest: true),
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     // Image.asset(
+                            //     //   Global.getSetAvatarImageUrl('set_avatar_edit_icon.png'),
+                            //     //   fit: BoxFit.fitHeight,
+                            //     // ),
+                            //     GestureDetector(
+                            //       onTapUp: (detail) {
+                            //         print("kkkk嘎嘎嘎嘎是");
+                            //         print("gfgfgfg: ${logic.avatarInfo}");
+                            //         logic.clickHead(
+                            //             logic.avatarInfo[3].id,
+                            //             logic.avatarInfo[3]
+                            //                 .url);
+                            //       },
+                            //       child: CachedNetworkImage(
+                            //         width: 210.w,
+                            //         imageUrl: logic.avatarInfo[3].url,
+                            //         fit: BoxFit.fill,
+                            //       ),
+                            //     ),
+                            //     GestureDetector(
+                            //       onTapUp: (detail) {
+                            //         print("kkkk嘎嘎嘎嘎是");
+                            //         logic.clickHead(
+                            //             logic.avatarInfo[4].id,
+                            //             logic.avatarInfo[4]
+                            //                 .url);
+                            //       },
+                            //       child: CachedNetworkImage(
+                            //         width: 210.w,
+                            //         imageUrl: logic.avatarInfo[4].url,
+                            //         fit: BoxFit.fill,
+                            //       ),
+                            //     ),
+                            //     GestureDetector(
+                            //       onTapUp: (detail) {
+                            //         print("kkkk嘎嘎嘎嘎是");
+                            //         logic.clickHead(
+                            //             logic.avatarInfo[5].id,
+                            //             logic.avatarInfo[5]
+                            //                 .url);
+                            //       },
+                            //       child: CachedNetworkImage(
+                            //         width: 210.w,
+                            //         imageUrl: logic.avatarInfo[5].url,
+                            //         fit: BoxFit.fill,
+                            //       ),
+                            //     ),
+                            //     // ParallelogramAvatar(
+                            //     //     width: 180.w, avatarUrl: logic.avatarInfo[3].url, isRequest: true),
+                            //   ],
+                            // ),
+                            // Row(
+                            //   children: [
+                            //     // Image.asset(
+                            //     //   Global.getSetAvatarImageUrl('set_avatar_edit_icon.png'),
+                            //     //   fit: BoxFit.fitHeight,
+                            //     // ),
+                            //     GestureDetector(
+                            //       onTapUp: (detail) {
+                            //         print("kkkk嘎嘎嘎嘎是");
+                            //         print("gfgfgfg: ${logic.avatarInfo}");
+                            //         logic.clickHead(
+                            //             logic.avatarInfo[6].id,
+                            //             logic.avatarInfo[6]
+                            //                 .url);
+                            //       },
+                            //       child: CachedNetworkImage(
+                            //         width: 210.w,
+                            //         imageUrl: logic.avatarInfo[6].url,
+                            //         fit: BoxFit.fill,
+                            //       ),
+                            //     ),
+                            //     GestureDetector(
+                            //       onTapUp: (detail) {
+                            //         print("kkkk嘎嘎嘎嘎是");
+                            //         logic.clickHead(
+                            //             logic.avatarInfo[7].id,
+                            //             logic.avatarInfo[7]
+                            //                 .url);
+                            //       },
+                            //       child: CachedNetworkImage(
+                            //         width: 210.w,
+                            //         imageUrl: logic.avatarInfo[7].url,
+                            //         fit: BoxFit.fill,
+                            //       ),
+                            //     ),
+                            //     GestureDetector(
+                            //       onTapUp: (detail) {
+                            //         print("kkkk嘎嘎嘎嘎是");
+                            //         logic.clickHead(
+                            //             logic.avatarInfo[8].id,
+                            //             logic.avatarInfo[8]
+                            //                 .url);
+                            //       },
+                            //       child: CachedNetworkImage(
+                            //         width: 210.w,
+                            //         imageUrl: logic.avatarInfo[8].url,
+                            //         fit: BoxFit.fill,
+                            //       ),
+                            //     ),
+                            //     // ParallelogramAvatar(
+                            //     //     width: 180.w, avatarUrl: logic.avatarInfo[3].url, isRequest: true),
+                            //   ],
+                            // ),
                           ],
                         ),
                       // child: ListTile(
@@ -229,53 +245,77 @@ class AvatarModel extends StatelessWidget {
                       // )
                       child: Column(
                         children: [
-                          Global.team == 0 ? Row(
-                              children: [
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    logic.clickBody(true);
-                                  },
-                                  child: Image.asset(
-                                    Global.getCheckInImageUrl('selection_panel/Red_man_s.png'),
-                                    fit: BoxFit.fitHeight,
-                                    width: 210.w,
-                                  ),
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTapUp: (detail) {
+                                  logic.clickBody(true);
+                                },
+                                child: CachedNetworkImage(
+                                  width: 210.w,
+                                  imageUrl: logic.gameItemInfoBody[0].icon,
+                                  fit: BoxFit.fill,
                                 ),
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    logic.clickBody(false);
-                                  },
-                                  child: Image.asset(
-                                    Global.getCheckInImageUrl('selection_panel/Red_Women_s.png'),
-                                    fit: BoxFit.fitHeight,
-                                    width: 210.w,
-                                  ),
+                              ),
+                              GestureDetector(
+                                onTapUp: (detail) {
+                                  logic.clickBody(false);
+                                },
+                                child: CachedNetworkImage(
+                                  width: 210.w,
+                                  imageUrl: logic.gameItemInfoBody[1].icon,
+                                  fit: BoxFit.fill,
                                 ),
-                              ]
-                          ) : Row(
-                              children: [
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    logic.clickBody(true);
-                                  },
-                                  child: Image.asset(
-                                    Global.getCheckInImageUrl('selection_panel/Blue_man_s.png'),
-                                    fit: BoxFit.fitHeight,
-                                    width: 210.w,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTapUp: (detail) {
-                                    logic.clickBody(false);
-                                  },
-                                  child: Image.asset(
-                                    Global.getCheckInImageUrl('selection_panel/Blue_Women_s.png'),
-                                    fit: BoxFit.fitHeight,
-                                    width: 210.w,
-                                  ),
-                                ),
-                              ]
+                              ),
+                            ],
                           ),
+                          // Global.team == 0 ? Row(
+                          //     children: [
+                          //       GestureDetector(
+                          //         onTapUp: (detail) {
+                          //           logic.clickBody(true);
+                          //         },
+                          //         // child: Image.asset(
+                          //         //   Global.getCheckInImageUrl('selection_panel/Red_man_s.png'),
+                          //         //   fit: BoxFit.fitHeight,
+                          //         //   width: 210.w,
+                          //         // ),
+                          //       ),
+                          //       GestureDetector(
+                          //         onTapUp: (detail) {
+                          //           logic.clickBody(false);
+                          //         },
+                          //         child: Image.asset(
+                          //           Global.getCheckInImageUrl('selection_panel/Red_Women_s.png'),
+                          //           fit: BoxFit.fitHeight,
+                          //           width: 210.w,
+                          //         ),
+                          //       ),
+                          //     ]
+                          // ) : Row(
+                          //     children: [
+                          //       GestureDetector(
+                          //         onTapUp: (detail) {
+                          //           logic.clickBody(true);
+                          //         },
+                          //         child: Image.asset(
+                          //           Global.getCheckInImageUrl('selection_panel/Blue_man_s.png'),
+                          //           fit: BoxFit.fitHeight,
+                          //           width: 210.w,
+                          //         ),
+                          //       ),
+                          //       GestureDetector(
+                          //         onTapUp: (detail) {
+                          //           logic.clickBody(false);
+                          //         },
+                          //         child: Image.asset(
+                          //           Global.getCheckInImageUrl('selection_panel/Blue_Women_s.png'),
+                          //           fit: BoxFit.fitHeight,
+                          //           width: 210.w,
+                          //         ),
+                          //       ),
+                          //     ]
+                          // ),
                         ],
                       ),
                   );

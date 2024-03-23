@@ -13,6 +13,7 @@ import '../../../../modules/set_avatar/logic.dart';
 import '../../../../widgets/check_in_title.dart';
 import '../../data/checkIn_api.dart';
 import '../after_checkIn/player_info_show.dart';
+import '../treasure_chest/explosive_chest.dart';
 
 class AddPlayerBirthday extends StatelessWidget {
   AddPlayerBirthday({Key? key}) : super(key: key);
@@ -229,12 +230,19 @@ class _AddBirthdayButton extends StatelessWidget {
               "showId": Get.arguments.showId,
               "status": Get.arguments.status.toString()
             };
-            print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
-            if(Get.isRegistered<SetAvatarLogic>()) {
-              Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
-              Get.find<SetAvatarLogic>().updatePlayer(addUserInfo['userId'].toString());
-            }
-            await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+            // 延迟调用爆宝箱
+            Future.delayed(2.seconds).then((value) {
+              logic.explosiveChestFun(logic.consumerId);
+            }).onError((error, stackTrace) async {
+              print("error爆宝箱 $error");
+            });
+            Get.to(() => TreasureChestPage(), arguments: jsonObj);
+            // print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
+            // if(Get.isRegistered<SetAvatarLogic>()) {
+            //   Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
+            //   Get.find<SetAvatarLogic>().updatePlayer(addUserInfo['userId'].toString());
+            // }
+            // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
           } on DioException catch (e) {
             EasyLoading.dismiss();
             if (e.response == null) EasyLoading.showError("Network Error!");
@@ -250,12 +258,19 @@ class _AddBirthdayButton extends StatelessWidget {
             "showId": Get.arguments.showId,
             "status": Get.arguments.status.toString()
           };
-          print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
-          if(Get.isRegistered<SetAvatarLogic>()) {
-            Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
-            Get.find<SetAvatarLogic>().updatePlayer(checkingUser['userId'].toString());
-          }
-          await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+          // 延迟调用爆宝箱
+          Future.delayed(2.seconds).then((value) {
+            logic.explosiveChestFun(logic.consumerId);
+          }).onError((error, stackTrace) async {
+            print("error爆宝箱 $error");
+          });
+          Get.to(() => TreasureChestPage(), arguments: jsonObj);
+          // print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
+          // if(Get.isRegistered<SetAvatarLogic>()) {
+          //   Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
+          //   Get.find<SetAvatarLogic>().updatePlayer(checkingUser['userId'].toString());
+          // }
+          // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
         }
       },
       child: GetBuilder<CheckInLogic>(
