@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:interactive_board/pages/check_in/data/avatar_info.dart';
+import 'package:interactive_board/pages/check_in/data/team_info.dart';
 
 import '../../../common.dart';
 import 'user_info.dart';
@@ -101,6 +102,7 @@ class CheckInApi {
       },
     );
   }
+
   // 查重
   Future<Map> checkingPlayer(String email) async {
     print("通过邮箱进行玩家查重");
@@ -117,18 +119,19 @@ class CheckInApi {
       Map<String, dynamic> result = {};
       return result;
     }
-
   }
+
   // 正常添加玩家
-  Future<void> addPlayerFun(int tableId, [String? email, String? phone, String? firstName, String? lastName, String? birthday]) async {
+  Future<void> addPlayerFun(int tableId,
+      [String? email, String? phone, String? firstName, String? lastName, String? birthday]) async {
     // print("12345上山打老虎 ${showId }");
     // print("12345上山打老虎 ${email }");
     // print("12345上山打老虎 ${phone }");
     // print("12345上山打老虎 ${firstName }");
     // print("12345上山打老虎 ${lastName}");
-    String userName = (firstName != null && lastName != null) ? (firstName + " " + lastName) : (
-        (firstName != null ? firstName : (lastName != null ? lastName : ''))
-    );
+    String userName = (firstName != null && lastName != null)
+        ? (firstName + " " + lastName)
+        : ((firstName != null ? firstName : (lastName != null ? lastName : '')));
     final firstMap = tableId != null ? {"tableId": tableId} : {};
     // final secondMap = firstName != null ? {"username": firstName} : {};
     // final thirdlyMap = lastName != null ? {"nickname": lastName} : {};
@@ -149,19 +152,19 @@ class CheckInApi {
     print("哈哈哈哈哈 $result");
     // final response = await dio.post("$baseUrl/shows/$showId/player-joined",
     //     data: result);
-    final response = await dio.post("$baseApiUrl/players/register",
-        data: result);
+    final response = await dio.post("$baseApiUrl/players/register", data: result);
 
     print(response.data);
     return response.data;
   }
+
   // 添加玩家时，点击了跳过
   Future<void> addSkipPlayer() async {
-    final response = await dio.post("$baseApiUrl/players/register-temp",
-        data: {});
+    final response = await dio.post("$baseApiUrl/players/register-temp", data: {});
     print(response.data);
     return response.data;
   }
+
   // 玩家加入show
   Future<void> addPlayerToShow(int showId, int tableId, int userId) async {
     final firstMap = tableId != null ? {"tableId": tableId} : {};
@@ -170,8 +173,7 @@ class CheckInApi {
       ...firstMap,
       ...secondMap,
     };
-    await dio.post("$baseApiUrl/shows/$showId/player-joined",
-        data: result);
+    await dio.post("$baseApiUrl/shows/$showId/player-joined", data: result);
     print("哈哈哈哈哈 $result");
   }
   // 查询当前的游戏show状态
@@ -179,4 +181,38 @@ class CheckInApi {
   //   final response = await dio.get("http://$baseApiUrl/show/state");
   //   return ShowState.fromJson(response.data);
   // }
+
+  Future<List<GameItemInfo>> fetchUserGameItems(userId) async {
+    final response = await dio.get(
+      "$baseApiUrl/players/$userId/game-items",
+    );
+    final result = <GameItemInfo>[];
+    for (final item in response.data) {
+      result.add(GameItemInfo.fromJson(item));
+    }
+    return result;
+  }
+
+  Future<List<TeamInfo>> fetchSelectableTeamInfo() async {
+    final response = await dio.get(
+      "$baseStrapiUrl/team-icons",
+      queryParameters: {"populate[0]": "icon", "filters[teamId][\$eq]": Global.tableId},
+    );
+    final result = <TeamInfo>[];
+    for (final item in response.data["data"]) {
+      result.add(TeamInfo.fromJson(item));
+    }
+    return result;
+  }
+
+  Future<void> updateTeamInfo(int showId, TeamInfo teamInfo) async {
+    await dio.post(
+      "$baseStrapiUrl/shows/$showId/update-team-info",
+      data: {
+        "tableId": Global.tableId,
+        "teamName": teamInfo.name,
+        "teamIcon": teamInfo.icon,
+      },
+    );
+  }
 }

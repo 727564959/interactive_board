@@ -76,7 +76,7 @@ class CheckInLogic extends GetxController {
     avatarInfo = await checkInApi.fetchAvatars();
     for (int i = 0; i < userList.length; i++) {
       print(userList[i].id);
-      if(singlePlayer['id'].toString() == userList[i].id) {
+      if (singlePlayer['id'].toString() == userList[i].id) {
         headId = userList[i].headgearId;
         currentIsMale = userList[i].bodyName == 'Male' ? true : false;
       }
@@ -104,8 +104,12 @@ class CheckInLogic extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    final gameitems = await checkInApi.fetchUserGameItems(83);
+    final items = await checkInApi.fetchSelectableTeamInfo();
+    await checkInApi.updateTeamInfo(3, items[0]);
+
     print("show的状态数据: ${showState.status}");
-    userList = await checkInApi.fetchUsers(showState.showId??1);
+    userList = await checkInApi.fetchUsers(showState.showId ?? 1);
     print("用户数据: $userList");
     // currentNickName = userList[userList.length - 1].nickname;
     // currentIsMale = userList[0].isMale;
@@ -121,7 +125,7 @@ class CheckInLogic extends GetxController {
       List<CustomerItem> customerItem = showPreparingDetails.customers;
       for (int i = 0; i < customerItem.length; i++) {
         print(customerItem[i]);
-        if(Global.tableId == customerItem[i].tableId) {
+        if (Global.tableId == customerItem[i].tableId) {
           consumerId = customerItem[i].userId;
         }
       }
@@ -134,10 +138,7 @@ class CheckInLogic extends GetxController {
       currentUrl = avatar.url;
       print("头像: $avatarInfo");
       // checkInApi.updatePlayer(68, "abc",3,1);
-    }
-    else {
-
-    }
+    } else {}
 
     update();
   }
