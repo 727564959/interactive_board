@@ -127,7 +127,7 @@ class GroupSettingPage extends StatelessWidget {
                                         logic.selectTeamIcon(logic.teamInfo[0].name, 0);
                                       },
                                       child: CachedNetworkImage(
-                                        imageUrl: logic.teamInfo[0].icon,
+                                        imageUrl: logic.teamInfo[0].iconPath,
                                         fit: BoxFit.fitHeight,
                                         width: 0.2.sw,
                                       ),
@@ -165,7 +165,7 @@ class GroupSettingPage extends StatelessWidget {
                                         logic.selectTeamIcon(logic.teamInfo[1].name, 1);
                                       },
                                       child: CachedNetworkImage(
-                                        imageUrl: logic.teamInfo[1].icon,
+                                        imageUrl: logic.teamInfo[1].iconPath,
                                         fit: BoxFit.fitHeight,
                                         width: 0.2.sw,
                                       ),
