@@ -19,32 +19,10 @@ class TreasureChestPage extends StatelessWidget {
     return Scaffold(
         body: Stack(
           children: [
-            // Container(
-            //   width: 1.0.sw,
-            //   height: 1.0.sh,
-            //   color: Colors.black,
-            //   child: Column(
-            //     children: [
-            //       // 顶部文本信息
-            //       CheckInTitlePage(titleText: "Welcome Chest"),
-            //       SizedBox(
-            //         width: 1.0.sw,
-            //         height: 0.65.sh,
-            //         child: Container(
-            //           margin: EdgeInsets.only(top: 0.2.sh),
-            //           child: Image.asset(
-            //             Global.getSetAvatarImageUrl('treasure_chest_icon.png'),
-            //             fit: BoxFit.fitHeight,
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             GetBuilder<CheckInLogic>(
               id: "treasureChest",
               builder: (logic) {
-                return logic.gameItemInfo.length > 0 ? _GetHeadiconsWidget() : _TreasureChestWidget();
+                return !logic.gameItemInfo.isEmpty ? _GetHeadiconsWidget() : _TreasureChestWidget();
               }
             ),
           ],
@@ -195,15 +173,16 @@ class _NextButton extends StatelessWidget {
         print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
         if(Get.isRegistered<SetAvatarLogic>()) {
           Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+          await Future.delayed(100.ms);
           Get.find<SetAvatarLogic>().updatePlayer(Get.arguments['userId'].toString());
           Get.find<SetAvatarLogic>().explosiveChestFun(Get.arguments['userId'].toString());
         }
-        // 延迟调用爆宝箱
-        Future.delayed(1.seconds).then((value) {
-          logic.gameItemInfo = [];
-        }).onError((error, stackTrace) async {
-          print("error爆宝箱 $error");
-        });
+        // // 延迟调用爆宝箱
+        // Future.delayed(0.5.seconds).then((value) {
+        //   logic.gameItemInfo.clear();
+        // }).onError((error, stackTrace) async {
+        //   print("error爆宝箱 $error");
+        // });
         await Get.toNamed(AppRoutes.setAvatar, arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(

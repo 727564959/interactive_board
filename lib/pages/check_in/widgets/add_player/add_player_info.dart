@@ -1096,7 +1096,7 @@ class _SkipButton extends StatelessWidget {
         };
         // 延迟调用爆宝箱
         Future.delayed(2.seconds).then((value) {
-          logic.explosiveChestFun(logic.consumerId);
+          logic.explosiveChestFun(skipUserInfo['userId']);
         }).onError((error, stackTrace) async {
           print("error爆宝箱 $error");
         });

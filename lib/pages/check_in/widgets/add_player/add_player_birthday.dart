@@ -232,7 +232,7 @@ class _AddBirthdayButton extends StatelessWidget {
             };
             // 延迟调用爆宝箱
             Future.delayed(2.seconds).then((value) {
-              logic.explosiveChestFun(logic.consumerId);
+              logic.explosiveChestFun(addUserInfo['userId']);
             }).onError((error, stackTrace) async {
               print("error爆宝箱 $error");
             });
@@ -252,7 +252,7 @@ class _AddBirthdayButton extends StatelessWidget {
         else {
           print("是更新!!!!!");
           // 加入到show
-          // await checkInApi.addPlayerToShow(Get.arguments.showId, Global.tableId, checkingUser['userId']);
+          await checkInApi.addPlayerToShow(Get.arguments.showId, Global.tableId, checkingUser['userId']);
           Map<String, dynamic> jsonObj = {
             "userId": checkingUser['userId'],
             "showId": Get.arguments.showId,
@@ -260,7 +260,7 @@ class _AddBirthdayButton extends StatelessWidget {
           };
           // 延迟调用爆宝箱
           Future.delayed(2.seconds).then((value) {
-            logic.explosiveChestFun(logic.consumerId);
+            logic.explosiveChestFun(checkingUser['userId']);
           }).onError((error, stackTrace) async {
             print("error爆宝箱 $error");
           });

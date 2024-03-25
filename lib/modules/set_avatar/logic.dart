@@ -60,6 +60,7 @@ class SetAvatarLogic extends GetxController {
         headId = userList[i].headgearId;
         currentIsMale = userList[i].bodyName == 'Male' ? true : false;
         currentNickName = userList[i].nickname;
+        currentUrl = userList[i].avatarUrl;
       }
     }
     // currentNickName = singlePlayer['name'];
@@ -87,8 +88,8 @@ class SetAvatarLogic extends GetxController {
     print("爆出来的头像: ${gameItemInfoHead}");
     print("爆出来的身体: ${gameItemInfoBody}");
     print("哈哈哈哈: ${headId}");
-    final avatar = gameItemInfoHead.firstWhere((element) => element.id.toString() == headId);
-    currentUrl = avatar.icon;
+    // final avatar = gameItemInfoHead.firstWhere((element) => element.id.toString() == headId);
+    // currentUrl = avatar.icon;
     // 刷新当前页面
     update();
   }

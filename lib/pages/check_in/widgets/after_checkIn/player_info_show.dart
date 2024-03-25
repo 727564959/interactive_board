@@ -234,6 +234,8 @@ class _AddPlayerButton extends StatelessWidget {
         logic.isClickSkip = false;
         logic.isFirstCheckIn = false;
         print("添加用户的跳转： ${Get.arguments}");
+        logic.gameItemInfo.clear();
+        logic.testRefreshFun();
         // Map<String, dynamic> jsonObj = {
         //   "userId": logic.consumerId,
         //   "showId": Get.arguments.showId,

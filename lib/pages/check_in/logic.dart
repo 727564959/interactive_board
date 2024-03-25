@@ -139,6 +139,11 @@ class CheckInLogic extends GetxController {
     update(['treasureChest']);
   }
 
+  void testRefreshFun() async {
+    // 刷新当前页面
+    update(['treasureChest']);
+  }
+
   @override
   void onInit() async {
     super.onInit();
