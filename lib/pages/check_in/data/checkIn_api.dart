@@ -196,7 +196,7 @@ class CheckInApi {
   Future<List<TeamInfo>> fetchSelectableTeamInfo() async {
     final response = await dio.get(
       "$baseApiUrl/team-icons",
-      queryParameters: {"populate[0]": "icon", "filters[teamId][\$eq]": Global.tableId},
+      queryParameters: {"populate": "*", "filters[teamId][\$eq]": Global.tableId},
     );
     final result = <TeamInfo>[];
     for (final item in response.data["data"]) {
@@ -212,6 +212,7 @@ class CheckInApi {
         "tableId": Global.tableId,
         "teamName": teamInfo.name,
         "teamIcon": teamInfo.icon,
+        "blackBorderTeamIcon": teamInfo.blackBorderIcon,
       },
     );
   }

@@ -48,6 +48,7 @@ class ProcessController {
       final state = ShowState.fromJson(data);
       Get.offAllNamed(AppRoutes.takeARest);
     });
+
     _showSocket.on('publish_show', (data) async {
       final state = ShowState.fromJson(data);
       Get.offAllNamed(AppRoutes.checkIn, arguments: state);

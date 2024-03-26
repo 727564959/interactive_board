@@ -1,3 +1,5 @@
+import 'package:interactive_board/pages/check_in/data/team_info.dart';
+
 enum ShowStatus {
   waiting,
   showPreparing,
@@ -43,20 +45,42 @@ class ShowState {
       for (final item in detailsData["customers"]) {
         customers.add(CustomerItem(userId: item["consumerId"], tableId: item["tableId"]));
       }
+      final teams = <TeamItem>[];
+      for (final item in detailsData["teams"]) {
+        teams.add(
+          TeamItem(
+            teamId: item["teamId"],
+            name: item["name"],
+            icon: item["iconPath"],
+          ),
+        );
+      }
       details = ShowPreparingDetails(
         showId: detailsData["showId"],
         startTime: startTime,
         mode: detailsData["mode"],
         customers: customers,
+        teams: teams,
       );
     } else {
       final detailsData = json['details'];
+      final teams = <TeamItem>[];
+      for (final item in detailsData["teams"]) {
+        teams.add(
+          TeamItem(
+            teamId: item["teamId"],
+            name: item["name"],
+            icon: item["iconPath"],
+          ),
+        );
+      }
       details = GamingDetails(
         showId: detailsData["showId"],
         roundId: detailsData["roundId"],
         roundNumber: detailsData["roundNumber"],
         mode: detailsData["mode"],
         game: detailsData["game"],
+        teams: teams,
       );
     }
 
@@ -74,11 +98,13 @@ class ShowPreparingDetails {
     required this.startTime,
     required this.mode,
     required this.customers,
+    required this.teams,
   });
   final int showId;
   final DateTime startTime;
   final String mode;
   final List<CustomerItem> customers;
+  final List<TeamItem> teams;
 }
 
 class GamingDetails {
@@ -88,16 +114,29 @@ class GamingDetails {
     required this.roundNumber,
     required this.mode,
     required this.game,
+    required this.teams,
   });
   final int showId;
   final int roundId;
   final int roundNumber;
   final String mode;
   final String game;
+  final List<TeamItem> teams;
 }
 
 class CustomerItem {
   int userId;
   int tableId;
   CustomerItem({required this.userId, required this.tableId});
+}
+
+class TeamItem {
+  final String name;
+  final String icon;
+  final int teamId;
+  TeamItem({
+    required this.teamId,
+    required this.name,
+    required this.icon,
+  });
 }
