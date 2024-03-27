@@ -64,6 +64,10 @@ class ShowState {
       );
     } else {
       final detailsData = json['details'];
+      final customers = <CustomerItem>[];
+      for (final item in detailsData["customers"]) {
+        customers.add(CustomerItem(userId: item["consumerId"], tableId: item["tableId"]));
+      }
       final teams = <TeamItem>[];
       for (final item in detailsData["teams"]) {
         teams.add(
@@ -80,6 +84,7 @@ class ShowState {
         roundNumber: detailsData["roundNumber"],
         mode: detailsData["mode"],
         game: detailsData["game"],
+        customers: customers,
         teams: teams,
       );
     }
@@ -114,6 +119,7 @@ class GamingDetails {
     required this.roundNumber,
     required this.mode,
     required this.game,
+    required this.customers,
     required this.teams,
   });
   final int showId;
@@ -121,6 +127,7 @@ class GamingDetails {
   final int roundNumber;
   final String mode;
   final String game;
+  final List<CustomerItem> customers;
   final List<TeamItem> teams;
 }
 
