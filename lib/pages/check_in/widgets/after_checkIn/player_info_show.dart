@@ -78,14 +78,15 @@ class PlayerInfoShow extends StatelessWidget {
                         _NicknameArea(),
                         Column(
                           children: [
+                            // _AddPlayerButton(width: 432.w),
                             Container(
-                              margin: EdgeInsets.only(top: 20.0, left: 0.0),
+                              margin: EdgeInsets.only(top: 20.0, left: 0.0, right: 0.56.sw),
                               child: _AddPlayerButton(width: 432.w),
                             ),
                             if(Get.arguments.status == ShowStatus.gamePreparing)
                             Container(
-                              margin: EdgeInsets.only(top: 20.0, left: 0.0),
-                              child: _GoBackButton(width: 84.w),
+                              margin: EdgeInsets.only(top: 20.0, left: 0.0, right: 0.56.sw),
+                              child: _GoBackButton(),
                             ),
                           ],
                         ),
@@ -262,45 +263,31 @@ class _AddPlayerButton extends StatelessWidget {
   }
 }
 
-// 返回按钮
+// 返回到addPlayer页面
 class _GoBackButton extends StatelessWidget {
   _GoBackButton({
     Key? key,
-    required this.width,
   }) : super(key: key);
-  final double width;
-  final logic = Get.find<CheckInLogic>();
-  String get backgroundUri => !logic.addGoBackIsDown
-      ? Global.getSetAvatarImageUrl("back_btn_default.png")
-      : Global.getSetAvatarImageUrl("back_btn_selected.png");
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // 按下
-      onTapDown: (details) {
-        logic.goBackBtnDown(true);
-      },
-      // 抬起
-      onTapUp: (details) {
-        logic.goBackBtnDown(false);
-      },
       // 点击事件
       onTap: () async {
         print("单击返回");
         await Get.offAllNamed(AppRoutes.choosePlayer, arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
-        id: "goBackBtn",
+        id: "backBtn",
         builder: (logic) {
-          return Container(
-            height: width * 0.72,
-            width: width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(backgroundUri),
-                fit: BoxFit.fitWidth,
-              ),
+          return Text(
+            "Back",
+            style: TextStyle(
+              fontSize: 35.sp,
+              decoration: TextDecoration.none,
+              fontFamily: 'BurbankBold',
+              color: Color(0xff13EFEF),
+              letterSpacing: 3.sp,
             ),
           );
         },

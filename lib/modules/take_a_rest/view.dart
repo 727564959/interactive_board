@@ -26,10 +26,14 @@ class TakeARestPage extends StatelessWidget {
                     height: 0.25.sh,
                     child: Container(
                       margin: EdgeInsets.only(top: 20.0, right: 0.65.sw),
+                      // child: Image.asset(
+                      //   Global.getSetAvatarImageUrl('take_a_rest_icon.png'),
+                      //   fit: BoxFit.fitHeight,
+                      // ),
                       child: Image.asset(
-                        Global.getSetAvatarImageUrl('take_a_rest_icon.png'),
+                        Global.getGifUrl('take_a_rest.gif'),
                         fit: BoxFit.fitHeight,
-                      ),
+                      )
                     ),
                   ),
                   SizedBox(

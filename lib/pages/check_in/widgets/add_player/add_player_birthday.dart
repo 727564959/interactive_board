@@ -117,7 +117,7 @@ class AddPlayerBirthday extends StatelessWidget {
                               lastDate: DateTime.now(),
                               errorFormatText: 'Wrong date format',
                               errorInvalidText: 'Invalid date format',
-                              fieldHintText: '月/日/年',
+                              fieldHintText: 'MM/dd/yyyy',
                               fieldLabelText: 'Please enter your birthday',
                             );
                             print('select_day_time$select_day_time');
