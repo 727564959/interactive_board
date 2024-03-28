@@ -8,6 +8,8 @@ import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 import '../../../../common.dart';
 import '../logic.dart';
 
+import 'dart:math';
+
 class AvatarModel extends StatelessWidget {
   AvatarModel({Key? key}) : super(key: key);
 
@@ -21,6 +23,9 @@ class AvatarModel extends StatelessWidget {
     // print("1111111 ${logic.userList}");
     print("2222222 ${logic}");
     print("1111111 ${logic.avatarInfo}");
+    print("1111111 ${(logic.gameItemInfoHead.length / 3).ceil()}");
+    // int remainderData = logic.gameItemInfoHead.length % 3;
+    // print("余数: ${remainderData}");
     return Scaffold(
       body: TabbedList(
           tabLength: 2,
@@ -41,9 +46,10 @@ class AvatarModel extends StatelessWidget {
             TabListBuilder(
                 uniquePageKey: 'page1',
                 // length: listitems.length,
-                // length: logic.avatarInfo.length,
-                length: 1,
+                length: (logic.gameItemInfoHead.length / 3).ceil(),
+                // length: 1,
                 builder: (BuildContext context, index) {
+                  // print("yyyyy ${index}");
                   return Padding(
                       padding: const EdgeInsets.only(top: 10),
                         child: Column(
@@ -64,18 +70,18 @@ class AvatarModel extends StatelessWidget {
                                     //     logic.avatarInfo[0]
                                     //         .url);
                                     logic.clickHead(
-                                        logic.gameItemInfoHead[0].id.toString(),
-                                        logic.gameItemInfoHead[0]
+                                        logic.gameItemInfoHead[index * 3].id.toString(),
+                                        logic.gameItemInfoHead[index * 3]
                                             .icon);
                                   },
                                   child: CachedNetworkImage(
                                     width: 210.w,
                                     // imageUrl: logic.avatarInfo[0].url,
-                                    imageUrl: logic.gameItemInfoHead[0].icon,
+                                    imageUrl: logic.gameItemInfoHead[index * 3].icon,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
-                                GestureDetector(
+                                if(logic.gameItemInfoHead.length > (index * 3) + 1)GestureDetector(
                                   onTapUp: (detail) {
                                     print("kkkk嘎嘎嘎嘎是");
                                     // logic.clickHead(
@@ -83,18 +89,18 @@ class AvatarModel extends StatelessWidget {
                                     //     logic.avatarInfo[1]
                                     //         .url);
                                     logic.clickHead(
-                                        logic.gameItemInfoHead[1].id.toString(),
-                                        logic.gameItemInfoHead[1]
+                                        logic.gameItemInfoHead[(index * 3) + 1].id.toString(),
+                                        logic.gameItemInfoHead[(index * 3) + 1]
                                             .icon);
                                   },
                                   child: CachedNetworkImage(
                                     width: 210.w,
                                     // imageUrl: logic.avatarInfo[1].url,
-                                    imageUrl: logic.gameItemInfoHead[1].icon,
+                                    imageUrl: logic.gameItemInfoHead[(index * 3) + 1].icon,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
-                                GestureDetector(
+                                if(logic.gameItemInfoHead.length > (index * 3) + 2)GestureDetector(
                                   onTapUp: (detail) {
                                     print("kkkk嘎嘎嘎嘎是");
                                     // logic.clickHead(
@@ -102,14 +108,14 @@ class AvatarModel extends StatelessWidget {
                                     //     logic.avatarInfo[2]
                                     //         .url);
                                     logic.clickHead(
-                                        logic.gameItemInfoHead[2].id.toString(),
-                                        logic.gameItemInfoHead[2]
+                                        logic.gameItemInfoHead[(index * 3) + 2].id.toString(),
+                                        logic.gameItemInfoHead[(index * 3) + 2]
                                             .icon);
                                   },
                                   child: CachedNetworkImage(
                                     width: 210.w,
                                     // imageUrl: logic.avatarInfo[2].url,
-                                    imageUrl: logic.gameItemInfoHead[2].icon,
+                                    imageUrl: logic.gameItemInfoHead[(index * 3) + 2].icon,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -235,8 +241,10 @@ class AvatarModel extends StatelessWidget {
                 }),
             TabListBuilder(
                 uniquePageKey: 'page2',
-                length: listitems.length - 2,
+                // length: listitems.length - 2,
+                length: (logic.gameItemInfoBody.length / 3).ceil(),
                 builder: (context, index) {
+                  // print("xxxxx ${index}");
                   return Padding(
                       padding: const EdgeInsets.only(top: 10),
                       // child: ListTile(
