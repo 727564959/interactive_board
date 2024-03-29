@@ -285,16 +285,26 @@ class _ModelShape extends StatelessWidget {
               id: "bodyPage",
               builder: (logic) {
                 print("wwww ${logic.currentIsMale}");
-                return logic.currentIsMale
+                return logic.currentBodyUrl != ""
                     ? CachedNetworkImage(
-                      imageUrl: logic.gameItemInfoBody[0].icon,
-                      fit: BoxFit.fitWidth,
-                      width: width * 0.5,
-                    ) : CachedNetworkImage(
-                      imageUrl: logic.gameItemInfoBody[1].icon,
-                      fit: BoxFit.fitWidth,
-                      width: width * 0.5,
-                    );
+                  imageUrl: logic.currentBodyUrl,
+                  fit: BoxFit.fitWidth,
+                  width: width * 0.5,
+                ) : CachedNetworkImage(
+                  imageUrl: logic.gameItemInfoBody[0].icon,
+                  fit: BoxFit.fitWidth,
+                  width: width * 0.5,
+                );
+                // return logic.currentIsMale
+                //     ? CachedNetworkImage(
+                //       imageUrl: logic.gameItemInfoBody[0].icon,
+                //       fit: BoxFit.fitWidth,
+                //       width: width * 0.5,
+                //     ) : CachedNetworkImage(
+                //       imageUrl: logic.gameItemInfoBody[1].icon,
+                //       fit: BoxFit.fitWidth,
+                //       width: width * 0.5,
+                //     );
                 // return logic.currentIsMale
                 //     ? (Global.team == 0
                 //         ? Image.asset(
@@ -382,8 +392,10 @@ class _SaveAndBackButton extends StatelessWidget {
         print("logic.singlePlayer：${logic.singlePlayer['id']}");
         print("logic.currentIsMale：${logic.currentIsMale}");
 
+        // await setAvatarApi.updatePlayer(logic.singlePlayer['id'],
+        //     logic.currentNickName, num2, logic.currentIsMale ? 10 : 11);
         await setAvatarApi.updatePlayer(logic.singlePlayer['id'],
-            logic.currentNickName, num2, logic.currentIsMale ? 10 : 11);
+            logic.currentNickName, num2, int.parse(logic.currentIsMale));
         // Map<String, dynamic> jsonObj = {
         //   "userId": logic.singlePlayer['id'],
         //   "showId": logic.newAddUser.showId,

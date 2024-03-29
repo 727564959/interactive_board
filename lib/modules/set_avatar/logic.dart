@@ -24,7 +24,9 @@ class SetAvatarLogic extends GetxController {
   List<GameItemInfo> gameItemInfoBody = [];
 
   String headId = "";
-  bool currentIsMale = true;
+  // bool currentIsMale = true;
+  String currentIsMale = "";
+  String currentBodyUrl = "";
   String currentUrl = "";
   String currentNickName = "";
 
@@ -37,12 +39,20 @@ class SetAvatarLogic extends GetxController {
     update();
   }
 
-  void clickBody(bool gender) {
+  void clickBody(String id, String transparentBackgroundUrl) {
     print("点击了身体");
-    print("身体的id: $gender");
-    currentIsMale = gender;
+    print("身体的id: $id");
+    currentIsMale = id;
+    currentBodyUrl = transparentBackgroundUrl;
     update();
   }
+
+  // void clickBody(bool gender) {
+  //   print("点击了身体");
+  //   print("身体的id: $gender");
+  //   currentIsMale = gender;
+  //   update();
+  // }
 
   void updateUserList(int showId) async {
     print("身体的id: $showId");
@@ -58,7 +68,8 @@ class SetAvatarLogic extends GetxController {
       print(userList[i].id);
       if (singlePlayer['id'].toString() == userList[i].id) {
         headId = userList[i].headgearId;
-        currentIsMale = userList[i].bodyName == 'Male' ? true : false;
+        // currentIsMale = userList[i].bodyName == 'Male' ? true : false;
+        // currentIsMale = userList[i].bodyId;
         currentNickName = userList[i].nickname;
         currentUrl = userList[i].avatarUrl;
       }
@@ -88,6 +99,12 @@ class SetAvatarLogic extends GetxController {
     print("爆出来的头像: ${gameItemInfoHead}");
     print("爆出来的身体: ${gameItemInfoBody}");
     print("哈哈哈哈: ${headId}");
+    print("currentIsMale: ${currentIsMale}");
+    final bodyInfo = gameItemInfoBody.firstWhere((element) => element.id.toString() == currentIsMale);
+    print("bodyInfo: ${bodyInfo}");
+    currentBodyUrl = bodyInfo.icon;
+    print("currentBodyUrl: ${currentBodyUrl}");
+
     // final avatar = gameItemInfoHead.firstWhere((element) => element.id.toString() == headId);
     // currentUrl = avatar.icon;
     // 刷新当前页面
@@ -122,10 +139,19 @@ class SetAvatarLogic extends GetxController {
       print(userList[i].id);
       if (singlePlayer['id'].toString() == userList[i].id) {
         headId = userList[i].headgearId;
-        currentIsMale = userList[i].bodyName == 'Male' ? true : false;
+        // currentIsMale = userList[i].bodyName == 'Male' ? true : false;
+        currentIsMale = userList[i].bodyId;
         currentNickName = userList[i].nickname;
       }
     }
+    print("currentIsMale: ${currentIsMale}");
+    // print("gameItemInfoBody: ${gameItemInfoBody}");
+    // final bodyInfo = gameItemInfoBody.firstWhere((element) => element.id.toString() == currentIsMale);
+    // print("哈哈哈哈哈哈哈哈: ${bodyInfo.id}");
+    // print("bodyInfo: ${bodyInfo}");
+    // currentBodyUrl = bodyInfo.icon;
+    // print("bodyInfo: ${currentBodyUrl}");
+
     // currentNickName = singlePlayer['name'];
     print("当前头像ID: ${headId}");
     final avatar = avatarInfo.firstWhere((element) => element.id == headId);

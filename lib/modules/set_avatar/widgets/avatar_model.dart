@@ -257,24 +257,64 @@ class AvatarModel extends StatelessWidget {
                             children: [
                               GestureDetector(
                                 onTapUp: (detail) {
-                                  logic.clickBody(true);
+                                  print("gfgfgfg: ${logic.gameItemInfoBody}");
+                                  logic.clickBody(
+                                      logic.gameItemInfoBody[index * 3].id.toString(),
+                                      logic.gameItemInfoBody[index * 3]
+                                          .icon);
                                 },
                                 child: CachedNetworkImage(
                                   width: 210.w,
-                                  imageUrl: logic.gameItemInfoBody[0].icon,
+                                  imageUrl: logic.gameItemInfoBody[index * 3].icon,
                                   fit: BoxFit.fill,
                                 ),
                               ),
-                              GestureDetector(
+                              if(logic.gameItemInfoBody.length > (index * 3) + 1)GestureDetector(
                                 onTapUp: (detail) {
-                                  logic.clickBody(false);
+                                  logic.clickBody(
+                                      logic.gameItemInfoBody[(index * 3) + 1].id.toString(),
+                                      logic.gameItemInfoBody[(index * 3) + 1]
+                                          .icon);
                                 },
                                 child: CachedNetworkImage(
                                   width: 210.w,
-                                  imageUrl: logic.gameItemInfoBody[1].icon,
+                                  imageUrl: logic.gameItemInfoBody[(index * 3) + 1].icon,
                                   fit: BoxFit.fill,
                                 ),
                               ),
+                              if(logic.gameItemInfoBody.length > (index * 3) + 2)GestureDetector(
+                                onTapUp: (detail) {
+                                  logic.clickBody(
+                                      logic.gameItemInfoBody[(index * 3) + 2].id.toString(),
+                                      logic.gameItemInfoBody[(index * 3) + 2]
+                                          .icon);
+                                },
+                                child: CachedNetworkImage(
+                                  width: 210.w,
+                                  imageUrl: logic.gameItemInfoBody[(index * 3) + 2].icon,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              // GestureDetector(
+                              //   onTapUp: (detail) {
+                              //     logic.clickBody(true);
+                              //   },
+                              //   child: CachedNetworkImage(
+                              //     width: 210.w,
+                              //     imageUrl: logic.gameItemInfoBody[0].icon,
+                              //     fit: BoxFit.fill,
+                              //   ),
+                              // ),
+                              // GestureDetector(
+                              //   onTapUp: (detail) {
+                              //     logic.clickBody(false);
+                              //   },
+                              //   child: CachedNetworkImage(
+                              //     width: 210.w,
+                              //     imageUrl: logic.gameItemInfoBody[1].icon,
+                              //     fit: BoxFit.fill,
+                              //   ),
+                              // ),
                             ],
                           ),
                           // Global.team == 0 ? Row(
