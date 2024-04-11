@@ -6,6 +6,8 @@ import 'package:interactive_board/data/model/show_state.dart';
 
 import 'package:socket_io_client/socket_io_client.dart';
 
+import '../../modules/before_game/choose_player/logic.dart';
+
 class ProcessController {
   static ProcessController? _instance;
   factory ProcessController() => _instance ?? ProcessController._internal();
@@ -62,7 +64,11 @@ class ProcessController {
     _showSocket.on("game_interruption", (data) async {
       state = ShowState.fromJson(data);
       if (!isChecked) return;
-      Get.offAllNamed(AppRoutes.choosePlayer, arguments: state);
+      // await Future.delayed(1.ms);
+      final logic = Get.findOrNull<ChoosePlayerLogic>();
+
+      await Get.offAllNamed(AppRoutes.choosePlayer, arguments: state);
+      logic?.updateAllPositions();
     });
 
     _showSocket.on("next_round", (data) async {

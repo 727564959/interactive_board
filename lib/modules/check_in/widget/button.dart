@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../../mirra_style.dart';
 import '../../../common.dart';
 
 class CheckInButton extends StatelessWidget {
@@ -24,14 +24,7 @@ class CheckInButton extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 40,
-            decoration: TextDecoration.none,
-            fontFamily: 'Burbank',
-            color: Colors.white,
-            textBaseline: TextBaseline.ideographic,
-          ),
+          style: CustomTextStyles.button(color: Colors.white, fontSize: 30),
         ),
       ),
     );

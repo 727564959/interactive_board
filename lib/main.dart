@@ -5,6 +5,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'app_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'common.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
             canvasColor: const Color(0xFF2A2D3E),
             highlightColor: Colors.transparent,
           ),
+          navigatorObservers: [routeObserver],
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutes.main,
           getPages: AppRoutes.getPages,
