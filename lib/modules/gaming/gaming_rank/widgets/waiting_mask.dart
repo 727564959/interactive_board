@@ -2,10 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_gif/flutter_gif.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../../common.dart';
+import '../../../../mirra_style.dart';
 
 class WaitingMask extends StatefulWidget {
   const WaitingMask({Key? key}) : super(key: key);
@@ -15,15 +13,10 @@ class WaitingMask extends StatefulWidget {
 }
 
 class _WaitingMaskState extends State<WaitingMask> with TickerProviderStateMixin {
-  late FlutterGifController controller;
   late Timer timer;
   int dotCount = 1;
   @override
   void initState() {
-    controller = FlutterGifController(vsync: this);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.repeat(min: 0, max: 69, period: 2.seconds);
-    });
     timer = Timer.periodic(700.ms, (timer) {
       setState(() {
         dotCount = dotCount % 3 + 1;
@@ -35,7 +28,7 @@ class _WaitingMaskState extends State<WaitingMask> with TickerProviderStateMixin
   @override
   void dispose() {
     timer.cancel();
-    controller.dispose();
+    // controller.dispose();
     super.dispose();
   }
 
@@ -47,11 +40,10 @@ class _WaitingMaskState extends State<WaitingMask> with TickerProviderStateMixin
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            GifImage(
+            Image.asset(
+              MirraIcons.getGifPath("vr_preparing.gif"),
+              repeat: ImageRepeat.repeat,
               width: 500.w,
-              controller: controller,
-              image: AssetImage(Global.getGifUrl("vr_preparing.gif")),
-              fit: BoxFit.fitWidth,
             ),
             SizedBox(
               width: 490.w,

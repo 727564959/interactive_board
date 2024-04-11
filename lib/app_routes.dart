@@ -18,8 +18,6 @@ import 'modules/initialize_page/binding.dart';
 import 'modules/before_game/choose_player/binding.dart';
 import 'modules/gaming/gaming_rank/view.dart';
 import 'modules/gaming/gaming_rank/binding.dart';
-import 'modules/quiz/view.dart';
-import 'modules/quiz/binding.dart';
 import 'modules/check_in/verification_code/view.dart';
 
 class AppRoutes {
@@ -56,13 +54,6 @@ class AppRoutes {
       name: gamingRank,
       page: () => GamingRankPage(),
       bindings: [GamingRankBinding()],
-      transitionDuration: Duration.zero,
-      reverseTransitionDuration: Duration.zero,
-    ),
-    GetPage(
-      name: quiz,
-      page: () => QuizCoverPage(),
-      bindings: [QuizBinding()],
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
     ),

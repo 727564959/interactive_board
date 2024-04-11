@@ -8,7 +8,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/common.dart';
-import 'package:flutter_gif/flutter_gif.dart';
 
 import '../../pages/check_in/logic.dart';
 import '../../pages/check_in/widgets/after_checkIn/player_info_show.dart';
@@ -31,8 +30,7 @@ class AvatarDesignPage extends StatelessWidget {
             width: 1.0.sw,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image:
-                    AssetImage(Global.getCheckInImageUrl("background_new.png")),
+                image: AssetImage(Global.getCheckInImageUrl("background_new.png")),
                 fit: BoxFit.cover,
               ),
             ),
@@ -171,8 +169,7 @@ class _SetAvatarContent extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   margin: EdgeInsets.only(top: 0.0, left: 0.0),
-                  constraints: BoxConstraints.tightFor(
-                      width: 0.34.sw, height: 0.7.sh), //卡片大小
+                  constraints: BoxConstraints.tightFor(width: 0.34.sw, height: 0.7.sh), //卡片大小
                   child: AvatarModel(),
                 ),
               ),
@@ -197,8 +194,7 @@ class _EditNicknameText extends StatelessWidget {
     print("ppp ${logic.singlePlayer['name']}");
     print("ppp ${logic.currentNickName}");
     // TextEditingController _nameTextFieldController = new TextEditingController(text: logic.singlePlayer['name']);
-    TextEditingController _nameTextFieldController =
-        new TextEditingController(text: logic.currentNickName);
+    TextEditingController _nameTextFieldController = new TextEditingController(text: logic.currentNickName);
     return Container(
       margin: EdgeInsets.only(top: 0.0, left: 0.0),
       constraints: BoxConstraints.tightFor(width: 428.w, height: 118.h), //卡片大小
@@ -215,8 +211,7 @@ class _EditNicknameText extends StatelessWidget {
             size: 40,
           ),
           isCollapsed: true,
-          contentPadding:
-              EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+          contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
           // suffix: Text('.com'),
           // suffixStyle: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
         ),
@@ -265,8 +260,7 @@ class _PersonModel extends StatelessWidget {
 
 // 模型图层
 class _ModelShape extends StatelessWidget {
-  _ModelShape({Key? key, required this.width, required this.bAnimate})
-      : super(key: key);
+  _ModelShape({Key? key, required this.width, required this.bAnimate}) : super(key: key);
   final double width;
   final bool bAnimate;
   final logic = Get.find<SetAvatarLogic>();
@@ -287,14 +281,15 @@ class _ModelShape extends StatelessWidget {
                 print("wwww ${logic.currentIsMale}");
                 return logic.currentBodyUrl != ""
                     ? CachedNetworkImage(
-                  imageUrl: logic.currentBodyUrl,
-                  fit: BoxFit.fitWidth,
-                  width: width * 0.5,
-                ) : CachedNetworkImage(
-                  imageUrl: logic.gameItemInfoBody[0].icon,
-                  fit: BoxFit.fitWidth,
-                  width: width * 0.5,
-                );
+                        imageUrl: logic.currentBodyUrl,
+                        fit: BoxFit.fitWidth,
+                        width: width * 0.5,
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: logic.gameItemInfoBody[0].icon,
+                        fit: BoxFit.fitWidth,
+                        width: width * 0.5,
+                      );
                 // return logic.currentIsMale
                 //     ? CachedNetworkImage(
                 //       imageUrl: logic.gameItemInfoBody[0].icon,
@@ -373,8 +368,7 @@ class _SaveAndBackButton extends StatelessWidget {
   }) : super(key: key);
   final double width;
   final logic = Get.find<SetAvatarLogic>();
-  String get backgroundUri =>
-      Global.getSetAvatarImageUrl("save_and_back_btn.png");
+  String get backgroundUri => Global.getSetAvatarImageUrl("save_and_back_btn.png");
 
   final testTabId = Global.tableId;
 
@@ -394,8 +388,8 @@ class _SaveAndBackButton extends StatelessWidget {
 
         // await setAvatarApi.updatePlayer(logic.singlePlayer['id'],
         //     logic.currentNickName, num2, logic.currentIsMale ? 10 : 11);
-        await setAvatarApi.updatePlayer(logic.singlePlayer['id'],
-            logic.currentNickName, num2, int.parse(logic.currentIsMale));
+        await setAvatarApi.updatePlayer(
+            logic.singlePlayer['id'], logic.currentNickName, num2, int.parse(logic.currentIsMale));
         // Map<String, dynamic> jsonObj = {
         //   "userId": logic.singlePlayer['id'],
         //   "showId": logic.newAddUser.showId,
@@ -405,12 +399,9 @@ class _SaveAndBackButton extends StatelessWidget {
         // print("参数：${Get.arguments}");
         // logic.updateUserList(int.parse(logic.newAddUser.showId.toString()));
 
-        Get.find<CheckInLogic>()
-            .updateUserList(int.parse(logic.newAddUser.showId.toString()));
-        Get.find<CheckInLogic>()
-            .updatePlayer(logic.newAddUser.userId.toString());
-        Get.to(() => PlayerInfoShow(),
-            arguments: await setAvatarApi.fetchShowState());
+        Get.find<CheckInLogic>().updateUserList(int.parse(logic.newAddUser.showId.toString()));
+        Get.find<CheckInLogic>().updatePlayer(logic.newAddUser.userId.toString());
+        Get.to(() => PlayerInfoShow(), arguments: await setAvatarApi.fetchShowState());
       },
       child: GetBuilder<SetAvatarLogic>(
         id: "saveAndBackBtn",

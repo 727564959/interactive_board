@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gif/flutter_gif.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
@@ -31,16 +30,15 @@ class WelcomePage extends StatelessWidget {
                 width: 1.0.sw,
                 height: 0.25.sh,
                 child: Container(
-                  margin: EdgeInsets.only(top: 20.0, right: 0.65.sw),
-                  // child: Image.asset(
-                  //   Global.getSetAvatarImageUrl('welcome_icon.png'),
-                  //   fit: BoxFit.fitHeight,
-                  // ),
-                  child: Image.asset(
-                    Global.getGifUrl('Welcome.gif'),
-                    fit: BoxFit.fitHeight,
-                  )
-                ),
+                    margin: EdgeInsets.only(top: 20.0, right: 0.65.sw),
+                    // child: Image.asset(
+                    //   Global.getSetAvatarImageUrl('welcome_icon.png'),
+                    //   fit: BoxFit.fitHeight,
+                    // ),
+                    child: Image.asset(
+                      Global.getGifUrl('Welcome.gif'),
+                      fit: BoxFit.fitHeight,
+                    )),
               ),
               SizedBox(
                 width: 1.0.sw,
@@ -71,9 +69,7 @@ class WelcomePage extends StatelessWidget {
                             width: 0.8.sw,
                             child: Text(
                               // "Sophia Davis !",
-                              logic.singlePlayer.length > 0
-                                  ? logic.singlePlayer['name']
-                                  : "",
+                              logic.singlePlayer.length > 0 ? logic.singlePlayer['name'] : "",
                               style: TextStyle(
                                 fontSize: 130.sp,
                                 decoration: TextDecoration.none,
