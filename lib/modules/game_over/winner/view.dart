@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../common.dart';
+import '../../../mirra_style.dart';
 import '../../../widgets/check_in_title.dart';
 import 'logic.dart';
 
@@ -35,13 +36,7 @@ class WinnerPage extends StatelessWidget {
                             child: Text(
                               "The Winner Is",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 150.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
+                              style: CustomTextStyles.display(color: Colors.white, fontSize: 150.sp, level: 1),
                             ),
                           ),
                         ),
@@ -50,15 +45,10 @@ class WinnerPage extends StatelessWidget {
                           child: SizedBox(
                             width: 0.8.sw,
                             child: Text(
-                              "Fire C",
+                              // "Fire C",
+                              "Fire " + logic.winnerName,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 150.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Color(0xFFFFBD80),
-                                letterSpacing: 3.sp,
-                              ),
+                              style: CustomTextStyles.display(color: Color(0xFFFFBD80), fontSize: 150.sp, level: 1),
                             ),
                           ),
                         ),

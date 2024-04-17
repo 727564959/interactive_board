@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../common.dart';
+import '../../mirra_style.dart';
 import '../../widgets/check_in_title.dart';
 
 class TakeARestPage extends StatelessWidget {
@@ -47,13 +50,7 @@ class TakeARestPage extends StatelessWidget {
                             width: 0.8.sw,
                             child: Text(
                               "Take a Rest",
-                              style: TextStyle(
-                                fontSize: 150.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
+                              style: CustomTextStyles.display(color: Colors.white, fontSize: 150.sp, level: 1),
                             ),
                           ),
                         ),
@@ -63,13 +60,7 @@ class TakeARestPage extends StatelessWidget {
                             width: 0.8.sw,
                             child: Text(
                               "We will be back soon",
-                              style: TextStyle(
-                                fontSize: 50.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
+                              style: CustomTextStyles.display(color: Colors.white, fontSize: 50.sp, level: 4),
                             ),
                           ),
                         ),

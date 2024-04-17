@@ -3,6 +3,9 @@ import 'package:interactive_board/modules/game_over/honor/binding.dart';
 import 'modules/check_in/choose_table/view.dart';
 import 'modules/check_in/complete_page/view.dart';
 import 'modules/game_over/honor/view.dart';
+import 'modules/game_over/honor/widgets/next_game.dart';
+import 'modules/game_over/statistics/binding.dart';
+import 'modules/game_over/statistics/view.dart';
 import 'modules/game_over/winner/binding.dart';
 import 'modules/game_over/winner/view.dart';
 import 'modules/set_avatar/binding.dart';
@@ -34,8 +37,12 @@ class AppRoutes {
   static const String setAvatar = "/setAvatar";
   // 获胜这页面
   static const String winnerPage = "/winnerPage";
+  // 统计图展示
+  static const String statisticsPage = "/statisticsPage";
   // 荣誉墙展示
   static const String honorPage = "/honorPage";
+  // 下个游戏
+  static const String nextGame = "/nextGame";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -92,9 +99,22 @@ class AppRoutes {
       reverseTransitionDuration: Duration.zero,
     ),
     GetPage(
+      name: statisticsPage,
+      page: () => StatisticsPage(),
+      bindings: [StatisticsBinding()],
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ),
+    GetPage(
       name: honorPage,
       page: () => HonorPage(),
       bindings: [HonorBinding()],
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ),
+    GetPage(
+      name: nextGame,
+      page: () => NextGamePage(),
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
     ),

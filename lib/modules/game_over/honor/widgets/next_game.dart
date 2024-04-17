@@ -3,11 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../common.dart';
+import '../../../../mirra_style.dart';
 import '../../../../widgets/check_in_title.dart';
 import '../logic.dart';
 
-class HonorPage extends StatelessWidget {
-  HonorPage({Key? key}) : super(key: key);
+class NextGamePage extends StatelessWidget {
+  NextGamePage({Key? key}) : super(key: key);
   final logic = Get.find<HonorLogic>();
 
   @override
@@ -35,13 +36,7 @@ class HonorPage extends StatelessWidget {
                             child: Text(
                               "Waiting For Next Game",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 80.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 80.sp, level: 1),
                             ),
                           ),
                         ),
@@ -52,13 +47,7 @@ class HonorPage extends StatelessWidget {
                             child: Text(
                               "...",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 80.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 80.sp, level: 1),
                             ),
                           ),
                         ),

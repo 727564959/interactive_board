@@ -4,12 +4,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../common.dart';
 import 'dart:async';
 
+import '../mirra_style.dart';
+
 class CheckInTitlePage extends StatelessWidget {
   CheckInTitlePage({
     Key? key,
     required this.titleText,
   }) : super(key: key);
   final String titleText;
+  Color get color {
+    if (Global.tableId == 1) {
+      return const Color(0xFFEF7E00);
+    } else if (Global.tableId == 2) {
+      return const Color(0xFFE11988);
+    } else if (Global.tableId == 3) {
+      return const Color(0xFF50C68E);
+    } else {
+      return const Color(0xFF4091F0);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +41,7 @@ class CheckInTitlePage extends StatelessWidget {
             margin: EdgeInsets.only(top: 0.0, left: 60.0),
             child: Text(
               titleText,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 60.sp,
-                decoration: TextDecoration.none,
-                fontFamily: 'BurbankBold',
-                color: Colors.white,
-                letterSpacing: 3.sp,
-              ),
+              style: CustomTextStyles.title(color: Colors.white, fontSize: 60.sp, level: 2),
             ),
           ),
           Container(
@@ -46,14 +52,8 @@ class CheckInTitlePage extends StatelessWidget {
               children: [
                 CurrentTimer(),
                 Text(
-                  "Table " + Global.tableId.toString(),
-                  style: TextStyle(
-                    fontSize: 32.sp,
-                    decoration: TextDecoration.none,
-                    fontFamily: 'BurbankBold',
-                    color: Colors.deepOrange,
-                    letterSpacing: 3.sp,
-                  ),
+                  "Bay " + Global.tableId.toString(),
+                  style: CustomTextStyles.title(color: color, fontSize: 32.sp, level: 3),
                 ),
               ],
             ),
@@ -97,13 +97,14 @@ class _CurrentTimerState extends State<CurrentTimer> {
   Widget build(BuildContext context) {
     return Text(
       "${dateTime.hour}:${dateTime.minute.toString().padLeft(2,'0')}",
-      style: TextStyle(
-        fontSize: 32.sp,
-        decoration: TextDecoration.none,
-        fontFamily: 'BurbankBold',
-        color: Colors.white,
-        letterSpacing: 3.sp,
-      ),
+      style: CustomTextStyles.text(color: Colors.white, fontSize: 32.sp, grade: 'small'),
+      // style: TextStyle(
+      //   fontSize: 32.sp,
+      //   decoration: TextDecoration.none,
+      //   fontFamily: 'BurbankBold',
+      //   color: Colors.white,
+      //   letterSpacing: 3.sp,
+      // ),
     );
   }
 }
