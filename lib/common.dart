@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // const String baseSocketIoUrl = 'http://10.1.4.13:12333';
 // const String baseStrapiUrl = 'http://10.1.4.13:1337';
 // const String baseResovaProxyUrl = "http://47.109.80.75:45279/resova-api";
-const String baseResovaUrl = "http://54.202.91.72:25148";
+const String baseResovaUrl = "http://54.200.63.42:25146";
 const String baseApiUrl = 'http://10.1.4.16:1337/api';
 const String baseSocketIoUrl = 'http://10.1.4.16:12333';
 const String baseStrapiUrl = 'http://10.1.4.16:1337';

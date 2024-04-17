@@ -50,7 +50,7 @@ class ConfirmationDialog extends StatelessWidget {
                       customer: bookingInfo.customer,
                     ),
                   );
-                  WidgetsBinding.instance!.addPostFrameCallback((d) => Get.back());
+                  WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
                   logic.codeController.clear();
                 } on DioException catch (e) {
                   EasyLoading.dismiss();

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const button_normal_FontVariations = [
+const fontVariations_ButtomNormal = [
   FontVariation.width(140),
   FontVariation.opticalSize(100),
   FontVariation.weight(800),
@@ -15,7 +15,7 @@ const button_normal_FontVariations = [
   FontVariation("YTAS", 750),
 ];
 
-const title_H1_FontVariations = [
+const fontVariations_TitleH1 = [
   FontVariation.width(140),
   FontVariation.opticalSize(100),
   FontVariation.weight(800),
@@ -29,7 +29,7 @@ const title_H1_FontVariations = [
   FontVariation("YTFI", 738),
   FontVariation("YTAS", 750),
 ];
-const title_H2_FontVariations = [
+const fontVariations_TitleH2 = [
   FontVariation.width(100),
   FontVariation.opticalSize(21),
   FontVariation.weight(1000),
@@ -43,7 +43,7 @@ const title_H2_FontVariations = [
   FontVariation("YTFI", 662),
   FontVariation("YTAS", 649),
 ];
-const title_H3_FontVariations = [
+const fontVariations_TitleH3 = [
   FontVariation.width(151),
   // FontVariation.opticalSize(100),
   FontVariation.weight(900),
@@ -57,7 +57,7 @@ const title_H3_FontVariations = [
   FontVariation("YTFI", 738),
   FontVariation("YTAS", 649),
 ];
-const title_H4_FontVariations = [
+const fontVariations_TitleH4 = [
   FontVariation.width(151),
   FontVariation.opticalSize(100),
   FontVariation.weight(700),
@@ -71,7 +71,7 @@ const title_H4_FontVariations = [
   FontVariation("YTFI", 738),
   FontVariation("YTAS", 750),
 ];
-const title_H5_FontVariations = [
+const fontVariations_TitleH5 = [
   FontVariation.width(151),
   FontVariation.opticalSize(71),
   FontVariation.weight(700),
@@ -85,7 +85,7 @@ const title_H5_FontVariations = [
   FontVariation("YTFI", 557),
   FontVariation("YTAS", 750),
 ];
-const title_H6_FontVariations = [
+const fontVariations_TitleH6 = [
   FontVariation.width(151),
   FontVariation.opticalSize(60),
   FontVariation.weight(700),
@@ -100,7 +100,7 @@ const title_H6_FontVariations = [
   FontVariation("YTAS", 649),
 ];
 
-const display_1_FontVariations = [
+const fontVariations_Display1 = [
   FontVariation.width(140),
   FontVariation.opticalSize(100),
   FontVariation.weight(800),
@@ -114,7 +114,7 @@ const display_1_FontVariations = [
   FontVariation("YTFI", 738),
   FontVariation("YTAS", 750),
 ];
-const display_2_FontVariations = [
+const fontVariations_Display2 = [
   FontVariation.width(151),
   FontVariation.opticalSize(144),
   FontVariation.weight(900),
@@ -129,7 +129,7 @@ const display_2_FontVariations = [
   FontVariation("YTFI", 738),
   FontVariation("YTAS", 649),
 ];
-const display_3_FontVariations = [
+const fontVariations_Display3 = [
   FontVariation.width(140),
   FontVariation.opticalSize(100),
   FontVariation.weight(800),
@@ -143,36 +143,7 @@ const display_3_FontVariations = [
   FontVariation("YTFI", 738),
   FontVariation("YTAS", 750),
 ];
-const display_4_FontVariations = [
-  FontVariation.width(140),
-  FontVariation.opticalSize(100),
-  FontVariation.weight(800),
-  FontVariation("GRAD", 80),
-  FontVariation("XOPQ", 96),
-  FontVariation("YOPQ", 79),
-  FontVariation("XTRA", 468),
-  FontVariation("YTUC", 712),
-  FontVariation("YTLC", 514),
-  FontVariation("YTDE", -203),
-  FontVariation("YTFI", 738),
-  FontVariation("YTAS", 750),
-];
-
-const text_big_FontVariations = [
-  FontVariation.width(140),
-  FontVariation.opticalSize(100),
-  FontVariation.weight(800),
-  FontVariation("GRAD", 80),
-  FontVariation("XOPQ", 96),
-  FontVariation("YOPQ", 79),
-  FontVariation("XTRA", 468),
-  FontVariation("YTUC", 712),
-  FontVariation("YTLC", 514),
-  FontVariation("YTDE", -203),
-  FontVariation("YTFI", 738),
-  FontVariation("YTAS", 750),
-];
-const text_small_FontVariations = [
+const fontVariations_Display4 = [
   FontVariation.width(140),
   FontVariation.opticalSize(100),
   FontVariation.weight(800),
@@ -187,7 +158,36 @@ const text_small_FontVariations = [
   FontVariation("YTAS", 750),
 ];
 
-const notice_normal_FontVariations = [
+const fontVariations_TextBig = [
+  FontVariation.width(140),
+  FontVariation.opticalSize(100),
+  FontVariation.weight(800),
+  FontVariation("GRAD", 80),
+  FontVariation("XOPQ", 96),
+  FontVariation("YOPQ", 79),
+  FontVariation("XTRA", 468),
+  FontVariation("YTUC", 712),
+  FontVariation("YTLC", 514),
+  FontVariation("YTDE", -203),
+  FontVariation("YTFI", 738),
+  FontVariation("YTAS", 750),
+];
+const fontVariations_TextSmall = [
+  FontVariation.width(140),
+  FontVariation.opticalSize(100),
+  FontVariation.weight(800),
+  FontVariation("GRAD", 80),
+  FontVariation("XOPQ", 96),
+  FontVariation("YOPQ", 79),
+  FontVariation("XTRA", 468),
+  FontVariation("YTUC", 712),
+  FontVariation("YTLC", 514),
+  FontVariation("YTDE", -203),
+  FontVariation("YTFI", 738),
+  FontVariation("YTAS", 750),
+];
+
+const fontVariations_Notice = [
   FontVariation.width(140),
   FontVariation.opticalSize(100),
   FontVariation.weight(800),
@@ -212,7 +212,7 @@ class CustomTextStyles {
       decoration: TextDecoration.none,
       fontFamily: 'RobotoFlex',
       color: color,
-      fontVariations: button_normal_FontVariations,
+      fontVariations: fontVariations_ButtomNormal,
     );
   }
 
@@ -221,15 +221,63 @@ class CustomTextStyles {
     double? fontSize,
     int level = 1,
   }) {
-    List<List<FontVariation>> fontVariationList = [title_H1_FontVariations, title_H2_FontVariations, title_H3_FontVariations, title_H4_FontVariations, title_H5_FontVariations, title_H6_FontVariations];
+    List<List<FontVariation>> fontVariationList = [
+      fontVariations_TitleH1,
+      fontVariations_TitleH2,
+      fontVariations_TitleH3,
+      fontVariations_TitleH4,
+      fontVariations_TitleH5,
+      fontVariations_TitleH6,
+    ];
     return TextStyle(
       fontSize: fontSize,
       decoration: TextDecoration.none,
       fontFamily: 'RobotoFlex',
       color: color,
-      fontVariations: fontVariationList[level - 1]
-      // fontVariations: level == 1 ? title_H1_FontVariations : (level == 2 ? title_H2_FontVariations : (level == 3 ? title_H3_FontVariations : (level == 4 ? title_H4_FontVariations : (level == 5 ? title_H5_FontVariations : title_H6_FontVariations)))),
+      fontVariations: fontVariationList[level - 1],
     );
+  }
+
+  static TextStyle title1({
+    Color? color,
+    double? fontSize,
+  }) {
+    return CustomTextStyles.title(color: color, fontSize: fontSize, level: 1);
+  }
+
+  static TextStyle title2({
+    Color? color,
+    double? fontSize,
+  }) {
+    return CustomTextStyles.title(color: color, fontSize: fontSize, level: 2);
+  }
+
+  static TextStyle title3({
+    Color? color,
+    double? fontSize,
+  }) {
+    return CustomTextStyles.title(color: color, fontSize: fontSize, level: 3);
+  }
+
+  static TextStyle title4({
+    Color? color,
+    double? fontSize,
+  }) {
+    return CustomTextStyles.title(color: color, fontSize: fontSize, level: 4);
+  }
+
+  static TextStyle title5({
+    Color? color,
+    double? fontSize,
+  }) {
+    return CustomTextStyles.title(color: color, fontSize: fontSize, level: 5);
+  }
+
+  static TextStyle title6({
+    Color? color,
+    double? fontSize,
+  }) {
+    return CustomTextStyles.title(color: color, fontSize: fontSize, level: 6);
   }
 
   static TextStyle display({
@@ -237,15 +285,47 @@ class CustomTextStyles {
     double? fontSize,
     int level = 1,
   }) {
-    List<List<FontVariation>> fontVariationList = [display_1_FontVariations, display_2_FontVariations, display_3_FontVariations, display_4_FontVariations];
+    List<List<FontVariation>> fontVariationList = [
+      fontVariations_Display1,
+      fontVariations_Display2,
+      fontVariations_Display3,
+      fontVariations_Display4,
+    ];
     return TextStyle(
       fontSize: fontSize,
       decoration: TextDecoration.none,
       fontFamily: 'RobotoFlex',
       color: color,
-      fontVariations: fontVariationList[level - 1]
-      // fontVariations: level == 1 ? display_1_FontVariations : (level == 2 ? display_2_FontVariations : (level == 3 ? display_3_FontVariations : display_4_FontVariations)),
+      fontVariations: fontVariationList[level - 1],
     );
+  }
+
+  static TextStyle display1({
+    Color? color,
+    double? fontSize,
+  }) {
+    return display(color: color, fontSize: fontSize, level: 1);
+  }
+
+  static TextStyle display2({
+    Color? color,
+    double? fontSize,
+  }) {
+    return display(color: color, fontSize: fontSize, level: 1);
+  }
+
+  static TextStyle display3({
+    Color? color,
+    double? fontSize,
+  }) {
+    return display(color: color, fontSize: fontSize, level: 1);
+  }
+
+  static TextStyle display4({
+    Color? color,
+    double? fontSize,
+  }) {
+    return display(color: color, fontSize: fontSize, level: 1);
   }
 
   static TextStyle notice({
@@ -257,11 +337,11 @@ class CustomTextStyles {
       decoration: TextDecoration.none,
       fontFamily: 'RobotoFlex',
       color: color,
-      fontVariations: notice_normal_FontVariations,
+      fontVariations: fontVariations_Notice,
     );
   }
 
-  static TextStyle text({
+  static TextStyle textSmall({
     Color? color,
     double? fontSize,
     String? grade,
@@ -271,7 +351,21 @@ class CustomTextStyles {
       decoration: TextDecoration.none,
       fontFamily: 'RobotoFlex',
       color: color,
-      fontVariations: grade == "big" ? text_big_FontVariations : text_small_FontVariations,
+      fontVariations: fontVariations_TextSmall,
+    );
+  }
+
+  static TextStyle textBig({
+    Color? color,
+    double? fontSize,
+    String? grade,
+  }) {
+    return TextStyle(
+      fontSize: fontSize,
+      decoration: TextDecoration.none,
+      fontFamily: 'RobotoFlex',
+      color: color,
+      fontVariations: fontVariations_TextBig,
     );
   }
 }

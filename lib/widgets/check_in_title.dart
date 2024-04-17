@@ -32,7 +32,7 @@ class CheckInTitlePage extends StatelessWidget {
       //   borderRadius: BorderRadius.all(Radius.circular(10)),
       // ),
       margin: EdgeInsets.only(top: 20.0, left: 0.0),
-      constraints: BoxConstraints.tightFor(width: 1.0.sw, height: 100.sp),//卡片大小
+      constraints: BoxConstraints.tightFor(width: 1.0.sw, height: 100.sp), //卡片大小
       child: Row(
         // mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,6 +70,7 @@ class CurrentTimer extends StatefulWidget {
   @override
   _CurrentTimerState createState() => _CurrentTimerState();
 }
+
 class _CurrentTimerState extends State<CurrentTimer> {
   //时间日期开始
   late Timer _timer;
@@ -79,8 +80,9 @@ class _CurrentTimerState extends State<CurrentTimer> {
   void initState() {
     super.initState();
     dateTime = new DateTime.now();
-    this._timer = new Timer.periodic(Duration (seconds: 1), setTime);
+    this._timer = new Timer.periodic(Duration(seconds: 1), setTime);
   }
+
   void setTime(Timer timer) {
     setState(() {
       dateTime = new DateTime.now();
@@ -96,8 +98,8 @@ class _CurrentTimerState extends State<CurrentTimer> {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "${dateTime.hour}:${dateTime.minute.toString().padLeft(2,'0')}",
-      style: CustomTextStyles.text(color: Colors.white, fontSize: 32.sp, grade: 'small'),
+      "${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}",
+      style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 32.sp),
       // style: TextStyle(
       //   fontSize: 32.sp,
       //   decoration: TextDecoration.none,
