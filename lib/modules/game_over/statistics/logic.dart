@@ -118,7 +118,7 @@ class StatisticsLogic extends GetxController {
   String get gameName => ((Get.arguments as ShowState).details as GamingDetails).game;
   // 默认展示页面
   PageState pageState = PageState.playerStatistics;
-  int delayedTime = 10;
+  int delayedTime = 5;
 
   void updatePlayerRecord() async {
     // 获取用户信息
@@ -157,6 +157,25 @@ class StatisticsLogic extends GetxController {
     print('玩家玩家玩家玩家 $resultPlayerRecord');
 
     update();
+  }
+
+  void delayedFun() async {
+    Future.delayed(delayedTime.seconds).then((value) async {
+      print("delayedTime logic $delayedTime");
+      if (pageState == PageState.playerStatistics) {
+        print("跳转 $pageState");
+        delayedTime = 5;
+        pageState = PageState.teamStatistics;
+        update(['statisticsPage']);
+      } else if (pageState == PageState.teamStatistics) {
+        print("团队统计");
+        delayedTime = 5;
+        update(['statisticsPage']);
+        print("12345上山打老虎");
+        // // 跳转到下一个游戏页面
+        await Get.offAllNamed(AppRoutes.nextGame, arguments: showState);
+      }
+    });
   }
 
   @override
@@ -221,21 +240,25 @@ class StatisticsLogic extends GetxController {
           position: playerRecord.position));
     }
     print('玩家玩家玩家玩家 $resultPlayerRecord');
-    update();
+    update(['statisticsPage']);
 
-    Future.delayed(delayedTime.seconds).then((value) async {
-      print("delayedTime logic $delayedTime");
-      if (pageState == PageState.playerStatistics) {
-        print("跳转 $pageState");
-        delayedTime = 10;
-        // pageState = PageState.teamStatistics;
-        update();
-      } else if (pageState == PageState.teamStatistics) {
-        print("团队统计");
-        update();
-        // 跳转到下一个游戏页面
-        // await Get.toNamed(AppRoutes.nextGame, arguments: {});
-      }
-    });
+    this.delayedFun();
+
+    // Future.delayed(delayedTime.seconds).then((value) async {
+    //   print("delayedTime logic $delayedTime");
+    //   if (pageState == PageState.playerStatistics) {
+    //     print("跳转 $pageState");
+    //     delayedTime = 5;
+    //     pageState = PageState.teamStatistics;
+    //     update(['statisticsPage']);
+    //   } else if (pageState == PageState.teamStatistics) {
+    //     print("团队统计");
+    //     delayedTime = 3;
+    //     update(['statisticsPage']);
+    //     print("12345上山打老虎");
+    //     // // 跳转到下一个游戏页面
+    //     // await Get.toNamed(AppRoutes.nextGame, arguments: {});
+    //   }
+    // });
   }
 }

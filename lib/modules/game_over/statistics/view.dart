@@ -32,9 +32,12 @@ class StatisticsPage extends StatelessWidget {
                 builder: (logic) {
                   if (logic.pageState == PageState.playerStatistics) {
                     print("默认展示页面");
+                    // logic.onInit();
                     return PlayerStatisticsView(key: UniqueKey());
                   } else {
                     print("团队统计页面");
+                    // logic.onInit();
+                    logic.delayedFun();
                     return TeamStatisticsView(key: UniqueKey());
                   }
                 },

@@ -9,7 +9,7 @@ import '../logic.dart';
 
 class NextGamePage extends StatelessWidget {
   NextGamePage({Key? key}) : super(key: key);
-  final logic = Get.find<HonorLogic>();
+  final logic = Get.find<StatisticsLogic>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class NextGamePage extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 10.0, left: 0.0),
+                          margin: EdgeInsets.only(top: 0.3.sh, left: 0.0),
                           child: SizedBox(
                             width: 0.8.sw,
                             child: Text(
