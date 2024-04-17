@@ -311,21 +311,21 @@ class CustomTextStyles {
     Color? color,
     double? fontSize,
   }) {
-    return display(color: color, fontSize: fontSize, level: 1);
+    return display(color: color, fontSize: fontSize, level: 2);
   }
 
   static TextStyle display3({
     Color? color,
     double? fontSize,
   }) {
-    return display(color: color, fontSize: fontSize, level: 1);
+    return display(color: color, fontSize: fontSize, level: 3);
   }
 
   static TextStyle display4({
     Color? color,
     double? fontSize,
   }) {
-    return display(color: color, fontSize: fontSize, level: 1);
+    return display(color: color, fontSize: fontSize, level: 4);
   }
 
   static TextStyle notice({
