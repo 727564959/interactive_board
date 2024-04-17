@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide AnimationExtension;
 import 'package:flutter/material.dart';
 
+import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../logic.dart';
 
@@ -315,7 +316,7 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
                   width: width,
                   // height: height - 170.w,
                   // color: color,
-                  height: height - 70.w,
+                  height: height - 150.w,
                   // margin: EdgeInsets.only(left: 5.0, right: 5.0, top: 0.0, bottom: 0.0),
                   // margin: EdgeInsets.only(right: position%2 == 0 ? 20.0 : 2.0),
                   decoration: BoxDecoration(
@@ -336,11 +337,16 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    if(rank == 1) Image.asset(
+                      Global.getSetAvatarImageUrl('mvp_icon.png'),
+                      fit: BoxFit.fill,
+                    ),
+                    if(rank != 1) SizedBox(height: 80.w),
                     Text(
                       (scoreAnimation.value * score ~/ 1).toString(),
                       style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                     ),
-                    SizedBox(height: 80.w),
+                    SizedBox(height: 40.w),
                     _HeadCircle(
                       nickname: nickname,
                       avatarUrl: avatarUrl,

@@ -11,6 +11,23 @@ class WinnerPage extends StatelessWidget {
   WinnerPage({Key? key}) : super(key: key);
   final logic = Get.find<WinnerLogic>();
 
+  Color get color {
+    print("12345 ${logic.winnerName}");
+    if (int.parse(logic.winnerName) == 1) {
+      // background: #FFBD80;
+      return const Color(0xFFFFBD80);
+    } else if (int.parse(logic.winnerName) == 2) {
+      // background: #EFB5FD;
+      return const Color(0xFFEFB5FD);
+    } else if (int.parse(logic.winnerName) == 3) {
+      // background: #8EE8BD;
+      return const Color(0xFF8EE8BD);
+    } else {
+      // background: #9ED7F7;
+      return const Color(0xFF9ED7F7);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +65,7 @@ class WinnerPage extends StatelessWidget {
                               // "Fire C",
                               "Fire " + logic.winnerName,
                               textAlign: TextAlign.center,
-                              style: CustomTextStyles.display(color: Color(0xFFFFBD80), fontSize: 150.sp, level: 1),
+                              style: CustomTextStyles.display(color: color, fontSize: 150.sp, level: 1),
                             ),
                           ),
                         ),

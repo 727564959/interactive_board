@@ -170,9 +170,9 @@ class StatisticsLogic extends GetxController {
       } else if (pageState == PageState.teamStatistics) {
         print("团队统计");
         delayedTime = 5;
-        update(['statisticsPage']);
-        print("12345上山打老虎");
-        // // 跳转到下一个游戏页面
+        // update(['statisticsPage']);
+        // print("12345上山打老虎");
+        // 跳转到下一个游戏页面
         await Get.offAllNamed(AppRoutes.nextGame, arguments: showState);
       }
     });

@@ -12,17 +12,17 @@ class CheckInTitlePage extends StatelessWidget {
     required this.titleText,
   }) : super(key: key);
   final String titleText;
-  Color get color {
-    if (Global.tableId == 1) {
-      return const Color(0xFFEF7E00);
-    } else if (Global.tableId == 2) {
-      return const Color(0xFFE11988);
-    } else if (Global.tableId == 3) {
-      return const Color(0xFF50C68E);
-    } else {
-      return const Color(0xFF4091F0);
-    }
-  }
+  // Color get color {
+  //   if (Global.tableId == 1) {
+  //     return const Color(0xFFEF7E00);
+  //   } else if (Global.tableId == 2) {
+  //     return const Color(0xFFE11988);
+  //   } else if (Global.tableId == 3) {
+  //     return const Color(0xFF50C68E);
+  //   } else {
+  //     return const Color(0xFF4091F0);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class CheckInTitlePage extends StatelessWidget {
                 CurrentTimer(),
                 Text(
                   "Bay " + Global.tableId.toString(),
-                  style: CustomTextStyles.title(color: color, fontSize: 32.sp, level: 3),
+                  style: CustomTextStyles.title(color: Colors.white, fontSize: 32.sp, level: 3),
                 ),
               ],
             ),
