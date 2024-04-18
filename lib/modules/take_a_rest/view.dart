@@ -19,7 +19,13 @@ class TakeARestPage extends StatelessWidget {
             Container(
               width: 1.0.sw,
               height: 1.0.sh,
-              color: Colors.black,
+              // color: Colors.black,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Column(
                 children: [
                   // 顶部文本信息
@@ -50,7 +56,7 @@ class TakeARestPage extends StatelessWidget {
                             width: 0.8.sw,
                             child: Text(
                               "Take a Rest",
-                              style: CustomTextStyles.display(color: Colors.white, fontSize: 150.sp, level: 1),
+                              style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
                             ),
                           ),
                         ),
@@ -60,7 +66,7 @@ class TakeARestPage extends StatelessWidget {
                             width: 0.8.sw,
                             child: Text(
                               "We will be back soon",
-                              style: CustomTextStyles.display(color: Colors.white, fontSize: 50.sp, level: 4),
+                              style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 4),
                             ),
                           ),
                         ),

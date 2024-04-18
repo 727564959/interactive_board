@@ -189,6 +189,23 @@ class _EditNicknameText extends StatelessWidget {
   final logic = Get.find<SetAvatarLogic>();
   // TextEditingController _nameTextFieldController = new TextEditingController(text: "testststs");
 
+  Color get color {
+    print("12345 ${Global.tableId}");
+    if (Global.tableId == 1) {
+      // background: #FFBD80;
+      return const Color(0xFFFFBD80);
+    } else if (Global.tableId == 2) {
+      // background: #EFB5FD;
+      return const Color(0xFFEFB5FD);
+    } else if (Global.tableId == 3) {
+      // background: #8EE8BD;
+      return const Color(0xFF8EE8BD);
+    } else {
+      // background: #9ED7F7;
+      return const Color(0xFF9ED7F7);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print("ppp ${logic.singlePlayer['name']}");
@@ -204,7 +221,9 @@ class _EditNicknameText extends StatelessWidget {
           // hintText: logic.currentNickName,
           // border: InputBorder.none,
           // fillColor: Colors.deepOrangeAccent,
-          fillColor: Color(0xffFFBD80),
+
+          // fillColor: Color(0xffFFBD80),
+          fillColor: color,
           filled: true,
           suffixIcon: Icon(
             Icons.edit,

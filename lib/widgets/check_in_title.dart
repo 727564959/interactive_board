@@ -23,6 +23,17 @@ class CheckInTitlePage extends StatelessWidget {
   //     return const Color(0xFF4091F0);
   //   }
   // }
+  String get bayString {
+      if (Global.tableId == 1) {
+        return "A";
+      } else if (Global.tableId == 2) {
+        return "B";
+      } else if (Global.tableId == 3) {
+        return "C";
+      } else {
+        return "D";
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +57,15 @@ class CheckInTitlePage extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(top: 0.0, right: 60.0),
-            constraints: BoxConstraints.tightFor(width: 0.1.sw),
+            constraints: BoxConstraints.tightFor(width: 0.15.sw),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CurrentTimer(),
                 Text(
-                  "Bay " + Global.tableId.toString(),
-                  style: CustomTextStyles.title(color: Colors.white, fontSize: 32.sp, level: 3),
+                  // "Bay " + Global.tableId.toString(),
+                  "Bay " + bayString,
+                  style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 3),
                 ),
               ],
             ),
@@ -99,14 +111,7 @@ class _CurrentTimerState extends State<CurrentTimer> {
   Widget build(BuildContext context) {
     return Text(
       "${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}",
-      style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 32.sp),
-      // style: TextStyle(
-      //   fontSize: 32.sp,
-      //   decoration: TextDecoration.none,
-      //   fontFamily: 'BurbankBold',
-      //   color: Colors.white,
-      //   letterSpacing: 3.sp,
-      // ),
+      style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 30.sp),
     );
   }
 }
