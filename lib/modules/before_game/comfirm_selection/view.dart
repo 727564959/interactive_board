@@ -16,7 +16,7 @@ class ConfirmSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final confirmedPositions =
-        logic.selectedPlayers.keys.where((key) => logic.selectedPlayers[key]?.tableId == Global.tableId);
+        logic.optionalPositions.keys.where((key) => logic.optionalPositions[key]?.tableId == Global.tableId);
     return Scaffold(
       body: Stack(
         children: [
@@ -35,7 +35,7 @@ class ConfirmSelectionPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   mainAxisSize: MainAxisSize.max,
                   children: confirmedPositions.map((position) {
-                    final player = logic.selectedPlayers[position];
+                    final player = logic.optionalPositions[position];
                     final width = 250.w;
                     final height = width * 1.5;
                     final deviceId = ascii.decode([0x40 + position]);

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'logic.dart';
+import '../choose_player/logic.dart';
 
 class ChoosePlayerBinding implements Bindings {
   @override

@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:interactive_board/app_routes.dart';
-import 'package:interactive_board/modules/before_game/comfirm_selection/view.dart';
-import 'package:timer_count_down/timer_count_down.dart';
+import 'package:interactive_board/mirra_style.dart';
+import 'package:interactive_board/modules/before_game/choose_player/widgets/player_selection_component.dart';
+import 'package:interactive_board/widgets/mirra_app_bar.dart';
 
-import '../../../common.dart';
-import '../../../pages/check_in/widgets/after_checkIn/player_info_show.dart';
-import '../../../widgets/game_title.dart';
-
+import 'widgets/player_bottom_bar.dart';
 import 'logic.dart';
-import 'widgets/player_sticker.dart';
-import 'widgets/player_selection_menu.dart';
 
 class ChoosePlayerPage extends StatelessWidget {
   ChoosePlayerPage({Key? key}) : super(key: key);
@@ -19,108 +15,47 @@ class ChoosePlayerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            width: 1.0.sw,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(Global.getAssetImageUrl("background.png")),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Column(
+      body: Container(
+        width: 1.0.sw,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(MirraIcons.getChooseTableIconPath("background.png")),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Stack(
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.max,
               children: [
-                SizedBox(height: 60.h),
-                GameTitleWidget(gameName: logic.showInfo.game, width: 0.3.sw, bAnimate: true),
-                SizedBox(height: 50.h),
-                SizedBox(
-                  height: 0.6.sw * 0.16 * 1.5 * 2 + 20.w,
-                  child: PlayerSelectionMenu(width: 0.6.sw),
-                ),
-                SizedBox(height: 20.h),
+                const MirraAppBar(title: "Choose Player"),
                 GetBuilder<ChoosePlayerLogic>(
                   builder: (logic) {
-                    return PlayerSticker(width: 0.8.sw, players: logic.unselectedPlayers);
-                  },
-                ),
-                GetBuilder<ChoosePlayerLogic>(
-                  builder: (logic) {
-                    if (logic.bSelectComplete) {
-                      return Countdown(
-                        interval: 100.ms,
-                        seconds: 1,
-                        build: (context, time) => Container(),
-                        onFinished: () {
-                          Get.to(() => ConfirmSelectionPage(), arguments: Get.arguments);
-                        },
+                    if (logic.mode == "normal") {
+                      return Padding(
+                        padding: EdgeInsets.only(top: 300.w),
+                        child: NormalModeContent(),
+                      );
+                    } else if (logic.mode == "event") {
+                      return Padding(
+                        padding: EdgeInsets.only(top: 300.w),
+                        child: EventModeContent(),
                       );
                     } else {
-                      return Container();
+                      return Padding(
+                        padding: EdgeInsets.only(top: 200.w),
+                        child: Free4ModeContent(),
+                      );
                     }
                   },
-                )
+                ),
               ],
             ),
-          ),
-          Positioned(
-            left: 20,
-            top: 20,
-            child: Text(
-              "Table ${Global.tableId}",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 80.sp,
-                decoration: TextDecoration.none,
-                fontFamily: 'Burbank',
-                color: Colors.white,
-              ),
+            GetBuilder<ChoosePlayerLogic>(
+              builder: (logic) => logic.selectedPosition == null ? Container() : PlayerBottomBar(),
             ),
-          ),
-          Positioned(
-            right: 20,
-            top: 20,
-            child: _SetAvatarButton(width: 230.w),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SetAvatarButton extends StatelessWidget {
-  _SetAvatarButton({
-    Key? key,
-    required this.width,
-  }) : super(key: key);
-  final double width;
-  final logic = Get.find<ChoosePlayerLogic>();
-  String get backgroundUri => Global.team == 0
-      ? Global.getCheckInImageUrl("set_avatar_btn_red.png")
-      : Global.getCheckInImageUrl("set_avatar_btn_blue.png");
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        await Get.offAllNamed(AppRoutes.checkIn, arguments: Get.arguments);
-        logic.updatePlayerInfo();
-      },
-      child: GetBuilder<ChoosePlayerLogic>(
-        id: "setAvatar",
-        builder: (logic) {
-          return Container(
-            height: width / 3,
-            width: width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(backgroundUri),
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

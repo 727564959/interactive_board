@@ -11,23 +11,42 @@ import 'data/player_api.dart';
 class ChoosePlayerLogic extends GetxController {
   final playerApi = PlayerApi();
   List<PlayerInfo> players = [];
-  ShowState get showState => Get.arguments;
-  get showId => showState.showId;
-  get showInfo => showState.details as GamingDetails;
+  // ShowState get showState => Get.arguments;
+  ShowState get showState => ShowState.fromJson({
+        "showId": 13,
+        "status": "game_preparing",
+        "details": {
+          "showId": 13,
+          "roundId": 26,
+          "roundNumber": 1,
+          "mode": "normal",
+          "game": "Block Party",
+          "customers": [
+            {"tableId": 4, "consumerId": 259},
+            {"tableId": 1, "consumerId": 267}
+          ],
+          "teams": []
+        }
+      });
+  int get showId => showState.showId!;
+  GamingDetails get showInfo => showState.details;
+  String get mode => showInfo.mode;
 
-  final Map<int, PlayerInfo?> selectedPlayers = {};
-  bool get bSelectComplete => selectedPlayers.values.every((element) => element != null);
+  final Map<int, PlayerInfo?> optionalPositions = {};
+  bool get bSelectComplete => optionalPositions.values.every((element) => element != null);
   late final Socket positionSocket;
 
   List<PlayerInfo> get unselectedPlayers {
     final result = <PlayerInfo>[];
     for (final player in players) {
-      if (!selectedPlayers.values.any((element) => player.id == element?.id)) {
+      if (!optionalPositions.values.any((element) => player.id == element?.id)) {
         result.add(player);
       }
     }
     return result;
   }
+
+  int? selectedPosition;
 
   @override
   void onInit() async {
@@ -36,35 +55,31 @@ class ChoosePlayerLogic extends GetxController {
     positionSocket = io('$baseSocketIoUrl/listener/position', option);
     positionSocket.on('position_update', (data) {
       final int position = data['position'];
-      if (!selectedPlayers.containsKey(position)) return;
+      if (!optionalPositions.containsKey(position)) return;
       final player = PlayerInfo.fromJson(data['player'], data['tableId']);
-      if (selectedPlayers[position]?.id == player.id) return;
-      selectedPlayers[position] = player;
+      if (optionalPositions[position]?.id == player.id) return;
+      optionalPositions[position] = player;
       update();
     });
 
     positionSocket.on('position_remove', (data) {
       final int position = data['position'];
-      if (!selectedPlayers.containsKey(position)) return;
-      if (selectedPlayers[position] == null) return;
-      selectedPlayers[position] = null;
+      if (!optionalPositions.containsKey(position)) return;
+      if (optionalPositions[position] == null) return;
+      optionalPositions[position] = null;
       update();
     });
     positionSocket.connect();
 
     final tableId = Global.tableId;
-    final mode = showInfo.mode;
     if (mode == 'event') {
-      selectedPlayers[tableId] = null;
+      optionalPositions[tableId * 2 - 1] = null;
     } else if (mode == 'normal') {
-      selectedPlayers[tableId * 2 - 1] = null;
-      selectedPlayers[tableId * 2] = null;
+      optionalPositions[tableId * 2 - 1] = null;
+      optionalPositions[tableId * 2] = null;
     } else if (mode == 'free-4') {
-      selectedPlayers.addAll({2: null, 3: null, 6: null, 7: null});
-    } else if (mode == 'free-8') {
-      selectedPlayers.addAll({1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null});
+      optionalPositions.addAll({1: null, 2: null, 5: null, 6: null});
     }
-
     updateAllPositions();
   }
 
@@ -72,8 +87,8 @@ class ChoosePlayerLogic extends GetxController {
     players = await playerApi.fetchPlayers(showId);
     final positions = await playerApi.fetchPositions(showInfo.roundId);
     for (final item in positions) {
-      if (!selectedPlayers.containsKey(item.position)) continue;
-      selectedPlayers[item.position] = item.player;
+      if (!optionalPositions.containsKey(item.position)) continue;
+      optionalPositions[item.position] = item.player;
     }
     update();
   }
@@ -84,21 +99,23 @@ class ChoosePlayerLogic extends GetxController {
     super.onClose();
   }
 
-  void updatePosition(int position, int? playerId) {
+  void updatePosition(int? playerId) async {
+    final position = selectedPosition!;
     final player = players.firstWhere((element) => element.id == playerId);
-    selectedPlayers[position] = player;
-    update();
     try {
-      playerApi.updatePosition(showInfo.roundId, position, playerId);
+      await playerApi.updatePosition(showInfo.roundId, position, playerId);
+      optionalPositions[position] = player;
+      selectedPosition = null;
+      update();
     } on StateError {
       return;
     } on DioException {
-      updatePlayerInfo();
+      return;
     }
   }
 
   void removePlayer(position) {
-    selectedPlayers[position] = null;
+    optionalPositions[position] = null;
     try {
       playerApi.updatePosition(showInfo.roundId, position, null);
     } on DioException {
@@ -108,12 +125,22 @@ class ChoosePlayerLogic extends GetxController {
 
   void updatePlayerInfo() async {
     players = await playerApi.fetchPlayers(showInfo.showId);
-    for (final position in selectedPlayers.keys) {
-      if (selectedPlayers[position] == null) continue;
-      final playerId = selectedPlayers[position]!.id;
+    for (final position in optionalPositions.keys) {
+      if (optionalPositions[position] == null) continue;
+      final playerId = optionalPositions[position]!.id;
       final player = players.firstWhere((element) => element.id == playerId);
-      selectedPlayers[position] = player;
+      optionalPositions[position] = player;
     }
+    update();
+  }
+
+  void showBottomBar(int position) {
+    selectedPosition = position;
+    update();
+  }
+
+  void dismissBottomBar() {
+    selectedPosition = null;
     update();
   }
 }

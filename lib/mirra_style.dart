@@ -375,4 +375,5 @@ class MirraIcons {
   static String getCheckInIconPath(String filename) => "assets/images/check_in/$filename";
   static String getSetAvatarIconPath(String filename) => "assets/images/set_avatar/$filename";
   static String getGifPath(String filename) => "assets/images/gif/$filename";
+  static String getChooseTableIconPath(String filename) => "assets/images/choose_table/$filename";
 }
