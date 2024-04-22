@@ -1,6 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:interactive_board/mirra_style.dart';
+
+String getDeviceName(int position) {
+  final char = ascii.decode([0x40 + (position + 1) ~/ 2]);
+  return "Device $char${(position + 1) % 2 + 1}";
+}
 
 class PlayerCard extends StatelessWidget {
   const PlayerCard({
@@ -8,12 +15,13 @@ class PlayerCard extends StatelessWidget {
     required this.avatarUrl,
     required this.nickname,
     required this.width,
-    this.device,
+    this.position,
   }) : super(key: key);
   final String? avatarUrl;
   final String nickname;
-  final String? device;
+  // final String? device;
   final double width;
+  final int? position;
   @override
   Widget build(BuildContext context) {
     late final Widget avatarImage;
@@ -46,19 +54,19 @@ class PlayerCard extends StatelessWidget {
                 fontSize: 32.sp,
               ),
             ),
-            if (device == null) const SizedBox(height: 5),
-            if (device != null)
+            if (position == null) const SizedBox(height: 5),
+            if (position != null)
               Transform.translate(
                 offset: const Offset(0, -5),
                 child: Text(
-                  device!,
+                  getDeviceName(position!),
                   style: CustomTextStyles.title6(
                     color: const Color(0xff5a5858),
                     fontSize: 23.sp,
                   ),
                 ),
               ),
-            if (device != null) const SizedBox(height: 3),
+            if (position != null) const SizedBox(height: 3),
           ],
         ),
       ),
