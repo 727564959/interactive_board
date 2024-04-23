@@ -11,6 +11,7 @@ import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../app_routes.dart';
 import '../../../../common.dart';
+import '../../../../mirra_style.dart';
 import '../../../../modules/set_avatar/logic.dart';
 import '../../../../widgets/check_in_title.dart';
 import '../../data/checkIn_api.dart';
@@ -987,11 +988,12 @@ class _BottomBtns extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 0.0, left: 100.0),
+                    margin: EdgeInsets.only(top: 0.0, left: 0.0),
                     child: Row(
                       children: [
+                        _BackButton(width: 600.w),
+                        SizedBox(width: 10,),
                         _NextButton(width: 600.w),
-                        _SkipButton(),
                       ],
                     ),
                   ),
@@ -999,7 +1001,7 @@ class _BottomBtns extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(top: 30.0, right: 30.0),
-                child: _BackButton(),
+                child: _MaybeLatterButton(),
               ),
             ],
           )
@@ -1067,8 +1069,60 @@ class _NextButton extends StatelessWidget {
 }
 
 // 跳过
-class _SkipButton extends StatelessWidget {
-  _SkipButton({
+class _BackButton extends StatelessWidget {
+  _BackButton({
+    Key? key,
+    required this.width,
+  }) : super(key: key);
+  final double width;
+  final logic = Get.find<CheckInLogic>();
+
+  final testTabId = Global.tableId;
+  get checkInApi => CheckInApi();
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        Get.back();
+
+        // print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
+        // if(Get.isRegistered<SetAvatarLogic>()) {
+        //   Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
+        //   Get.find<SetAvatarLogic>().updatePlayer(skipUserInfo['userId'].toString());
+        // }
+        // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+      },
+      child: GetBuilder<CheckInLogic>(
+        id: "skipBtn",
+        builder: (logic) {
+          return Container(
+            decoration: BoxDecoration(
+              //设置边框
+              border: new Border.all(color: Color(0xff13EFEF), width: 1),
+              color: Color(0xFF233342),
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+            margin: EdgeInsets.only(top: 0.0, left: 30.0),
+            constraints: BoxConstraints.tightFor(width: width, height: 80.h), //卡片大小
+            child: Center(
+              child: Text(
+                "BACK",
+                textAlign: TextAlign.center,
+                style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// 返回到addPlayer页面
+class _MaybeLatterButton extends StatelessWidget {
+  _MaybeLatterButton({
     Key? key,
   }) : super(key: key);
   final logic = Get.find<CheckInLogic>();
@@ -1081,6 +1135,7 @@ class _SkipButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
+        // Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
         Map<String, dynamic> skipUserInfo = await checkInApi.addSkipPlayer();
         // print("跳过后的返回 $skipUserInfo");
         print("跳过后的返回 ${Get.arguments}");
@@ -1101,71 +1156,13 @@ class _SkipButton extends StatelessWidget {
           print("error爆宝箱 $error");
         });
         Get.to(() => TreasureChestPage(), arguments: jsonObj);
-
-        // print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
-        // if(Get.isRegistered<SetAvatarLogic>()) {
-        //   Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
-        //   Get.find<SetAvatarLogic>().updatePlayer(skipUserInfo['userId'].toString());
-        // }
-        // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
       },
       child: GetBuilder<CheckInLogic>(
-        id: "skipBtn",
-        builder: (logic) {
-          return Container(
-            decoration: BoxDecoration(
-              //设置边框
-              border: new Border.all(color: Color(0xff5A5858), width: 1),
-              color: Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-            ),
-            margin: EdgeInsets.only(top: 0.0, left: 30.0),
-            constraints: BoxConstraints.tightFor(width: 0.08.sw, height: 80.h), //卡片大小
-            child: Center(
-              child: Text(
-                "Skip",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 35.sp,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'BurbankBold',
-                  color: Color(0xffFFFFFF),
-                  letterSpacing: 3.sp,
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-// 返回到addPlayer页面
-class _BackButton extends StatelessWidget {
-  _BackButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
-      },
-      child: GetBuilder<CheckInLogic>(
-        id: "backBtn",
+        id: "maybeLatterBtn",
         builder: (logic) {
           return Text(
-            "Back",
-            style: TextStyle(
-              fontSize: 35.sp,
-              decoration: TextDecoration.none,
-              fontFamily: 'BurbankBold',
-              color: Color(0xff13EFEF),
-              letterSpacing: 3.sp,
-            ),
+            "MAYBE LATTER",
+            style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
           );
         },
       ),

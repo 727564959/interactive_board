@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 const fontVariations_ButtomNormal = [
   FontVariation.width(140),
@@ -79,11 +80,11 @@ const fontVariations_TitleH5 = [
   FontVariation("XOPQ", 96),
   FontVariation("YOPQ", 91),
   FontVariation("XTRA", 451),
-  FontVariation("YTUC", 528),
+  FontVariation("YTUC", 564),
   FontVariation("YTLC", 514),
   FontVariation("YTDE", -203),
-  FontVariation("YTFI", 557),
-  FontVariation("YTAS", 750),
+  FontVariation("YTFI", 577),
+  FontVariation("YTAS", 649),
 ];
 const fontVariations_TitleH6 = [
   FontVariation.width(151),
@@ -213,6 +214,21 @@ class CustomTextStyles {
       fontFamily: 'RobotoFlex',
       color: color,
       fontVariations: fontVariations_ButtomNormal,
+    );
+  }
+
+  static TextStyle verificationText({
+    Color? color,
+    double? fontSize,
+    double? letterSpacingVal,
+  }) {
+    return TextStyle(
+      fontSize: fontSize,
+      decoration: TextDecoration.none,
+      fontFamily: 'RobotoFlex',
+      color: color,
+      fontVariations: fontVariations_TitleH4,
+      letterSpacing: letterSpacingVal,
     );
   }
 
