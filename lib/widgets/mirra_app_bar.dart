@@ -37,7 +37,7 @@ class _MirraAppBarState extends State<MirraAppBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 50.w, horizontal: 50.w),
+      padding: EdgeInsets.only(left: 20.w, right: 55.w, top: 50.w, bottom: 50.w),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

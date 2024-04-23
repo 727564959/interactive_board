@@ -8,45 +8,30 @@ import 'data/player.dart';
 import 'data/player_records_repository.dart';
 
 class GamingRankLogic extends GetxController {
-  String get gameName => ((Get.arguments as ShowState).details as GamingDetails).game;
+  ShowState get showState => Get.arguments;
+  GamingDetails get details => showState.details;
   late RecordsRepository recordsRepository;
-  bool bGameStart = false;
   final List<PlayerRecord> playerRecords = [];
   final lock = Lock();
   List<PlayerRecord> get sortedRecords => List<PlayerRecord>.of(playerRecords)..sort((a, b) => b.score - a.score);
   List<PlayerInfo> get showPlayers {
-    try {
-      final selectedPlayer = playerRecords.firstWhere((e) => e.player.id == selectedId);
-      return [selectedPlayer.player];
-    } on StateError {
-      final team = Global.team;
-      return playerRecords.map((e) => e.player).where((e) {
-        final playerTeam = e.position < 5 ? 0 : 1;
-        return playerTeam == team;
-      }).toList()
-        ..sort((a, b) => a.position - b.position);
-    }
-  }
-
-  int? selectedId;
-  void clickItem(int id) {
-    if (id == selectedId) {
-      selectedId = null;
+    late final List<int> positions;
+    final tableId = Global.tableId;
+    final mode = details.mode;
+    if (mode == 'event') {
+      positions = [tableId * 2 - 1];
+    } else if (mode == 'normal') {
+      positions = [tableId * 2 - 1, tableId * 2];
     } else {
-      selectedId = id;
+      positions = [1, 2, 5, 6];
     }
-    update(["player_card", "leaderboard"]);
+    return playerRecords.map((e) => e.player).where((e) => positions.contains(e.position)).toList();
   }
 
   @override
   void onInit() async {
     super.onInit();
     recordsRepository = RecordsRepository(onGamingUpdate: (payload) async {
-      if (bGameStart == false) {
-        bGameStart = true;
-        update(["mask"]);
-      }
-
       for (final item in payload) {
         final int position = item['position'];
         final int playerId = item['playerId'];
@@ -57,15 +42,14 @@ class GamingRankLogic extends GetxController {
             final player = await recordsRepository.fetchPlayerInfo(playerId, position);
             final record = PlayerRecord(player: player, score: scores);
             playerRecords.add(record);
-            update(["player_card", "leaderboard"]);
           } else {
             playerRecords[i].score = scores;
-            update(["leaderboard"]);
           }
+          update();
         });
       }
-    }, onGameOver: () {
-      Get.offAllNamed(AppRoutes.gameOver, arguments: Get.arguments);
+    }, onGameOver: (data) {
+      Get.offAllNamed(AppRoutes.winnerPage, arguments: {"showState": Get.arguments, "records": data});
     });
   }
 

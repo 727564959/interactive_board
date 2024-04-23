@@ -30,7 +30,7 @@ class PlayerCard extends StatelessWidget {
         width: width,
         height: width,
         child: Image.asset(
-          MirraIcons.getChooseTableIconPath("avatar_placeholder1.png"),
+          MirraIcons.getGameShowIconPath("avatar_placeholder1.png"),
           fit: BoxFit.fill,
         ),
       );
@@ -93,7 +93,7 @@ class _PlayerAvatar extends StatelessWidget {
             width: width,
             height: width,
             child: Image.asset(
-              MirraIcons.getChooseTableIconPath("player_card_bg.png"),
+              MirraIcons.getGameShowIconPath("player_card_bg.png"),
               fit: BoxFit.fill,
             ),
           ),

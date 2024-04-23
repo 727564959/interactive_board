@@ -104,7 +104,7 @@ flutter:
     - assets/images/check_in/avatar/
     - assets/images/check_in/selection_panel/
     - assets/images/set_avatar/
-    - assets/images/choose_table/
+    - assets/images/game_show/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

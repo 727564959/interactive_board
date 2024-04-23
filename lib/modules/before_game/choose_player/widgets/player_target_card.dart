@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/modules/before_game/choose_player/data/player.dart';
 import 'package:interactive_board/modules/before_game/choose_player/logic.dart';
-import 'package:interactive_board/modules/before_game/choose_player/widgets/player_card.dart';
+import 'package:interactive_board/widgets/player_card.dart';
 
 class PlayerTargetCard extends StatelessWidget {
   PlayerTargetCard({Key? key, required this.position}) : super(key: key);

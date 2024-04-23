@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 import '../../../../common.dart';
 import '../logic.dart';
-import 'player_card.dart';
+import '../../../../widgets/player_card.dart';
 
 class PlayerBottomBar extends StatelessWidget {
   PlayerBottomBar({Key? key}) : super(key: key);

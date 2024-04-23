@@ -19,7 +19,7 @@ class ChoosePlayerPage extends StatelessWidget {
         width: 1.0.sw,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(MirraIcons.getChooseTableIconPath("background.png")),
+            image: AssetImage(MirraIcons.getGameShowIconPath("background.png")),
             fit: BoxFit.cover,
           ),
         ),

@@ -1,77 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import '../data/player.dart';
+import 'package:interactive_board/widgets/player_card.dart';
 
 import '../logic.dart';
-import 'player_card.dart';
 
 class PlayerDisplay extends StatelessWidget {
-  PlayerDisplay({Key? key, required this.width}) : super(key: key);
-  final double width;
+  PlayerDisplay({Key? key}) : super(key: key);
   final logic = Get.find<GamingRankLogic>();
-  List<PlayerInfo> get players => logic.showPlayers;
-  PlayerCardSize get size {
-    if (players.length == 1) {
-      return PlayerCardSize.large;
-    } else if (players.length == 2) {
-      return PlayerCardSize.middle;
-    } else {
-      return PlayerCardSize.small;
-    }
-  }
+
+  List<Widget> get playerCards => logic.showPlayers
+      .map(
+        (e) => Padding(
+          padding: EdgeInsets.symmetric(horizontal: logic.details.mode == 'normal' ? 20.w : 5.w),
+          child: PlayerCard(
+            avatarUrl: e.avatarUrl,
+            nickname: e.nickname,
+            position: e.position,
+            width: logic.details.mode != 'free-4' ? 400.w : 250.w,
+          ),
+        ),
+      )
+      .toList();
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: width,
-        height: width * 1.2,
-        child: Column(
-          mainAxisAlignment: players.length > 2 ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: players.length > 1 ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
-              children: [
-                if (players.isNotEmpty)
-                  PlayerCard(
-                    parentWidth: width,
-                    avatarUrl: players[0].avatarUrl,
-                    nickname: players[0].nickname,
-                    position: players[0].position,
-                    size: size,
-                  ),
-                if (players.length > 1)
-                  PlayerCard(
-                    parentWidth: width,
-                    avatarUrl: players[1].avatarUrl,
-                    nickname: players[1].nickname,
-                    position: players[1].position,
-                    size: size,
-                  ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: players.length > 3 ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
-              children: [
-                if (players.length > 2)
-                  PlayerCard(
-                    parentWidth: width,
-                    avatarUrl: players[2].avatarUrl,
-                    nickname: players[2].nickname,
-                    position: players[2].position,
-                    size: size,
-                  ),
-                if (players.length > 3)
-                  PlayerCard(
-                    parentWidth: width,
-                    avatarUrl: players[3].avatarUrl,
-                    nickname: players[3].nickname,
-                    position: players[3].position,
-                    size: size,
-                  ),
-              ],
-            ),
-          ],
-        ));
+    return GetBuilder<GamingRankLogic>(
+      builder: (logic) {
+        if (logic.details.mode == 'normal') {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (playerCards.isNotEmpty) playerCards[0],
+              if (playerCards.length > 1)
+                Transform.translate(
+                  offset: Offset(0, 80.w),
+                  child: playerCards[1],
+                )
+            ],
+          );
+        } else {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: playerCards,
+          );
+        }
+      },
+    );
   }
 }

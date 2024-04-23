@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:interactive_board/modules/before_game/choose_player/widgets/player_card.dart';
+import 'package:interactive_board/widgets/player_card.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 import '../../../mirra_style.dart';
@@ -42,7 +42,7 @@ class _ConfirmSelectionPageState extends State<ConfirmSelectionPage> {
         width: 1.0.sw,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(MirraIcons.getChooseTableIconPath("background.png")),
+            image: AssetImage(MirraIcons.getGameShowIconPath("background.png")),
             fit: BoxFit.cover,
           ),
         ),

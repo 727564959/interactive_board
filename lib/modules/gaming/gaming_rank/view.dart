@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../../common.dart';
-import '../../../../widgets/game_title.dart';
+import '../../../mirra_style.dart';
+import '../../../widgets/mirra_app_bar.dart';
 import 'widgets/leaderboard.dart';
-import 'widgets/waiting_mask.dart';
 import 'widgets/player_display.dart';
 import 'logic.dart';
 
@@ -15,64 +14,70 @@ class GamingRankPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        Container(
-          width: 1.0.sw,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(Global.getAssetImageUrl("background.png")),
-              fit: BoxFit.cover,
-            ),
+      body: Container(
+        width: 1.0.sw,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(MirraIcons.getGameShowIconPath("background.png")),
+            fit: BoxFit.cover,
           ),
-          child: Column(
-            children: [
-              const SizedBox(height: 50),
-              GameTitleWidget(gameName: logic.gameName, width: 0.45.sw),
-              const SizedBox(height: 50),
-              SizedBox(
-                width: 0.85.sw,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GetBuilder<GamingRankLogic>(
-                      id: "leaderboard",
-                      builder: (logic) => Leaderboard(width: 700.w),
-                    ),
-                    GetBuilder<GamingRankLogic>(
-                      id: "player_card",
-                      builder: (logic) => PlayerDisplay(key: UniqueKey(), width: 580.w),
-                    ),
-                  ],
-                ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            MirraAppBar(title: logic.details.game),
+            Container(
+              height: 0.7.sh,
+              padding: EdgeInsets.only(left: 50.w, top: 20.w),
+              child: Row(
+                children: [
+                  const Leaderboard(),
+                  Expanded(child: Center(child: PlayerDisplay())),
+                ],
               ),
-            ],
-          ),
-        ),
-        GetBuilder<GamingRankLogic>(
-            id: "mask",
-            builder: (logic) {
-              if (logic.bGameStart) {
-                return Container();
-              } else {
-                return const WaitingMask();
-              }
-            }),
-        Positioned(
-          left: 20,
-          top: 20,
-          child: Text(
-            "Table ${Global.tableId}",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 80.sp,
-              decoration: TextDecoration.none,
-              fontFamily: 'Burbank',
-              color: Colors.white,
             ),
-          ),
+            const Align(
+              alignment: Alignment(0.9, 0),
+              child: _MirraLookButton(),
+            ),
+          ],
         ),
-      ],
-    ));
+      ),
+    );
+  }
+}
+
+class _MirraLookButton extends StatelessWidget {
+  const _MirraLookButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {},
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(const Color(0xff13efef)),
+        side: MaterialStateProperty.all(
+          const BorderSide(color: Color(0xff13efef)),
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 5.w, horizontal: 5.w),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              MirraIcons.getGameShowIconPath("mirra_look_icon.png"),
+              height: 50.w,
+            ),
+            SizedBox(width: 15.w),
+            Text(
+              'Mirra Look',
+              style: CustomTextStyles.button(color: Colors.black, fontSize: 27.sp),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

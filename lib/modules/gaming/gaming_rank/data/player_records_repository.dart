@@ -11,7 +11,7 @@ class RecordsRepository {
   late final Socket gameServerSocket;
 
   Future<void> Function(List<dynamic>) onGamingUpdate;
-  void Function() onGameOver;
+  void Function(dynamic) onGameOver;
 
   RecordsRepository({required this.onGamingUpdate, required this.onGameOver}) {
     final option = OptionBuilder().setTransports(['websocket']).enableReconnection().disableAutoConnect().build();
@@ -20,7 +20,7 @@ class RecordsRepository {
       onGamingUpdate(data["details"]);
     });
     gameServerSocket.on('game_over', (data) {
-      onGameOver();
+      onGameOver(data);
     });
     gameServerSocket.connect();
   }
