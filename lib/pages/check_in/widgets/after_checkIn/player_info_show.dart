@@ -113,6 +113,23 @@ class _NicknameArea extends StatelessWidget {
   }) : super(key: key);
   final logic = Get.find<CheckInLogic>();
 
+  Color get color {
+    print("12345 ${Global.tableId}");
+    if (Global.tableId == 1) {
+      // background: #FFBD80;
+      return const Color(0xFFFFBD80);
+    } else if (Global.tableId == 2) {
+      // background: #EFB5FD;
+      return const Color(0xFFEFB5FD);
+    } else if (Global.tableId == 3) {
+      // background: #8EE8BD;
+      return const Color(0xFF8EE8BD);
+    } else {
+      // background: #9ED7F7;
+      return const Color(0xFF9ED7F7);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -136,7 +153,7 @@ class _NicknameArea extends StatelessWidget {
               runSpacing: 20,
               alignment: WrapAlignment.start, //沿主轴方向居中
               // crossAxisAlignment: WrapCrossAlignment.start,
-              children: List.generate(logic.userList.length, (index) => getItem(index)),
+              children: List.generate(logic.userList.length, (index) => getItem(index, color)),
             ),
           );
         },
@@ -146,7 +163,7 @@ class _NicknameArea extends StatelessWidget {
 }
 
 // 获取子项目
-Widget getItem(int index) {
+Widget getItem(int index, Color color) {
   final logic = Get.find<CheckInLogic>();
 
   var item = logic.userList[index % logic.userList.length];
@@ -167,7 +184,8 @@ Widget getItem(int index) {
       ),
       //长按提示
       // labelPadding: EdgeInsets.all(10),
-      backgroundColor: Color(0xffFFBD80),
+      // backgroundColor: Color(0xffFFBD80),
+      backgroundColor: color,
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(2.0),

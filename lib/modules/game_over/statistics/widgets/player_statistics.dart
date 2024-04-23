@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide AnimationExtension;
 import 'package:flutter/material.dart';
 
+import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../logic.dart';
 
@@ -10,7 +12,7 @@ class PlayerStatisticsView extends StatelessWidget {
   PlayerStatisticsView({Key? key}) : super(key: key);
   final logic = Get.find<StatisticsLogic>();
   final upperHeight = 0.5.sh;
-  final baseHeight = 0.3.sh;
+  final baseHeight = 0.5.sh;
   List<Widget> get children {
     print("result ${logic.resultPlayerRecord}");
     logic.resultPlayerRecord.sort((a, b) => a.position - b.position);
@@ -22,7 +24,7 @@ class PlayerStatisticsView extends StatelessWidget {
         rank: e.rank,
         position: e.position,
         avatarUrl: e.avatarUrl,
-        height: upperHeight * e.score / 1000 + baseHeight,
+        height: upperHeight * e.score / 2000 + baseHeight,
         nickname: e.nickname))
         .toList();
   }
@@ -49,7 +51,7 @@ class PlayerStatisticsView extends StatelessWidget {
         Expanded(
           child: Container(
             alignment: Alignment.bottomCenter,
-            color: Colors.red,
+            // color: Colors.red,
             child: Stack(
               children: [
                 Row(
@@ -67,11 +69,6 @@ class PlayerStatisticsView extends StatelessWidget {
                 ),
               ],
             ),
-            // child: Row(
-            //   crossAxisAlignment: CrossAxisAlignment.end,
-            //   mainAxisSize: MainAxisSize.min,
-            //   children: children,
-            // ),
           ),
         )
       ],
@@ -146,12 +143,37 @@ class _TeamCardState extends State<_TeamCard> with TickerProviderStateMixin {
         //   //   bottom: Radius.circular(0.0),
         //   // ),
         // ),
-        child: ClipPath(
-          clipper: RoundedHexagonClipper(),
-          child: Container(
-            color: color,
+        margin: EdgeInsets.only(left: teamId > 1 ? 20.0 : 0.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50.0),
+          child: ClipPath(
+            clipper: RoundedHexagonClipper(),
+            child: Container(
+              color: color,
+              child: Row(
+                children: [
+                  SizedBox(width: 50.0),
+                  CachedNetworkImage(
+                    width: 50.w,
+                    imageUrl: iconPath,
+                    fit: BoxFit.fill,
+                  ),
+                  SizedBox(width: 2.0), // 图片和文字之间的间距
+                  Text(
+                    name,
+                    style: CustomTextStyles.title(color: Colors.black, fontSize: 40.sp, level: 3),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
+        // child: ClipPath(
+        //   clipper: RoundedHexagonClipper(),
+        //   child: Container(
+        //     color: color,
+        //   ),
+        // ),
       ),
     );
   }
@@ -161,21 +183,32 @@ class RoundedHexagonClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    final double cornerRadius = 10.0;
-    path.moveTo(size.width * 0.25, 0);
-    path.lineTo(size.width * 0.75, 0);
-    path.lineTo(size.width - cornerRadius, size.height * 0.5);
-    path.lineTo(size.width * 0.75, size.height);
-    path.lineTo(size.width * 0.25, size.height);
-    path.lineTo(cornerRadius, size.height * 0.5);
-    path.lineTo(size.width * 0.25, 0);
-    path.addRRect(RRect.fromLTRBR(
-      size.width * 0.25,
-      0,
-      size.width * 0.75,
-      size.height,
-      Radius.circular(cornerRadius),
-    ));
+    final double cornerRadius = 15.0;
+    // path.moveTo(size.width * 0.25, 0);
+    // path.lineTo(size.width * 0.75, 0);
+    // path.lineTo(size.width - cornerRadius, size.height * 0.5);
+    // path.lineTo(size.width * 0.75, size.height);
+    // path.lineTo(size.width * 0.25, size.height);
+    // path.lineTo(cornerRadius, size.height * 0.5);
+    // path.lineTo(size.width * 0.25, 0);
+
+    path.moveTo(size.width * 0.15, 0);
+    path.lineTo(size.width * 0.85, 0);
+    path.lineTo(size.width - cornerRadius, size.height * 0.4);
+    path.lineTo(size.width - cornerRadius, size.height * 0.6);
+    path.lineTo(size.width * 0.85, size.height);
+    path.lineTo(size.width * 0.15, size.height);
+    path.lineTo(cornerRadius, size.height * 0.6);
+    path.lineTo(cornerRadius, size.height * 0.4);
+    path.lineTo(size.width * 0.15, 0);
+
+    // path.addRRect(RRect.fromLTRBR(
+    //   size.width * 0.25,
+    //   0,
+    //   size.width * 0.75,
+    //   size.height,
+    //   Radius.circular(cornerRadius),
+    // ));
     path.close();
     return path;
   }
@@ -283,7 +316,7 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
                   width: width,
                   // height: height - 170.w,
                   // color: color,
-                  height: height - 70.w,
+                  height: height - 150.w,
                   // margin: EdgeInsets.only(left: 5.0, right: 5.0, top: 0.0, bottom: 0.0),
                   // margin: EdgeInsets.only(right: position%2 == 0 ? 20.0 : 2.0),
                   decoration: BoxDecoration(
@@ -304,11 +337,16 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    if(rank == 1) Image.asset(
+                      Global.getSetAvatarImageUrl('mvp_icon.png'),
+                      fit: BoxFit.fill,
+                    ),
+                    if(rank != 1) SizedBox(height: 80.w),
                     Text(
                       (scoreAnimation.value * score ~/ 1).toString(),
                       style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                     ),
-                    SizedBox(height: 80.w),
+                    SizedBox(height: 40.w),
                     _HeadCircle(
                       nickname: nickname,
                       avatarUrl: avatarUrl,

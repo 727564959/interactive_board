@@ -5,6 +5,7 @@ import 'package:interactive_board/pages/check_in/logic.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../common.dart';
+import '../../mirra_style.dart';
 import '../../widgets/check_in_title.dart';
 // import '../../widgets/debouncer.dart';
 import 'widgets/before_checkIn/check_in_home.dart';
@@ -21,7 +22,13 @@ class WelcomePage extends StatelessWidget {
         Container(
           width: 1.0.sw,
           height: 1.0.sh,
-          color: Colors.black,
+          // color: Colors.black,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(
             children: [
               // 顶部文本信息
@@ -53,13 +60,7 @@ class WelcomePage extends StatelessWidget {
                             width: 0.8.sw,
                             child: Text(
                               "Welcome",
-                              style: TextStyle(
-                                fontSize: 150.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
+                              style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
                             ),
                           ),
                         ),
@@ -70,13 +71,7 @@ class WelcomePage extends StatelessWidget {
                             child: Text(
                               // "Sophia Davis !",
                               logic.singlePlayer.length > 0 ? logic.singlePlayer['name'] : "",
-                              style: TextStyle(
-                                fontSize: 130.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
+                              style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
                             ),
                           ),
                         ),
@@ -84,16 +79,22 @@ class WelcomePage extends StatelessWidget {
                           margin: EdgeInsets.only(top: 10.0, left: 0.0),
                           child: SizedBox(
                             width: 0.8.sw,
-                            child: Text(
-                              "Your Games will start at ${DateFormat('kk:mm').format(logic.startTime.add(8.hours))}",
-                              style: TextStyle(
-                                fontSize: 50.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'Your Games will start at , ',
+                                style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 4),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: "${DateFormat('kk:mm').format(logic.startTime.add(8.hours))}",
+                                    style: CustomTextStyles.display(color: Color(0xFF00F5FF), fontSize: 48.sp, level: 4),
+                                  ),
+                                ],
                               ),
                             ),
+                            // child: Text(
+                            //   "Your Games will start at ${DateFormat('kk:mm').format(logic.startTime.add(8.hours))}",
+                            //   style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 4),
+                            // ),
                           ),
                         ),
                       ],
@@ -145,13 +146,17 @@ class _EnterButton extends StatelessWidget {
         id: "enetrBtn",
         builder: (logic) {
           return Container(
-            margin: EdgeInsets.only(top: 0.0, right: 0.65.sw),
-            height: width * 0.35,
-            width: width,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(backgroundUri),
-                fit: BoxFit.fitWidth,
+              color: Color(0xff13EFEF),
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+            margin: EdgeInsets.only(top: 0.0, left: 0.0),
+            constraints: BoxConstraints.tightFor(width: width * 0.8, height: 100.h),
+            child: Center(
+              child: Text(
+                "ENTER",
+                textAlign: TextAlign.center,
+                style: CustomTextStyles.button(color: Colors.black, fontSize: 28.sp),
               ),
             ),
           );

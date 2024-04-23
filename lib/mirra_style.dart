@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 const fontVariations_ButtomNormal = [
   FontVariation.width(140),
@@ -46,11 +47,11 @@ const fontVariations_TitleH2 = [
 const fontVariations_TitleH3 = [
   FontVariation.width(151),
   // FontVariation.opticalSize(100),
-  FontVariation.weight(900),
+  FontVariation.weight(849),
   FontVariation("GRAD", 0),
   FontVariation("XOPQ", 96),
   FontVariation("YOPQ", 79),
-  FontVariation("XTRA", 509),
+  FontVariation("XTRA", 541),
   FontVariation("YTUC", 581),
   FontVariation("YTLC", 514),
   FontVariation("YTDE", -203),
@@ -65,11 +66,11 @@ const fontVariations_TitleH4 = [
   FontVariation("XOPQ", 96),
   FontVariation("YOPQ", 79),
   FontVariation("XTRA", 468),
-  FontVariation("YTUC", 712),
-  FontVariation("YTLC", 514),
+  FontVariation("YTUC", 612),
+  FontVariation("YTLC", 518),
   FontVariation("YTDE", -203),
-  FontVariation("YTFI", 738),
-  FontVariation("YTAS", 750),
+  FontVariation("YTFI", 667),
+  FontVariation("YTAS", 649),
 ];
 const fontVariations_TitleH5 = [
   FontVariation.width(151),
@@ -79,11 +80,11 @@ const fontVariations_TitleH5 = [
   FontVariation("XOPQ", 96),
   FontVariation("YOPQ", 91),
   FontVariation("XTRA", 451),
-  FontVariation("YTUC", 528),
+  FontVariation("YTUC", 564),
   FontVariation("YTLC", 514),
   FontVariation("YTDE", -203),
-  FontVariation("YTFI", 557),
-  FontVariation("YTAS", 750),
+  FontVariation("YTFI", 577),
+  FontVariation("YTAS", 649),
 ];
 const fontVariations_TitleH6 = [
   FontVariation.width(151),
@@ -96,23 +97,23 @@ const fontVariations_TitleH6 = [
   FontVariation("YTUC", 528),
   FontVariation("YTLC", 514),
   FontVariation("YTDE", -203),
-  FontVariation("YTFI", 738),
+  FontVariation("YTFI", 611),
   FontVariation("YTAS", 649),
 ];
 
 const fontVariations_Display1 = [
-  FontVariation.width(140),
-  FontVariation.opticalSize(100),
+  FontVariation.width(151),
+  FontVariation.opticalSize(144),
   FontVariation.weight(800),
-  FontVariation("GRAD", 80),
-  FontVariation("XOPQ", 96),
-  FontVariation("YOPQ", 79),
-  FontVariation("XTRA", 468),
-  FontVariation("YTUC", 712),
-  FontVariation("YTLC", 514),
-  FontVariation("YTDE", -203),
-  FontVariation("YTFI", 738),
-  FontVariation("YTAS", 750),
+  FontVariation("GRAD", 0),
+  FontVariation("XOPQ", 114),
+  FontVariation("YOPQ", 74),
+  FontVariation("XTRA", 497),
+  FontVariation("YTUC", 578),
+  FontVariation("YTLC", 535),
+  FontVariation("YTDE", -144),
+  FontVariation("YTFI", 617),
+  FontVariation("YTAS", 649),
 ];
 const fontVariations_Display2 = [
   FontVariation.width(151),
@@ -144,18 +145,18 @@ const fontVariations_Display3 = [
   FontVariation("YTAS", 750),
 ];
 const fontVariations_Display4 = [
-  FontVariation.width(140),
-  FontVariation.opticalSize(100),
-  FontVariation.weight(800),
-  FontVariation("GRAD", 80),
-  FontVariation("XOPQ", 96),
-  FontVariation("YOPQ", 79),
-  FontVariation("XTRA", 468),
-  FontVariation("YTUC", 712),
-  FontVariation("YTLC", 514),
-  FontVariation("YTDE", -203),
-  FontVariation("YTFI", 738),
-  FontVariation("YTAS", 750),
+  FontVariation.width(100),
+  FontVariation.opticalSize(21),
+  FontVariation.weight(600),
+  FontVariation("GRAD", -120),
+  FontVariation("XOPQ", 84),
+  FontVariation("YOPQ", 86),
+  FontVariation("XTRA", 603),
+  FontVariation("YTUC", 543),
+  FontVariation("YTLC", 461),
+  FontVariation("YTDE", -214),
+  FontVariation("YTFI", 662),
+  FontVariation("YTAS", 649),
 ];
 
 const fontVariations_TextBig = [
@@ -173,13 +174,13 @@ const fontVariations_TextBig = [
   FontVariation("YTAS", 750),
 ];
 const fontVariations_TextSmall = [
-  FontVariation.width(140),
-  FontVariation.opticalSize(100),
-  FontVariation.weight(800),
-  FontVariation("GRAD", 80),
+  FontVariation.width(151),
+  // FontVariation.opticalSize(100),
+  FontVariation.weight(600),
+  FontVariation("GRAD", 0),
   FontVariation("XOPQ", 96),
   FontVariation("YOPQ", 79),
-  FontVariation("XTRA", 468),
+  FontVariation("XTRA", 524),
   FontVariation("YTUC", 712),
   FontVariation("YTLC", 514),
   FontVariation("YTDE", -203),
@@ -213,6 +214,21 @@ class CustomTextStyles {
       fontFamily: 'RobotoFlex',
       color: color,
       fontVariations: fontVariations_ButtomNormal,
+    );
+  }
+
+  static TextStyle verificationText({
+    Color? color,
+    double? fontSize,
+    double? letterSpacingVal,
+  }) {
+    return TextStyle(
+      fontSize: fontSize,
+      decoration: TextDecoration.none,
+      fontFamily: 'RobotoFlex',
+      color: color,
+      fontVariations: fontVariations_TitleH4,
+      letterSpacing: letterSpacingVal,
     );
   }
 

@@ -6,6 +6,7 @@ import 'package:interactive_board/pages/check_in/widgets/before_checkIn/term_of_
 import 'package:intl/intl.dart';
 
 import '../../../../common.dart';
+import '../../../../mirra_style.dart';
 
 class CheckInHomePage extends StatelessWidget {
   CheckInHomePage({Key? key}) : super(key: key);
@@ -19,7 +20,13 @@ class CheckInHomePage extends StatelessWidget {
         Container(
           width: 1.0.sw,
           height: 1.0.sh,
-          color: Colors.black,
+          // color: Colors.black,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Column(
             children: [
               SizedBox(
@@ -36,14 +43,7 @@ class CheckInHomePage extends StatelessWidget {
                             width: 0.24.sw,
                             child: Text(
                               "Confirmation",
-                              style: TextStyle(
-                                // fontWeight: FontWeight.bold,
-                                fontSize: 60.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                             ),
                           ),
                         ),
@@ -60,7 +60,8 @@ class CheckInHomePage extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white24,
+                          // color: Colors.white24,
+                          color: Color(0xFF5E6F96),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         margin: EdgeInsets.only(top: 60.0, left: 120.0),
@@ -74,14 +75,7 @@ class CheckInHomePage extends StatelessWidget {
                               alignment: const Alignment(-0.8, 0.0),
                               child: Text(
                                 "Nick Name",
-                                style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 35.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white60,
-                                  letterSpacing: 3.sp,
-                                ),
+                                style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                               ),
                             ),
                             Align(
@@ -90,14 +84,7 @@ class CheckInHomePage extends StatelessWidget {
                                 logic.singlePlayer.length > 0
                                     ? logic.singlePlayer['name']
                                     : "",
-                                style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 60.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white,
-                                  letterSpacing: 5.sp,
-                                ),
+                                style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                               ),
                             ),
                           ],
@@ -105,7 +92,7 @@ class CheckInHomePage extends StatelessWidget {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white24,
+                          color: Color(0xFF5E6F96),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         margin: EdgeInsets.only(top: 60.0, left: 10.0),
@@ -119,14 +106,7 @@ class CheckInHomePage extends StatelessWidget {
                               alignment: const Alignment(-0.8, 0.0),
                               child: Text(
                                 "Game Show",
-                                style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 35.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white60,
-                                  letterSpacing: 3.sp,
-                                ),
+                                style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                               ),
                             ),
                             Align(
@@ -135,14 +115,7 @@ class CheckInHomePage extends StatelessWidget {
                                 DateFormat("dd/MM/yyyy - kka").format(
                                   logic.startTime.add(8.hours),
                                 ),
-                                style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 50.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white,
-                                  letterSpacing: 5.sp,
-                                ),
+                                style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                               ),
                             ),
                           ],
@@ -160,7 +133,7 @@ class CheckInHomePage extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white24,
+                          color: Color(0xFF5E6F96),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         margin: EdgeInsets.only(top: 10.0, left: 120.0),
@@ -174,14 +147,7 @@ class CheckInHomePage extends StatelessWidget {
                               alignment: const Alignment(-0.8, 0.0),
                               child: Text(
                                 "Phone Number",
-                                style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 35.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white60,
-                                  letterSpacing: 3.sp,
-                                ),
+                                style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                               ),
                             ),
                             Align(
@@ -190,14 +156,7 @@ class CheckInHomePage extends StatelessWidget {
                                 logic.singlePlayer.length > 0
                                     ? logic.singlePlayer['phone']
                                     : "",
-                                style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 60.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white,
-                                  letterSpacing: 5.sp,
-                                ),
+                                style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                               ),
                             ),
                           ],
@@ -205,7 +164,7 @@ class CheckInHomePage extends StatelessWidget {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white24,
+                          color: Color(0xFF5E6F96),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         margin: EdgeInsets.only(top: 10.0, left: 10.0),
@@ -219,14 +178,7 @@ class CheckInHomePage extends StatelessWidget {
                               alignment: const Alignment(-0.8, 0.0),
                               child: Text(
                                 "Email",
-                                style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 35.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white60,
-                                  letterSpacing: 3.sp,
-                                ),
+                                style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                               ),
                             ),
                             Align(
@@ -235,14 +187,7 @@ class CheckInHomePage extends StatelessWidget {
                                 logic.singlePlayer.length > 0
                                     ? logic.singlePlayer['email']
                                     : "",
-                                style: TextStyle(
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 60.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white,
-                                  letterSpacing: 5.sp,
-                                ),
+                                style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                               ),
                             ),
                           ],

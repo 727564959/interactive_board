@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../app_routes.dart';
 import '../../../../common.dart';
+import '../../../../mirra_style.dart';
 import '../../../../modules/set_avatar/logic.dart';
 import '../../../../widgets/check_in_title.dart';
 import '../../data/checkIn_api.dart';
@@ -31,51 +32,51 @@ class AddPlayerBirthday extends StatelessWidget {
         child: Column(
           children: [
             // 顶部文本信息
-            CheckInTitlePage(titleText: "Add Player"),
-            SizedBox(
-              child: GetBuilder<CheckInLogic>(
-                builder: (logic) {
-                  return Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 60.0, left: 120.0),
-                        constraints: BoxConstraints.tightFor(width: 0.8.sw, height: 0.2.sh), //卡片大小
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(top: 10.0, right: 0.5.sw),
-                              child: Text(
-                                'When’s your birthday?',
-                                style: TextStyle(
-                                  fontSize: 60.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white,
-                                  letterSpacing: 3.sp,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 30.0),
-                              child: Text(
-                                'Collecting your birthday information to friendly gaming experience.  we will not disclose this information. Please rest assured.',
-                                style: TextStyle(
-                                  fontSize: 35.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white,
-                                  letterSpacing: 3.sp,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
+            CheckInTitlePage(titleText: ""),
+            // SizedBox(
+            //   child: GetBuilder<CheckInLogic>(
+            //     builder: (logic) {
+            //       return Row(
+            //         children: [
+            //           Container(
+            //             margin: EdgeInsets.only(top: 60.0, left: 120.0),
+            //             constraints: BoxConstraints.tightFor(width: 0.8.sw, height: 0.2.sh), //卡片大小
+            //             child: Column(
+            //               children: [
+            //                 Container(
+            //                   margin: EdgeInsets.only(top: 10.0, right: 0.5.sw),
+            //                   child: Text(
+            //                     'When’s your birthday?',
+            //                     style: TextStyle(
+            //                       fontSize: 60.sp,
+            //                       decoration: TextDecoration.none,
+            //                       fontFamily: 'BurbankBold',
+            //                       color: Colors.white,
+            //                       letterSpacing: 3.sp,
+            //                     ),
+            //                   ),
+            //                 ),
+            //                 Container(
+            //                   margin: EdgeInsets.only(top: 30.0),
+            //                   child: Text(
+            //                     'Collecting your birthday information to friendly gaming experience.  we will not disclose this information. Please rest assured.',
+            //                     style: TextStyle(
+            //                       fontSize: 35.sp,
+            //                       decoration: TextDecoration.none,
+            //                       fontFamily: 'BurbankBold',
+            //                       color: Colors.white,
+            //                       letterSpacing: 3.sp,
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         ],
+            //       );
+            //     },
+            //   ),
+            // ),
             SizedBox(
               child: GetBuilder<CheckInLogic>(
                 builder: (logic) {
@@ -156,14 +157,50 @@ class AddPlayerBirthday extends StatelessWidget {
                 },
               ),
             ),
+            SizedBox(height: 50.0,),
             _AddBirthdayButton(width: 800.w),
             _BackButton(),
           ],
         ),
       ),
-      GetBuilder<CheckInLogic>(builder: (logic) {
-        return Container();
-      }),
+      Positioned(
+        left: 0.0,
+        top: -30.0,
+        child: Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 60.0, left: 30.0),
+              constraints: BoxConstraints.tightFor(width: 0.75.sw), //卡片大小
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      'When’s your birthday?',
+                      style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 0.0),
+                    child: Text(
+                      'Collecting your birthday information to friendly gaming experience.',
+                      style: CustomTextStyles.title(color: Color(0xFFD0D0D0), fontSize: 26.sp, level: 4),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 0.0),
+                    child: Text(
+                      'we will not disclose this information. Please rest assured.',
+                      style: CustomTextStyles.title(color: Color(0xFFD0D0D0), fontSize: 26.sp, level: 4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     ],
       )
     );
@@ -314,20 +351,15 @@ class _BackButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
+        // Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
+        Get.back();
       },
       child: GetBuilder<CheckInLogic>(
         id: "backBtn",
         builder: (logic) {
           return Text(
             "Back",
-            style: TextStyle(
-              fontSize: 35.sp,
-              decoration: TextDecoration.none,
-              fontFamily: 'BurbankBold',
-              color: Color(0xff13EFEF),
-              letterSpacing: 3.sp,
-            ),
+            style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
           );
         },
       ),

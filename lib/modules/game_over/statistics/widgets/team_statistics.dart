@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide AnimationExtension;
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class TeamStatisticsView extends StatelessWidget {
   TeamStatisticsView({Key? key}) : super(key: key);
   final logic = Get.find<StatisticsLogic>();
   final upperHeight = 0.5.sh;
-  final baseHeight = 0.3.sh;
+  final baseHeight = 0.5.sh;
   List<Widget> get children {
     print("result ${logic.resultTeamRecord}");
     logic.resultTeamRecord.sort((a, b) => a.teamId - b.teamId);
@@ -28,24 +29,192 @@ class TeamStatisticsView extends StatelessWidget {
         .toList();
   }
 
+  List<Widget> get children1 {
+    print("result ${logic.resultTeamRecord}");
+    logic.resultTeamRecord.sort((a, b) => a.teamId - b.teamId);
+    print("result sort ${logic.resultTeamRecord}");
+    return logic.resultTeamRecord
+        .map((e) => _TeamCard(
+      name: e.name,
+      teamId: e.teamId,
+      iconPath: e.iconPath,
+      blackBorderIconPath: e.blackBorderIconPath,
+      rank: e.rank
+    ))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 0.05.sh),
+        SizedBox(height: 0.15.sh),
         Expanded(
           child: Container(
             alignment: Alignment.bottomCenter,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: children,
+            // color: Colors.red,
+            child: Stack(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: children,
+                ),
+                Positioned(
+                  bottom: 0.1.sh,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: children1,
+                  ),
+                ),
+              ],
             ),
           ),
         )
       ],
     );
   }
+}
+
+class _TeamCard extends StatefulWidget {
+  const _TeamCard({
+    Key? key,
+    required this.name,
+    required this.teamId,
+    required this.iconPath,
+    required this.blackBorderIconPath,
+    required this.rank,
+  }) : super(key: key);
+  final String name;
+  final int teamId;
+  final String iconPath;
+  final String blackBorderIconPath;
+  final int rank;
+  @override
+  State<_TeamCard> createState() => _TeamCardState();
+}
+
+class _TeamCardState extends State<_TeamCard> with TickerProviderStateMixin {
+  double get width => 385.w;
+  // double get height => 240.h;
+  String get name => widget.name;
+  int get teamId => widget.teamId;
+  String get iconPath => widget.iconPath;
+  String get blackBorderIconPath => widget.blackBorderIconPath;
+  int get rank => widget.rank;
+  final upperHeight = 0.5.sh;
+  final baseHeight = 0.3.sh;
+  late AnimationController controller;
+  late final Animation<double> animation;
+  late final Animation<double> scoreAnimation;
+
+  void initState() {
+    controller = AnimationController(vsync: this, duration: 1.seconds);
+    animation = Tween<double>(begin: upperHeight * width / 1000, end: 0)
+        .animate(controller);
+    scoreAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(controller);
+    controller.addListener(() {
+      setState(() {});
+    });
+    controller.forward();
+    super.initState();
+  }
+
+  Color get color {
+    if (teamId == 1) {
+      return const Color(0xFFFFBD80);
+    } else if (teamId == 2) {
+      return const Color(0xFFEFB5FD);
+    } else if (teamId == 3) {
+      return const Color(0xFF8EE8BD);
+    } else {
+      return const Color(0xFF9ED7F7);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.translate(
+      offset: Offset(0, animation.value),
+      child: Container(
+        width: width,
+        // height: height,
+        margin: EdgeInsets.only(left: teamId > 1 ? 20.0 : 0.0),
+        child: Column(
+          children: [
+            Text(
+              rank.toString(),
+              style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
+            ),
+            SizedBox(height: 20.w),
+            ClipRRect(
+                borderRadius: BorderRadius.circular(50.0),
+                child: ClipPath(
+                  clipper: RoundedHexagonClipper(),
+                  child: Container(
+                    color: color,
+                    child: Row(
+                      children: [
+                        SizedBox(width: 50.0),
+                        CachedNetworkImage(
+                          width: 50.w,
+                          imageUrl: iconPath,
+                          fit: BoxFit.fill,
+                        ),
+                        SizedBox(width: 2.0), // 图片和文字之间的间距
+                        Text(
+                          name,
+                          style: CustomTextStyles.title(color: Colors.black, fontSize: 40.sp, level: 3),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class RoundedHexagonClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    final double cornerRadius = 15.0;
+    // path.moveTo(size.width * 0.25, 0);
+    // path.lineTo(size.width * 0.75, 0);
+    // path.lineTo(size.width - cornerRadius, size.height * 0.5);
+    // path.lineTo(size.width * 0.75, size.height);
+    // path.lineTo(size.width * 0.25, size.height);
+    // path.lineTo(cornerRadius, size.height * 0.5);
+    // path.lineTo(size.width * 0.25, 0);
+
+    path.moveTo(size.width * 0.15, 0);
+    path.lineTo(size.width * 0.85, 0);
+    path.lineTo(size.width - cornerRadius, size.height * 0.4);
+    path.lineTo(size.width - cornerRadius, size.height * 0.6);
+    path.lineTo(size.width * 0.85, size.height);
+    path.lineTo(size.width * 0.15, size.height);
+    path.lineTo(cornerRadius, size.height * 0.6);
+    path.lineTo(cornerRadius, size.height * 0.4);
+    path.lineTo(size.width * 0.15, 0);
+
+    // path.addRRect(RRect.fromLTRBR(
+    //   size.width * 0.25,
+    //   0,
+    //   size.width * 0.75,
+    //   size.height,
+    //   Radius.circular(cornerRadius),
+    // ));
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
 class _ScoreBar extends StatefulWidget {
@@ -73,7 +242,7 @@ class _ScoreBar extends StatefulWidget {
 }
 
 class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
-  double get width => 210.w;
+  double get width => 385.w;
   double get height => widget.height;
   int get score => widget.score;
   int get rankScore => widget.rankScore;
@@ -120,7 +289,8 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
     return Transform.translate(
       offset: Offset(0, animation.value),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 1),
+        // margin: const EdgeInsets.symmetric(horizontal: 1),
+        margin: EdgeInsets.only(right: 20.0),
         width: width,
         height: height,
         child: Stack(
@@ -133,9 +303,9 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
                 child: Container(
                   width: width,
                   // height: height - 170.w,
-                  height: height,
+                  height: height - 100.w,
                   // color: color,
-                  margin: EdgeInsets.only(left: 5.0, right: 5.0, top: 0.0, bottom: 0.0),
+                  // margin: EdgeInsets.only(left: 5.0, right: 5.0, top: 0.0, bottom: 0.0),
                   decoration: BoxDecoration(
                     color: color,
                     borderRadius: BorderRadius.vertical(
@@ -165,106 +335,17 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
                       //   color: Colors.white,
                       // ),
                     ),
-                    // _Circle(
-                    //   rank: rankScore,
-                    //   width: 120.w,
+                    // Text(
+                    //   rank.toString(),
+                    //   style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
                     // ),
-                    Text(
-                      rank.toString(),
-                      style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
-                    ),
-                    SizedBox(height: 20.w),
-                    Container(
-                      height: 55.w,
-                      padding: EdgeInsets.only(top: 10.w, bottom: 8.w),
-                      width: 130.w,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(27.5.w),
-                      ),
-                      child: AutoSizeText(
-                        "$name",
-                        maxLines: 1,
-                        style: CustomTextStyles.title(color: Colors.black, fontSize: 40.sp, level: 3),
-                        // style: const TextStyle(
-                        //   fontWeight: FontWeight.bold,
-                        //   decoration: TextDecoration.none,
-                        //   fontFamily: 'Burbank',
-                        //   color: Colors.white,
-                        // ),
-                      ),
-                    ),
+                    // SizedBox(height: 20.w),
                   ],
                 ),
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _Circle extends StatelessWidget {
-  const _Circle({
-    Key? key,
-    required this.rank,
-    required this.width,
-  }) : super(key: key);
-  final int rank;
-  final double width;
-
-  Color get color {
-    if (rank == 1) {
-      return const Color(0xFFC73616);
-    } else if (rank == 2) {
-      return const Color(0xFFFA6424);
-    } else if (rank == 3) {
-      return const Color(0xFF72AF42);
-    } else {
-      return const Color(0xFFA36A52);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: width,
-      child: Stack(
-        alignment: const Alignment(0, -0.3),
-        children: [
-          Container(
-            width: width,
-            height: width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(width * 0.5),
-            ),
-          ),
-          Container(
-            width: width * 0.9,
-            height: width * 0.9,
-            alignment: const Alignment(0, 0.2),
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(width * 0.45),
-            ),
-            child: Text(
-              rank.toString(),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.none,
-                fontFamily: 'Burbank',
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
