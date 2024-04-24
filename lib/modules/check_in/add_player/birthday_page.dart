@@ -9,6 +9,7 @@ import '../../../../widgets/check_in_title.dart';
 import '../../../mirra_style.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
+import '../player_page/logic.dart';
 import '../player_page/view.dart';
 import 'logic.dart';
 
@@ -254,7 +255,7 @@ class _AddBirthdayButton extends StatelessWidget {
             EasyLoading.dismiss(animation: false);
             // 加入到show
             await logic.addPlayerToShow(
-                13, Global.tableId, addUserInfo['userId']);
+                showInfo.showId, Global.tableId, addUserInfo['userId']);
             print("参数 ${addUserInfo['userId']}");
             // Map<String, dynamic> jsonObj = {
             //   "userId": addUserInfo['userId'],
@@ -267,12 +268,16 @@ class _AddBirthdayButton extends StatelessWidget {
             //   Get.find<SetAvatarLogic>().updatePlayer(addUserInfo['userId'].toString());
             // }
             // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
-            await Get.offAll(
-              () => PlayerInfoShow(
-                showInfo: showInfo,
-                customer: customer,
-              ),
-            );
+
+            // if(Get.isRegistered<PlayerShowLogic>()) {
+            //   Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
+            // }
+            Get.offAll(() => PlayerInfoShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+            // await Get.offAll(
+            //   () => PlayerInfoShow(
+            //     showInfo: showInfo,
+            //     customer: customer,),
+            // );
           } on DioException catch (e) {
             EasyLoading.dismiss();
             if (e.response == null) EasyLoading.showError("Network Error!");
@@ -285,12 +290,17 @@ class _AddBirthdayButton extends StatelessWidget {
             EasyLoading.dismiss(animation: false);
             // 加入到show
             // await logic.addPlayerToShow(13, Global.tableId, checkingUser['userId']);
-            await Get.offAll(
-              () => PlayerInfoShow(
-                showInfo: showInfo,
-                customer: customer,
-              ),
-            );
+
+            Get.offAll(() => PlayerInfoShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+            // if(Get.isRegistered<PlayerShowLogic>()) {
+            //   Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
+            // }
+            // await Get.offAll(
+            //   () => PlayerInfoShow(
+            //     showInfo: showInfo,
+            //     customer: customer,
+            //   ),
+            // );
           } on DioException catch (e) {
             EasyLoading.dismiss();
             if (e.response == null) EasyLoading.showError("Network Error!");

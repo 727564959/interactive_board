@@ -11,6 +11,7 @@ import '../../../../widgets/check_in_title.dart';
 import '../../../mirra_style.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
+import '../player_page/logic.dart';
 import '../player_page/view.dart';
 import 'birthday_page.dart';
 import 'logic.dart';
@@ -511,8 +512,11 @@ class _MaybeLatterButton extends StatelessWidget {
         // Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
         Map skipUserInfo = await logic.addSkipPlayer();
         // 加入到show
-        await logic.addPlayerToShow(13, Global.tableId, skipUserInfo['userId']);
-        Get.to(() => PlayerInfoShow(showInfo: showInfo, customer: customer,), arguments: Get.arguments);
+        await logic.addPlayerToShow(showInfo.showId, Global.tableId, skipUserInfo['userId']);
+        if(Get.isRegistered<PlayerShowLogic>()) {
+          Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
+        }
+        Get.to(() => PlayerInfoShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
       },
       child: GetBuilder<AddPlayerLogic>(
         id: "maybeLatterBtn",

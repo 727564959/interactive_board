@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import '../../../common.dart';
 import '../data/casual_user.dart';
+import '../data/show.dart';
 
 class PlayerShowLogic extends GetxController {
   int? selectedTableId;
@@ -10,6 +11,8 @@ class PlayerShowLogic extends GetxController {
   String firstName = "";
   String lastName = "";
   List<CasualUser> casualUser = [];
+  // 传参信息
+  ShowInfo get showInfo => Get.arguments;
   bool get bSelected => selectedTableId != null;
   final _dio = Dio();
 
@@ -48,7 +51,7 @@ class PlayerShowLogic extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    casualUser = await fetchCasualUser(13);
+    casualUser = await fetchCasualUser(showInfo.showId);
     update();
   }
 }

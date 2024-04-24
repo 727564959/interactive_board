@@ -47,11 +47,13 @@ class ChooseTablePage extends StatelessWidget {
                     SizedBox(height: 50),
                     Text(
                       "Choose Table",
-                      style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                      style: CustomTextStyles.title(
+                          color: Colors.white, fontSize: 48.sp, level: 2),
                     ),
                     Text(
                       "Please Choose Your Gaming Table",
-                      style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 36.sp, level: 4),
+                      style: CustomTextStyles.title(
+                          color: Color(0xFF9B9B9B), fontSize: 36.sp, level: 4),
                     ),
                   ],
                 ),
@@ -74,7 +76,8 @@ class ChooseTablePage extends StatelessWidget {
                   children: [
                     Text(
                       "Game Times: ${DateFormat('kk:mm').format(showInfo.startTime.add(8.hours))}",
-                      style: CustomTextStyles.title(color: Colors.white, fontSize: 34.sp, level: 5),
+                      style: CustomTextStyles.title(
+                          color: Colors.white, fontSize: 34.sp, level: 5),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,10 +86,13 @@ class ChooseTablePage extends StatelessWidget {
                           Global.getSetAvatarImageUrl('time_icon.png'),
                           fit: BoxFit.fill,
                         ),
-                        SizedBox(width: 5.0,),
+                        SizedBox(
+                          width: 5.0,
+                        ),
                         Text(
                           "40 Mins",
-                          style: CustomTextStyles.title(color: Colors.white, fontSize: 34.sp, level: 5),
+                          style: CustomTextStyles.title(
+                              color: Colors.white, fontSize: 34.sp, level: 5),
                         ),
                       ],
                     ),
@@ -123,7 +129,9 @@ class ChooseTablePage extends StatelessWidget {
                   title: "Next",
                   disable: !logic.bSelected,
                   onPress: () async {
-                    EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
+                    EasyLoading.show(
+                        status: "waiting...",
+                        maskType: EasyLoadingMaskType.black);
                     try {
                       // Global.tableId = logic.selectedTableId!;
                       Global.setTableId(logic.selectedTableId!);
@@ -132,7 +140,8 @@ class ChooseTablePage extends StatelessWidget {
                         email: customer.email,
                         phone: customer.phone,
                       );
-                      await logic.customerCheckIn(showId: showInfo.showId, userId: userId);
+                      await logic.customerCheckIn(
+                          showId: showInfo.showId, userId: userId);
                       EasyLoading.dismiss(animation: false);
                       // await Get.to(
                       //   () => CompletePage(
@@ -142,13 +151,15 @@ class ChooseTablePage extends StatelessWidget {
                       //   ),
                       //   preventDuplicates: false,
                       // );
-                      await Get.to(
-                        () => PlayerInfoShow(
-                            showInfo: showInfo,
-                            customer: customer,
-                        ),
-                        preventDuplicates: false,
-                      );
+
+                      // await Get.to(
+                      //   () => PlayerInfoShow(
+                      //     showInfo: showInfo,
+                      //     customer: customer,
+                      //   ),
+                      //   preventDuplicates: false,
+                      // );
+                      Get.offAll(() => PlayerInfoShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
                     } on DioException catch (e) {
                       EasyLoading.dismiss();
                       // print("测试测试测试 ${logic.selectedTableId}");
@@ -160,8 +171,10 @@ class ChooseTablePage extends StatelessWidget {
                       //       customer: customer,
                       //   ),
                       // );
-                      if (e.response == null) EasyLoading.showError("Network Error!");
-                      EasyLoading.showError(e.response?.data["error"]["message"]);
+                      if (e.response == null)
+                        EasyLoading.showError("Network Error!");
+                      EasyLoading.showError(
+                          e.response?.data["error"]["message"]);
                     }
                   },
                 ),
@@ -189,7 +202,6 @@ class _TableItem extends StatefulWidget {
 }
 
 class _TableItemState extends State<_TableItem> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -217,17 +229,20 @@ class _TableItemState extends State<_TableItem> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if(widget.bSelected) Image.asset(
-                    Global.getSetAvatarImageUrl('selected_icon.png'),
-                    fit: BoxFit.fill,
-                  ),
+                  if (widget.bSelected)
+                    Image.asset(
+                      Global.getSetAvatarImageUrl('selected_icon.png'),
+                      fit: BoxFit.fill,
+                    ),
                   Text(
                     "Bay $bayString",
-                    style: CustomTextStyles.title(color: Colors.black, fontSize: 48.sp, level: 2),
+                    style: CustomTextStyles.title(
+                        color: Colors.black, fontSize: 48.sp, level: 2),
                   ),
                   Text(
                     widget.bAvailable ? "Available" : "Full",
-                    style: CustomTextStyles.title(color: Colors.black, fontSize: 28.sp, level: 6),
+                    style: CustomTextStyles.title(
+                        color: Colors.black, fontSize: 28.sp, level: 6),
                   ),
                 ],
               ),
@@ -248,14 +263,17 @@ class _TableItemState extends State<_TableItem> {
     if (!widget.bAvailable) return Color(0xFFD0D0D0);
     return widget.bSelected ? Color(0xFF13EFEF) : Color(0xFFA4EDF1);
   }
+
   double get containerWidthSize {
     if (!widget.bAvailable) return 0.18.sw;
     return widget.bSelected ? 0.21.sw : 0.18.sw;
   }
+
   double get containerHeightSize {
     if (!widget.bAvailable) return 0.21.sh;
     return widget.bSelected ? 0.24.sh : 0.21.sh;
   }
+
   String get bayString {
     if (widget.tableId == 1) {
       return "A";

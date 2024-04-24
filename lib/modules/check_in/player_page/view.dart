@@ -192,14 +192,14 @@ Widget getItem(int index, Color color) {
         borderRadius: BorderRadius.circular(2.0),
       ),
       onPressed: () async {
-        print("点击 ${item.userId}");
-        print("参数 ${Get.arguments}");
-        Map<String, dynamic> jsonObj = {
-          "userId": item.userId,
-          "showId": Get.arguments.showId,
-          "status": Get.arguments.status.toString()
-        };
-        print("参数 ${jsonObj}");
+        // print("点击 ${item.userId}");
+        // print("参数 ${Get.arguments}");
+        // Map<String, dynamic> jsonObj = {
+        //   "userId": item.userId,
+        //   "showId": Get.arguments.showId,
+        //   "status": Get.arguments.status.toString()
+        // };
+        // print("参数 ${jsonObj}");
         // print("object ${Get.isRegistered<SetAvatarLogic>()}");
         // if(Get.isRegistered<SetAvatarLogic>()) {
         //   Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
