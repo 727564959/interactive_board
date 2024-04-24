@@ -71,9 +71,13 @@ class SetAvatarLogic extends GetxController {
         // currentIsMale = userList[i].bodyName == 'Male' ? true : false;
         // currentIsMale = userList[i].bodyId;
         currentNickName = userList[i].nickname;
-        currentUrl = userList[i].avatarUrl;
+        // currentUrl = userList[i].avatarUrl;
       }
     }
+    final avatar = avatarInfo.firstWhere((element) => element.id == headId);
+    print("gfgfgfg: $avatar");
+    currentUrl = avatar.url;
+    print("currentUrl ${currentUrl}");
     // currentNickName = singlePlayer['name'];
     // final avatar = avatarInfo.firstWhere((element) => element.id == headId);
     // currentUrl = avatar.url;
@@ -82,6 +86,7 @@ class SetAvatarLogic extends GetxController {
 
   // 查询当前用户的头套和身体
   void explosiveChestFun(userId) async {
+    print("hash说的很好的很好 ${userId}");
     final gameItem = await setAvatarApi.fetchUserGameItems(userId);
     gameItemInfoHead = [];
     gameItemInfoBody = [];
@@ -115,9 +120,9 @@ class SetAvatarLogic extends GetxController {
   void onReady() async {
     print('onReady called');
     super.onReady();
-    updateUserList(Get.arguments.showId);
-    updatePlayer(Get.arguments.userId);
-    explosiveChestFun(Get.arguments.userId);
+    updateUserList(Get.arguments['showId']);
+    updatePlayer(Get.arguments['userId'].toString());
+    explosiveChestFun(Get.arguments['userId']);
   }
 
   @override

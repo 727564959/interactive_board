@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../common.dart';
+import '../../../../mirra_style.dart';
 import '../../../../modules/set_avatar/logic.dart';
 import '../add_player/add_player_info.dart';
 import '../after_checkIn/player_info_show.dart';
@@ -21,7 +22,7 @@ class TermOfUsePage extends StatelessWidget {
             Container(
               width: 1.0.sw,
               height: 1.0.sh,
-              color: Colors.black,
+              color: Color(0xFF233342),
               child: Column(
                 children: [
                   SizedBox(
@@ -59,7 +60,7 @@ class TermOfUsePage extends StatelessWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.white12,
+                                color: Color(0xFFDBE2E3),
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                               ),
                               margin: EdgeInsets.only(top: 0.0, left: 120.0),
@@ -69,46 +70,41 @@ class TermOfUsePage extends StatelessWidget {
                                 padding: const EdgeInsets.all(20.0),
                                 children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-                                    child: Text('Welcome to Mirra game show, an exciting and immersive gaming experience, By accessing or using our game, you agree to abide by the following terms and conditions.',
-                                      style: TextStyle(fontSize: 50.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.deepOrange, letterSpacing: 3.sp,),
+                                    margin: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                                    child: Text('1. Acceptance of Terms',
+                                      // style: TextStyle(fontSize: 35.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
+                                      style: CustomTextStyles.title(color: Colors.black, fontSize: 28.sp, level: 6),
                                     ),
                                   ),
                                   Container(
-                                      margin: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-                                      child: Text('1. Acceptance of Terms',
-                                        style: TextStyle(fontSize: 35.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
-                                      ),
+                                    margin: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                                    child: Text('At the game center, we are committed to providing a unique and immersive game experience for all our guests. We strive to create a safe and enjoyable environment for everyone to enjoy our games and activities. However, it is essential to understand that there are inherent risks associated with virtual reality games, and we require all guests to acknowledge and accept these risks before participating.',
+                                      style: CustomTextStyles.notice(color: Color(0xFF9B9B9B), fontSize: 24.sp),
+                                    ),
                                   ),
                                   Container(
-                                      margin: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-                                      child: Text('By accessing or using [Game Name], you acknowledge that you have read, understood, and agree to be bound by these terms of use. If you do not agree with any part of these terms, please do not use our game.',
-                                        style: TextStyle(fontSize: 35.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white38, letterSpacing: 3.sp,),
-                                      ),
+                                    margin: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                                    child: Text('2. User Conduct',
+                                      style: CustomTextStyles.title(color: Colors.black, fontSize: 28.sp, level: 6),
+                                    ),
                                   ),
                                   Container(
-                                      margin: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-                                      child: Text('2. User Conduct',
-                                        style: TextStyle(fontSize: 35.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
-                                      ),
+                                    margin: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                                    child: Text('You agree to use [Game Name] for lawful purposes and in a manner consistent with all applicable laws and regulations. You will not engage in any conduct that may disrupt the experience of other users or compromise the security and integrity of the game.',
+                                      style: CustomTextStyles.notice(color: Color(0xFF9B9B9B), fontSize: 24.sp),
+                                    ),
                                   ),
                                   Container(
-                                      margin: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-                                      child: Text('You agree to use [Game Name] for lawful purposes and in a manner consistent with all applicable laws and regulations. You will not engage in any conduct that may disrupt the experience of other users or compromise the security and integrity of the game...',
-                                        style: TextStyle(fontSize: 35.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white38, letterSpacing: 3.sp,),
-                                      ),
+                                    margin: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                                    child: Text('3. Intellectual Property',
+                                      style: CustomTextStyles.title(color: Colors.black, fontSize: 28.sp, level: 6),
+                                    ),
                                   ),
                                   Container(
-                                      margin: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-                                      child: Text('3. Intellectual Property...',
-                                        style: TextStyle(fontSize: 35.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white, letterSpacing: 3.sp,),
-                                      ),
-                                  ),
-                                  Container(
-                                      margin: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-                                      child: Text('You agree to use [Game Name] for lawful purposes and in a manner consistent with all applicable laws and regulations. You will not engage in any conduct that may disrupt the experience of other users or compromise the security and integrity of the game',
-                                        style: TextStyle(fontSize: 35.sp, decoration: TextDecoration.none, fontFamily: 'BurbankBold', color: Colors.white38, letterSpacing: 3.sp,),
-                                      ),
+                                    margin: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                                    child: Text('In addition, virtual reality games involve physical movement and interaction with objects and other players. This can increase the risk of injury or accidents, such as collisions or falls. We ask that all guests follow our safety guidelines and instructions from our staff to minimize these risks.',
+                                      style: CustomTextStyles.notice(color: Color(0xFF9B9B9B), fontSize: 24.sp),
+                                    ),
                                   ),
                                 ],
                               ),

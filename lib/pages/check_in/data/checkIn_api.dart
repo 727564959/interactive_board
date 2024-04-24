@@ -3,6 +3,7 @@ import 'package:interactive_board/pages/check_in/data/avatar_info.dart';
 import 'package:interactive_board/pages/check_in/data/team_info.dart';
 
 import '../../../common.dart';
+import 'casual_user.dart';
 import 'user_info.dart';
 
 class CheckInApi {
@@ -101,6 +102,18 @@ class CheckInApi {
         "bodyId": bodyId,
       },
     );
+  }
+
+  Future<List<CasualUser>> fetchCasualUser(int showId) async {
+    print("是否进入了查询临时用户信息方法");
+    print("$showId");
+    final response = await dio.get(
+      "$baseApiUrl/shows/$showId/check-in/players",
+      queryParameters: {"tableId": Global.tableId},
+    );
+    print("临时用户 $response");
+    List casualUser = response.data;
+    return casualUser.map((user) => CasualUser.fromJson(user)).toList();
   }
 
   // 查重
@@ -215,5 +228,28 @@ class CheckInApi {
         "blackBorderTeamIcon": teamInfo.blackBorderIcon,
       },
     );
+  }
+
+  // 查询并清理头套
+  Future<Map> fetchHeadgearInfo(int userId) async {
+    final response = await dio.post("$baseApiUrl/players/$userId/headgear-acquisition-event", data: {});
+    print("爆头套 $response");
+
+    // Map<String, dynamic> result = response.data;
+    Map<String, dynamic> result = {
+                "itemInfo": {
+              "id": 22,
+              "name": "LowPoly_Dragn",
+              "type": "headgear",
+              "level": 1,
+              "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
+            }
+          };
+    return result;
+  }
+
+  Future<void> clearRegisterFlag(int userId) async {
+    final response = await dio.post("$baseApiUrl/players/$userId/clear-register-flag", data: {});
+    return response.data;
   }
 }

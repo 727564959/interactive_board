@@ -80,7 +80,7 @@ class SetAvatarApi {
     );
     final result = <GameItemInfo>[];
     for (final item in response.data) {
-      result.add(GameItemInfo.fromJson(item));
+      result.add(GameItemInfo.fromJson(item['gameItem']));
     }
     return result;
   }

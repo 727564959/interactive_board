@@ -33,7 +33,7 @@ class AddPlayerInfo extends StatelessWidget {
           return Container(
             width: 1.0.sw,
             height: 1.0.sh,
-            color: Colors.black,
+            color: Color(0xFF233342),
             child: Column(
               children: [
                 SizedBox(
@@ -97,20 +97,14 @@ class _PlayerForm extends StatelessWidget {
                           alignment: const Alignment(-1.0, 0.0),
                           child: Text(
                             "First Name",
-                            style: TextStyle(
-                              fontSize: 35.sp,
-                              decoration: TextDecoration.none,
-                              fontFamily: 'BurbankBold',
-                              color: Colors.white,
-                              letterSpacing: 3.sp,
-                            ),
+                            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                           ),
                         ),
                         SizedBox(
                           child: TextFormField(
                             controller: _firstNameController,
                             decoration: InputDecoration(
-                              fillColor: Color(0xff212121),
+                              fillColor: Color(0xFFDBE2E3),
                               filled: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
                               // 默认可编辑时的边框
@@ -150,13 +144,7 @@ class _PlayerForm extends StatelessWidget {
                               print("onChange: $v");
                               logic.firstName = v;
                             },
-                            style: TextStyle(
-                              fontSize: 50.sp,
-                              decoration: TextDecoration.none,
-                              fontFamily: 'BurbankBold',
-                              color: Colors.white,
-                              letterSpacing: 3.sp,
-                            ),
+                            style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
                           ),
                           // child: TextField(
                           //   controller: _firstNameController,
@@ -211,20 +199,14 @@ class _PlayerForm extends StatelessWidget {
                           alignment: const Alignment(-1.0, 0.0),
                           child: Text(
                             "Last Name",
-                            style: TextStyle(
-                              fontSize: 35.sp,
-                              decoration: TextDecoration.none,
-                              fontFamily: 'BurbankBold',
-                              color: Colors.white,
-                              letterSpacing: 3.sp,
-                            ),
+                            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                           ),
                         ),
                         SizedBox(
                           child: TextFormField(
                             controller: _lastNameController,
                             decoration: InputDecoration(
-                              fillColor: Color(0xff212121),
+                              fillColor: Color(0xFFDBE2E3),
                               filled: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
                               // 默认可编辑时的边框
@@ -264,13 +246,7 @@ class _PlayerForm extends StatelessWidget {
                               print("onChange: $v");
                               logic.lastName = v;
                             },
-                            style: TextStyle(
-                              fontSize: 50.sp,
-                              decoration: TextDecoration.none,
-                              fontFamily: 'BurbankBold',
-                              color: Colors.white,
-                              letterSpacing: 3.sp,
-                            ),
+                            style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
                           ),
                           // child: TextField(
                           //   controller: _lastNameController,
@@ -324,13 +300,7 @@ class _PlayerForm extends StatelessWidget {
                           alignment: const Alignment(-1.0, 0.0),
                           child: Text(
                             "Email",
-                            style: TextStyle(
-                              fontSize: 35.sp,
-                              decoration: TextDecoration.none,
-                              fontFamily: 'BurbankBold',
-                              color: Colors.white,
-                              letterSpacing: 3.sp,
-                            ),
+                            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                           ),
                         ),
                         SizedBox(
@@ -338,7 +308,7 @@ class _PlayerForm extends StatelessWidget {
                             keyboardType: TextInputType.emailAddress,
                             controller: _emailController,
                             decoration: InputDecoration(
-                              fillColor: Color(0xff212121),
+                              fillColor: Color(0xFFDBE2E3),
                               filled: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
                               // 默认可编辑时的边框
@@ -375,13 +345,7 @@ class _PlayerForm extends StatelessWidget {
                               print("onChange: $v");
                               logic.email = v;
                             },
-                            style: TextStyle(
-                              fontSize: 50.sp,
-                              decoration: TextDecoration.none,
-                              fontFamily: 'BurbankBold',
-                              color: Colors.white,
-                              letterSpacing: 3.sp,
-                            ),
+                            style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
                           ),
                           // child: TextField(
                           //   keyboardType: TextInputType.emailAddress,
@@ -449,13 +413,7 @@ class _PlayerForm extends StatelessWidget {
                           alignment: const Alignment(-1.0, 0.0),
                           child: Text(
                             "Phone number",
-                            style: TextStyle(
-                              fontSize: 35.sp,
-                              decoration: TextDecoration.none,
-                              fontFamily: 'BurbankBold',
-                              color: Colors.white,
-                              letterSpacing: 3.sp,
-                            ),
+                            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                           ),
                         ),
                         SizedBox(
@@ -463,7 +421,7 @@ class _PlayerForm extends StatelessWidget {
                             controller: _phoneController,
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
-                              fillColor: Color(0xff212121),
+                              fillColor: Color(0xFFDBE2E3),
                               filled: true,
                               contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
                               // 默认可编辑时的边框
@@ -502,13 +460,7 @@ class _PlayerForm extends StatelessWidget {
                               print("onChange: $v");
                               logic.phone = v;
                             },
-                            style: TextStyle(
-                              fontSize: 50.sp,
-                              decoration: TextDecoration.none,
-                              fontFamily: 'BurbankBold',
-                              color: Colors.white,
-                              letterSpacing: 3.sp,
-                            ),
+                            style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
                           ),
                           // child: TextField(
                           //   controller: _phoneController,
@@ -1149,13 +1101,13 @@ class _MaybeLatterButton extends StatelessWidget {
           "showId": Get.arguments.showId,
           "status": Get.arguments.status.toString()
         };
-        // 延迟调用爆宝箱
-        Future.delayed(2.seconds).then((value) {
-          logic.explosiveChestFun(skipUserInfo['userId']);
-        }).onError((error, stackTrace) async {
-          print("error爆宝箱 $error");
-        });
-        Get.to(() => TreasureChestPage(), arguments: jsonObj);
+        // // 延迟调用爆宝箱
+        // Future.delayed(2.seconds).then((value) {
+        //   logic.explosiveChestFun(skipUserInfo['userId']);
+        // }).onError((error, stackTrace) async {
+        //   print("error爆宝箱 $error");
+        // });
+        Get.to(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);
       },
       child: GetBuilder<CheckInLogic>(
         id: "maybeLatterBtn",
