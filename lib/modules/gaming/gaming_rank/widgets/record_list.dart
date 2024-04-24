@@ -64,21 +64,21 @@ class _RecordItem extends StatelessWidget {
           Radius.circular(15),
         ),
       ),
-      height: 80.w,
+      height: 75.w,
       padding: EdgeInsets.symmetric(horizontal: 50.w),
-      margin: EdgeInsets.symmetric(vertical: 5.w),
+      margin: EdgeInsets.symmetric(vertical: 4.w),
       child: Row(
         children: [
           SizedBox(
-            width: 550.w,
+            width: 500.w,
             child: Text(
               "$rank    $nickname",
-              style: CustomTextStyles.notice(color: const Color(0xff272727), fontSize: 27.sp),
+              style: CustomTextStyles.notice(color: const Color(0xff272727), fontSize: 25.sp),
             ),
           ),
           Text(
             "$score",
-            style: CustomTextStyles.title5(color: const Color(0xff272727), fontSize: 35.sp),
+            style: CustomTextStyles.title5(color: const Color(0xff272727), fontSize: 32.sp),
           ),
         ],
       ),

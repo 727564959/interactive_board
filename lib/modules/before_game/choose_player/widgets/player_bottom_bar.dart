@@ -16,11 +16,16 @@ class PlayerBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(child: GestureDetector(
-          onTapUp: (detail) {
-            logic.dismissBottomBar();
-          },
-        )),
+        Expanded(
+          child: GestureDetector(
+            onTapUp: (details) {
+              logic.dismissBottomBar();
+            },
+            onPanStart: (details) {
+              logic.dismissBottomBar();
+            },
+          ),
+        ),
         Stack(
           children: [
             ClipRect(
@@ -51,7 +56,7 @@ class PlayerBottomBar extends StatelessWidget {
                       },
                       child: PlayerCard(
                         avatarUrl: player.avatarUrl,
-                        width: 210,
+                        width: 270.w,
                         nickname: player.nickname,
                       ),
                     ),

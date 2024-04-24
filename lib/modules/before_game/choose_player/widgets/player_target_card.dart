@@ -13,17 +13,30 @@ class PlayerTargetCard extends StatelessWidget {
   String get deviceName => getDeviceName(position);
   @override
   Widget build(BuildContext context) {
+    Duration? duration;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: GestureDetector(
         onTapUp: (details) {
           logic.showBottomBar(position);
         },
+        onPanStart: (detail) {
+          duration = detail.sourceTimeStamp;
+        },
+        onPanUpdate: (detail) {
+          if (duration != null && detail.sourceTimeStamp != null) {
+            final tapSpace = detail.sourceTimeStamp! - duration!;
+            if (tapSpace > 300.ms) return;
+          }
+          if (detail.delta.dy < -10 && detail.delta.dx.abs() < 5) {
+            logic.removePlayer(position);
+          }
+        },
         child: PlayerCard(
           avatarUrl: player?.avatarUrl,
           nickname: player?.nickname ?? "Player name",
           position: position,
-          width: 210,
+          width: 270.w,
         ),
       ),
     );

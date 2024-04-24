@@ -32,7 +32,7 @@ class _ConfirmSelectionPageState extends State<ConfirmSelectionPage> {
             avatarUrl: player.avatarUrl,
             nickname: player.nickname,
             position: position,
-            width: 210,
+            width: 270.w,
           ),
         ),
       );

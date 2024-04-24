@@ -37,26 +37,26 @@ class _MirraAppBarState extends State<MirraAppBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 20.w, right: 55.w, top: 50.w, bottom: 50.w),
+      padding: EdgeInsets.only(left: 50.w, right: 55.w, top: 50.w, bottom: 50.w),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             widget.title,
-            style: CustomTextStyles.title2(color: Colors.white, fontSize: 60.sp),
+            style: CustomTextStyles.title2(color: Colors.white, fontSize: 45.sp),
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 DateFormat("Hm").format(now),
-                style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 35.sp),
+                style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 27.sp),
               ),
               const SizedBox(width: 50),
               Text(
                 "Bay ${ascii.decode([0x40 + Global.tableId])}",
-                style: CustomTextStyles.title3(color: Colors.white, fontSize: 55.sp),
+                style: CustomTextStyles.title3(color: Colors.white, fontSize: 40.sp),
               ),
             ],
           ),

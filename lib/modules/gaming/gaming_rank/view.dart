@@ -28,7 +28,7 @@ class GamingRankPage extends StatelessWidget {
           children: [
             MirraAppBar(title: logic.details.game),
             Container(
-              height: 0.7.sh,
+              height: 0.75.sh,
               padding: EdgeInsets.only(left: 50.w, top: 20.w),
               child: Row(
                 children: [

@@ -24,14 +24,14 @@ class EventModeContent extends StatelessWidget {
               "1 Player",
               style: CustomTextStyles.display1(
                 color: Colors.white,
-                fontSize: 70,
+                fontSize: 90.sp,
               ),
             ),
             Text(
               "   in This Round",
               style: CustomTextStyles.display2(
                 color: Colors.white,
-                fontSize: 50,
+                fontSize: 70.sp,
               ),
             )
           ],
@@ -55,7 +55,6 @@ class NormalModeContent extends StatelessWidget {
           offset: const Offset(0, -30),
           child: PlayerTargetCard(position: position1),
         ),
-        const SizedBox(width: 20),
         PlayerTargetCard(position: position2),
         const SizedBox(width: 50),
         Column(
@@ -65,14 +64,14 @@ class NormalModeContent extends StatelessWidget {
               "2 Player",
               style: CustomTextStyles.display1(
                 color: Colors.white,
-                fontSize: 70,
+                fontSize: 90.sp,
               ),
             ),
             Text(
               "   in This Round",
               style: CustomTextStyles.display2(
                 color: Colors.white,
-                fontSize: 50,
+                fontSize: 70.sp,
               ),
             )
           ],
@@ -91,7 +90,10 @@ class Free4ModeContent extends StatelessWidget {
       children: [
         Text(
           "4 players in This Round",
-          style: CustomTextStyles.title1(color: Colors.white, fontSize: 50),
+          style: CustomTextStyles.title1(
+            color: Colors.white,
+            fontSize: 70.sp,
+          ),
         ),
         SizedBox(height: 40.w),
         Row(

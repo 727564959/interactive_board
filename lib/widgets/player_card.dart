@@ -19,12 +19,12 @@ class PlayerCard extends StatelessWidget {
   }) : super(key: key);
   final String? avatarUrl;
   final String nickname;
-  // final String? device;
   final double width;
   final int? position;
   @override
   Widget build(BuildContext context) {
     late final Widget avatarImage;
+    late final Widget bottomLabel;
     if (avatarUrl == null) {
       avatarImage = SizedBox(
         width: width,
@@ -37,6 +37,41 @@ class PlayerCard extends StatelessWidget {
     } else {
       avatarImage = _PlayerAvatar(avatarUrl: avatarUrl!, width: width);
     }
+    if (position == null) {
+      bottomLabel = Padding(
+        padding: EdgeInsets.only(top: 7.w, bottom: 15.w),
+        child: Text(
+          nickname,
+          style: CustomTextStyles.title5(
+            color: Colors.black,
+            fontSize: 32.sp,
+          ),
+        ),
+      );
+    } else {
+      bottomLabel = Padding(
+        padding: EdgeInsets.only(top: 7.w, bottom: 10.w),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Text(
+            nickname,
+            style: CustomTextStyles.title5(
+              color: Colors.black,
+              fontSize: 32.sp,
+            ),
+          ),
+          Transform.translate(
+            offset: const Offset(0, -5),
+            child: Text(
+              getDeviceName(position!),
+              style: CustomTextStyles.title6(
+                color: const Color(0xff5a5858),
+                fontSize: 23.sp,
+              ),
+            ),
+          ),
+        ]),
+      );
+    }
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: Container(
@@ -46,27 +81,7 @@ class PlayerCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             avatarImage,
-            const SizedBox(height: 5),
-            Text(
-              nickname,
-              style: CustomTextStyles.title5(
-                color: Colors.black,
-                fontSize: 32.sp,
-              ),
-            ),
-            if (position == null) const SizedBox(height: 5),
-            if (position != null)
-              Transform.translate(
-                offset: const Offset(0, -5),
-                child: Text(
-                  getDeviceName(position!),
-                  style: CustomTextStyles.title6(
-                    color: const Color(0xff5a5858),
-                    fontSize: 23.sp,
-                  ),
-                ),
-              ),
-            if (position != null) const SizedBox(height: 3),
+            bottomLabel,
           ],
         ),
       ),

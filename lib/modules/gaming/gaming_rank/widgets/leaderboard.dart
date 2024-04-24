@@ -11,6 +11,7 @@ class Leaderboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(minHeight: 0.45.sh),
       width: 800.w,
       padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 50.w, bottom: 60.w),
       decoration: const BoxDecoration(
@@ -26,9 +27,10 @@ class Leaderboard extends StatelessWidget {
             "Leaderboard",
             style: CustomTextStyles.title3(
               color: Colors.white,
-              fontSize: 48.sp,
+              fontSize: 40.sp,
             ),
           ),
+          SizedBox(height: 10.w),
           GetBuilder<GamingRankLogic>(
             builder: (logic) {
               return RecordList();

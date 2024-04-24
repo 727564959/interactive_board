@@ -18,7 +18,7 @@ class PlayerDisplay extends StatelessWidget {
             avatarUrl: e.avatarUrl,
             nickname: e.nickname,
             position: e.position,
-            width: logic.details.mode != 'free-4' ? 400.w : 250.w,
+            width: logic.details.mode != 'free-4' ? 270.w : 230.w,
           ),
         ),
       )

@@ -33,17 +33,17 @@ class ChoosePlayerPage extends StatelessWidget {
                   builder: (logic) {
                     if (logic.mode == "normal") {
                       return Padding(
-                        padding: EdgeInsets.only(top: 300.w),
+                        padding: EdgeInsets.only(top: 200.w),
                         child: NormalModeContent(),
                       );
                     } else if (logic.mode == "event") {
                       return Padding(
-                        padding: EdgeInsets.only(top: 300.w),
+                        padding: EdgeInsets.only(top: 200.w),
                         child: EventModeContent(),
                       );
                     } else {
                       return Padding(
-                        padding: EdgeInsets.only(top: 200.w),
+                        padding: EdgeInsets.only(top: 150.w),
                         child: Free4ModeContent(),
                       );
                     }
