@@ -9,11 +9,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/common.dart';
 
+import '../../mirra_style.dart';
 import '../../pages/check_in/logic.dart';
 import '../../pages/check_in/widgets/after_checkIn/player_info_show.dart';
 import '../../widgets/check_in_title.dart';
 import 'data/setAvatar_api.dart';
 import 'logic.dart';
+import 'widgets/avatar_design.dart';
 import 'widgets/avatar_model.dart';
 
 class AvatarDesignPage extends StatelessWidget {
@@ -22,43 +24,102 @@ class AvatarDesignPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: GetBuilder<SetAvatarLogic>(
-        id: "avatarHomePage",
-        builder: (logic) {
-          return Container(
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
             width: 1.0.sw,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(Global.getCheckInImageUrl("background_new.png")),
+                image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
                 fit: BoxFit.cover,
               ),
             ),
             child: Column(
-              children: [
-                SizedBox(
-                  width: 1.0.sw,
-                  child: GetBuilder<SetAvatarLogic>(
-                    builder: (logic) {
-                      return Column(
-                        children: [
-                          // 顶部文本信息
-                          CheckInTitlePage(titleText: "Set avatar"),
-                          // 中间的用户信息和avatar信息
-                          _SetAvatarContent(),
-                          // 底部的功能按钮
-                          // _SetAvatarBtnInfo(),
-                        ],
-                      );
-                    },
+                children: [
+                  SizedBox(
+                    width: 1.0.sw,
+                    child: GetBuilder<SetAvatarLogic>(
+                      builder: (logic) {
+                        return Column(
+                          children: [
+                            // 顶部文本信息
+                            CheckInTitlePage(titleText: "Mirra Look"),
+                            // 中间的用户信息和avatar信息
+                            _SetAvatarContent(),
+                            // 底部的功能按钮
+                            // _SetAvatarBtnInfo(),
+                          ],
+                        );
+                      },
+                    ),
                   ),
+                ],
+              ),
+          ),
+          Positioned(
+            left: 0.0.sw,
+            top: 0.8.sh,
+            child: SizedBox(
+              width: 0.4.sw,
+              child: Align(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "After saving,",
+                      style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 30.sp),
+                    ),
+                    SizedBox(height: 10,),
+                    Text(
+                      "changes apply in the next game.",
+                      style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 30.sp),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
+    // return GestureDetector(
+    //   child: GetBuilder<SetAvatarLogic>(
+    //     id: "avatarHomePage",
+    //     builder: (logic) {
+    //       return Container(
+    //         width: 1.0.sw,
+    //         decoration: BoxDecoration(
+    //           image: DecorationImage(
+    //             image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+    //             fit: BoxFit.cover,
+    //           ),
+    //         ),
+    //         child: Column(
+    //           children: [
+    //             SizedBox(
+    //               width: 1.0.sw,
+    //               child: GetBuilder<SetAvatarLogic>(
+    //                 builder: (logic) {
+    //                   return Column(
+    //                     children: [
+    //                       // 顶部文本信息
+    //                       CheckInTitlePage(titleText: "Mirra Look"),
+    //                       // 中间的用户信息和avatar信息
+    //                       _SetAvatarContent(),
+    //                       // 底部的功能按钮
+    //                       // _SetAvatarBtnInfo(),
+    //                     ],
+    //                   );
+    //                 },
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 }
 
@@ -71,7 +132,7 @@ class _SetAvatarContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final content = SizedBox(
       width: 0.96.sw,
-      height: 0.8.sh,
+      height: 0.85.sh,
       child: Stack(
         children: [
           Row(
@@ -94,67 +155,85 @@ class _SetAvatarContent extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(
-                      width: 0.23.sw,
-                      height: 0.35.sh,
-                      child: GetBuilder<SetAvatarLogic>(
-                        builder: (logic) {
-                          return Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 20.0, left: 20.0),
-                                child: SizedBox(
-                                  width: 0.24.sw,
-                                  child: Text(
-                                    "After saving,",
-                                    style: TextStyle(
-                                      fontSize: 32.sp,
-                                      decoration: TextDecoration.none,
-                                      fontFamily: 'BurbankBold',
-                                      color: Colors.white,
-                                      letterSpacing: 3.sp,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 0.0, left: 20.0),
-                                child: SizedBox(
-                                  width: 0.24.sw,
-                                  child: Text(
-                                    "changes apply",
-                                    style: TextStyle(
-                                      fontSize: 32.sp,
-                                      decoration: TextDecoration.none,
-                                      fontFamily: 'BurbankBold',
-                                      color: Colors.white,
-                                      letterSpacing: 3.sp,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 0.0, left: 20.0),
-                                child: SizedBox(
-                                  width: 0.24.sw,
-                                  child: Text(
-                                    "in the next game.",
-                                    style: TextStyle(
-                                      fontSize: 32.sp,
-                                      decoration: TextDecoration.none,
-                                      fontFamily: 'BurbankBold',
-                                      color: Colors.white,
-                                      letterSpacing: 3.sp,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                    _SaveAndBackButton(width: 384.w),
+                    // SizedBox(
+                    //   width: 0.23.sw,
+                    //   child: Align(
+                    //     alignment: const Alignment(-0.6, 0.0),
+                    //     child: Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       children: [
+                    //         SizedBox(height: 50),
+                    //         Text(
+                    //           "After saving,",
+                    //           style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 30.sp),
+                    //         ),
+                    //         SizedBox(height: 10,),
+                    //         Text(
+                    //           "changes apply in the next game.",
+                    //           style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 30.sp),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    //   // height: 0.35.sh,
+                    //   // child: GetBuilder<SetAvatarLogic>(
+                    //   //   builder: (logic) {
+                    //   //     return Column(
+                    //   //       children: [
+                    //   //         Container(
+                    //   //           margin: EdgeInsets.only(top: 20.0, left: 20.0),
+                    //   //           child: SizedBox(
+                    //   //             width: 0.24.sw,
+                    //   //             child: Text(
+                    //   //               "After saving,",
+                    //   //               style: TextStyle(
+                    //   //                 fontSize: 32.sp,
+                    //   //                 decoration: TextDecoration.none,
+                    //   //                 fontFamily: 'BurbankBold',
+                    //   //                 color: Colors.white,
+                    //   //                 letterSpacing: 3.sp,
+                    //   //               ),
+                    //   //             ),
+                    //   //           ),
+                    //   //         ),
+                    //   //         Container(
+                    //   //           margin: EdgeInsets.only(top: 0.0, left: 20.0),
+                    //   //           child: SizedBox(
+                    //   //             width: 0.24.sw,
+                    //   //             child: Text(
+                    //   //               "changes apply",
+                    //   //               style: TextStyle(
+                    //   //                 fontSize: 32.sp,
+                    //   //                 decoration: TextDecoration.none,
+                    //   //                 fontFamily: 'BurbankBold',
+                    //   //                 color: Colors.white,
+                    //   //                 letterSpacing: 3.sp,
+                    //   //               ),
+                    //   //             ),
+                    //   //           ),
+                    //   //         ),
+                    //   //         Container(
+                    //   //           margin: EdgeInsets.only(top: 0.0, left: 20.0),
+                    //   //           child: SizedBox(
+                    //   //             width: 0.24.sw,
+                    //   //             child: Text(
+                    //   //               "in the next game.",
+                    //   //               style: TextStyle(
+                    //   //                 fontSize: 32.sp,
+                    //   //                 decoration: TextDecoration.none,
+                    //   //                 fontFamily: 'BurbankBold',
+                    //   //                 color: Colors.white,
+                    //   //                 letterSpacing: 3.sp,
+                    //   //               ),
+                    //   //             ),
+                    //   //           ),
+                    //   //         ),
+                    //   //       ],
+                    //   //     );
+                    //   //   },
+                    //   // ),
+                    // ),
+                    // _SaveAndBackButton(width: 384.w),
                   ],
                 ),
               ),
@@ -164,13 +243,19 @@ class _SetAvatarContent extends StatelessWidget {
               ),
               Align(
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
+                  // decoration: BoxDecoration(
+                  //   color: Colors.grey,
+                  //   borderRadius: BorderRadius.all(Radius.circular(10)),
+                  // ),
                   margin: EdgeInsets.only(top: 0.0, left: 0.0),
-                  constraints: BoxConstraints.tightFor(width: 0.34.sw, height: 0.7.sh), //卡片大小
-                  child: AvatarModel(),
+                  constraints: BoxConstraints.tightFor(width: 0.34.sw), //卡片大小
+                  // child: AvatarModel(),
+                  child: Column(
+                    children: [
+                      AvatarDesign(),
+                      _SaveAndBackButton(width: 384.w)
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -426,15 +511,30 @@ class _SaveAndBackButton extends StatelessWidget {
         id: "saveAndBackBtn",
         builder: (logic) {
           return Container(
-            height: width * 0.72,
-            width: width,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(backgroundUri),
-                fit: BoxFit.fitWidth,
+              color: Color(0xff13EFEF),
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+            margin: EdgeInsets.only(top: 50.0, left: 0.0),
+            constraints: BoxConstraints.tightFor(width: width, height: 80.h),
+            child: Center(
+              child: Text(
+                "SAVE AND BACK",
+                textAlign: TextAlign.center,
+                style: CustomTextStyles.button(color: Colors.black, fontSize: 28.sp),
               ),
             ),
           );
+          // return Container(
+          //   height: 100.sh,
+          //   width: width,
+          //   decoration: BoxDecoration(
+          //     image: DecorationImage(
+          //       image: AssetImage(backgroundUri),
+          //       fit: BoxFit.fitWidth,
+          //     ),
+          //   ),
+          // );
         },
       ),
     );

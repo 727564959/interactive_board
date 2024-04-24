@@ -12,6 +12,7 @@ import '../../../../common.dart';
 
 import 'package:card_swiper/card_swiper.dart';
 
+import '../../../../mirra_style.dart';
 import '../../../../modules/set_avatar/view.dart';
 import '../../data/checkIn_api.dart';
 import '../treasure_chest/explosive_chest.dart';
@@ -42,27 +43,25 @@ class GroupSettingPage extends StatelessWidget {
             Container(
               width: 1.0.sw,
               height: 1.0.sh,
-              color: Colors.black,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Column(
                 children: [
                   SizedBox(
                     width: 1.0.sw,
-                    height: 0.12.sh,
                     child: Row(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 20.0, left: 120.0),
+                          margin: EdgeInsets.only(top: 30.0, left: 120.0),
                           child: SizedBox(
                             width: 0.24.sw,
                             child: Text(
                               "Group settings",
-                              style: TextStyle(
-                                fontSize: 60.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Colors.white,
-                                letterSpacing: 3.sp,
-                              ),
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 2),
                             ),
                           ),
                         ),
@@ -71,22 +70,14 @@ class GroupSettingPage extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 1.0.sw,
-                    height: 0.05.sh,
                     child: Row(
                       children: [
                         Container(
                           margin: EdgeInsets.only(top: 0.0, left: 120.0),
                           child: SizedBox(
-                            width: 0.3.sw,
                             child: Text(
                               "Please Choose Your Squad icon",
-                              style: TextStyle(
-                                fontSize: 40.sp,
-                                decoration: TextDecoration.none,
-                                fontFamily: 'BurbankBold',
-                                color: Color(0xff9B9B9B),
-                                letterSpacing: 3.sp,
-                              ),
+                              style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 36.sp, level: 4),
                             ),
                           ),
                         ),
@@ -360,12 +351,12 @@ class _NextDefaultButton extends StatelessWidget {
 
           // logic.gameItemInfo = await checkInApi.fetchUserGameItems(logic.consumerId);
           // print("爆出来的头像: ${logic.gameItemInfo}");
-          // 延迟调用爆宝箱
-          Future.delayed(2.seconds).then((value) {
-            logic.explosiveChestFun(logic.consumerId);
-          }).onError((error, stackTrace) async {
-            print("error爆宝箱 $error");
-          });
+          // // 延迟调用爆宝箱
+          // Future.delayed(2.seconds).then((value) {
+          //   logic.explosiveChestFun(logic.consumerId);
+          // }).onError((error, stackTrace) async {
+          //   print("error爆宝箱 $error");
+          // });
 
           Map<String, dynamic> jsonObj = {
             "userId": logic.consumerId,
@@ -374,7 +365,7 @@ class _NextDefaultButton extends StatelessWidget {
           };
           // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
           // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
-          Get.to(() => TreasureChestPage(), arguments: jsonObj);
+          Get.to(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
         }
         else {
           EasyLoading.showError("Please Choose Your Squad icon !");

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../common.dart';
 import '../../data/model/show_state.dart';
 import 'data/avatar_info.dart';
+import 'data/casual_user.dart';
 import 'data/checkin_api.dart';
 import 'data/team_info.dart';
 import 'data/user_info.dart';
@@ -13,6 +14,7 @@ class CheckInLogic extends GetxController {
   final checkInApi = CheckInApi();
   // String get gameName => GameShowRepository().gameName!;
   List<UserInfo> userList = [];
+  List<CasualUser> casualUser = [];
   List<ResourceInfo> avatarInfo = [];
   ShowState get showState => Get.arguments;
   // Map<String,dynamic> singlePlayer = {};
@@ -57,6 +59,9 @@ class CheckInLogic extends GetxController {
   String teamName = "";
   int? teamInfoIndex;
 
+  bool isClickCard = false;
+  Map headgearObj = {};
+
   // 返回按钮是否按下
   void goBackBtnDown(bool sign) {
     print("12345: $sign");
@@ -76,6 +81,7 @@ class CheckInLogic extends GetxController {
   void updateUserList(int showId) async {
     print("身体的id: $showId");
     userList = await checkInApi.fetchUsers(showId);
+    casualUser = await checkInApi.fetchCasualUser(showId);
     update();
   }
 
@@ -124,6 +130,21 @@ class CheckInLogic extends GetxController {
     update();
   }
 
+  // 获取爆头套
+  void getHeadgearFun(userId) async {
+    print("opopopop ${userId}");
+    if(!isClickCard) {
+      isClickCard = true;
+    }
+    else {
+      isClickCard = false;
+    }
+    headgearObj = await checkInApi.fetchHeadgearInfo(261);
+    // 刷新当前页面
+    update(['treasureChest']);
+    // return await checkInApi.fetchHeadgearInfo(userId);
+  }
+
   // 爆宝箱头套方法
   void explosiveChestFun(userId) async {
     final gameItem = await checkInApi.fetchUserGameItems(userId);
@@ -137,6 +158,12 @@ class CheckInLogic extends GetxController {
     print("爆出来的头像: ${gameItemInfo}");
     // 刷新当前页面
     update(['treasureChest']);
+  }
+
+  void clearRegisterFlag(userId) async {
+    await checkInApi.clearRegisterFlag(userId);
+    casualUser = await checkInApi.fetchCasualUser(showState.showId ?? 1);
+    update(['nicknameArea']);
   }
 
   void testRefreshFun() async {
@@ -155,6 +182,7 @@ class CheckInLogic extends GetxController {
     }
 
     print("show的状态数据: ${showState.status}");
+    casualUser = await checkInApi.fetchCasualUser(showState.showId ?? 1);
     userList = await checkInApi.fetchUsers(showState.showId ?? 1);
     print("用户数据: $userList");
     // currentNickName = userList[userList.length - 1].nickname;

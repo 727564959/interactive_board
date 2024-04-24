@@ -6,12 +6,14 @@ import 'package:interactive_board/pages/check_in/logic.dart';
 
 import '../../../../app_routes.dart';
 import '../../../../common.dart';
+import '../../../../mirra_style.dart';
 import '../../../../modules/set_avatar/data/setAvatar_api.dart';
 import '../../../../modules/set_avatar/logic.dart';
 import '../../../../modules/set_avatar/view.dart';
 import '../../../../widgets/check_in_title.dart';
 import '../../data/checkIn_api.dart';
 import '../before_checkIn/term_of_use.dart';
+import 'hint_dialog.dart';
 
 class PlayerInfoShow extends StatelessWidget {
   PlayerInfoShow({Key? key}) : super(key: key);
@@ -21,87 +23,78 @@ class PlayerInfoShow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-      children: [
-        Container(
-          width: 1.0.sw,
-          height: 1.0.sh,
-          color: Colors.black,
-          child: Column(
-            children: [
-              // 顶部文本信息
-              CheckInTitlePage(titleText: ""),
-              SizedBox(
-                child: GetBuilder<CheckInLogic>(
-                  builder: (logic) {
-                    return Column(
-                      children: [
-                        Align(
-                          heightFactor: 1.5,
-                          alignment: const Alignment(-0.7, 1.0),
-                          child: Text(
-                            "Hi, there !",
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              fontSize: 120.sp,
-                              decoration: TextDecoration.none,
-                              fontFamily: 'BurbankBold',
-                              color: Colors.white,
-                              letterSpacing: 3.sp,
-                            ),
-                          ),
-                        ),
-                        Align(
-                          heightFactor: 1,
-                          alignment: const Alignment(-0.65, 0.0),
-                          child: Text(
-                            "Set your avatar",
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              fontSize: 120.sp,
-                              decoration: TextDecoration.none,
-                              fontFamily: 'BurbankBold',
-                              color: Colors.white,
-                              letterSpacing: 3.sp,
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+          children: [
+            Container(
+              width: 1.0.sw,
+              height: 1.0.sh,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+                  fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
-                child: GetBuilder<CheckInLogic>(
-                  builder: (logic) {
-                    return Column(
-                      children: [
-                        _NicknameArea(),
-                        Column(
+              child: Column(
+                children: [
+                  // 顶部文本信息
+                  CheckInTitlePage(titleText: ""),
+                  SizedBox(
+                    child: GetBuilder<CheckInLogic>(
+                      builder: (logic) {
+                        return Column(
                           children: [
-                            // _AddPlayerButton(width: 432.w),
-                            Container(
-                              margin: EdgeInsets.only(top: 20.0, left: 0.0, right: 0.56.sw),
-                              child: _AddPlayerButton(width: 432.w),
+                            Align(
+                              heightFactor: 1.5,
+                              alignment: const Alignment(-0.7, 1.0),
+                              child: Text(
+                                "Hi, there !",
+                                style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
+                              ),
                             ),
-                            if(Get.arguments.status == ShowStatus.gamePreparing)
-                            Container(
-                              margin: EdgeInsets.only(top: 20.0, left: 0.0, right: 0.56.sw),
-                              child: _GoBackButton(),
+                            Align(
+                              heightFactor: 1,
+                              alignment: const Alignment(-0.65, 0.0),
+                              child: Text(
+                                "Set your avatar",
+                                style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
+                              ),
                             ),
                           ],
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    child: GetBuilder<CheckInLogic>(
+                      builder: (logic) {
+                        return Column(
+                          children: [
+                            _NicknameArea(),
+                            Column(
+                              children: [
+                                // _AddPlayerButton(width: 432.w),
+                                Container(
+                                  margin: EdgeInsets.only(top: 20.0, left: 0.0, right: 0.56.sw),
+                                  child: _AddPlayerButton(width: 432.w),
+                                ),
+                                if(Get.arguments.status == ShowStatus.gamePreparing)
+                                Container(
+                                  margin: EdgeInsets.only(top: 20.0, left: 0.0, right: 0.56.sw),
+                                  child: _GoBackButton(),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        GetBuilder<CheckInLogic>(builder: (logic) {
-          return Container();
-        }),
-      ],
+            ),
+            GetBuilder<CheckInLogic>(builder: (logic) {
+              return Container();
+            }),
+          ],
     ));
   }
 }
@@ -153,7 +146,7 @@ class _NicknameArea extends StatelessWidget {
               runSpacing: 20,
               alignment: WrapAlignment.start, //沿主轴方向居中
               // crossAxisAlignment: WrapCrossAlignment.start,
-              children: List.generate(logic.userList.length, (index) => getItem(index, color)),
+              children: List.generate(logic.casualUser.length, (index) => getItem(index, color)),
             ),
           );
         },
@@ -166,21 +159,29 @@ class _NicknameArea extends StatelessWidget {
 Widget getItem(int index, Color color) {
   final logic = Get.find<CheckInLogic>();
 
-  var item = logic.userList[index % logic.userList.length];
+  var item = logic.casualUser[index % logic.casualUser.length];
   final checkInApi = CheckInApi();
   final setAvatarApi = SetAvatarApi();
   return ActionChip(
       pressElevation: 10,
       // tooltip: "点击",
-      label: Text(
-        item.nickname,
-        style: TextStyle(
-          fontSize: 60.sp,
-          decoration: TextDecoration.none,
-          fontFamily: 'BurbankBold',
-          color: Colors.black,
-          letterSpacing: 3.sp,
-        ),
+      // label: Text(
+      //   item.nickname,
+      //   style: CustomTextStyles.title(color: Colors.black, fontSize: 40.sp, level: 3),
+      // ),
+      label: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Text(
+            item.nickname,
+            style: CustomTextStyles.title(color: Colors.black, fontSize: 40.sp, level: 3),
+          ),
+          if(item.bTemped != null && item.bTemped == true) SizedBox(width: 10.0), // 图标和文本之间的间距
+          if(item.bTemped != null && item.bTemped == true) Image.asset(
+            Global.getSetAvatarImageUrl('warning_red_icon.png'),
+            fit: BoxFit.fill,
+          ),
+        ],
       ),
       //长按提示
       // labelPadding: EdgeInsets.all(10),
@@ -191,23 +192,30 @@ Widget getItem(int index, Color color) {
         borderRadius: BorderRadius.circular(2.0),
       ),
       onPressed: () async {
-        print("点击 ${item.id}");
+        print("点击 ${item.userId}");
         print("参数 ${Get.arguments}");
-        Map<String, dynamic> jsonObj = {
-          "userId": int.parse(item.id),
-          "showId": Get.arguments.showId,
-          "status": Get.arguments.status.toString()
-        };
-        print("参数 ${jsonObj}");
-        print("object ${Get.isRegistered<SetAvatarLogic>()}");
-        if(Get.isRegistered<SetAvatarLogic>()) {
-          Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
-          await Future.delayed(100.ms);
-          Get.find<SetAvatarLogic>().updatePlayer(item.id);
-          Get.find<SetAvatarLogic>().explosiveChestFun(item.id);
+        print("参数 ${item.bShowRegisterDialog}");
+        if(item.bShowRegisterDialog != null && item.bShowRegisterDialog == true) {
+          Get.dialog(Dialog(child: HintDialog()));
+          logic.clearRegisterFlag(item.userId);
         }
-        // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
-        await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+        else {
+          Map<String, dynamic> jsonObj = {
+            "userId": item.userId,
+            "showId": Get.arguments.showId,
+            "status": Get.arguments.status.toString()
+          };
+          print("参数 ${jsonObj}");
+          print("object ${Get.isRegistered<SetAvatarLogic>()}");
+          if(Get.isRegistered<SetAvatarLogic>()) {
+            Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
+            await Future.delayed(100.ms);
+            Get.find<SetAvatarLogic>().updatePlayer(item.userId.toString());
+            Get.find<SetAvatarLogic>().explosiveChestFun(item.userId);
+          }
+          // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
+          await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+        }
       });
   // return Chip(
   //   // 文字标签

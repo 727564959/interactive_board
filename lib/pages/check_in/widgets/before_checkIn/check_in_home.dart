@@ -31,7 +31,6 @@ class CheckInHomePage extends StatelessWidget {
             children: [
               SizedBox(
                 width: 1.0.sw,
-                height: 0.2.sh,
                 child: GetBuilder<CheckInLogic>(
                   builder: (logic) {
                     return Row(
@@ -53,8 +52,25 @@ class CheckInHomePage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                // width: 1.0.sw,
-                // height: 0.2.sh,
+                width: 1.0.sw,
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 50.0, left: 120.0),
+                      child: SizedBox(
+                        width: 0.24.sw,
+                        child: Text(
+                          logic.singlePlayer.length > 0
+                              ? logic.singlePlayer['name']
+                              : "",
+                          style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
                 child: GetBuilder<CheckInLogic>(builder: (logic) {
                   return Row(
                     children: [
@@ -64,7 +80,7 @@ class CheckInHomePage extends StatelessWidget {
                           color: Color(0xFF5E6F96),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
-                        margin: EdgeInsets.only(top: 60.0, left: 120.0),
+                        margin: EdgeInsets.only(top: 15.0, left: 120.0),
                         constraints: BoxConstraints.tightFor(
                             width: 750.w, height: 201.h), //卡片大小
                         alignment: Alignment.center, //卡片内文字居中
@@ -95,7 +111,7 @@ class CheckInHomePage extends StatelessWidget {
                           color: Color(0xFF5E6F96),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
-                        margin: EdgeInsets.only(top: 60.0, left: 10.0),
+                        margin: EdgeInsets.only(top: 15.0, left: 10.0),
                         constraints: BoxConstraints.tightFor(
                             width: 750.w, height: 201.h), //卡片大小
                         alignment: Alignment.center, //卡片内文字居中
