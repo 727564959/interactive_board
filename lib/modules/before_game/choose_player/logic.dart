@@ -15,6 +15,7 @@ class ChoosePlayerLogic extends GetxController {
   final playerApi = PlayerApi();
   List<PlayerInfo> players = [];
   ShowState get showState => Get.arguments;
+
   Timer? _timer;
   int get showId => showState.showId!;
   GamingDetails get showInfo => showState.details;
@@ -120,6 +121,7 @@ class ChoosePlayerLogic extends GetxController {
     try {
       await playerApi.updatePosition(showInfo.roundId, position, null);
       _timer?.cancel();
+      update();
     } on DioException {
       updateAllPositions();
     }

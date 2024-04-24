@@ -8,48 +8,7 @@ import 'data/player.dart';
 import 'data/player_records_repository.dart';
 
 class GamingRankLogic extends GetxController {
-  // ShowState get showState => Get.arguments;
-  ShowState get showState => ShowState.fromJson({
-        "showId": 13,
-        "status": "game_preparing",
-        "details": {
-          "showId": 13,
-          "roundId": 27,
-          "roundNumber": 2,
-          "mode": "normal",
-          "game": "Laser Room",
-          "customers": [
-            {"tableId": 4, "consumerId": 259},
-            {"tableId": 1, "consumerId": 267}
-          ],
-          "teams": [
-            {
-              "name": "SHARK",
-              "teamId": 1,
-              "iconPath": "/uploads/small_1_1_9e9ecd8248.png",
-              "blackBorderIconPath": "/uploads/small_1_0f327be1b0.png"
-            },
-            {
-              "name": "RABBIT",
-              "teamId": 4,
-              "iconPath": "/uploads/small_4_1_60b4f861f0.png",
-              "blackBorderIconPath": "/uploads/small_4_d_98061c3869.png"
-            },
-            {
-              "name": "PANDA",
-              "teamId": 3,
-              "iconPath": "/uploads/small_3_1_16a5cfb6e2.png",
-              "blackBorderIconPath": "/uploads/small_3_d_af9eac1846.png"
-            },
-            {
-              "name": "PANTHER",
-              "teamId": 2,
-              "iconPath": "/uploads/small_2_1_a830d6e873.png",
-              "blackBorderIconPath": "/uploads/small_2_d_55cb963c79.png"
-            }
-          ]
-        }
-      });
+  ShowState get showState => Get.arguments;
   GamingDetails get details => showState.details;
   late RecordsRepository recordsRepository;
   final List<PlayerRecord> playerRecords = [];
