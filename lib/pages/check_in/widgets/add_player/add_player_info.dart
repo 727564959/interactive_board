@@ -1107,18 +1107,18 @@ class _MaybeLatterButton extends StatelessWidget {
         // }).onError((error, stackTrace) async {
         //   print("error爆宝箱 $error");
         // });
-        logic.getHeadgearFun(logic.consumerId);
+        logic.getHeadgearFun(skipUserInfo['userId']);
         if(logic.headgearObj.isEmpty) {
           if(Get.isRegistered<SetAvatarLogic>()) {
-            Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+            Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
             await Future.delayed(100.ms);
-            Get.find<SetAvatarLogic>().updatePlayer(Get.arguments['userId'].toString());
-            Get.find<SetAvatarLogic>().explosiveChestFun(Get.arguments['userId'].toString());
+            Get.find<SetAvatarLogic>().updatePlayer(skipUserInfo['userId'].toString());
+            Get.find<SetAvatarLogic>().explosiveChestFun(skipUserInfo['userId'].toString());
           }
           await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
         }
         else {
-          Get.to(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
+          Get.to(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);
         }
 
         // Get.to(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);

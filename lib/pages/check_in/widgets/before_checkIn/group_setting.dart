@@ -367,10 +367,10 @@ class _NextDefaultButton extends StatelessWidget {
           logic.getHeadgearFun(logic.consumerId);
           if(logic.headgearObj.isEmpty) {
             if(Get.isRegistered<SetAvatarLogic>()) {
-              Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+              Get.find<SetAvatarLogic>().updateUserList(int.parse(logic.showState.showId.toString()));
               await Future.delayed(100.ms);
-              Get.find<SetAvatarLogic>().updatePlayer(Get.arguments['userId'].toString());
-              Get.find<SetAvatarLogic>().explosiveChestFun(Get.arguments['userId'].toString());
+              Get.find<SetAvatarLogic>().updatePlayer(logic.consumerId.toString());
+              Get.find<SetAvatarLogic>().explosiveChestFun(logic.consumerId.toString());
             }
             await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
           }

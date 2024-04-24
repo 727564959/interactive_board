@@ -275,13 +275,13 @@ class _AddBirthdayButton extends StatelessWidget {
             // });
 
             // Get.to(() => TreasureChestPage(playerId: int.parse(addUserInfo['userId'].toString())), arguments: jsonObj);
-            logic.getHeadgearFun(logic.consumerId);
+            logic.getHeadgearFun(addUserInfo['userId']);
             if(logic.headgearObj.isEmpty) {
               if(Get.isRegistered<SetAvatarLogic>()) {
-                Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+                Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
                 await Future.delayed(100.ms);
-                Get.find<SetAvatarLogic>().updatePlayer(Get.arguments['userId'].toString());
-                Get.find<SetAvatarLogic>().explosiveChestFun(Get.arguments['userId'].toString());
+                Get.find<SetAvatarLogic>().updatePlayer(addUserInfo['userId'].toString());
+                Get.find<SetAvatarLogic>().explosiveChestFun(addUserInfo['userId'].toString());
               }
               await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
             }
@@ -317,13 +317,13 @@ class _AddBirthdayButton extends StatelessWidget {
           //   print("error爆宝箱 $error");
           // });
 
-          logic.getHeadgearFun(logic.consumerId);
+          logic.getHeadgearFun(checkingUser['userId']);
           if(logic.headgearObj.isEmpty) {
             if(Get.isRegistered<SetAvatarLogic>()) {
-              Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+              Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
               await Future.delayed(100.ms);
-              Get.find<SetAvatarLogic>().updatePlayer(Get.arguments['userId'].toString());
-              Get.find<SetAvatarLogic>().explosiveChestFun(Get.arguments['userId'].toString());
+              Get.find<SetAvatarLogic>().updatePlayer(checkingUser['userId'].toString());
+              Get.find<SetAvatarLogic>().explosiveChestFun(checkingUser['userId'].toString());
             }
             await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
           }
