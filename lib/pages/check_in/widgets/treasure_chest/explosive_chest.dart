@@ -91,7 +91,8 @@ class _TreasureChestWidget extends StatelessWidget {
             child: GestureDetector(
               // 点击事件
               onTap: () async {
-                logic.getHeadgearFun(playerId);
+                // logic.getHeadgearFun(playerId);
+                logic.updateHeadgearPageFun();
               },
               child: Container(
                 margin: EdgeInsets.only(top: 0.2.sh),

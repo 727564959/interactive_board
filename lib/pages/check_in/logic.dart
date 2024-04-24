@@ -133,16 +133,27 @@ class CheckInLogic extends GetxController {
   // 获取爆头套
   void getHeadgearFun(userId) async {
     print("opopopop ${userId}");
+    // if(!isClickCard) {
+    //   isClickCard = true;
+    // }
+    // else {
+    //   isClickCard = false;
+    // }
+    headgearObj = await checkInApi.fetchHeadgearInfo(userId);
+    // 刷新当前页面
+    // update(['treasureChest']);
+    // return await checkInApi.fetchHeadgearInfo(userId);
+  }
+
+  void updateHeadgearPageFun() {
     if(!isClickCard) {
       isClickCard = true;
     }
     else {
       isClickCard = false;
     }
-    headgearObj = await checkInApi.fetchHeadgearInfo(userId);
     // 刷新当前页面
     update(['treasureChest']);
-    // return await checkInApi.fetchHeadgearInfo(userId);
   }
 
   // 爆宝箱头套方法
