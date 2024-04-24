@@ -39,7 +39,8 @@ class WinnerLogic extends GetxController {
     Future.delayed(3.seconds).then((value) async {
       print("ssss: ${showState}");
       // 跳转到下一个游戏页面
-      await Get.offAllNamed(AppRoutes.statisticsPage, arguments: showState);
+      // await Get.offAllNamed(AppRoutes.statisticsPage, arguments: showState);
+      await Get.offAllNamed(AppRoutes.statisticsPage, arguments: {"showState": showState, "records": recordsData});
     });
   }
 }

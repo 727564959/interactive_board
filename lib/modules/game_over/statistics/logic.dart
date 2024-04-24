@@ -16,96 +16,96 @@ enum PageState { playerStatistics, teamStatistics }
 class StatisticsLogic extends GetxController {
   final statisticsApi = StatisticsApi();
   // 用于测试的数据
-  String jsonString = '''
-    {
-      "teamRecords": [
-        {
-          "teamId": 1,
-          "score": 0,
-          "rankScore": 5
-        },
-         {
-            "teamId": 2,
-            "score": 0,
-            "rankScore": 7
-        },
-        {
-            "teamId": 3,
-            "score": 0,
-            "rankScore": 10
-        },
-        {
-            "teamId": 4,
-            "score": 0,
-            "rankScore": 3
-        }
-      ],
-      "playerRecords": [
-        {
-          "rank": 1,
-          "score": 1100,
-          "tableId": 7,
-          "playerId": 259,
-          "position": 1
-        },
-        {
-            "rank": 4,
-            "score": 800,
-            "tableId": 4,
-            "playerId": 260,
-            "position": 2
-        },
-        {
-          "rank": 3,
-          "score": 900,
-          "tableId": 7,
-          "playerId": 261,
-          "position": 3
-        },
-        {
-            "rank": 5,
-            "score": 500,
-            "tableId": 4,
-            "playerId": 262,
-            "position": 4
-        },
-        {
-          "rank": 7,
-          "score": 305,
-          "tableId": 7,
-          "playerId": 263,
-          "position": 5
-        },
-        {
-            "rank": 8,
-            "score": 198,
-            "tableId": 4,
-            "playerId": 264,
-            "position": 6
-        },
-        {
-          "rank": 2,
-          "score": 1000,
-          "tableId": 7,
-          "playerId": 265,
-          "position": 7
-        },
-        {
-            "rank": 6,
-            "score": 360,
-            "tableId": 4,
-            "playerId": 266,
-            "position": 8
-        }
-      ]
-    }
-  ''';
+  // String jsonString = '''
+  //   {
+  //     "teamRecords": [
+  //       {
+  //         "teamId": 1,
+  //         "score": 0,
+  //         "rankScore": 5
+  //       },
+  //        {
+  //           "teamId": 2,
+  //           "score": 0,
+  //           "rankScore": 7
+  //       },
+  //       {
+  //           "teamId": 3,
+  //           "score": 0,
+  //           "rankScore": 10
+  //       },
+  //       {
+  //           "teamId": 4,
+  //           "score": 0,
+  //           "rankScore": 3
+  //       }
+  //     ],
+  //     "playerRecords": [
+  //       {
+  //         "rank": 1,
+  //         "score": 1100,
+  //         "tableId": 7,
+  //         "playerId": 259,
+  //         "position": 1
+  //       },
+  //       {
+  //           "rank": 4,
+  //           "score": 800,
+  //           "tableId": 4,
+  //           "playerId": 260,
+  //           "position": 2
+  //       },
+  //       {
+  //         "rank": 3,
+  //         "score": 900,
+  //         "tableId": 7,
+  //         "playerId": 261,
+  //         "position": 3
+  //       },
+  //       {
+  //           "rank": 5,
+  //           "score": 500,
+  //           "tableId": 4,
+  //           "playerId": 262,
+  //           "position": 4
+  //       },
+  //       {
+  //         "rank": 7,
+  //         "score": 305,
+  //         "tableId": 7,
+  //         "playerId": 263,
+  //         "position": 5
+  //       },
+  //       {
+  //           "rank": 8,
+  //           "score": 198,
+  //           "tableId": 4,
+  //           "playerId": 264,
+  //           "position": 6
+  //       },
+  //       {
+  //         "rank": 2,
+  //         "score": 1000,
+  //         "tableId": 7,
+  //         "playerId": 265,
+  //         "position": 7
+  //       },
+  //       {
+  //           "rank": 6,
+  //           "score": 360,
+  //           "tableId": 4,
+  //           "playerId": 266,
+  //           "position": 8
+  //       }
+  //     ]
+  //   }
+  // ''';
   // 用户数据
   List<UserInfo> userList = [];
   // 队伍数据
   List<TeamInfo> teamList = [];
   // 传参信息
-  ShowState get showState => Get.arguments;
+  ShowState get showState => Get.arguments["showState"];
   // 访问团队记录
   List<TeamRecord> teamRecords = [];
   // 访问玩家记录
@@ -115,7 +115,7 @@ class StatisticsLogic extends GetxController {
   // 队伍统计图数据
   final resultTeamRecord = <TeamBar>[];
   // 游戏名称
-  String get gameName => ((Get.arguments as ShowState).details as GamingDetails).game;
+  String get gameName => (showState.details as GamingDetails).game;
   // 默认展示页面
   PageState pageState = PageState.playerStatistics;
   int delayedTime = 5;
@@ -128,9 +128,9 @@ class StatisticsLogic extends GetxController {
     teamList = await statisticsApi.fetchTeamInfo(showState.showId ?? 1);
     print("队伍数据: $teamList");
     // 将JSON字符串解码为Map
-    Map<String, dynamic> jsonData = json.decode(jsonString);
+    // Map<String, dynamic> jsonData = json.decode(jsonString);
     // 创建RecordsData对象
-    RecordsData recordsData = RecordsData.fromJson(jsonData);
+    RecordsData recordsData = RecordsData.fromJson(Get.arguments["records"]);
     print("测试接收的数据：${recordsData}");
     print("测试接收的数据：${recordsData.teamRecords}");
     // 访问玩家记录
@@ -189,9 +189,9 @@ class StatisticsLogic extends GetxController {
     teamList = await statisticsApi.fetchTeamInfo(showState.showId ?? 1);
     print("队伍数据: $teamList");
     // 将JSON字符串解码为Map
-    Map<String, dynamic> jsonData = json.decode(jsonString);
+    // Map<String, dynamic> jsonData = json.decode(jsonString);
     // 创建RecordsData对象
-    RecordsData recordsData = RecordsData.fromJson(jsonData);
+    RecordsData recordsData = RecordsData.fromJson(Get.arguments["records"]);
     print("测试接收的数据：${recordsData}");
     print("测试接收的数据：${recordsData.teamRecords}");
     // 访问团队记录
