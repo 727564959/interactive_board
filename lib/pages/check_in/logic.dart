@@ -139,7 +139,7 @@ class CheckInLogic extends GetxController {
     else {
       isClickCard = false;
     }
-    headgearObj = await checkInApi.fetchHeadgearInfo(261);
+    headgearObj = await checkInApi.fetchHeadgearInfo(userId);
     // 刷新当前页面
     update(['treasureChest']);
     // return await checkInApi.fetchHeadgearInfo(userId);

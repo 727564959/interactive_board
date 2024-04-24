@@ -1107,7 +1107,21 @@ class _MaybeLatterButton extends StatelessWidget {
         // }).onError((error, stackTrace) async {
         //   print("error爆宝箱 $error");
         // });
-        Get.to(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);
+        logic.getHeadgearFun(logic.consumerId);
+        if(logic.headgearObj.isEmpty) {
+          if(Get.isRegistered<SetAvatarLogic>()) {
+            Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+            await Future.delayed(100.ms);
+            Get.find<SetAvatarLogic>().updatePlayer(Get.arguments['userId'].toString());
+            Get.find<SetAvatarLogic>().explosiveChestFun(Get.arguments['userId'].toString());
+          }
+          await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+        }
+        else {
+          Get.to(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
+        }
+
+        // Get.to(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);
       },
       child: GetBuilder<CheckInLogic>(
         id: "maybeLatterBtn",

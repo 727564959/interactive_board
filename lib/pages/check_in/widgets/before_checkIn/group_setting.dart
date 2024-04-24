@@ -13,6 +13,7 @@ import '../../../../common.dart';
 import 'package:card_swiper/card_swiper.dart';
 
 import '../../../../mirra_style.dart';
+import '../../../../modules/set_avatar/logic.dart';
 import '../../../../modules/set_avatar/view.dart';
 import '../../data/checkIn_api.dart';
 import '../treasure_chest/explosive_chest.dart';
@@ -363,9 +364,22 @@ class _NextDefaultButton extends StatelessWidget {
             "showId": logic.showState.showId,
             "status": logic.showState.status.toString(),
           };
+          logic.getHeadgearFun(logic.consumerId);
+          if(logic.headgearObj.isEmpty) {
+            if(Get.isRegistered<SetAvatarLogic>()) {
+              Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+              await Future.delayed(100.ms);
+              Get.find<SetAvatarLogic>().updatePlayer(Get.arguments['userId'].toString());
+              Get.find<SetAvatarLogic>().explosiveChestFun(Get.arguments['userId'].toString());
+            }
+            await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+          }
+          else {
+            Get.to(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
+          }
           // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
           // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
-          Get.to(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
+          // Get.to(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
         }
         else {
           EasyLoading.showError("Please Choose Your Squad icon !");
