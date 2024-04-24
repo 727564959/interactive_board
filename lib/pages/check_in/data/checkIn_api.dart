@@ -235,16 +235,16 @@ class CheckInApi {
     final response = await dio.post("$baseApiUrl/players/$userId/headgear-acquisition-event", data: {});
     print("爆头套 $response");
 
-    // Map<String, dynamic> result = response.data;
-    Map<String, dynamic> result = {
-                "itemInfo": {
-              "id": 22,
-              "name": "LowPoly_Dragn",
-              "type": "headgear",
-              "level": 1,
-              "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
-            }
-          };
+    Map<String, dynamic> result = response.data;
+    // Map<String, dynamic> result = {
+    //             "itemInfo": {
+    //           "id": 22,
+    //           "name": "LowPoly_Dragn",
+    //           "type": "headgear",
+    //           "level": 1,
+    //           "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
+    //         }
+    //       };
     return result;
   }
 

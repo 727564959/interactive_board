@@ -31,12 +31,6 @@ class PlayerInfoShow extends StatelessWidget {
             Container(
               width: 1.0.sw,
               height: 1.0.sh,
-              // decoration: BoxDecoration(
-              //   image: DecorationImage(
-              //     image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
               color: Color(0xFF233342),
               child: Column(
                 children: [

@@ -32,12 +32,6 @@ class TermsOfUsePage extends StatelessWidget {
             Container(
               width: 1.0.sw,
               height: 1.0.sh,
-              // decoration: BoxDecoration(
-              //   image: DecorationImage(
-              //     image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
               color: Color(0xFF233342),
               child: Column(
                 children: [
@@ -129,7 +123,6 @@ class TermsOfUsePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
-                  // _TestButton(width: 600.w, isAddPlayerClick: isAddPlayerClick, showInfo: showInfo, customer: customer,),
                   _AgreeButton(width: 600.w, isAddPlayerClick: isAddPlayerClick, showInfo: showInfo, customer: customer),
                   SizedBox(height: 20),
                   _BackButton(),

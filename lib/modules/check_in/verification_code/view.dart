@@ -21,18 +21,6 @@ class VerificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: AssetImage(Global.getAssetImageUrl("background.png")),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
         color: Color(0xFF233342),
         child: Center(
           child: Column(
@@ -75,29 +63,28 @@ class VerificationPage extends StatelessWidget {
                       ),
                     );
                   } on DioException catch (e) {
-                    String jsonString = '''
-                    {
-                      "booking": {
-                        "time": "2024-04-16T06:00:00.248Z"
-                      },
-                      "customer":
-                        {
-                          "name": "M Zq",
-                          "email": "mu15215217793@gmail.com",
-                          "phone": "7678678676"
-                        }
-                    }
-                  ''';
-                    Map<String, dynamic> jsonData = json.decode(jsonString);
-                    BookingInfo bookingInfoTest = BookingInfo.fromJson(jsonData);
-                    // Get.dialog(Dialog(child: ConfirmationDialog(bookingInfo: bookingInfoTest, code: code)));
+                    // String jsonString = '''
+                    //     {
+                    //       "booking": {
+                    //         "time": "2024-04-16T06:00:00.248Z"
+                    //       },
+                    //       "customer":
+                    //         {
+                    //           "name": "M Zq",
+                    //           "email": "mu15215217793@gmail.com",
+                    //           "phone": "7678678676"
+                    //         }
+                    //     }
+                    //   ''';
+                    // Map<String, dynamic> jsonData = json.decode(jsonString);
+                    // BookingInfo bookingInfoTest = BookingInfo.fromJson(jsonData);
                     EasyLoading.dismiss();
-                    await Get.offAll(
-                          () => ConfirmationPage(
-                        bookingInfo: bookingInfoTest,
-                        code: code,
-                      ),
-                    );
+                    // await Get.offAll(
+                    //       () => ConfirmationPage(
+                    //     bookingInfo: bookingInfoTest,
+                    //     code: code,
+                    //   ),
+                    // );
                     if (e.response == null) EasyLoading.showError("Network Error!");
                     EasyLoading.showError(e.response?.data["error"]["message"]);
                   }

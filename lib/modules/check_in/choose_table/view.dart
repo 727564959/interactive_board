@@ -151,15 +151,15 @@ class ChooseTablePage extends StatelessWidget {
                       );
                     } on DioException catch (e) {
                       EasyLoading.dismiss();
-                      print("测试测试测试 ${logic.selectedTableId}");
-                      Global.setTableId(logic.selectedTableId!);
-                      print("哈哈哈哈哈 ${Global.tableId}");
-                      await Get.to(
-                            () => PlayerInfoShow(
-                            showInfo: showInfo,
-                            customer: customer,
-                        ),
-                      );
+                      // print("测试测试测试 ${logic.selectedTableId}");
+                      // Global.setTableId(logic.selectedTableId!);
+                      // print("哈哈哈哈哈 ${Global.tableId}");
+                      // await Get.to(
+                      //       () => PlayerInfoShow(
+                      //       showInfo: showInfo,
+                      //       customer: customer,
+                      //   ),
+                      // );
                       if (e.response == null) EasyLoading.showError("Network Error!");
                       EasyLoading.showError(e.response?.data["error"]["message"]);
                     }

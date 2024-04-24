@@ -234,26 +234,26 @@ class _NoProblemButton extends StatelessWidget {
           WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
           logic.codeController.clear();
         } on DioException catch (e) {
-          String jsonString = '''
-                    {
-                      "startTime": "2024-04-16T06:00:00.248Z",
-                      "showId": 13,
-                      "associatedUsers": [
-                        {
-                          "tableId": 2
-                        },
-                        {
-                          "tableId": 3
-                        }
-                      ]
-                    }
-                  ''';
-          Map<String, dynamic> jsonData = json.decode(jsonString);
-          ShowInfo showInfoTest = ShowInfo.fromJson(jsonData);
-          print("哈哈哈哈哈: ${bookingInfo.customer}");
-          print("哈哈哈哈哈: ${showInfoTest}");
+          // String jsonString = '''
+          //           {
+          //             "startTime": "2024-04-16T06:00:00.248Z",
+          //             "showId": 13,
+          //             "associatedUsers": [
+          //               {
+          //                 "tableId": 2
+          //               },
+          //               {
+          //                 "tableId": 3
+          //               }
+          //             ]
+          //           }
+          //         ''';
+          // Map<String, dynamic> jsonData = json.decode(jsonString);
+          // ShowInfo showInfoTest = ShowInfo.fromJson(jsonData);
+          // print("哈哈哈哈哈: ${bookingInfo.customer}");
+          // print("哈哈哈哈哈: ${showInfoTest}");
           EasyLoading.dismiss();
-          await Get.to(() => TermsOfUsePage(isAddPlayerClick: false, showInfo: showInfoTest, customer: bookingInfo.customer));
+          // await Get.to(() => TermsOfUsePage(isAddPlayerClick: false, showInfo: showInfoTest, customer: bookingInfo.customer));
           if (e.response == null) EasyLoading.showError("Network Error!");
           EasyLoading.showError(e.response?.data["error"]["message"]);
         }
