@@ -92,9 +92,16 @@ class AddPlayerBirthday extends StatelessWidget {
                             constraints: BoxConstraints.tightFor(width: 0.3.sw, height: 0.2.sh),
                             // constraints: BoxConstraints.tightFor(width: 0.3.sw),
                             child: ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Color(0xff4D797F)),//背景颜色
-                                side: MaterialStateProperty.all(BorderSide(width: 1,color: Color(0xffffffff))),//边框
+                              // style: ButtonStyle(
+                              //   backgroundColor: MaterialStateProperty.all(Color(0xff4D797F)),//背景颜色
+                              //   side: MaterialStateProperty.all(BorderSide(width: 1,color: Color(0xffffffff))),//边框
+                              // ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xff4D797F),//背景颜色
+                                side: BorderSide(width: 1,color: Color(0xffffffff)),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8), // 设置圆角矩形
+                                ),
                               ),
                               onPressed: () async {
                                 var select_day_time = await showDatePicker(
