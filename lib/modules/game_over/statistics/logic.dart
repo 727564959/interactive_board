@@ -116,6 +116,8 @@ class StatisticsLogic extends GetxController {
   final resultTeamRecord = <TeamBar>[];
   // 游戏名称
   String get gameName => (showState.details as GamingDetails).game;
+  // late final RecordsData recordsData;
+  RecordsData get recordsData => Get.arguments["records"];
   // 默认展示页面
   PageState pageState = PageState.playerStatistics;
   int delayedTime = 5;
@@ -130,7 +132,7 @@ class StatisticsLogic extends GetxController {
     // 将JSON字符串解码为Map
     // Map<String, dynamic> jsonData = json.decode(jsonString);
     // 创建RecordsData对象
-    RecordsData recordsData = RecordsData.fromJson(Get.arguments["records"]);
+    // recordsData = RecordsData.fromJson(Get.arguments["records"]);
     print("测试接收的数据：${recordsData}");
     print("测试接收的数据：${recordsData.teamRecords}");
     // 访问玩家记录
@@ -190,8 +192,9 @@ class StatisticsLogic extends GetxController {
     print("队伍数据: $teamList");
     // 将JSON字符串解码为Map
     // Map<String, dynamic> jsonData = json.decode(jsonString);
+    print("收到的记录数据: ${Get.arguments["records"]}");
     // 创建RecordsData对象
-    RecordsData recordsData = RecordsData.fromJson(Get.arguments["records"]);
+    // recordsData = RecordsData.fromJson(Get.arguments["records"]);
     print("测试接收的数据：${recordsData}");
     print("测试接收的数据：${recordsData.teamRecords}");
     // 访问团队记录

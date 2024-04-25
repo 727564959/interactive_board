@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../mirra_style.dart';
 import '../../../widgets/check_in_title.dart';
 import 'logic.dart';
 import 'widgets/player_statistics.dart';
@@ -20,7 +21,12 @@ class StatisticsPage extends StatelessWidget {
             Container(
               width: 1.0.sw,
               height: 1.0.sh,
-              color: Colors.black,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             // 顶部文本信息
             CheckInTitlePage(titleText: logic.gameName),

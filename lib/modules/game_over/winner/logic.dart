@@ -23,24 +23,25 @@ class WinnerLogic extends GetxController {
     super.onInit();
     // 创建RecordsData对象
     recordsData = RecordsData.fromJson(Get.arguments["records"]);
-    print("测试接收的数据：${recordsData}");
-    print("测试接收的数据：${recordsData.teamRecords}");
+    // print("测试接收的数据：${recordsData}");
+    // print("测试接收的数据：${recordsData.teamRecords}");
     // 访问团队记录
     List<TeamRecord> teamRecords = recordsData.teamRecords;
     for (var teamRecord in teamRecords) {
-      print('Team ID: ${teamRecord.teamId}');
-      print('Score: ${teamRecord.score}');
-      print('Rank Score: ${teamRecord.rankScore}');
+      // print('Team ID: ${teamRecord.teamId}');
+      // print('Score: ${teamRecord.score}');
+      // print('Rank Score: ${teamRecord.rankScore}');
       if (teamRecord.rankScore == 10) {
         winnerName = teamRecord.teamId.toString();
       }
     }
 
     Future.delayed(3.seconds).then((value) async {
-      print("ssss: ${showState}");
+      print("进入跳转统计图方法");
+      print("showState: ${showState}");
+      print("records: ${recordsData}");
       // 跳转到下一个游戏页面
-      // await Get.offAllNamed(AppRoutes.statisticsPage, arguments: showState);
-      await Get.offAllNamed(AppRoutes.statisticsPage, arguments: {"showState": showState, "records": recordsData});
+      await Get.toNamed(AppRoutes.statisticsPage, arguments: {"showState": showState, "records": recordsData});
     });
   }
 }
