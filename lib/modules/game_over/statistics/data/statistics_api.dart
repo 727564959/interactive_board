@@ -118,6 +118,110 @@ class StatisticsApi {
     // ];
     return userList.map((user) => UserInfo.fromJson(user)).toList();
   }
+  // 查询所有玩家
+  Future<UserInfo> fetchUserAvatar(int id) async {
+    print("是否进入了查询玩家头像方法");
+    final response = await dio.get(
+      "$baseApiUrl/players/$id/avatar"
+    );
+    print("用户信息 $response");
+    final data = response.data;
+    // List userList = [
+    //   {
+    //     "id": 259,
+    //     "nickname": "player5778",
+    //     "avatarUrl": "/uploads/TV_00b57f3012.png",
+    //     "gameResource": {
+    //       "headgearId": 2,
+    //       "headgearName": "TV",
+    //       "bodyId": 12,
+    //       "bodyName": "Male_Suit_01"
+    //     },
+    //     "joinedCount": 1
+    //   },{
+    //     "id": 260,
+    //     "nickname": "testUser1",
+    //     "avatarUrl": "/uploads/TV_00b57f3012.png",
+    //     "gameResource": {
+    //       "headgearId": 2,
+    //       "headgearName": "TV",
+    //       "bodyId": 12,
+    //       "bodyName": "Male_Suit_01"
+    //     },
+    //     "joinedCount": 1
+    //   },{
+    //     "id": 261,
+    //     "nickname": "testUser2",
+    //     "avatarUrl": "/uploads/TV_00b57f3012.png",
+    //     "gameResource": {
+    //       "headgearId": 2,
+    //       "headgearName": "TV",
+    //       "bodyId": 12,
+    //       "bodyName": "Male_Suit_01"
+    //     },
+    //     "joinedCount": 1
+    //   },{
+    //     "id": 262,
+    //     "nickname": "hahhahah",
+    //     "avatarUrl": "/uploads/TV_00b57f3012.png",
+    //     "gameResource": {
+    //       "headgearId": 2,
+    //       "headgearName": "TV",
+    //       "bodyId": 12,
+    //       "bodyName": "Male_Suit_01"
+    //     },
+    //     "joinedCount": 1
+    //   },{
+    //     "id": 263,
+    //     "nickname": "1111yyyyyy",
+    //     "avatarUrl": "/uploads/TV_00b57f3012.png",
+    //     "gameResource": {
+    //       "headgearId": 2,
+    //       "headgearName": "TV",
+    //       "bodyId": 12,
+    //       "bodyName": "Male_Suit_01"
+    //     },
+    //     "joinedCount": 1
+    //   },{
+    //     "id": 264,
+    //     "nickname": "kkhkhk1",
+    //     "avatarUrl": "/uploads/TV_00b57f3012.png",
+    //     "gameResource": {
+    //       "headgearId": 2,
+    //       "headgearName": "TV",
+    //       "bodyId": 12,
+    //       "bodyName": "Male_Suit_01"
+    //     },
+    //     "joinedCount": 1
+    //   },{
+    //     "id": 265,
+    //     "nickname": "teststss",
+    //     "avatarUrl": "/uploads/TV_00b57f3012.png",
+    //     "gameResource": {
+    //       "headgearId": 2,
+    //       "headgearName": "TV",
+    //       "bodyId": 12,
+    //       "bodyName": "Male_Suit_01"
+    //     },
+    //     "joinedCount": 1
+    //   },{
+    //     "id": 266,
+    //     "nickname": "mmbmbmmbmb",
+    //     "avatarUrl": "/uploads/TV_00b57f3012.png",
+    //     "gameResource": {
+    //       "headgearId": 2,
+    //       "headgearName": "TV",
+    //       "bodyId": 12,
+    //       "bodyName": "Male_Suit_01"
+    //     },
+    //     "joinedCount": 1
+    //   }
+    // ];
+    // return userList.map((user) => UserInfo.fromJson(user)).toList();
+    return UserInfo.fromJson({
+      ...data
+    });
+  }
   // 查询单个玩家
   Future<Map> fetchSingleUsers(String id) async {
     print("是否进入了查询单个玩家方法");

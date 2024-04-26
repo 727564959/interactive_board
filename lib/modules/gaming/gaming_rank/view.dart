@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../app_routes.dart';
 import '../../../mirra_style.dart';
 import '../../../pages/check_in/widgets/after_checkIn/player_info_show.dart';
 import '../../../widgets/mirra_app_bar.dart';
@@ -55,8 +56,8 @@ class _MirraLookButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {
-        Get.offAll(() => PlayerInfoShow(), arguments: Get.arguments);
+      onPressed: () async {
+        await Get.offNamed(AppRoutes.checkIn, arguments: Get.arguments);
       },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(const Color(0xff13efef)),

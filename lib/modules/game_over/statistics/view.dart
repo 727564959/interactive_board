@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/check_in_title.dart';
 import 'logic.dart';
+import 'widgets/next_game.dart';
 import 'widgets/player_statistics.dart';
 import 'widgets/team_statistics.dart';
 
@@ -40,11 +41,14 @@ class StatisticsPage extends StatelessWidget {
                     print("默认展示页面");
                     // logic.onInit();
                     return PlayerStatisticsView(key: UniqueKey());
-                  } else {
+                  } else if (logic.pageState == PageState.teamStatistics) {
                     print("团队统计页面");
                     // logic.onInit();
                     logic.delayedFun();
                     return TeamStatisticsView(key: UniqueKey());
+                  } else {
+                    print("下个游戏");
+                    return NextGamePage();
                   }
                 },
               ),
