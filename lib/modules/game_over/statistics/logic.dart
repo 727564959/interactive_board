@@ -11,7 +11,7 @@ import 'data/team_bar.dart';
 import 'data/team_info.dart';
 import 'data/user_info.dart';
 
-enum PageState { playerStatistics, teamStatistics }
+enum PageState { playerStatistics, teamStatistics, nextGamePage }
 
 class StatisticsLogic extends GetxController {
   final statisticsApi = StatisticsApi();
@@ -101,7 +101,7 @@ class StatisticsLogic extends GetxController {
   //   }
   // ''';
   // 用户数据
-  List<UserInfo> userList = [];
+  // List<UserInfo> userList = [];
   // 队伍数据
   List<TeamInfo> teamList = [];
   // 传参信息
@@ -124,9 +124,9 @@ class StatisticsLogic extends GetxController {
 
   void updatePlayerRecord() async {
     // 获取用户信息
-    userList = await statisticsApi.fetchUsers(showState.showId ?? 1);
-    print("用户数据: $userList");
-    // 获取用户信息
+    // userList = await statisticsApi.fetchUsers(showState.showId ?? 1);
+    // print("用户数据: $userList");
+    // 获取队伍信息
     teamList = await statisticsApi.fetchTeamInfo(showState.showId ?? 1);
     print("队伍数据: $teamList");
     // 将JSON字符串解码为Map
@@ -144,10 +144,11 @@ class StatisticsLogic extends GetxController {
       print('Player ID: ${playerRecord.playerId}');
       print('Position: ${playerRecord.position}');
 
-      final player = userList.firstWhere((element) => element.id == playerRecord.playerId.toString());
+      final player = await statisticsApi.fetchUserAvatar(playerRecord.playerId);
+      // final player = userList.firstWhere((element) => element.id == playerRecord.playerId.toString());
       // final team = teamList.firstWhere((element) => element.teamId == playerRecord.position);
       resultPlayerRecord.add(PlayerBar(
-          id: player.id,
+          id: player.id.toString(),
           nickname: player.nickname,
           avatarUrl: player.avatarUrl,
           rank: playerRecord.rank,
@@ -175,7 +176,9 @@ class StatisticsLogic extends GetxController {
         // update(['statisticsPage']);
         // print("12345上山打老虎");
         // 跳转到下一个游戏页面
-        await Get.offAllNamed(AppRoutes.nextGame, arguments: showState);
+        pageState = PageState.nextGamePage;
+        update(['statisticsPage']);
+        // await Get.offAllNamed(AppRoutes.nextGame);
       }
     });
   }
@@ -184,9 +187,9 @@ class StatisticsLogic extends GetxController {
   void onInit() async {
     super.onInit();
 
-    // 获取用户信息
-    userList = await statisticsApi.fetchUsers(showState.showId ?? 1);
-    print("用户数据: $userList");
+    // // 获取用户信息
+    // userList = await statisticsApi.fetchUsers(showState.showId ?? 1);
+    // print("用户数据: $userList");
     // 获取用户信息
     teamList = await statisticsApi.fetchTeamInfo(showState.showId ?? 1);
     print("队伍数据: $teamList");
@@ -230,10 +233,11 @@ class StatisticsLogic extends GetxController {
       print('Player ID: ${playerRecord.playerId}');
       print('Position: ${playerRecord.position}');
 
-      final player = userList.firstWhere((element) => element.id == playerRecord.playerId.toString());
+      final player = await statisticsApi.fetchUserAvatar(playerRecord.playerId);
+      // final player = userList.firstWhere((element) => element.id == playerRecord.playerId.toString());
       // final team = teamList.firstWhere((element) => element.teamId == playerRecord.position);
       resultPlayerRecord.add(PlayerBar(
-          id: player.id,
+          id: player.id.toString(),
           nickname: player.nickname,
           avatarUrl: player.avatarUrl,
           rank: playerRecord.rank,

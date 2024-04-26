@@ -13,13 +13,13 @@ class WinnerPage extends StatelessWidget {
 
   Color get color {
     print("12345 ${logic.winnerName}");
-    if (int.parse(logic.winnerName) == 1) {
+    if (logic.winnerName == "A") {
       // background: #FFBD80;
       return const Color(0xFFFFBD80);
-    } else if (int.parse(logic.winnerName) == 2) {
+    } else if (logic.winnerName == "B") {
       // background: #EFB5FD;
       return const Color(0xFFEFB5FD);
-    } else if (int.parse(logic.winnerName) == 3) {
+    } else if (logic.winnerName == "C") {
       // background: #8EE8BD;
       return const Color(0xFF8EE8BD);
     } else {

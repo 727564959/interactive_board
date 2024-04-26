@@ -42,7 +42,7 @@ class AppRoutes {
   // 荣誉墙展示
   static const String honorPage = "/honorPage";
   // 下个游戏
-  static const String nextGame = "/nextGame";
+  // static const String nextGame = "/nextGame";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -112,11 +112,11 @@ class AppRoutes {
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
     ),
-    GetPage(
-      name: nextGame,
-      page: () => NextGamePage(),
-      transitionDuration: Duration.zero,
-      reverseTransitionDuration: Duration.zero,
-    ),
+    // GetPage(
+    //   name: nextGame,
+    //   page: () => NextGamePage(),
+    //   transitionDuration: Duration.zero,
+    //   reverseTransitionDuration: Duration.zero,
+    // ),
   ];
 }

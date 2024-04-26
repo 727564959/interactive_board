@@ -32,7 +32,15 @@ class WinnerLogic extends GetxController {
       // print('Score: ${teamRecord.score}');
       // print('Rank Score: ${teamRecord.rankScore}');
       if (teamRecord.rankScore == 10) {
-        winnerName = teamRecord.teamId.toString();
+        if (teamRecord.teamId == 1) {
+          winnerName = "A";
+        } else if (teamRecord.teamId == 2) {
+          winnerName = "B";
+        } else if (teamRecord.teamId == 3) {
+          winnerName = "C";
+        } else {
+          winnerName = "D";
+        }
       }
     }
 
