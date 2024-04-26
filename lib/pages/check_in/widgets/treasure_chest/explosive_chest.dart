@@ -102,7 +102,7 @@ class _TreasureChestWidget extends StatelessWidget {
                 ) : Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(Global.getSetAvatarImageUrl('card_bg_icon.png')),
+                      image: AssetImage(Global.getSetAvatarImageUrl('card_bg.png')),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -118,20 +118,26 @@ class _TreasureChestWidget extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 36),
-                      Container(
-                        color: Color(0xFFDBE2E3),
-                        width: 224,
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: EdgeInsets.all(4),
-                          child: Text(
-                            logic.headgearObj['itemInfo']['name'],
-                            maxLines: 1, // 最大显示行数
-                            overflow: TextOverflow.ellipsis, // 超出部分的省略样式
-                            style: CustomTextStyles.notice(color: Color(0xFF5A5858), fontSize: 24.sp),
-                          ),
-                        ),
+                      Text(
+                        logic.headgearObj['itemInfo']['name'],
+                        maxLines: 1, // 最大显示行数
+                        overflow: TextOverflow.ellipsis, // 超出部分的省略样式
+                        style: CustomTextStyles.notice(color: Color(0xFF000000), fontSize: 24.sp),
                       ),
+                      // Container(
+                      //   color: Color(0xFFDBE2E3),
+                      //   width: 224,
+                      //   alignment: Alignment.center,
+                      //   child: Padding(
+                      //     padding: EdgeInsets.all(4),
+                      //     child: Text(
+                      //       logic.headgearObj['itemInfo']['name'],
+                      //       maxLines: 1, // 最大显示行数
+                      //       overflow: TextOverflow.ellipsis, // 超出部分的省略样式
+                      //       style: CustomTextStyles.notice(color: Color(0xFF5A5858), fontSize: 24.sp),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
