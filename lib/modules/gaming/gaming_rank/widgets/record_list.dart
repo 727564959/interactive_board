@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../mirra_style.dart';
 import '../logic.dart';
+
+String getDeviceName(int position) {
+  final char = ascii.decode([0x40 + (position + 1) ~/ 2]);
+  return "Device $char${(position + 1) % 2 + 1}";
+}
 
 class RecordList extends StatelessWidget {
   RecordList({Key? key}) : super(key: key);
@@ -19,6 +26,7 @@ class RecordList extends StatelessWidget {
         score: item.score,
         avatarUrl: item.player.avatarUrl,
         playerId: item.player.id,
+        position: item.player.position,
       );
       children.add(widget);
     }
@@ -34,6 +42,7 @@ class _RecordItem extends StatelessWidget {
     required this.avatarUrl,
     required this.nickname,
     required this.playerId,
+    required this.position,
   }) : super(key: key);
 
   final int rank;
@@ -41,6 +50,7 @@ class _RecordItem extends StatelessWidget {
   final String avatarUrl;
   final String nickname;
   final int playerId;
+  final int position;
   final logic = Get.find<GamingRankLogic>();
 
   Color get backgroundColor {
@@ -70,15 +80,28 @@ class _RecordItem extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: 500.w,
+            width: 350.w,
             child: Text(
               "$rank    $nickname",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: CustomTextStyles.notice(color: const Color(0xff272727), fontSize: 25.sp),
             ),
           ),
-          Text(
-            "$score",
-            style: CustomTextStyles.title5(color: const Color(0xff272727), fontSize: 32.sp),
+          SizedBox(
+            width: 250.w,
+            child: Text(
+              getDeviceName(position),
+              style: CustomTextStyles.notice(color: const Color(0xff272727), fontSize: 25.sp),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              "$score",
+              maxLines: 1,
+              textAlign: TextAlign.right,
+              style: CustomTextStyles.title5(color: const Color(0xff272727), fontSize: 32.sp),
+            ),
           ),
         ],
       ),

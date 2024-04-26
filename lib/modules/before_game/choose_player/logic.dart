@@ -15,7 +15,7 @@ class ChoosePlayerLogic extends GetxController {
   final playerApi = PlayerApi();
   List<PlayerInfo> players = [];
   ShowState get showState => Get.arguments;
-
+  String get game => (showState.details as GamingDetails).game;
   Timer? _timer;
   int get showId => showState.showId!;
   GamingDetails get showInfo => showState.details;

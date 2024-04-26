@@ -12,7 +12,7 @@ class Leaderboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(minHeight: 0.45.sh),
-      width: 800.w,
+      width: 900.w,
       padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 50.w, bottom: 60.w),
       decoration: const BoxDecoration(
         color: Color(0xff5E6F96),

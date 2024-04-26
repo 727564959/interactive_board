@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:interactive_board/mirra_style.dart';
 
 String getDeviceName(int position) {
@@ -16,27 +18,16 @@ class PlayerCard extends StatelessWidget {
     required this.nickname,
     required this.width,
     this.position,
+    this.bMask = false,
   }) : super(key: key);
   final String? avatarUrl;
   final String nickname;
   final double width;
   final int? position;
+  final bool bMask;
   @override
   Widget build(BuildContext context) {
-    late final Widget avatarImage;
     late final Widget bottomLabel;
-    if (avatarUrl == null) {
-      avatarImage = SizedBox(
-        width: width,
-        height: width,
-        child: Image.asset(
-          MirraIcons.getGameShowIconPath("avatar_placeholder1.png"),
-          fit: BoxFit.fill,
-        ),
-      );
-    } else {
-      avatarImage = _PlayerAvatar(avatarUrl: avatarUrl!, width: width);
-    }
     if (position == null) {
       bottomLabel = Padding(
         padding: EdgeInsets.only(top: 7.w, bottom: 15.w),
@@ -54,9 +45,11 @@ class PlayerCard extends StatelessWidget {
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Text(
             nickname,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: CustomTextStyles.title5(
               color: Colors.black,
-              fontSize: 32.sp,
+              fontSize: 30.sp,
             ),
           ),
           Transform.translate(
@@ -80,47 +73,50 @@ class PlayerCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            avatarImage,
+            SizedBox(
+              width: width,
+              height: width,
+              child: Stack(
+                children: [
+                  SizedBox(
+                    width: width,
+                    height: width,
+                    child: Image.asset(
+                      MirraIcons.getGameShowIconPath("player_card_bg.png"),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  if (avatarUrl != null)
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: CachedNetworkImage(
+                        fadeInDuration: 0.ms,
+                        imageUrl: avatarUrl!,
+                        height: width,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                  if (avatarUrl == null)
+                    Align(
+                      alignment: Alignment.center,
+                      child: Image.asset(
+                        MirraIcons.getGameShowIconPath("player_add1.png"),
+                        width: 50.w,
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  if (bMask)
+                    Container(
+                      width: width,
+                      height: width,
+                      color: const Color(0x907B7B7B),
+                    )
+                ],
+              ),
+            ),
             bottomLabel,
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _PlayerAvatar extends StatelessWidget {
-  const _PlayerAvatar({
-    Key? key,
-    required this.avatarUrl,
-    required this.width,
-  }) : super(key: key);
-  final String avatarUrl;
-  final double width;
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: width,
-      child: Stack(
-        children: [
-          SizedBox(
-            width: width,
-            height: width,
-            child: Image.asset(
-              MirraIcons.getGameShowIconPath("player_card_bg.png"),
-              fit: BoxFit.fill,
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Image.network(
-              avatarUrl,
-              width: width,
-              fit: BoxFit.fitWidth,
-            ),
-          ),
-        ],
       ),
     );
   }

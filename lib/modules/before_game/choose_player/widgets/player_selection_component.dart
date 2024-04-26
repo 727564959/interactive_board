@@ -16,22 +16,23 @@ class EventModeContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         PlayerTargetCard(position: position),
-        const SizedBox(width: 50),
+        SizedBox(width: 30.w),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "1 Player",
+              logic.game,
               style: CustomTextStyles.display1(
                 color: Colors.white,
                 fontSize: 90.sp,
               ),
             ),
+            SizedBox(height: 20.w),
             Text(
-              "   in This Round",
+              "   1 Player in This Round",
               style: CustomTextStyles.display2(
                 color: Colors.white,
-                fontSize: 70.sp,
+                fontSize: 60.sp,
               ),
             )
           ],
@@ -56,22 +57,23 @@ class NormalModeContent extends StatelessWidget {
           child: PlayerTargetCard(position: position1),
         ),
         PlayerTargetCard(position: position2),
-        const SizedBox(width: 50),
+        SizedBox(width: 30.w),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "2 Player",
+              logic.game,
               style: CustomTextStyles.display1(
                 color: Colors.white,
-                fontSize: 90.sp,
+                fontSize: 75.sp,
               ),
             ),
+            SizedBox(height: 20.w),
             Text(
-              "   in This Round",
+              "   2 Player in This Round",
               style: CustomTextStyles.display2(
                 color: Colors.white,
-                fontSize: 70.sp,
+                fontSize: 60.sp,
               ),
             )
           ],
