@@ -8,6 +8,7 @@ import '../../../mirra_style.dart';
 
 import '../../../widgets/mirra_app_bar.dart';
 import '../choose_player/logic.dart';
+import 'mask_player_card.dart';
 
 class ConfirmSelectionPage extends StatefulWidget {
   const ConfirmSelectionPage({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class _ConfirmSelectionPageState extends State<ConfirmSelectionPage> {
       playerCards.add(
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: PlayerCard(
+          child: MaskPlayerCard(
             avatarUrl: player.avatarUrl,
             nickname: player.nickname,
             position: position,
@@ -138,7 +139,7 @@ class _CountDownTitle extends StatelessWidget {
         children: [
           Image.asset(
             MirraIcons.getGifPath('vr_preparing.gif'),
-            width: 300.w,
+            width: 150.w,
             fit: BoxFit.fitWidth,
           ),
           Text(

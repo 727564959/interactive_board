@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,6 +31,11 @@ class Global {
   static get team => (_tableId ?? 0) < 3 ? 0 : 1;
   static String getAssetImageUrl(String filename) {
     return team == 0 ? "assets/images/team_wolf/$filename" : "assets/images/team_shark/$filename";
+  }
+
+  static String getDeviceName(int position) {
+    final char = ascii.decode([0x40 + (position + 1) ~/ 2]);
+    return "Device $char${(position + 1) % 2 + 1}";
   }
 
   static OverlayEntry? _entry;

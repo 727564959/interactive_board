@@ -4,12 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:interactive_board/common.dart';
 import 'package:interactive_board/mirra_style.dart';
-
-String getDeviceName(int position) {
-  final char = ascii.decode([0x40 + (position + 1) ~/ 2]);
-  return "Device $char${(position + 1) % 2 + 1}";
-}
 
 class PlayerCard extends StatelessWidget {
   const PlayerCard({
@@ -18,21 +14,55 @@ class PlayerCard extends StatelessWidget {
     required this.nickname,
     required this.width,
     this.position,
-    this.bMask = false,
+    this.labelColor,
   }) : super(key: key);
-  final String? avatarUrl;
+  final String avatarUrl;
   final String nickname;
   final double width;
   final int? position;
-  final bool bMask;
+  final Color? labelColor;
+  @override
+  Widget build(BuildContext context) {
+    return AvatarCard(
+      labelColor: labelColor ?? const Color(0xfff0f0f0),
+      title: nickname,
+      subTitle: position == null ? null : Global.getDeviceName(position!),
+      width: width,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: CachedNetworkImage(
+          fadeInDuration: 0.ms,
+          imageUrl: avatarUrl,
+          height: width,
+          fit: BoxFit.fitHeight,
+        ),
+      ),
+    );
+  }
+}
+
+class AvatarCard extends StatelessWidget {
+  const AvatarCard(
+      {Key? key,
+      required this.child,
+      required this.labelColor,
+      required this.title,
+      this.subTitle,
+      required this.width})
+      : super(key: key);
+  final Widget child;
+  final Color labelColor;
+  final String title;
+  final String? subTitle;
+  final double width;
   @override
   Widget build(BuildContext context) {
     late final Widget bottomLabel;
-    if (position == null) {
+    if (subTitle == null) {
       bottomLabel = Padding(
         padding: EdgeInsets.only(top: 7.w, bottom: 15.w),
         child: Text(
-          nickname,
+          title,
           style: CustomTextStyles.title5(
             color: Colors.black,
             fontSize: 32.sp,
@@ -44,7 +74,7 @@ class PlayerCard extends StatelessWidget {
         padding: EdgeInsets.only(top: 7.w, bottom: 10.w),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Text(
-            nickname,
+            title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: CustomTextStyles.title5(
@@ -55,7 +85,7 @@ class PlayerCard extends StatelessWidget {
           Transform.translate(
             offset: const Offset(0, -5),
             child: Text(
-              getDeviceName(position!),
+              subTitle!,
               style: CustomTextStyles.title6(
                 color: const Color(0xff5a5858),
                 fontSize: 23.sp,
@@ -69,7 +99,7 @@ class PlayerCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: Container(
         width: width,
-        color: const Color(0xfff0f0f0),
+        color: labelColor,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -86,31 +116,7 @@ class PlayerCard extends StatelessWidget {
                       fit: BoxFit.fill,
                     ),
                   ),
-                  if (avatarUrl != null)
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: CachedNetworkImage(
-                        fadeInDuration: 0.ms,
-                        imageUrl: avatarUrl!,
-                        height: width,
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                  if (avatarUrl == null)
-                    Align(
-                      alignment: Alignment.center,
-                      child: Image.asset(
-                        MirraIcons.getGameShowIconPath("player_add1.png"),
-                        width: 50.w,
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                  if (bMask)
-                    Container(
-                      width: width,
-                      height: width,
-                      color: const Color(0x907B7B7B),
-                    )
+                  child,
                 ],
               ),
             ),

@@ -49,7 +49,7 @@ class ChoosePlayerLogic extends GetxController {
       if (optionalPositions[position]?.id == player.id) return;
       optionalPositions[position] = player;
       update();
-      setDelayJump();
+      resetJumpTimer();
     });
 
     positionSocket.on('position_remove', (data) {
@@ -58,7 +58,7 @@ class ChoosePlayerLogic extends GetxController {
       if (optionalPositions[position] == null) return;
       optionalPositions[position] = null;
       update();
-      _timer?.cancel();
+      resetJumpTimer();
     });
     positionSocket.connect();
 
@@ -74,9 +74,9 @@ class ChoosePlayerLogic extends GetxController {
     updateAllPositions();
   }
 
-  void setDelayJump() {
-    if (!bSelectComplete) return;
+  void resetJumpTimer() {
     _timer?.cancel();
+    if (!bSelectComplete) return;
     _timer = Timer(3.seconds, () {
       Get.to(() => const ConfirmSelectionPage());
     });
@@ -90,7 +90,7 @@ class ChoosePlayerLogic extends GetxController {
       optionalPositions[item.position] = item.player;
     }
     update();
-    setDelayJump();
+    resetJumpTimer();
   }
 
   @override
@@ -108,7 +108,7 @@ class ChoosePlayerLogic extends GetxController {
       optionalPositions[position] = player;
       selectedPosition = null;
       update();
-      setDelayJump();
+      resetJumpTimer();
     } on StateError {
       return;
     } on DioException {
@@ -120,7 +120,7 @@ class ChoosePlayerLogic extends GetxController {
     optionalPositions[position] = null;
     try {
       await playerApi.updatePosition(showInfo.roundId, position, null);
-      _timer?.cancel();
+      resetJumpTimer();
       update();
     } on DioException {
       updateAllPositions();
@@ -129,13 +129,14 @@ class ChoosePlayerLogic extends GetxController {
 
   void showBottomBar(int position) {
     selectedPosition = position;
-    _timer?.cancel();
+    removePlayer(position);
+    resetJumpTimer();
     update();
   }
 
   void dismissBottomBar() {
     selectedPosition = null;
-    setDelayJump();
+    resetJumpTimer();
     update();
   }
 }
