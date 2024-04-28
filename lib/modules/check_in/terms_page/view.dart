@@ -157,7 +157,8 @@ class _AgreeButton extends StatelessWidget {
         print("object ${isAddPlayerClick}");
         // 是新增点击则去新增页面，反之去选桌
         if(isAddPlayerClick) {
-          Get.offAll(() => AddPlayerPage(showInfo: showInfo, customer: customer));
+          // Get.offAll(() => AddPlayerPage(showInfo: showInfo, customer: customer));
+          Get.to(() => AddPlayerPage(showInfo: showInfo, customer: customer));
         }
         else {
           EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
@@ -201,7 +202,6 @@ class _AgreeButton extends StatelessWidget {
   }
 }
 
-// 返回到addPlayer页面
 class _BackButton extends StatelessWidget {
   _BackButton({
     Key? key,
@@ -213,7 +213,6 @@ class _BackButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         Get.back();
-        // Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
       },
       child: Text(
         "BACK",

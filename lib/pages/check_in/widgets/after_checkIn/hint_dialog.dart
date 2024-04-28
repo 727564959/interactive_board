@@ -11,7 +11,7 @@ class HintDialog extends StatelessWidget {
     return Container(
         width: 0.5.sw,
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-        color: Colors.white,
+        color: Color(0xFF5A5858),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           // crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,19 +19,19 @@ class HintDialog extends StatelessWidget {
             Text(
               'Save Your Progress!',
               textAlign: TextAlign.center,
-              style: CustomTextStyles.notice(color: Colors.black, fontSize: 48.sp),
+              style: CustomTextStyles.notice(color: Colors.white, fontSize: 48.sp),
             ),
             SizedBox(height: 50,),
             Text(
               'Want to keep your avatar and achievements?',
               textAlign: TextAlign.center,
-              style: CustomTextStyles.notice(color: Colors.black, fontSize: 30.sp),
+              style: CustomTextStyles.notice(color: Colors.white, fontSize: 30.sp),
             ),
             SizedBox(height: 10,),
             Text(
               'Sign up for a free account and never lose them!',
               textAlign: TextAlign.center,
-              style: CustomTextStyles.notice(color: Colors.black, fontSize: 30.sp),
+              style: CustomTextStyles.notice(color: Colors.white, fontSize: 30.sp),
             ),
             SizedBox(height: 50,),
             _BottomBtns(),

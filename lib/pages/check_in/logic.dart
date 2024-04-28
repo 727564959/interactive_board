@@ -148,12 +148,24 @@ class CheckInLogic extends GetxController {
   void updateHeadgearPageFun() {
     if(!isClickCard) {
       isClickCard = true;
+      Future.delayed(1.2.seconds).then((value) async {
+        // 刷新当前页面
+        update(['treasureChest']);
+      });
     }
     else {
       isClickCard = false;
+      // 刷新当前页面
+      update(['treasureChest']);
     }
-    // 刷新当前页面
-    update(['treasureChest']);
+    // if(!isClickCard) {
+    //   isClickCard = true;
+    // }
+    // else {
+    //   isClickCard = false;
+    // }
+    // // 刷新当前页面
+    // update(['treasureChest']);
   }
 
   // 爆宝箱头套方法

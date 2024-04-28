@@ -131,6 +131,7 @@ class SetAvatarLogic extends GetxController {
     // await Future.delayed(100.ms);
     print("需要展示的玩家ID: $newAddUser");
     print("需要展示的玩家ID: ${newAddUser.userId}");
+    print("状态值ID: ${newAddUser.status}");
     userList = await setAvatarApi.fetchUsers(newAddUser.showId ?? 1);
     print("当桌的所有用户: ${userList}");
     avatarInfo = await setAvatarApi.fetchAvatars();

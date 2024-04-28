@@ -13,14 +13,24 @@ import '../../mirra_style.dart';
 import '../../pages/check_in/logic.dart';
 import '../../pages/check_in/widgets/after_checkIn/player_info_show.dart';
 import '../../widgets/check_in_title.dart';
+import '../check_in/data/booking.dart';
+import '../check_in/data/show.dart';
+import '../check_in/player_page/view.dart';
 import 'data/setAvatar_api.dart';
 import 'logic.dart';
 import 'widgets/avatar_design.dart';
 import 'widgets/avatar_model.dart';
 
 class AvatarDesignPage extends StatelessWidget {
-  AvatarDesignPage({Key? key}) : super(key: key);
-  final logic = Get.find<SetAvatarLogic>();
+  AvatarDesignPage({
+    Key? key,
+    this.showInfo,
+    this.customer,
+  }) : super(key: key);
+  final ShowInfo? showInfo;
+  final Customer? customer;
+  // final logic = Get.find<SetAvatarLogic>();
+  final logic = Get.put(SetAvatarLogic());
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +56,7 @@ class AvatarDesignPage extends StatelessWidget {
                             // 顶部文本信息
                             CheckInTitlePage(titleText: "Mirra Look"),
                             // 中间的用户信息和avatar信息
-                            _SetAvatarContent(),
+                            _SetAvatarContent(showInfo: showInfo, customer: customer),
                             // 底部的功能按钮
                             // _SetAvatarBtnInfo(),
                           ],
@@ -127,7 +137,11 @@ class AvatarDesignPage extends StatelessWidget {
 class _SetAvatarContent extends StatelessWidget {
   const _SetAvatarContent({
     Key? key,
+    this.showInfo,
+    this.customer,
   }) : super(key: key);
+  final ShowInfo? showInfo;
+  final Customer? customer;
   @override
   Widget build(BuildContext context) {
     final content = SizedBox(
@@ -253,7 +267,7 @@ class _SetAvatarContent extends StatelessWidget {
                   child: Column(
                     children: [
                       AvatarDesign(),
-                      _SaveAndBackButton(width: 384.w)
+                      _SaveAndBackButton(width: 384.w, showInfo: showInfo, customer: customer)
                     ],
                   ),
                 ),
@@ -469,11 +483,13 @@ class _SaveAndBackButton extends StatelessWidget {
   _SaveAndBackButton({
     Key? key,
     required this.width,
+    this.showInfo,
+    this.customer,
   }) : super(key: key);
   final double width;
+  final ShowInfo? showInfo;
+  final Customer? customer;
   final logic = Get.find<SetAvatarLogic>();
-  String get backgroundUri => Global.getSetAvatarImageUrl("save_and_back_btn.png");
-
   final testTabId = Global.tableId;
 
   final setAvatarApi = SetAvatarApi();
@@ -483,17 +499,18 @@ class _SaveAndBackButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        int num2 = int.parse(logic.headId.toString());
-        print("num2：$num2");
-        print("currentNickName：${logic.currentNickName}");
-        print("showState：${Get.arguments}");
-        print("logic.singlePlayer：${logic.singlePlayer['id']}");
-        print("logic.currentIsMale：${logic.currentIsMale}");
+        // int num2 = int.parse(logic.headId.toString());
+        // print("num2：$num2");
+        // print("currentNickName：${logic.currentNickName}");
+        // print("showState：${Get.arguments}");
+        // print("logic.singlePlayer：${logic.singlePlayer['id']}");
+        // print("logic.currentIsMale：${logic.currentIsMale}");
+        //
+        // // await setAvatarApi.updatePlayer(logic.singlePlayer['id'],
+        // //     logic.currentNickName, num2, logic.currentIsMale ? 10 : 11);
+        // await setAvatarApi.updatePlayer(
+        //     logic.singlePlayer['id'], logic.currentNickName, num2, int.parse(logic.currentIsMale));
 
-        // await setAvatarApi.updatePlayer(logic.singlePlayer['id'],
-        //     logic.currentNickName, num2, logic.currentIsMale ? 10 : 11);
-        await setAvatarApi.updatePlayer(
-            logic.singlePlayer['id'], logic.currentNickName, num2, int.parse(logic.currentIsMale));
         // Map<String, dynamic> jsonObj = {
         //   "userId": logic.singlePlayer['id'],
         //   "showId": logic.newAddUser.showId,
@@ -503,9 +520,20 @@ class _SaveAndBackButton extends StatelessWidget {
         // print("参数：${Get.arguments}");
         // logic.updateUserList(int.parse(logic.newAddUser.showId.toString()));
 
-        Get.find<CheckInLogic>().updateUserList(int.parse(logic.newAddUser.showId.toString()));
-        Get.find<CheckInLogic>().updatePlayer(logic.newAddUser.userId.toString());
-        Get.to(() => PlayerInfoShow(), arguments: await setAvatarApi.fetchShowState());
+        if(Get.isRegistered<CheckInLogic>()) {
+          Get.find<CheckInLogic>().updateUserList(int.parse(logic.newAddUser.showId.toString()));
+          Get.find<CheckInLogic>().updatePlayer(logic.newAddUser.userId.toString());
+        }
+        if(logic.newAddUser.status == null && showInfo != null && customer != null) {
+          Get.to(() => PlayerInfoDeskShow(showInfo: showInfo!, customer: customer!), arguments: showInfo);
+        }
+        else {
+          Get.to(() => PlayerInfoShow(), arguments: await setAvatarApi.fetchShowState());
+        }
+
+        // Get.find<CheckInLogic>().updateUserList(int.parse(logic.newAddUser.showId.toString()));
+        // Get.find<CheckInLogic>().updatePlayer(logic.newAddUser.userId.toString());
+        // Get.to(() => PlayerInfoShow(), arguments: await setAvatarApi.fetchShowState());
       },
       child: GetBuilder<SetAvatarLogic>(
         id: "saveAndBackBtn",
@@ -525,16 +553,6 @@ class _SaveAndBackButton extends StatelessWidget {
               ),
             ),
           );
-          // return Container(
-          //   height: 100.sh,
-          //   width: width,
-          //   decoration: BoxDecoration(
-          //     image: DecorationImage(
-          //       image: AssetImage(backgroundUri),
-          //       fit: BoxFit.fitWidth,
-          //     ),
-          //   ),
-          // );
         },
       ),
     );

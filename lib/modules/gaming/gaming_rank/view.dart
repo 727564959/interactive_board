@@ -57,7 +57,7 @@ class _MirraLookButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () async {
-        await Get.offNamed(AppRoutes.checkIn, arguments: Get.arguments);
+        await Get.toNamed(AppRoutes.checkIn, arguments: Get.arguments);
       },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(const Color(0xff13efef)),

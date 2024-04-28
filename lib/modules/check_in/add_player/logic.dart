@@ -88,4 +88,30 @@ class AddPlayerLogic extends GetxController {
     await _dio.post("$baseApiUrl/shows/$showId/player-joined", data: result);
     print("哈哈哈哈哈 $result");
   }
+
+  // 查询并清理头套
+  Future<Map> fetchHeadgearInfo(int userId) async {
+    print("爆头套需要的userId $userId");
+    final response = await _dio.post("$baseApiUrl/players/$userId/headgear-acquisition-event", data: {});
+    print("爆头套 $response");
+
+    Map<String, dynamic> result = response.data;
+    // Map<String, dynamic> result = {
+    //   "itemInfo": {
+    //     "id": 22,
+    //     "name": "LowPoly_Dragn",
+    //     "type": "headgear",
+    //     "level": 1,
+    //     "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
+    //   }
+    //   // "itemInfo": {
+    //   //   "id": 20,
+    //   //   "name": "Food_Burger",
+    //   //   "type": "headgear",
+    //   //   "level": 1,
+    //   //   "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+    //   // }
+    // };
+    return result;
+  }
 }

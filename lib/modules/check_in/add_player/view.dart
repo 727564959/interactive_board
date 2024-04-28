@@ -11,6 +11,7 @@ import '../../../../widgets/check_in_title.dart';
 import '../../../mirra_style.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
+import '../headgear_acquisition/view.dart';
 import '../player_page/logic.dart';
 import '../player_page/view.dart';
 import 'birthday_page.dart';
@@ -513,10 +514,20 @@ class _MaybeLatterButton extends StatelessWidget {
         Map skipUserInfo = await logic.addSkipPlayer();
         // 加入到show
         await logic.addPlayerToShow(showInfo.showId, Global.tableId, skipUserInfo['userId']);
-        if(Get.isRegistered<PlayerShowLogic>()) {
-          Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
+        Map headgearObj = await logic.fetchHeadgearInfo(skipUserInfo['userId']);
+        if(headgearObj.isEmpty) {
+          if(Get.isRegistered<PlayerShowLogic>()) {
+            Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
+          }
+          Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
         }
-        Get.to(() => PlayerInfoShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+        else {
+          await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: skipUserInfo['userId']));
+        }
+        // if(Get.isRegistered<PlayerShowLogic>()) {
+        //   Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
+        // }
+        // Get.to(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
       },
       child: GetBuilder<AddPlayerLogic>(
         id: "maybeLatterBtn",

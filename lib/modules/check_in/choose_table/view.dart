@@ -9,6 +9,7 @@ import '../../../mirra_style.dart';
 import '../complete_page/view.dart';
 import '../data/show.dart';
 import '../data/booking.dart';
+import '../headgear_acquisition/view.dart';
 import '../player_page/view.dart';
 import 'logic.dart';
 import '../../../common.dart';
@@ -133,7 +134,6 @@ class ChooseTablePage extends StatelessWidget {
                         status: "waiting...",
                         maskType: EasyLoadingMaskType.black);
                     try {
-                      // Global.tableId = logic.selectedTableId!;
                       Global.setTableId(logic.selectedTableId!);
                       final userId = await logic.loginInOrRegister(
                         name: customer.name,
@@ -159,18 +159,31 @@ class ChooseTablePage extends StatelessWidget {
                       //   ),
                       //   preventDuplicates: false,
                       // );
-                      Get.offAll(() => PlayerInfoShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+
+                      Map headgearObj = await logic.fetchHeadgearInfo(userId);
+                      print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
+                      if(headgearObj.isEmpty) {
+                        Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+                      }
+                      else {
+                        await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId));
+                      }
+                      // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
                     } on DioException catch (e) {
                       EasyLoading.dismiss();
+
                       // print("测试测试测试 ${logic.selectedTableId}");
                       // Global.setTableId(logic.selectedTableId!);
                       // print("哈哈哈哈哈 ${Global.tableId}");
-                      // await Get.to(
-                      //       () => PlayerInfoShow(
-                      //       showInfo: showInfo,
-                      //       customer: customer,
-                      //   ),
-                      // );
+                      // Map headgearObj = await logic.fetchHeadgearInfo(279);
+                      // print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
+                      // if(headgearObj.isEmpty) {
+                      //   Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+                      // }
+                      // else {
+                      //   await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: 279));
+                      // }
+
                       if (e.response == null)
                         EasyLoading.showError("Network Error!");
                       EasyLoading.showError(

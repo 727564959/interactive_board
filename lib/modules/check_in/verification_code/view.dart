@@ -63,6 +63,8 @@ class VerificationPage extends StatelessWidget {
                       ),
                     );
                   } on DioException catch (e) {
+                    EasyLoading.dismiss();
+
                     // String jsonString = '''
                     //     {
                     //       "booking": {
@@ -78,13 +80,13 @@ class VerificationPage extends StatelessWidget {
                     //   ''';
                     // Map<String, dynamic> jsonData = json.decode(jsonString);
                     // BookingInfo bookingInfoTest = BookingInfo.fromJson(jsonData);
-                    EasyLoading.dismiss();
                     // await Get.offAll(
                     //       () => ConfirmationPage(
                     //     bookingInfo: bookingInfoTest,
                     //     code: code,
                     //   ),
                     // );
+
                     if (e.response == null) EasyLoading.showError("Network Error!");
                     EasyLoading.showError(e.response?.data["error"]["message"]);
                   }

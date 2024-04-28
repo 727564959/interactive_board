@@ -12,6 +12,31 @@ class ChooseTableLogic extends GetxController {
     update();
   }
 
+  // 查询并清理头套
+  Future<Map> fetchHeadgearInfo(int userId) async {
+    final response = await _dio.post("$baseApiUrl/players/$userId/headgear-acquisition-event", data: {});
+    print("爆头套 $response");
+
+    Map<String, dynamic> result = response.data;
+    // Map<String, dynamic> result = {
+    //             "itemInfo": {
+    //                 "id": 22,
+    //                 "name": "LowPoly_Dragn",
+    //                 "type": "headgear",
+    //                 "level": 1,
+    //                 "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
+    //               }
+    //               // "itemInfo": {
+    //               //   "id": 20,
+    //               //   "name": "Food_Burger",
+    //               //   "type": "headgear",
+    //               //   "level": 1,
+    //               //   "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+    //               // }
+    //             };
+    return result;
+  }
+
   Future<int> loginInOrRegister({
     required String name,
     required String email,

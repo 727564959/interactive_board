@@ -8,7 +8,7 @@ class NewAddUser {
   });
   final int? userId;
   final int? showId;
-  final String status;
+  final String? status;
 
   factory NewAddUser.fromJson(Map<String, dynamic> json) {
     return NewAddUser(
@@ -17,9 +17,4 @@ class NewAddUser {
       status: json['status'],
     );
   }
-  // Map<String, dynamic> toJson() => {
-  //   'userId': userId,
-  //   'showId': showId,
-  //   'status': status,
-  // };
 }

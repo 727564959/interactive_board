@@ -9,6 +9,7 @@ import '../../../../widgets/check_in_title.dart';
 import '../../../mirra_style.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
+import '../headgear_acquisition/view.dart';
 import '../player_page/logic.dart';
 import '../player_page/view.dart';
 import 'logic.dart';
@@ -264,6 +265,15 @@ class _AddBirthdayButton extends StatelessWidget {
             await logic.addPlayerToShow(
                 showInfo.showId, Global.tableId, addUserInfo['userId']);
             print("参数 ${addUserInfo['userId']}");
+            Map headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
+            if(headgearObj.isEmpty) {
+              Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+            }
+            else {
+              await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: addUserInfo['userId']));
+            }
+            // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+
             // Map<String, dynamic> jsonObj = {
             //   "userId": addUserInfo['userId'],
             //   "showId": Get.arguments.showId,
@@ -279,7 +289,7 @@ class _AddBirthdayButton extends StatelessWidget {
             // if(Get.isRegistered<PlayerShowLogic>()) {
             //   Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
             // }
-            Get.offAll(() => PlayerInfoShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+
             // await Get.offAll(
             //   () => PlayerInfoShow(
             //     showInfo: showInfo,
@@ -298,7 +308,15 @@ class _AddBirthdayButton extends StatelessWidget {
             // 加入到show
             // await logic.addPlayerToShow(13, Global.tableId, checkingUser['userId']);
 
-            Get.offAll(() => PlayerInfoShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+            Map headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
+            if(headgearObj.isEmpty) {
+              Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+            }
+            else {
+              await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: checkingUser['userId']));
+            }
+            // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+
             // if(Get.isRegistered<PlayerShowLogic>()) {
             //   Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
             // }
@@ -338,13 +356,7 @@ class _AddBirthdayButton extends StatelessWidget {
           child: Text(
             "NEXT",
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 35.sp,
-              decoration: TextDecoration.none,
-              fontFamily: 'BurbankBold',
-              color: Color(0xff000000),
-              letterSpacing: 3.sp,
-            ),
+            style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
           ),
         ),
       ),

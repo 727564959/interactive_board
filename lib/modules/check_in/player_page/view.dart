@@ -7,14 +7,16 @@ import '../../../../app_routes.dart';
 import '../../../../common.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/check_in_title.dart';
+import '../../set_avatar/logic.dart';
+import '../../set_avatar/view.dart';
 import '../complete_page/view.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../terms_page/view.dart';
 import 'logic.dart';
 
-class PlayerInfoShow extends StatelessWidget {
-  PlayerInfoShow({
+class PlayerInfoDeskShow extends StatelessWidget {
+  PlayerInfoDeskShow({
     Key? key,
     required this.showInfo,
     required this.customer,
@@ -67,12 +69,17 @@ class PlayerInfoShow extends StatelessWidget {
                       builder: (logic) {
                         return Column(
                           children: [
-                            _NicknameArea(),
+                            _NicknameArea(showInfo: showInfo, customer: customer),
                             Column(
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(top: 20.0, left: 0.0, right: 0.56.sw),
                                   child: _AddPlayerButton(width: 432.w, showInfo: showInfo, customer: customer),
+                                ),
+                                Container(
+                                  constraints: BoxConstraints.tightFor(width: 0.78.sw),
+                                  margin: EdgeInsets.only(top: 20.0, left: 0.0),
+                                  child: _NextButton(showInfo: showInfo, customer: customer),
                                 ),
                               ],
                             ),
@@ -119,7 +126,11 @@ class PlayerInfoShow extends StatelessWidget {
 class _NicknameArea extends StatelessWidget {
   _NicknameArea({
     Key? key,
+    required this.showInfo,
+    required this.customer,
   }) : super(key: key);
+  final ShowInfo showInfo;
+  final Customer customer;
   final logic = Get.find<PlayerShowLogic>();
 
   Color get color {
@@ -150,9 +161,6 @@ class _NicknameArea extends StatelessWidget {
         id: "nicknameArea",
         builder: (logic) {
           return Container(
-            // decoration: BoxDecoration(
-            //   color: Colors.red,
-            // ),
             margin: EdgeInsets.only(top: 50.0, left: 0.0, right: 0.0),
             constraints: BoxConstraints.tightFor(width: 0.78.sw), //卡片大小
             child: Wrap(
@@ -162,7 +170,7 @@ class _NicknameArea extends StatelessWidget {
               runSpacing: 20,
               alignment: WrapAlignment.start, //沿主轴方向居中
               // crossAxisAlignment: WrapCrossAlignment.start,
-              children: List.generate(logic.casualUser.length, (index) => getItem(index, color)),
+              children: List.generate(logic.casualUser.length, (index) => getItem(index, color, showInfo, customer)),
             ),
           );
         },
@@ -172,7 +180,7 @@ class _NicknameArea extends StatelessWidget {
 }
 
 // 获取子项目
-Widget getItem(int index, Color color) {
+Widget getItem(int index, Color color, ShowInfo? showInfo, Customer? customer) {
   final logic = Get.find<PlayerShowLogic>();
 
   var item = logic.casualUser[index % logic.casualUser.length];
@@ -192,21 +200,21 @@ Widget getItem(int index, Color color) {
         borderRadius: BorderRadius.circular(2.0),
       ),
       onPressed: () async {
-        // print("点击 ${item.userId}");
-        // print("参数 ${Get.arguments}");
-        // Map<String, dynamic> jsonObj = {
-        //   "userId": item.userId,
-        //   "showId": Get.arguments.showId,
-        //   "status": Get.arguments.status.toString()
-        // };
-        // print("参数 ${jsonObj}");
-        // print("object ${Get.isRegistered<SetAvatarLogic>()}");
-        // if(Get.isRegistered<SetAvatarLogic>()) {
-        //   Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
-        //   await Future.delayed(100.ms);
-        //   Get.find<SetAvatarLogic>().updatePlayer(item.id);
-        //   Get.find<SetAvatarLogic>().explosiveChestFun(item.id);
-        // }
+        print("点击 ${item.userId}");
+        print("参数 ${Get.arguments}");
+        Map<String, dynamic> jsonObj = {
+          "userId": item.userId,
+          "showId": Get.arguments.showId,
+        };
+        print("参数 ${jsonObj}");
+        print("object ${Get.isRegistered<SetAvatarLogic>()}");
+        if(Get.isRegistered<SetAvatarLogic>()) {
+          Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
+          await Future.delayed(100.ms);
+          Get.find<SetAvatarLogic>().updatePlayer(item.userId.toString());
+          Get.find<SetAvatarLogic>().explosiveChestFun(item.userId);
+        }
+        Get.offAll(() => AvatarDesignPage(showInfo: showInfo, customer: customer,), arguments: jsonObj);
         // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
       });
 }
@@ -256,6 +264,37 @@ class _AddPlayerButton extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _NextButton extends StatelessWidget {
+  _NextButton({
+    Key? key,
+    required this.showInfo,
+    required this.customer,
+  }) : super(key: key);
+  final ShowInfo showInfo;
+  final Customer customer;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        await Get.to(
+              () => CompletePage(
+            tableId: Global.tableId!,
+            startTime: showInfo.startTime,
+            customer: customer,
+          ),
+          preventDuplicates: false,
+        );
+      },
+      child: Text(
+        "BACK",
+        style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
       ),
     );
   }

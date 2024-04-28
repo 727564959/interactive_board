@@ -10,24 +10,38 @@ import 'package:intl/intl.dart';
 import '../../../../app_routes.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
-import '../../../../modules/set_avatar/logic.dart';
-import '../../../../widgets/check_in_title.dart';
+import '../../set_avatar/logic.dart';
+import '../../set_avatar/view.dart';
+import '../data/booking.dart';
+import '../data/show.dart';
+import '../player_page/view.dart';
+import 'logic.dart';
 
-class TreasureChestPage extends StatelessWidget {
-  TreasureChestPage({Key? key, required this.playerId}) : super(key: key);
-  final int playerId;
-  final logic = Get.find<CheckInLogic>();
+class HeadgearAcquisitionPage extends StatelessWidget {
+  HeadgearAcquisitionPage({
+    Key? key,
+    required this.showInfo,
+    required this.customer,
+    required this.headgearObj,
+    required this.userId,
+  }) : super(key: key);
+  final ShowInfo showInfo;
+  final Customer customer;
+  final Map headgearObj;
+  final int userId;
+
+  final logic = Get.put(HeadgearAcquisitionLogic());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
           children: [
-            GetBuilder<CheckInLogic>(
-              id: "treasureChest",
-              builder: (logic) {
-                return _TreasureChestWidget(playerId: playerId);
-              }
+            GetBuilder<HeadgearAcquisitionLogic>(
+                id: "headgearAcquisitionPage",
+                builder: (logic) {
+                  return _TreasureChestWidget(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId);
+                }
             ),
           ],
         ));
@@ -37,10 +51,16 @@ class TreasureChestPage extends StatelessWidget {
 class _TreasureChestWidget extends StatelessWidget {
   _TreasureChestWidget({
     Key? key,
-    required this.playerId
+    required this.showInfo,
+    required this.customer,
+    required this.headgearObj,
+    required this.userId,
   }) : super(key: key);
-  final int playerId;
-  final logic = Get.find<CheckInLogic>();
+  final ShowInfo showInfo;
+  final Customer customer;
+  final Map headgearObj;
+  final int userId;
+  final logic = Get.find<HeadgearAcquisitionLogic>();
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +95,9 @@ class _TreasureChestWidget extends StatelessWidget {
               ],
             ),
           ),
-          FlipCard(),
+          FlipCard(headgearObj: headgearObj),
           SizedBox(height: 50,),
-          if(logic.isClickCard) _NextButton(width: 600.w,),
+          if(logic.isClickCard) _NextButton(width: 600.w, showInfo: showInfo, customer: customer, userId: userId,),
         ],
       ),
     );
@@ -85,6 +105,9 @@ class _TreasureChestWidget extends StatelessWidget {
 }
 
 class FlipCard extends StatefulWidget {
+  FlipCard({required this.headgearObj});
+  final Map headgearObj;
+
   @override
   _FlipCardState createState() => _FlipCardState();
 }
@@ -92,7 +115,7 @@ class _FlipCardState extends State<FlipCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _rotationAnimation;
-  final logic = Get.find<CheckInLogic>();
+  final logic = Get.find<HeadgearAcquisitionLogic>();
 
   bool _isFrontVisible = true;
   bool _isChangingCardFace = false;
@@ -147,6 +170,8 @@ class _FlipCardState extends State<FlipCard>
 
   @override
   Widget build(BuildContext context) {
+    final headgearObj = widget.headgearObj;
+
     return SizedBox(
       width: 1.0.sw,
       height: 0.6.sh,
@@ -161,7 +186,7 @@ class _FlipCardState extends State<FlipCard>
                 ..setEntry(3, 2, 0.001)
                 ..rotateY(rotationValue * pi)
                 ..scale(_isFrontVisible ? 1.0 : -1.0, 1.0, 1.0),
-              // ..scale(-1.0, 1.0, 1.0), // 添加scale进行水平翻转
+                // ..scale(-1.0, 1.0, 1.0), // 添加scale进行水平翻转
               alignment: Alignment.center,
               child: Container(
                 margin: EdgeInsets.only(top: 0.1.sh),
@@ -171,37 +196,37 @@ class _FlipCardState extends State<FlipCard>
                   fit: BoxFit.contain,
                 )
                     : Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                          Global.getSetAvatarImageUrl('card_bg.png')),
-                      fit: BoxFit.contain,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                Global.getSetAvatarImageUrl('card_bg.png')),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 50.0, left: 10,),
+                              child: CachedNetworkImage(
+                                height: 240,
+                                imageUrl: "$baseStrapiUrl${headgearObj['itemInfo']['icon']}",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(height: 90),
+                            Text(
+                              headgearObj['itemInfo']['name'],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: CustomTextStyles.notice(
+                                color: Color(0xFF000000),
+                                fontSize: 24.sp,
+                              ),
+                            ),
+                          ],
+                        ),
                     ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 50.0, left: 10,),
-                        child: CachedNetworkImage(
-                          height: 240,
-                          imageUrl: "$baseStrapiUrl${logic.headgearObj['itemInfo']['icon']}",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      SizedBox(height: 90),
-                      Text(
-                        logic.headgearObj['itemInfo']['name'],
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: CustomTextStyles.notice(
-                          color: Color(0xFF000000),
-                          fontSize: 24.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ),
             );
           },
@@ -211,14 +236,18 @@ class _FlipCardState extends State<FlipCard>
   }
 }
 
-// 下一步的按钮
 class _NextButton extends StatelessWidget {
   _NextButton({
     Key? key,
     required this.width,
+    required this.showInfo,
+    required this.customer,
+    required this.userId,
   }) : super(key: key);
   final double width;
-  final logic = Get.find<CheckInLogic>();
+  final ShowInfo showInfo;
+  final Customer customer;
+  final int userId;
   final testTabId = Global.tableId;
 
   @override
@@ -226,48 +255,37 @@ class _NextButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        print("用于传递的参数: ${Get.arguments}");
-        // await Get.toNamed(AppRoutes.setAvatar, arguments: Get.arguments);
+        // Get.offAll(() => PlayerInfoShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+        Map<String, dynamic> jsonObj = {
+          "userId": userId,
+          "showId": showInfo.showId,
+          // "status": showInfo.status.toString()
+        };
+        print("用于传递的参数: ${jsonObj}");
         print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
         if(Get.isRegistered<SetAvatarLogic>()) {
-          Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
+          Get.find<SetAvatarLogic>().updateUserList(showInfo.showId);
           await Future.delayed(100.ms);
-          Get.find<SetAvatarLogic>().updatePlayer(Get.arguments['userId'].toString());
-          Get.find<SetAvatarLogic>().explosiveChestFun(Get.arguments['userId'].toString());
+          Get.find<SetAvatarLogic>().updatePlayer(userId.toString());
+          Get.find<SetAvatarLogic>().explosiveChestFun(userId);
         }
-        // // 延迟调用爆宝箱
-        // Future.delayed(0.5.seconds).then((value) {
-        //   logic.gameItemInfo.clear();
-        // }).onError((error, stackTrace) async {
-        //   print("error爆宝箱 $error");
-        // });
-        await Get.toNamed(AppRoutes.setAvatar, arguments: Get.arguments);
+        // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+        Get.offAll(() => AvatarDesignPage(showInfo: showInfo, customer: customer,), arguments: jsonObj);
       },
-      child: GetBuilder<CheckInLogic>(
-        id: "editNextBtn",
-        builder: (logic) {
-          return Container(
-            decoration: BoxDecoration(
-              color: Color(0xff13EFEF),
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-            ),
-            margin: EdgeInsets.only(top: 0.0, left: 0.0),
-            constraints: BoxConstraints.tightFor(width: width * 0.8, height: 80.h),
-            child: Center(
-              child: Text(
-                "Let's Start!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 35.sp,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'BurbankBold',
-                  color: Color(0xff000000),
-                  letterSpacing: 3.sp,
-                ),
-              ),
-            ),
-          );
-        },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color(0xff13EFEF),
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+        ),
+        margin: EdgeInsets.only(top: 0.0, left: 0.0),
+        constraints: BoxConstraints.tightFor(width: width * 0.8, height: 80.h),
+        child: Center(
+          child: Text(
+            "Let's Start!",
+            textAlign: TextAlign.center,
+            style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
+          ),
+        ),
       ),
     );
   }
