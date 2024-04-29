@@ -291,12 +291,23 @@ class _AddBirthdayButton extends StatelessWidget {
                 Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
                 await Future.delayed(100.ms);
                 Get.find<SetAvatarLogic>().updatePlayer(addUserInfo['userId'].toString());
+                await Future.delayed(100.ms);
                 Get.find<SetAvatarLogic>().explosiveChestFun(addUserInfo['userId'].toString());
               }
               await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
             }
             else {
-              Get.offAll(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
+              Map<String, dynamic> jsonObj1 = {
+                "userId": addUserInfo['userId'],
+                "showId": Get.arguments.showId,
+                "status": Get.arguments.status.toString(),
+                'headgearObj': logic.headgearObj,
+              };
+              Future.delayed(0.5.seconds).then((value) async {
+                print("延迟跳转");
+                Get.to(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj1);
+              });
+              // Get.offAll(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
             }
 
             // print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
@@ -333,12 +344,23 @@ class _AddBirthdayButton extends StatelessWidget {
               Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
               await Future.delayed(100.ms);
               Get.find<SetAvatarLogic>().updatePlayer(checkingUser['userId'].toString());
+              await Future.delayed(100.ms);
               Get.find<SetAvatarLogic>().explosiveChestFun(checkingUser['userId'].toString());
             }
             await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
           }
           else {
-            Get.offAll(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
+            Map<String, dynamic> jsonObj1 = {
+              "userId": checkingUser['userId'],
+              "showId": Get.arguments.showId,
+              "status": Get.arguments.status.toString(),
+              'headgearObj': logic.headgearObj,
+            };
+            Future.delayed(0.5.seconds).then((value) async {
+              print("延迟跳转");
+              Get.to(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj1);
+            });
+            // Get.offAll(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
           }
           // Get.to(() => TreasureChestPage(playerId: int.parse(checkingUser['userId'].toString())), arguments: jsonObj);
 
