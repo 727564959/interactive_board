@@ -15,205 +15,198 @@ import '../terms_page/view.dart';
 import 'logic.dart';
 
 class ConfirmationPage extends StatelessWidget {
-  ConfirmationPage({Key? key, required this.bookingInfo, required this.code}) : super(key: key);
-  final BookingInfo bookingInfo;
-  final String code;
+  ConfirmationPage({Key? key}) : super(key: key);
+  BookingInfo get bookingInfo => Get.arguments["bookingInfo"];
+  String get code => Get.arguments["code"];
+  // final BookingInfo bookingInfo;
+  // final String code;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-          children: [
-            Container(
-              width: 1.0.sw,
-              height: 1.0.sh,
-              color: Color(0xFF233342),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 1.0.sw,
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 20.0, left: 120.0),
-                          child: SizedBox(
-                            width: 0.24.sw,
-                            child: Text(
-                              "Confirmation",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
-                            ),
-                          ),
+      children: [
+        Container(
+          width: 1.0.sw,
+          height: 1.0.sh,
+          color: Color(0xFF233342),
+          child: Column(
+            children: [
+              SizedBox(
+                width: 1.0.sw,
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 20.0, left: 120.0),
+                      child: SizedBox(
+                        width: 0.24.sw,
+                        child: Text(
+                          "Confirmation",
+                          style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 1.0.sw,
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 50.0, left: 120.0),
-                          child: SizedBox(
-                            width: 0.24.sw,
-                            child: Text(
-                              bookingInfo.customer.name,
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    child: Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            // color: Colors.white24,
-                            color: Color(0xFFDBE2E3),
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          margin: EdgeInsets.only(top: 15.0, left: 120.0),
-                          constraints: BoxConstraints.tightFor(
-                              width: 750.w, height: 201.h), //卡片大小
-                          alignment: Alignment.center, //卡片内文字居中
-                          child: Column(
-                            children: [
-                              Align(
-                                heightFactor: 3,
-                                alignment: const Alignment(-0.8, 0.0),
-                                child: Text(
-                                  "Email",
-                                  style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
-                                ),
-                              ),
-                              Align(
-                                alignment: const Alignment(-0.8, 0.0),
-                                child: Text(
-                                  bookingInfo.customer.email,
-                                  style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 4),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E3),
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          margin: EdgeInsets.only(top: 15.0, left: 10.0),
-                          constraints: BoxConstraints.tightFor(
-                              width: 750.w, height: 201.h), //卡片大小
-                          alignment: Alignment.center, //卡片内文字居中
-                          child: Column(
-                            children: [
-                              Align(
-                                heightFactor: 3,
-                                alignment: const Alignment(-0.8, 0.0),
-                                child: Text(
-                                  "Phone Number",
-                                  style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
-                                ),
-                              ),
-                              Align(
-                                alignment: const Alignment(-0.8, 0.0),
-                                child: Text(
-                                  bookingInfo.customer.phone,
-                                  style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 4),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    child: Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E3),
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          margin: EdgeInsets.only(top: 10.0, left: 120.0),
-                          constraints: BoxConstraints.tightFor(
-                              width: 750.w, height: 201.h), //卡片大小
-                          alignment: Alignment.center, //卡片内文字居中
-                          child: Column(
-                            children: [
-                              Align(
-                                heightFactor: 3,
-                                alignment: const Alignment(-0.8, 0.0),
-                                child: Text(
-                                  "Birthday",
-                                  style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
-                                ),
-                              ),
-                              Align(
-                                alignment: const Alignment(-0.8, 0.0),
-                                child: Text(
-                                  DateFormat("dd/MM/yyyy - kka").format(
-                                    bookingInfo.bookingTime.add(8.hours),
-                                  ),
-                                  style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 4),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E3),
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                          constraints: BoxConstraints.tightFor(
-                              width: 750.w, height: 201.h), //卡片大小
-                          alignment: Alignment.center, //卡片内文字居中
-                          child: Column(
-                            children: [
-                              Align(
-                                heightFactor: 3,
-                                alignment: const Alignment(-0.8, 0.0),
-                                child: Text(
-                                  "Game Show Time",
-                                  style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
-                                ),
-                              ),
-                              Align(
-                                alignment: const Alignment(-0.8, 0.0),
-                                child: Text(
-                                  DateFormat("dd/MM/yyyy - kka").format(
-                                    bookingInfo.bookingTime.add(8.hours),
-                                  ),
-                                  style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 4),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  _NoProblemButton(width: 800.w, bookingInfo: bookingInfo, code: code),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
-        ));
+              SizedBox(
+                width: 1.0.sw,
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 50.0, left: 120.0),
+                      child: SizedBox(
+                        width: 0.24.sw,
+                        child: Text(
+                          bookingInfo.customer.name,
+                          style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        // color: Colors.white24,
+                        color: Color(0xFFDBE2E3),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      margin: EdgeInsets.only(top: 15.0, left: 120.0),
+                      constraints: BoxConstraints.tightFor(width: 750.w, height: 201.h), //卡片大小
+                      alignment: Alignment.center, //卡片内文字居中
+                      child: Column(
+                        children: [
+                          Align(
+                            heightFactor: 3,
+                            alignment: const Alignment(-0.8, 0.0),
+                            child: Text(
+                              "Email",
+                              style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                            ),
+                          ),
+                          Align(
+                            alignment: const Alignment(-0.8, 0.0),
+                            child: Text(
+                              bookingInfo.customer.email,
+                              style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 4),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFDBE2E3),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      margin: EdgeInsets.only(top: 15.0, left: 10.0),
+                      constraints: BoxConstraints.tightFor(width: 750.w, height: 201.h), //卡片大小
+                      alignment: Alignment.center, //卡片内文字居中
+                      child: Column(
+                        children: [
+                          Align(
+                            heightFactor: 3,
+                            alignment: const Alignment(-0.8, 0.0),
+                            child: Text(
+                              "Phone Number",
+                              style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                            ),
+                          ),
+                          Align(
+                            alignment: const Alignment(-0.8, 0.0),
+                            child: Text(
+                              bookingInfo.customer.phone,
+                              style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 4),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFDBE2E3),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      margin: EdgeInsets.only(top: 10.0, left: 120.0),
+                      constraints: BoxConstraints.tightFor(width: 750.w, height: 201.h), //卡片大小
+                      alignment: Alignment.center, //卡片内文字居中
+                      child: Column(
+                        children: [
+                          Align(
+                            heightFactor: 3,
+                            alignment: const Alignment(-0.8, 0.0),
+                            child: Text(
+                              "Birthday",
+                              style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                            ),
+                          ),
+                          Align(
+                            alignment: const Alignment(-0.8, 0.0),
+                            child: Text(
+                              DateFormat("dd/MM/yyyy - kka").format(
+                                bookingInfo.bookingTime.add(8.hours),
+                              ),
+                              style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 4),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFDBE2E3),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                      constraints: BoxConstraints.tightFor(width: 750.w, height: 201.h), //卡片大小
+                      alignment: Alignment.center, //卡片内文字居中
+                      child: Column(
+                        children: [
+                          Align(
+                            heightFactor: 3,
+                            alignment: const Alignment(-0.8, 0.0),
+                            child: Text(
+                              "Game Show Time",
+                              style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                            ),
+                          ),
+                          Align(
+                            alignment: const Alignment(-0.8, 0.0),
+                            child: Text(
+                              DateFormat("dd/MM/yyyy - kka").format(
+                                bookingInfo.bookingTime.add(8.hours),
+                              ),
+                              style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 4),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              _NoProblemButton(width: 800.w, bookingInfo: bookingInfo, code: code),
+            ],
+          ),
+        ),
+      ],
+    ));
   }
 }
 
 // 确认没问题的按钮
 class _NoProblemButton extends StatelessWidget {
-  _NoProblemButton({
-    Key? key,
-    required this.width,
-    required this.bookingInfo,
-    required this.code
-  }) : super(key: key);
+  _NoProblemButton({Key? key, required this.width, required this.bookingInfo, required this.code}) : super(key: key);
   final double width;
   final BookingInfo bookingInfo;
   final String code;
@@ -230,7 +223,8 @@ class _NoProblemButton extends StatelessWidget {
         try {
           final showInfo = await logic.ticketValidation(code, bookingInfo.bookingTime);
           EasyLoading.dismiss(animation: false);
-          await Get.to(() => TermsOfUsePage(isAddPlayerClick: false, showInfo: showInfo, customer: bookingInfo.customer));
+          await Get.to(
+              () => TermsOfUsePage(isAddPlayerClick: false, showInfo: showInfo, customer: bookingInfo.customer));
           WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
           logic.codeController.clear();
         } on DioException catch (e) {

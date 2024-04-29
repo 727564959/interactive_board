@@ -29,96 +29,95 @@ class PlayerInfoDeskShow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-          children: [
-            Container(
-              width: 1.0.sw,
-              height: 1.0.sh,
-              color: Color(0xFF233342),
-              child: Column(
-                children: [
-                  // 顶部文本信息
-                  CheckInTitlePage(titleText: '',),
-                  SizedBox(
-                    child: GetBuilder<PlayerShowLogic>(
-                      builder: (logic) {
-                        return Column(
-                          children: [
-                            Align(
-                              heightFactor: 1.5,
-                              alignment: const Alignment(-0.7, 1.0),
-                              child: Text(
-                                "Hi, there !",
-                                style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
-                              ),
-                            ),
-                            Align(
-                              heightFactor: 1,
-                              alignment: const Alignment(-0.65, 0.0),
-                              child: Text(
-                                "Set your avatar",
-                                style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    child: GetBuilder<PlayerShowLogic>(
-                      builder: (logic) {
-                        return Column(
-                          children: [
-                            _NicknameArea(showInfo: showInfo, customer: customer),
-                            Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(top: 20.0, left: 0.0, right: 0.56.sw),
-                                  child: _AddPlayerButton(width: 432.w, showInfo: showInfo, customer: customer),
-                                ),
-                                Container(
-                                  constraints: BoxConstraints.tightFor(width: 0.78.sw),
-                                  margin: EdgeInsets.only(top: 20.0, left: 0.0),
-                                  child: _NextButton(showInfo: showInfo, customer: customer),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ],
+      children: [
+        Container(
+          width: 1.0.sw,
+          height: 1.0.sh,
+          color: Color(0xFF233342),
+          child: Column(
+            children: [
+              // 顶部文本信息
+              CheckInTitlePage(
+                titleText: '',
               ),
-            ),
-            Positioned(
-              left: 0.45.sw,
-              top: 30,
-              child: Countdown(
-                seconds: 60,
-                build: (context, time) => TextButton(
-                  onPressed: () {  },
-                  child: Text(
-                    "${time.toInt()}s close",
-                    style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 2),
-                  )),
-                  onFinished: () async {
-                    await Get.to(
-                          () => CompletePage(
-                        tableId: Global.tableId!,
-                        startTime: showInfo.startTime,
-                        customer: customer,
-                      ),
-                      preventDuplicates: false,
+              SizedBox(
+                child: GetBuilder<PlayerShowLogic>(
+                  builder: (logic) {
+                    return Column(
+                      children: [
+                        Align(
+                          heightFactor: 1.5,
+                          alignment: const Alignment(-0.7, 1.0),
+                          child: Text(
+                            "Hi, there !",
+                            style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
+                          ),
+                        ),
+                        Align(
+                          heightFactor: 1,
+                          alignment: const Alignment(-0.65, 0.0),
+                          child: Text(
+                            "Set your avatar",
+                            style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
+                          ),
+                        ),
+                      ],
                     );
                   },
+                ),
               ),
-            ),
-            // GetBuilder<PlayerShowLogic>(builder: (logic) {
-            //   return Container();
-            // }),
-          ],
-        ));
+              SizedBox(
+                child: GetBuilder<PlayerShowLogic>(
+                  builder: (logic) {
+                    return Column(
+                      children: [
+                        _NicknameArea(showInfo: showInfo, customer: customer),
+                        Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 20.0, left: 0.0, right: 0.56.sw),
+                              child: _AddPlayerButton(width: 432.w, showInfo: showInfo, customer: customer),
+                            ),
+                            Container(
+                              constraints: BoxConstraints.tightFor(width: 0.78.sw),
+                              margin: EdgeInsets.only(top: 20.0, left: 0.0),
+                              child: _NextButton(showInfo: showInfo, customer: customer),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          left: 0.45.sw,
+          top: 30,
+          child: Countdown(
+            seconds: 60,
+            build: (context, time) => TextButton(
+                onPressed: () {},
+                child: Text(
+                  "${time.toInt()}s close",
+                  style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 2),
+                )),
+            onFinished: () async {
+              await Get.to(
+                () => const CompletePage(),
+                arguments: {"tableId": Global.tableId, "startTime": showInfo.startTime, "customer": customer},
+                preventDuplicates: false,
+              );
+            },
+          ),
+        ),
+        // GetBuilder<PlayerShowLogic>(builder: (logic) {
+        //   return Container();
+        // }),
+      ],
+    ));
   }
 }
 
@@ -208,14 +207,19 @@ Widget getItem(int index, Color color, ShowInfo? showInfo, Customer? customer) {
         };
         print("参数 ${jsonObj}");
         print("object ${Get.isRegistered<SetAvatarLogic>()}");
-        if(Get.isRegistered<SetAvatarLogic>()) {
+        if (Get.isRegistered<SetAvatarLogic>()) {
           Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
           await Future.delayed(100.ms);
           Get.find<SetAvatarLogic>().updatePlayer(item.userId.toString());
           await Future.delayed(100.ms);
           Get.find<SetAvatarLogic>().explosiveChestFun(item.userId);
         }
-        Get.offAll(() => AvatarDesignPage(showInfo: showInfo, customer: customer,), arguments: jsonObj);
+        Get.offAll(
+            () => AvatarDesignPage(
+                  showInfo: showInfo,
+                  customer: customer,
+                ),
+            arguments: jsonObj);
         // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
       });
 }
@@ -249,7 +253,8 @@ class _AddPlayerButton extends StatelessWidget {
         // print("添加用户的跳转： ${Get.arguments}");
         // logic.gameItemInfo.clear();
         // logic.testRefreshFun();
-        Get.off(() => TermsOfUsePage(isAddPlayerClick: true, showInfo: showInfo, customer: customer), arguments: Get.arguments);
+        Get.off(() => TermsOfUsePage(isAddPlayerClick: true, showInfo: showInfo, customer: customer),
+            arguments: Get.arguments);
       },
       child: GetBuilder<PlayerShowLogic>(
         id: "addPlayerBtn",
@@ -285,17 +290,14 @@ class _NextButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         await Get.to(
-              () => CompletePage(
-            tableId: Global.tableId!,
-            startTime: showInfo.startTime,
-            customer: customer,
-          ),
+          () => const CompletePage(),
+          arguments: {"tableId": Global.tableId, "startTime": showInfo.startTime, "customer": customer},
           preventDuplicates: false,
         );
       },
       child: Text(
-        "BACK",
-        style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
+        "Check In",
+        style: CustomTextStyles.button(color: const Color(0xff13EFEF), fontSize: 28.sp),
       ),
     );
   }

@@ -22,24 +22,22 @@ class TreasureChestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-          children: [
-            GetBuilder<CheckInLogic>(
+      body: Stack(
+        children: [
+          GetBuilder<CheckInLogic>(
               id: "treasureChest",
               builder: (logic) {
                 return _TreasureChestWidget(playerId: playerId);
-              }
-            ),
-          ],
-        ));
+              }),
+        ],
+      ),
+    );
   }
 }
+
 // 宝箱图
 class _TreasureChestWidget extends StatelessWidget {
-  _TreasureChestWidget({
-    Key? key,
-    required this.playerId
-  }) : super(key: key);
+  _TreasureChestWidget({Key? key, required this.playerId}) : super(key: key);
   final int playerId;
   final logic = Get.find<CheckInLogic>();
 
@@ -68,7 +66,9 @@ class _TreasureChestWidget extends StatelessWidget {
                   "Welcome Package",
                   style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   "Click to flip the cards, exploring your gift pack",
                   style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
@@ -77,8 +77,13 @@ class _TreasureChestWidget extends StatelessWidget {
             ),
           ),
           FlipCard(),
-          SizedBox(height: 50,),
-          if(logic.isClickCard) _NextButton(width: 600.w,),
+          SizedBox(
+            height: 50,
+          ),
+          if (logic.isClickCard)
+            _NextButton(
+              width: 600.w,
+            ),
         ],
       ),
     );
@@ -89,8 +94,8 @@ class FlipCard extends StatefulWidget {
   @override
   _FlipCardState createState() => _FlipCardState();
 }
-class _FlipCardState extends State<FlipCard>
-    with SingleTickerProviderStateMixin {
+
+class _FlipCardState extends State<FlipCard> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _rotationAnimation;
   final logic = Get.find<CheckInLogic>();
@@ -118,8 +123,7 @@ class _FlipCardState extends State<FlipCard>
         setState(() {
           _isChangingCardFace = true;
         });
-      } else if (status == AnimationStatus.completed ||
-          status == AnimationStatus.dismissed) {
+      } else if (status == AnimationStatus.completed || status == AnimationStatus.dismissed) {
         setState(() {
           _isChangingCardFace = false;
           _isFrontVisible = !_isFrontVisible;
@@ -168,41 +172,43 @@ class _FlipCardState extends State<FlipCard>
                 margin: EdgeInsets.only(top: 0.1.sh),
                 child: _isFrontVisible || _isChangingCardFace
                     ? Image.asset(
-                  Global.getSetAvatarImageUrl('pageage_icon.png'),
-                  fit: BoxFit.contain,
-                )
+                        Global.getSetAvatarImageUrl('pageage_icon.png'),
+                        fit: BoxFit.contain,
+                      )
                     : Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                          Global.getSetAvatarImageUrl('card_bg.png')),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 50.0, left: 10,),
-                        child: CachedNetworkImage(
-                          height: 240,
-                          imageUrl: "$baseStrapiUrl${logic.headgearObj['itemInfo']['icon']}",
-                          fit: BoxFit.cover,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(Global.getSetAvatarImageUrl('card_bg.png')),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                top: 50.0,
+                                left: 10,
+                              ),
+                              child: CachedNetworkImage(
+                                height: 240,
+                                imageUrl: "$baseStrapiUrl${logic.headgearObj['itemInfo']['icon']}",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(height: 90),
+                            Text(
+                              logic.headgearObj['itemInfo']['name'],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: CustomTextStyles.notice(
+                                color: Color(0xFF000000),
+                                fontSize: 24.sp,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(height: 90),
-                      Text(
-                        logic.headgearObj['itemInfo']['name'],
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: CustomTextStyles.notice(
-                          color: Color(0xFF000000),
-                          fontSize: 24.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ),
             );
           },
@@ -230,7 +236,7 @@ class _NextButton extends StatelessWidget {
         print("用于传递的参数: ${Get.arguments}");
         // await Get.toNamed(AppRoutes.setAvatar, arguments: Get.arguments);
         print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
-        if(Get.isRegistered<SetAvatarLogic>()) {
+        if (Get.isRegistered<SetAvatarLogic>()) {
           Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
           await Future.delayed(100.ms);
           Get.find<SetAvatarLogic>().updatePlayer(Get.arguments['userId'].toString());

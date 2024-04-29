@@ -18,11 +18,9 @@ import '../widget/button.dart';
 class ChooseTablePage extends StatelessWidget {
   ChooseTablePage({
     Key? key,
-    required this.showInfo,
-    required this.customer,
   }) : super(key: key);
-  final ShowInfo showInfo;
-  final Customer customer;
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  Customer get customer => Get.arguments["customer"];
   final logic = Get.put(ChooseTableLogic());
   @override
   Widget build(BuildContext context) {
@@ -48,13 +46,11 @@ class ChooseTablePage extends StatelessWidget {
                     SizedBox(height: 50),
                     Text(
                       "Choose Table",
-                      style: CustomTextStyles.title(
-                          color: Colors.white, fontSize: 48.sp, level: 2),
+                      style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                     ),
                     Text(
                       "Please Choose Your Gaming Table",
-                      style: CustomTextStyles.title(
-                          color: Color(0xFF9B9B9B), fontSize: 36.sp, level: 4),
+                      style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 36.sp, level: 4),
                     ),
                   ],
                 ),
@@ -77,8 +73,7 @@ class ChooseTablePage extends StatelessWidget {
                   children: [
                     Text(
                       "Game Times: ${DateFormat('kk:mm').format(showInfo.startTime.add(8.hours))}",
-                      style: CustomTextStyles.title(
-                          color: Colors.white, fontSize: 34.sp, level: 5),
+                      style: CustomTextStyles.title(color: Colors.white, fontSize: 34.sp, level: 5),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,8 +87,7 @@ class ChooseTablePage extends StatelessWidget {
                         ),
                         Text(
                           "40 Mins",
-                          style: CustomTextStyles.title(
-                              color: Colors.white, fontSize: 34.sp, level: 5),
+                          style: CustomTextStyles.title(color: Colors.white, fontSize: 34.sp, level: 5),
                         ),
                       ],
                     ),
@@ -130,9 +124,7 @@ class ChooseTablePage extends StatelessWidget {
                   title: "Next",
                   disable: !logic.bSelected,
                   onPress: () async {
-                    EasyLoading.show(
-                        status: "waiting...",
-                        maskType: EasyLoadingMaskType.black);
+                    EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
                     try {
                       Global.setTableId(logic.selectedTableId!);
                       final userId = await logic.loginInOrRegister(
@@ -140,8 +132,7 @@ class ChooseTablePage extends StatelessWidget {
                         email: customer.email,
                         phone: customer.phone,
                       );
-                      await logic.customerCheckIn(
-                          showId: showInfo.showId, userId: userId);
+                      await logic.customerCheckIn(showId: showInfo.showId, userId: userId);
                       EasyLoading.dismiss(animation: false);
                       // await Get.to(
                       //   () => CompletePage(
@@ -162,13 +153,17 @@ class ChooseTablePage extends StatelessWidget {
 
                       Map headgearObj = await logic.fetchHeadgearInfo(userId);
                       print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
-                      if(headgearObj.isEmpty) {
-                        Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
-                      }
-                      else {
+                      if (headgearObj.isEmpty) {
+                        Get.offAll(
+                            () => PlayerInfoDeskShow(
+                                  showInfo: showInfo,
+                                  customer: customer,
+                                ),
+                            arguments: showInfo);
+                      } else {
                         // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId));
                         Get.offAll(
-                              () => HeadgearAcquisitionPage(),
+                          () => HeadgearAcquisitionPage(),
                           arguments: {
                             'showInfo': showInfo,
                             'customer': customer,
@@ -193,10 +188,8 @@ class ChooseTablePage extends StatelessWidget {
                       //   await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: 279));
                       // }
 
-                      if (e.response == null)
-                        EasyLoading.showError("Network Error!");
-                      EasyLoading.showError(
-                          e.response?.data["error"]["message"]);
+                      if (e.response == null) EasyLoading.showError("Network Error!");
+                      EasyLoading.showError(e.response?.data["error"]["message"]);
                     }
                   },
                 ),
@@ -258,13 +251,11 @@ class _TableItemState extends State<_TableItem> {
                     ),
                   Text(
                     "Bay $bayString",
-                    style: CustomTextStyles.title(
-                        color: Colors.black, fontSize: 48.sp, level: 2),
+                    style: CustomTextStyles.title(color: Colors.black, fontSize: 48.sp, level: 2),
                   ),
                   Text(
                     widget.bAvailable ? "Available" : "Full",
-                    style: CustomTextStyles.title(
-                        color: Colors.black, fontSize: 28.sp, level: 6),
+                    style: CustomTextStyles.title(color: Colors.black, fontSize: 28.sp, level: 6),
                   ),
                 ],
               ),

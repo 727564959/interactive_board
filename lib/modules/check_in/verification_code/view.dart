@@ -55,12 +55,9 @@ class VerificationPage extends StatelessWidget {
                   try {
                     final bookingInfo = await logic.queryBookInfo(code);
                     EasyLoading.dismiss(animation: false);
-                    // Get.dialog(Dialog(child: ConfirmationDialog(bookingInfo: bookingInfo, code: code)));
                     await Get.offAll(
-                          () => ConfirmationPage(
-                        bookingInfo: bookingInfo,
-                        code: code,
-                      ),
+                      () => ConfirmationPage(),
+                      arguments: {"bookingInfo": bookingInfo, "code": code},
                     );
                   } on DioException catch (e) {
                     EasyLoading.dismiss();
@@ -115,7 +112,7 @@ class _CheckInInput extends StatelessWidget {
       children: [
         SizedBox(
           width: 100,
-          child: Text(title??''),
+          child: Text(title ?? ''),
         ),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -143,7 +140,8 @@ class _CheckInInput extends StatelessWidget {
                 ),
               ),
             ),
-            style: CustomTextStyles.verificationText(color: Color(0xFF000000), fontSize: 36.sp, letterSpacingVal: 40.sp),
+            style:
+                CustomTextStyles.verificationText(color: Color(0xFF000000), fontSize: 36.sp, letterSpacingVal: 40.sp),
           ),
         ),
       ],

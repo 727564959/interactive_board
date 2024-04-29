@@ -12,15 +12,10 @@ import '../../../common.dart';
 import '../../../mirra_style.dart';
 
 class CompletePage extends StatelessWidget {
-  const CompletePage({
-    Key? key,
-    required this.tableId,
-    required this.customer,
-    required this.startTime,
-  }) : super(key: key);
-  final int tableId;
-  final Customer customer;
-  final DateTime startTime;
+  const CompletePage({Key? key}) : super(key: key);
+  int get tableId => Get.arguments["tableId"];
+  Customer get customer => Get.arguments["customer"];
+  DateTime get startTime => Get.arguments["startTime"];
   Color get color {
     if (tableId == 1) {
       return const Color(0xFFEF7E00);
@@ -32,6 +27,7 @@ class CompletePage extends StatelessWidget {
       return const Color(0xFF4091F0);
     }
   }
+
   String get bayString {
     if (tableId == 1) {
       return "A";
@@ -43,6 +39,7 @@ class CompletePage extends StatelessWidget {
       return "D";
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +79,8 @@ class CompletePage extends StatelessWidget {
                             style: CustomTextStyles.title(color: color, fontSize: 36.sp, level: 4),
                           ),
                           TextSpan(
-                            text: ", please be seated by ${DateFormat('kk:mm').format(startTime.add(8.hours - 15.minutes))}, Enjoy!",
+                            text:
+                                ", please be seated by ${DateFormat('kk:mm').format(startTime.add(8.hours - 15.minutes))}, Enjoy!",
                             style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                           ),
                         ],
