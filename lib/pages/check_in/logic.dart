@@ -191,6 +191,7 @@ class CheckInLogic extends GetxController {
   }
 
   void testRefreshFun() async {
+    print("刷新了吗");
     // 刷新当前页面
     update(['treasureChest']);
   }

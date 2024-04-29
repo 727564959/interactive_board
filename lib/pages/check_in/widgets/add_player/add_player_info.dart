@@ -1113,12 +1113,23 @@ class _MaybeLatterButton extends StatelessWidget {
             Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
             await Future.delayed(100.ms);
             Get.find<SetAvatarLogic>().updatePlayer(skipUserInfo['userId'].toString());
+            await Future.delayed(100.ms);
             Get.find<SetAvatarLogic>().explosiveChestFun(skipUserInfo['userId'].toString());
           }
           await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
         }
         else {
-          Get.offAll(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);
+          Map<String, dynamic> jsonObj = {
+            "userId": skipUserInfo['userId'],
+            "showId": Get.arguments.showId,
+            "status": Get.arguments.status.toString(),
+            'headgearObj': logic.headgearObj,
+          };
+          Future.delayed(0.5.seconds).then((value) async {
+            print("延迟跳转");
+            Get.to(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);
+          });
+          // Get.offAll(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);
         }
 
         // Get.to(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);

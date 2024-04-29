@@ -27,7 +27,7 @@ class TreasureChestPage extends StatelessWidget {
             GetBuilder<CheckInLogic>(
               id: "treasureChest",
               builder: (logic) {
-                return _TreasureChestWidget(playerId: playerId);
+                return _TreasureChestWidget(playerId: playerId,);
               }
             ),
           ],
@@ -38,7 +38,7 @@ class TreasureChestPage extends StatelessWidget {
 class _TreasureChestWidget extends StatelessWidget {
   _TreasureChestWidget({
     Key? key,
-    required this.playerId
+    required this.playerId,
   }) : super(key: key);
   final int playerId;
   final logic = Get.find<CheckInLogic>();
@@ -98,9 +98,13 @@ class _FlipCardState extends State<FlipCard>
   bool _isFrontVisible = true;
   bool _isChangingCardFace = false;
 
+  late Map headgearObj;
+
   @override
   void initState() {
     super.initState();
+    headgearObj = Get.arguments['headgearObj'];
+
     _animationController = AnimationController(
       duration: Duration(milliseconds: 1000),
       vsync: this,
@@ -116,7 +120,7 @@ class _FlipCardState extends State<FlipCard>
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.forward) {
         setState(() {
-          _isChangingCardFace = true;
+          _isFrontVisible = true;
         });
       } else if (status == AnimationStatus.completed ||
           status == AnimationStatus.dismissed) {
@@ -136,6 +140,9 @@ class _FlipCardState extends State<FlipCard>
 
   void _flipCard() {
     logic.updateHeadgearPageFun();
+    print("参数信息 ${logic.headgearObj}");
+    print("参数信息 ${headgearObj}");
+    print("参数信息 ${Get.arguments['headgearObj']}");
     if (_animationController.isAnimating) {
       return;
     }
@@ -228,6 +235,11 @@ class _NextButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         print("用于传递的参数: ${Get.arguments}");
+        Map<String, dynamic> jsonObj = {
+          "userId": Get.arguments['userId'],
+          "showId": Get.arguments['showId'],
+          "status": Get.arguments['status'],
+        };
         // await Get.toNamed(AppRoutes.setAvatar, arguments: Get.arguments);
         print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
         if(Get.isRegistered<SetAvatarLogic>()) {
@@ -243,7 +255,9 @@ class _NextButton extends StatelessWidget {
         // }).onError((error, stackTrace) async {
         //   print("error爆宝箱 $error");
         // });
-        await Get.toNamed(AppRoutes.setAvatar, arguments: Get.arguments);
+        // await Get.toNamed(AppRoutes.setAvatar, arguments: Get.arguments);
+        await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
+        // await Get.offNamed(AppRoutes.setAvatar, arguments: Get.arguments);
       },
       child: GetBuilder<CheckInLogic>(
         id: "editNextBtn",

@@ -17,7 +17,8 @@ import 'hint_dialog.dart';
 
 class PlayerInfoShow extends StatelessWidget {
   PlayerInfoShow({Key? key}) : super(key: key);
-  final logic = Get.find<CheckInLogic>();
+  // final logic = Get.find<CheckInLogic>();
+  final logic = Get.put(CheckInLogic());
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +212,7 @@ Widget getItem(int index, Color color) {
             Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
             await Future.delayed(100.ms);
             Get.find<SetAvatarLogic>().updatePlayer(item.userId.toString());
+            await Future.delayed(100.ms);
             Get.find<SetAvatarLogic>().explosiveChestFun(item.userId);
           }
           // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
@@ -262,7 +264,7 @@ class _AddPlayerButton extends StatelessWidget {
         logic.isFirstCheckIn = false;
         print("添加用户的跳转： ${Get.arguments}");
         logic.gameItemInfo.clear();
-        logic.testRefreshFun();
+        // logic.testRefreshFun();
         // Map<String, dynamic> jsonObj = {
         //   "userId": logic.consumerId,
         //   "showId": Get.arguments.showId,
