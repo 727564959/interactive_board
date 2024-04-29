@@ -16,7 +16,8 @@ import '../../../../widgets/check_in_title.dart';
 class TreasureChestPage extends StatelessWidget {
   TreasureChestPage({Key? key, required this.playerId}) : super(key: key);
   final int playerId;
-  final logic = Get.find<CheckInLogic>();
+  // final logic = Get.find<CheckInLogic>();
+  final logic = Get.put(CheckInLogic());
 
   @override
   Widget build(BuildContext context) {
@@ -233,6 +234,7 @@ class _NextButton extends StatelessWidget {
           Get.find<SetAvatarLogic>().updateUserList(Get.arguments['showId']);
           await Future.delayed(100.ms);
           Get.find<SetAvatarLogic>().updatePlayer(Get.arguments['userId'].toString());
+          await Future.delayed(100.ms);
           Get.find<SetAvatarLogic>().explosiveChestFun(Get.arguments['userId'].toString());
         }
         // // 延迟调用爆宝箱

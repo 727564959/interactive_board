@@ -499,17 +499,17 @@ class _SaveAndBackButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        // int num2 = int.parse(logic.headId.toString());
-        // print("num2：$num2");
-        // print("currentNickName：${logic.currentNickName}");
-        // print("showState：${Get.arguments}");
-        // print("logic.singlePlayer：${logic.singlePlayer['id']}");
-        // print("logic.currentIsMale：${logic.currentIsMale}");
-        //
-        // // await setAvatarApi.updatePlayer(logic.singlePlayer['id'],
-        // //     logic.currentNickName, num2, logic.currentIsMale ? 10 : 11);
-        // await setAvatarApi.updatePlayer(
-        //     logic.singlePlayer['id'], logic.currentNickName, num2, int.parse(logic.currentIsMale));
+        int num2 = int.parse(logic.headId.toString());
+        print("num2：$num2");
+        print("currentNickName：${logic.currentNickName}");
+        print("showState：${Get.arguments}");
+        print("logic.singlePlayer：${logic.singlePlayer['id']}");
+        print("logic.currentIsMale：${logic.currentIsMale}");
+
+        // await setAvatarApi.updatePlayer(logic.singlePlayer['id'],
+        //     logic.currentNickName, num2, logic.currentIsMale ? 10 : 11);
+        await setAvatarApi.updatePlayer(
+            logic.singlePlayer['id'], logic.currentNickName, num2, int.parse(logic.currentIsMale));
 
         // Map<String, dynamic> jsonObj = {
         //   "userId": logic.singlePlayer['id'],

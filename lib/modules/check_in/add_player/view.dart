@@ -522,7 +522,23 @@ class _MaybeLatterButton extends StatelessWidget {
           Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
         }
         else {
-          await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: skipUserInfo['userId']));
+          print("headgearObj: ${headgearObj}");
+          print("headgearObj: ${skipUserInfo['userId']}");
+          Future.delayed(0.5.seconds).then((value) async {
+            print("延迟跳转");
+            print("headgearObj: ${headgearObj}");
+            print("headgearObj: ${skipUserInfo['userId']}");
+            // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: skipUserInfo['userId']));
+            Get.offAll(
+                  () => HeadgearAcquisitionPage(),
+              arguments: {
+                'showInfo': showInfo,
+                'customer': customer,
+                'headgearObj': headgearObj,
+                'userId': skipUserInfo['userId'],
+              },
+            );
+          });
         }
         // if(Get.isRegistered<PlayerShowLogic>()) {
         //   Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);

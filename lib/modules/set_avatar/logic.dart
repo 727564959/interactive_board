@@ -65,19 +65,24 @@ class SetAvatarLogic extends GetxController {
     singlePlayer = await setAvatarApi.fetchSingleUsers(userId);
     avatarInfo = await setAvatarApi.fetchAvatars();
     for (int i = 0; i < userList.length; i++) {
-      print(userList[i].id);
+      print("找相同 ${singlePlayer['id'].toString() == userList[i].id}");
       if (singlePlayer['id'].toString() == userList[i].id) {
         headId = userList[i].headgearId;
         // currentIsMale = userList[i].bodyName == 'Male' ? true : false;
-        // currentIsMale = userList[i].bodyId;
+        currentIsMale = userList[i].bodyId;
         currentNickName = userList[i].nickname;
         // currentUrl = userList[i].avatarUrl;
+
+        print("哈哈哈哈: ${headId}");
+        print("currentIsMale: ${currentIsMale}");
       }
     }
-    final avatar = avatarInfo.firstWhere((element) => element.id == headId);
-    print("gfgfgfg: $avatar");
-    currentUrl = avatar.url;
-    print("currentUrl ${currentUrl}");
+    // print("嘿嘿嘿嘿: ${headId}");
+    // final avatar = avatarInfo.firstWhere((element) => element.id.toString() == headId);
+    // print("gfgfgfg: $avatar");
+    // currentUrl = avatar.url;
+    // print("currentUrl ${currentUrl}");
+
     // currentNickName = singlePlayer['name'];
     // final avatar = avatarInfo.firstWhere((element) => element.id == headId);
     // currentUrl = avatar.url;
@@ -109,6 +114,9 @@ class SetAvatarLogic extends GetxController {
     print("bodyInfo: ${bodyInfo}");
     currentBodyUrl = bodyInfo.icon;
     print("currentBodyUrl: ${currentBodyUrl}");
+    final headInfo = gameItemInfoHead.firstWhere((element) => element.id.toString() == headId);
+    currentUrl = headInfo.icon;
+    print("currentUrl ${currentUrl}");
 
     // final avatar = gameItemInfoHead.firstWhere((element) => element.id.toString() == headId);
     // currentUrl = avatar.icon;
@@ -142,28 +150,29 @@ class SetAvatarLogic extends GetxController {
     // print("单用户: ${singlePlayer['id']}");
     print("头像信息: ${avatarInfo}");
     for (int i = 0; i < userList.length; i++) {
-      print(userList[i].id);
+      // print(userList[i].id);
       if (singlePlayer['id'].toString() == userList[i].id) {
         headId = userList[i].headgearId;
         // currentIsMale = userList[i].bodyName == 'Male' ? true : false;
         currentIsMale = userList[i].bodyId;
         currentNickName = userList[i].nickname;
+        explosiveChestFun(userList[i].id);
       }
     }
-    print("currentIsMale: ${currentIsMale}");
-    // print("gameItemInfoBody: ${gameItemInfoBody}");
-    // final bodyInfo = gameItemInfoBody.firstWhere((element) => element.id.toString() == currentIsMale);
-    // print("哈哈哈哈哈哈哈哈: ${bodyInfo.id}");
-    // print("bodyInfo: ${bodyInfo}");
-    // currentBodyUrl = bodyInfo.icon;
-    // print("bodyInfo: ${currentBodyUrl}");
-
-    // currentNickName = singlePlayer['name'];
-    print("当前头像ID: ${headId}");
-    final avatar = avatarInfo.firstWhere((element) => element.id == headId);
-    print("gfgfgfg: $avatar");
-    currentUrl = avatar.url;
-    print("头像: $avatarInfo");
+    // print("currentIsMale: ${currentIsMale}");
+    // // print("gameItemInfoBody: ${gameItemInfoBody}");
+    // // final bodyInfo = gameItemInfoBody.firstWhere((element) => element.id.toString() == currentIsMale);
+    // // print("哈哈哈哈哈哈哈哈: ${bodyInfo.id}");
+    // // print("bodyInfo: ${bodyInfo}");
+    // // currentBodyUrl = bodyInfo.icon;
+    // // print("bodyInfo: ${currentBodyUrl}");
+    //
+    // // currentNickName = singlePlayer['name'];
+    // print("当前头像ID: ${headId}");
+    // final avatar = avatarInfo.firstWhere((element) => element.id == headId);
+    // print("gfgfgfg: $avatar");
+    // currentUrl = avatar.url;
+    // print("头像: $avatarInfo");
     update();
   }
 }

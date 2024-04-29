@@ -1118,7 +1118,7 @@ class _MaybeLatterButton extends StatelessWidget {
           await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
         }
         else {
-          Get.to(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);
+          Get.offAll(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);
         }
 
         // Get.to(() => TreasureChestPage(playerId: int.parse(skipUserInfo['userId'].toString())), arguments: jsonObj);

@@ -11,7 +11,7 @@ class HintDialog extends StatelessWidget {
     return Container(
         width: 0.5.sw,
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-        color: Color(0xFF5A5858),
+        color: Color(0xFF272727),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           // crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +117,7 @@ class _MaybeLatterBtn extends StatelessWidget {
         decoration: BoxDecoration(
           //设置边框
           border: new Border.all(color: Color(0xff13EFEF), width: 1),
-          color: Color(0xFFFFFFFF),
+          color: Color(0xFF272727),
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         margin: EdgeInsets.only(top: 0.0, left: 30.0),
@@ -153,7 +153,7 @@ class _SignUpBtn extends StatelessWidget {
         decoration: BoxDecoration(
           //设置边框
           border: new Border.all(color: Color(0xff13EFEF), width: 1),
-          color: Color(0xFFFFFFFF),
+          color: Color(0xFF13EFEF),
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         margin: EdgeInsets.only(top: 0.0, left: 30.0),
@@ -162,7 +162,7 @@ class _SignUpBtn extends StatelessWidget {
           child: Text(
             "Sign Up",
             textAlign: TextAlign.center,
-            style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
+            style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
           ),
         ),
       ),

@@ -270,7 +270,16 @@ class _AddBirthdayButton extends StatelessWidget {
               Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
             }
             else {
-              await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: addUserInfo['userId']));
+              // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: addUserInfo['userId']));
+              Get.offAll(
+                    () => HeadgearAcquisitionPage(),
+                arguments: {
+                  'showInfo': showInfo,
+                  'customer': customer,
+                  'headgearObj': headgearObj,
+                  'userId': addUserInfo['userId'],
+                },
+              );
             }
             // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
 
@@ -313,7 +322,16 @@ class _AddBirthdayButton extends StatelessWidget {
               Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
             }
             else {
-              await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: checkingUser['userId']));
+              // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: checkingUser['userId']));
+              Get.offAll(
+                    () => HeadgearAcquisitionPage(),
+                arguments: {
+                  'showInfo': showInfo,
+                  'customer': customer,
+                  'headgearObj': headgearObj,
+                  'userId': checkingUser['userId'],
+                },
+              );
             }
             // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
 

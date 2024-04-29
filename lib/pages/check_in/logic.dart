@@ -31,7 +31,8 @@ class CheckInLogic extends GetxController {
   Map singlePlayer = {};
   String currentNickName = "";
   String headId = "";
-  bool currentIsMale = true;
+  // bool currentIsMale = true;
+  String currentIsMale = "";
   String currentUrl = "";
   // 设置avatar中的返回上一页按钮是否按下
   bool addGoBackIsDown = false;
@@ -93,7 +94,7 @@ class CheckInLogic extends GetxController {
       print(userList[i].id);
       if (singlePlayer['id'].toString() == userList[i].id) {
         headId = userList[i].headgearId;
-        currentIsMale = userList[i].bodyName == 'Male' ? true : false;
+        currentIsMale = userList[i].bodyId;
       }
     }
     currentNickName = singlePlayer['name'];
@@ -210,7 +211,8 @@ class CheckInLogic extends GetxController {
     print("用户数据: $userList");
     // currentNickName = userList[userList.length - 1].nickname;
     // currentIsMale = userList[0].isMale;
-    currentIsMale = userList[0].bodyName == 'Male' ? true : false;
+
+    currentIsMale = userList[0].bodyId;
     headId = userList[0].headgearId;
     avatarInfo = await checkInApi.fetchAvatars();
 
@@ -230,12 +232,13 @@ class CheckInLogic extends GetxController {
 
       singlePlayer = await checkInApi.fetchSingleUsers(consumerId.toString());
       print("单用户: ${singlePlayer}");
-      // print("单用户: ${singlePlayer['id']}");
-      final avatar = avatarInfo.firstWhere((element) => element.id == headId);
-      print("gfgfgfg: $avatar");
-      currentUrl = avatar.url;
-      print("头像: $avatarInfo");
-      // checkInApi.updatePlayer(68, "abc",3,1);
+
+      // // print("单用户: ${singlePlayer['id']}");
+      // final avatar = avatarInfo.firstWhere((element) => element.id == headId);
+      // print("gfgfgfg: $avatar");
+      // currentUrl = avatar.url;
+      // print("头像: $avatarInfo");
+      // // checkInApi.updatePlayer(68, "abc",3,1);
     } else {}
 
     update();

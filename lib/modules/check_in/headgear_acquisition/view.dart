@@ -17,37 +17,121 @@ import '../data/show.dart';
 import '../player_page/view.dart';
 import 'logic.dart';
 
+// class HeadgearAcquisitionPage extends StatefulWidget {
+//   HeadgearAcquisitionPage({
+//     Key? key,
+//     required this.showInfo,
+//     required this.customer,
+//     required this.headgearObj,
+//     required this.userId,
+//   }) : super(key: key);
+//
+//   final ShowInfo showInfo;
+//   final Customer customer;
+//   final Map headgearObj;
+//   final int userId;
+//
+//   @override
+//   _HeadgearAcquisitionPageState createState() => _HeadgearAcquisitionPageState();
+// }
+//
+// class _HeadgearAcquisitionPageState extends State<HeadgearAcquisitionPage> {
+//   late final ShowInfo showInfo;
+//   late final Customer customer;
+//   late final Map headgearObj;
+//   late final int userId;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     showInfo = widget.showInfo;
+//     customer = widget.customer;
+//     headgearObj = widget.headgearObj;
+//     userId = widget.userId;
+//     // 打印参数值
+//     print("showInfo: $showInfo");
+//     print("customer: $customer");
+//     print("headgearObj: $headgearObj");
+//     print("userId: $userId");
+//   }
+//
+//   @override
+//   void didUpdateWidget(covariant HeadgearAcquisitionPage oldWidget) {
+//     super.didUpdateWidget(oldWidget);
+//     if (widget.showInfo != oldWidget.showInfo ||
+//         widget.customer != oldWidget.customer ||
+//         widget.headgearObj != oldWidget.headgearObj ||
+//         widget.userId != oldWidget.userId) {
+//       setState(() {
+//         showInfo = widget.showInfo;
+//         customer = widget.customer;
+//         headgearObj = widget.headgearObj;
+//         userId = widget.userId;
+//       });
+//     }
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final logic = Get.put(HeadgearAcquisitionLogic());
+//     return Scaffold(
+//         body: Stack(
+//           children: [
+//             GetBuilder<HeadgearAcquisitionLogic>(
+//                 id: "headgearAcquisitionPage",
+//                 builder: (logic) {
+//                   return _TreasureChestWidget(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId);
+//                 }
+//             ),
+//           ],
+//         ));
+//   }
+// }
+
 class HeadgearAcquisitionPage extends StatelessWidget {
   HeadgearAcquisitionPage({
     Key? key,
-    required this.showInfo,
-    required this.customer,
-    required this.headgearObj,
-    required this.userId,
+    // required this.showInfo,
+    // required this.customer,
+    // required this.headgearObj,
+    // required this.userId,
   }) : super(key: key);
-  final ShowInfo showInfo;
-  final Customer customer;
-  final Map headgearObj;
-  final int userId;
+  // final ShowInfo showInfo;
+  // final Customer customer;
+  // final Map headgearObj;
+  // final int userId;
 
   final logic = Get.put(HeadgearAcquisitionLogic());
 
   @override
   Widget build(BuildContext context) {
+    // print("showInfo ${showInfo}");
+    // print("customer ${customer}");
+    // print("headgearObj ${headgearObj}");
+    // print("userId ${userId}");
+    // // 手动更新参数值
+    // logic.updateParameters(showInfo, customer, headgearObj, userId);
     return Scaffold(
         body: Stack(
           children: [
             GetBuilder<HeadgearAcquisitionLogic>(
                 id: "headgearAcquisitionPage",
                 builder: (logic) {
-                  return _TreasureChestWidget(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId);
+                  // return _TreasureChestWidget(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId);
+                  return _TreasureChestWidget(
+                    showInfo: logic.showInfo,
+                    customer: logic.customer,
+                    headgearObj: logic.headgearObj,
+                    userId: logic.userId,
+                  );
                 }
             ),
           ],
         ));
   }
 }
-// 宝箱图
+
+//宝箱图
 class _TreasureChestWidget extends StatelessWidget {
   _TreasureChestWidget({
     Key? key,
@@ -267,6 +351,7 @@ class _NextButton extends StatelessWidget {
           Get.find<SetAvatarLogic>().updateUserList(showInfo.showId);
           await Future.delayed(100.ms);
           Get.find<SetAvatarLogic>().updatePlayer(userId.toString());
+          await Future.delayed(100.ms);
           Get.find<SetAvatarLogic>().explosiveChestFun(userId);
         }
         // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);

@@ -166,7 +166,16 @@ class ChooseTablePage extends StatelessWidget {
                         Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
                       }
                       else {
-                        await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId));
+                        // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId));
+                        Get.offAll(
+                              () => HeadgearAcquisitionPage(),
+                          arguments: {
+                            'showInfo': showInfo,
+                            'customer': customer,
+                            'headgearObj': headgearObj,
+                            'userId': userId,
+                          },
+                        );
                       }
                       // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
                     } on DioException catch (e) {

@@ -212,6 +212,7 @@ Widget getItem(int index, Color color, ShowInfo? showInfo, Customer? customer) {
           Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
           await Future.delayed(100.ms);
           Get.find<SetAvatarLogic>().updatePlayer(item.userId.toString());
+          await Future.delayed(100.ms);
           Get.find<SetAvatarLogic>().explosiveChestFun(item.userId);
         }
         Get.offAll(() => AvatarDesignPage(showInfo: showInfo, customer: customer,), arguments: jsonObj);

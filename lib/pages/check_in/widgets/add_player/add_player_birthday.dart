@@ -33,6 +33,9 @@ class AddPlayerBirthday extends StatelessWidget {
               children: [
                 // 顶部文本信息
                 CheckInTitlePage(titleText: ""),
+                SizedBox(
+                  height: 0.15.sh,
+                ),
                 // SizedBox(
                 //   child: GetBuilder<CheckInLogic>(
                 //     builder: (logic) {
@@ -293,7 +296,7 @@ class _AddBirthdayButton extends StatelessWidget {
               await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
             }
             else {
-              Get.to(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
+              Get.offAll(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
             }
 
             // print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
@@ -335,7 +338,7 @@ class _AddBirthdayButton extends StatelessWidget {
             await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
           }
           else {
-            Get.to(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
+            Get.offAll(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
           }
           // Get.to(() => TreasureChestPage(playerId: int.parse(checkingUser['userId'].toString())), arguments: jsonObj);
 

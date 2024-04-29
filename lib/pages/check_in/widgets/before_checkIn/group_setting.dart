@@ -375,7 +375,7 @@ class _NextDefaultButton extends StatelessWidget {
             await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
           }
           else {
-            Get.to(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
+            Get.offAll(() => TreasureChestPage(playerId: int.parse(logic.consumerId.toString())), arguments: jsonObj);
           }
           // await Get.offAllNamed(AppRoutes.setAvatar, arguments: jsonObj);
           // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
