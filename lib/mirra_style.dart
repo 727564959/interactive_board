@@ -340,6 +340,7 @@ class CustomTextStyles {
       fontVariations_Display2,
       fontVariations_Display3,
       fontVariations_Display4,
+      fontVariations_Display5,
     ];
     return TextStyle(
       fontSize: fontSize,
@@ -376,6 +377,13 @@ class CustomTextStyles {
     double? fontSize,
   }) {
     return display(color: color, fontSize: fontSize, level: 4);
+  }
+
+  static TextStyle display5({
+    Color? color,
+    double? fontSize,
+  }) {
+    return display(color: color, fontSize: fontSize, level: 5);
   }
 
   static TextStyle notice({

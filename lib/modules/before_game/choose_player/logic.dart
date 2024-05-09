@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/common.dart';
 import 'package:interactive_board/data/model/show_state.dart';
@@ -11,9 +12,33 @@ import '../confirm_selection/view.dart';
 import 'data/player.dart';
 import 'data/player_api.dart';
 
-class ChoosePlayerLogic extends GetxController {
+class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderStateMixin {
   final playerApi = PlayerApi();
   List<PlayerInfo> players = [];
+  // ShowState get showState => ShowState.fromJson({
+  //       "showId": 22,
+  //       "status": "game_preparing",
+  //       "details": {
+  //         "showId": 22,
+  //         "roundId": 47,
+  //         "roundNumber": 1,
+  //         "mode": "normal",
+  //         "game": "Treasure Dash",
+  //         "customers": [
+  //           {"tableId": 2, "consumerId": 274},
+  //           {"tableId": 3, "consumerId": 274},
+  //           {"tableId": 4, "consumerId": 302}
+  //         ],
+  //         "teams": [
+  //           {
+  //             "name": "RABBIT",
+  //             "teamId": 4,
+  //             "iconPath": "/uploads/small_4_1_60b4f861f0.png",
+  //             "blackBorderIconPath": "/uploads/small_4_d_98061c3869.png"
+  //           }
+  //         ]
+  //       }
+  //     });
   ShowState get showState => Get.arguments;
   String get game => (showState.details as GamingDetails).game;
   Timer? _timer;
@@ -36,6 +61,8 @@ class ChoosePlayerLogic extends GetxController {
   }
 
   int? selectedPosition;
+
+  late final animationController = AnimationController(vsync: this, duration: 300.ms)..addListener(() => update());
 
   @override
   void onInit() async {
@@ -106,6 +133,7 @@ class ChoosePlayerLogic extends GetxController {
     try {
       await playerApi.updatePosition(showInfo.roundId, position, playerId);
       optionalPositions[position] = player;
+      animationController.reverse();
       selectedPosition = null;
       update();
       resetJumpTimer();
@@ -129,6 +157,7 @@ class ChoosePlayerLogic extends GetxController {
 
   void showBottomBar(int position) {
     selectedPosition = position;
+    animationController.forward();
     removePlayer(position);
     resetJumpTimer();
     update();
@@ -136,6 +165,7 @@ class ChoosePlayerLogic extends GetxController {
 
   void dismissBottomBar() {
     selectedPosition = null;
+    animationController.reverse();
     resetJumpTimer();
     update();
   }
