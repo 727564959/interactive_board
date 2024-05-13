@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:interactive_board/mirra_style.dart';
-import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
+import 'package:interactive_board/3rd_libs/flutter_holo_date_pick-1.1.3/flutter_holo_date_picker.dart';
 import 'package:intl/intl.dart';
 
 class DatePicker extends StatefulWidget {
