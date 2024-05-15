@@ -225,7 +225,7 @@ class CheckInApi {
         "tableId": Global.tableId,
         "teamName": teamInfo.name,
         "teamIcon": teamInfo.icon,
-        "blackBorderTeamIcon": teamInfo.blackBorderIcon,
+        "noBorderIcon": teamInfo.noBorderIcon,
       },
     );
   }
