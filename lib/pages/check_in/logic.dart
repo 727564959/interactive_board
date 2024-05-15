@@ -7,6 +7,7 @@ import '../../data/model/show_state.dart';
 import 'data/avatar_info.dart';
 import 'data/casual_user.dart';
 import 'data/checkin_api.dart';
+import 'data/player_card.dart';
 import 'data/team_info.dart';
 import 'data/user_info.dart';
 
@@ -15,7 +16,7 @@ class CheckInLogic extends GetxController {
   // String get gameName => GameShowRepository().gameName!;
   List<UserInfo> userList = [];
   List<CasualUser> casualUser = [];
-  List<ResourceInfo> avatarInfo = [];
+  // List<ResourceInfo> avatarInfo = [];
   ShowState get showState => Get.arguments;
   // Map<String,dynamic> singlePlayer = {};
   // 游戏show的开始时间
@@ -63,6 +64,9 @@ class CheckInLogic extends GetxController {
   bool isClickCard = false;
   Map headgearObj = {};
 
+  // final playerCardInfo = <PlayerCardInfo>[];
+  List<PlayerCardInfo> playerCardInfo = [];
+
   // 返回按钮是否按下
   void goBackBtnDown(bool sign) {
     print("12345: $sign");
@@ -79,7 +83,7 @@ class CheckInLogic extends GetxController {
 
   void birdShow() {}
 
-  void updateUserList(int showId) async {
+  void updateUserList(showId) async {
     print("身体的id: $showId");
     userList = await checkInApi.fetchUsers(showId);
     casualUser = await checkInApi.fetchCasualUser(showId);
@@ -89,7 +93,7 @@ class CheckInLogic extends GetxController {
   void updatePlayer(String userId) async {
     print("身体的id: $userId");
     singlePlayer = await checkInApi.fetchSingleUsers(userId);
-    avatarInfo = await checkInApi.fetchAvatars();
+    // avatarInfo = await checkInApi.fetchAvatars();
     for (int i = 0; i < userList.length; i++) {
       print(userList[i].id);
       if (singlePlayer['id'].toString() == userList[i].id) {
@@ -98,8 +102,8 @@ class CheckInLogic extends GetxController {
       }
     }
     currentNickName = singlePlayer['name'];
-    final avatar = avatarInfo.firstWhere((element) => element.id == headId);
-    currentUrl = avatar.url;
+    // final avatar = avatarInfo.firstWhere((element) => element.id == headId);
+    // currentUrl = avatar.url;
     update();
   }
 
@@ -134,16 +138,7 @@ class CheckInLogic extends GetxController {
   // 获取爆头套
   void getHeadgearFun(userId) async {
     print("opopopop ${userId}");
-    // if(!isClickCard) {
-    //   isClickCard = true;
-    // }
-    // else {
-    //   isClickCard = false;
-    // }
     headgearObj = await checkInApi.fetchHeadgearInfo(userId);
-    // 刷新当前页面
-    // update(['treasureChest']);
-    // return await checkInApi.fetchHeadgearInfo(userId);
   }
 
   void updateHeadgearPageFun() {
@@ -159,14 +154,6 @@ class CheckInLogic extends GetxController {
       // 刷新当前页面
       update(['treasureChest']);
     }
-    // if(!isClickCard) {
-    //   isClickCard = true;
-    // }
-    // else {
-    //   isClickCard = false;
-    // }
-    // // 刷新当前页面
-    // update(['treasureChest']);
   }
 
   // 爆宝箱头套方法
@@ -196,6 +183,86 @@ class CheckInLogic extends GetxController {
     update(['treasureChest']);
   }
 
+  Future<void> getPlayerCardInfo(showId) async {
+    casualUser = await checkInApi.fetchCasualUser(showId);
+    userList = await checkInApi.fetchUsers(showId);
+    playerCardInfo.clear();
+    List<PlayerCardInfo> cards = [];
+    for(int j = 0; j < casualUser.length; j++) {
+      print("遍历开始 ${casualUser[j].userId}");
+      final gameItem = await checkInApi.fetchUserGameItems(int.parse(casualUser[j].userId.toString()));
+      final userData = userList.firstWhere((element) => element.id == casualUser[j].userId.toString());
+      print("icon信息 ${gameItem}");
+      print("用户 ${userData}");
+      int avatarId = 1;
+      String avatarIcon = '';
+      String avatarName = '';
+      int avatarLevel = 1;
+      int bodyId = 10;
+      String bodyIcon = '';
+      String bodyName = '';
+      int bodyLevel = 1;
+      bool foundAvatar = false; // 布尔标志，用于跟踪是否找到符合条件的 avatar
+      bool foundBody = false; // 布尔标志，用于跟踪是否找到符合条件的 body
+      for(int m = 0; m < gameItem.length; m++){
+        print("找相同 ${gameItem[m].id.toString() == userData.headgearId}");
+        if(gameItem[m].id.toString() == userData.headgearId) {
+          avatarId = gameItem[m].id;
+          avatarIcon = gameItem[m].icon;
+          avatarName = gameItem[m].name;
+          avatarLevel = gameItem[m].level;
+          foundAvatar = true; // 找到符合条件的 avatar
+        }
+        if(gameItem[m].id.toString() == userData.bodyId) {
+          bodyId = gameItem[m].id;
+          bodyIcon = gameItem[m].icon;
+          bodyName = gameItem[m].name;
+          bodyLevel = gameItem[m].level;
+          foundBody = true; // 找到符合条件的 body
+        }
+        if (foundAvatar && foundBody) {
+          break; // 当同时找到 avatar 和 body 时跳出内层循环
+        }
+      }
+      if (foundAvatar && foundBody) {
+        print("向玩家卡片加入数据");
+        cards.add(PlayerCardInfo(
+          userId: casualUser[j].userId,
+          nickname: casualUser[j].nickname,
+          bTemped: casualUser[j].bTemped,
+          bShowRegisterDialog: casualUser[j].bShowRegisterDialog,
+          avatarId: avatarId,
+          avatarIcon: avatarIcon,
+          avatarName: avatarName,
+          avatarLevel: avatarLevel,
+          bodyId: bodyId,
+          bodyIcon: bodyIcon,
+          bodyName: bodyName,
+          bodyLevel: bodyLevel,
+          isUserCard: true,
+        ));
+      }
+    }
+
+    print("cards ${cards}");
+    if (cards.length <= 7) {
+      playerCardInfo = List.generate(cards.length + 1, (index) {
+        if (index < cards.length) {
+          return cards[index];
+        } else {
+          return PlayerCardInfo(isUserCard: false);
+        }
+      },
+      );
+    } else {
+      playerCardInfo = List.generate(cards.length, (index) => cards[index],);
+    }
+    // print("playerCardInfo ${playerCardInfo}");
+    // print("playerCardInfo ${playerCardInfo[0].avatarId}");
+    // print("playerCardInfo ${playerCardInfo[0].bodyId}");
+    update(['playerCard']);
+  }
+
   @override
   void onInit() async {
     super.onInit();
@@ -207,15 +274,16 @@ class CheckInLogic extends GetxController {
     }
 
     print("show的状态数据: ${showState.status}");
-    casualUser = await checkInApi.fetchCasualUser(showState.showId ?? 1);
-    userList = await checkInApi.fetchUsers(showState.showId ?? 1);
+    // casualUser = await checkInApi.fetchCasualUser(showState.showId ?? 1);
+    // userList = await checkInApi.fetchUsers(showState.showId ?? 1);
+    getPlayerCardInfo(showState.showId ?? 1);
     print("用户数据: $userList");
     // currentNickName = userList[userList.length - 1].nickname;
     // currentIsMale = userList[0].isMale;
 
-    currentIsMale = userList[0].bodyId;
-    headId = userList[0].headgearId;
-    avatarInfo = await checkInApi.fetchAvatars();
+    // currentIsMale = userList[0].bodyId;
+    // headId = userList[0].headgearId;
+    // avatarInfo = await checkInApi.fetchAvatars();
 
     if (showState.status == ShowStatus.showPreparing ||
         showState.status == ShowStatus.complete) {
