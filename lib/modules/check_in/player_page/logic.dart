@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import '../../../common.dart';
+import '../../mirra_look/data/player_card.dart';
 import '../data/avatar_info.dart';
 import '../data/casual_user.dart';
-import '../data/player_card.dart';
 import '../data/player_page_api.dart';
 import '../data/show.dart';
 import '../data/skin_gender_option.dart';

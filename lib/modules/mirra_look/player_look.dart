@@ -10,13 +10,16 @@ import 'package:get/get.dart';
 
 import '../../../common.dart';
 import '../../../mirra_style.dart';
+import '../../data/model/show_state.dart';
 import '../../widgets/check_in_title.dart';
 import '../check_in/data/booking.dart';
-import '../check_in/data/player_card.dart';
 import '../check_in/data/show.dart';
 import '../check_in/data/skin_gender_option.dart';
 import '../check_in/player_page/logic.dart';
 import '../check_in/player_page/player_squad.dart';
+import '../table_check/player_show/logic.dart';
+import '../table_check/player_show/view.dart';
+import 'data/player_card.dart';
 import 'logic.dart';
 
 class PlayerLookPage extends StatelessWidget {
@@ -621,10 +624,11 @@ class _SaveButton extends StatelessWidget {
   }) : super(key: key);
   final double width;
   final testTabId = Global.tableId;
-  ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
-  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
-  PlayerCardInfo get card => Get.arguments["card"];
+  ShowInfo get showInfo => Get.arguments?["showInfo"];
+  Customer get customer => Get.arguments?["customer"];
+  bool get isAddPlayerClick => Get.arguments?["isAddPlayerClick"];
+  PlayerCardInfo get card => Get.arguments?["card"];
+  ShowState get showState => Get.arguments?["showState"];
   final logic = Get.put(MirraLookLogic());
 
   @override
@@ -637,11 +641,30 @@ class _SaveButton extends StatelessWidget {
           // logic.isCountdownStart = true;
           // logic.testFun();
           EasyLoading.dismiss(animation: false);
-          Get.offAll(() => PlayerSquadPage(), arguments: {"showInfo": showInfo, "customer": customer, "isAddPlayerClick": isAddPlayerClick, "isCountdownStart": true});
-          print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
-          if(Get.isRegistered<PlayerShowLogic>()) {
-            Get.find<PlayerShowLogic>().isCountdownStart = true;
-            Get.find<PlayerShowLogic>().testFun;
+          if(Get.arguments["showInfo"] != null) {
+            Get.offAll(() => PlayerSquadPage(), arguments: {"showInfo": showInfo, "customer": customer, "isAddPlayerClick": isAddPlayerClick, "isCountdownStart": true});
+            print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
+            if(Get.isRegistered<PlayerShowLogic>()) {
+              Get.find<PlayerShowLogic>().isCountdownStart = true;
+              Get.find<PlayerShowLogic>().testFun();
+            }
+          }
+          else {
+            Get.offAll(() => PlayerShowPage(),
+                arguments: {
+                  'showState': showState,
+                });
+
+            // Get.offAll(() => PlayerShowPage(),
+            //     arguments: {
+            //       'showState': showState,
+            //     });
+            // await Future.delayed(500.ms);
+            // final playerShowPageLogic = Get.put(PlayerShowPageLogic());
+            // print("哈哈哈哈哈 $playerShowPageLogic");
+            // print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowPageLogic>()}");
+            // playerShowPageLogic.getCurrentTeam();
+            // playerShowPageLogic.refreshFun();
           }
         } on DioException catch (e) {
           EasyLoading.dismiss();
