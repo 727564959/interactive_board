@@ -30,47 +30,50 @@ class TakeARestPage extends StatelessWidget {
                 children: [
                   // 顶部文本信息
                   CheckInTitlePage(titleText: ""),
-                  SizedBox(
-                    width: 1.0.sw,
-                    height: 0.25.sh,
+                  Align(
+                    alignment: Alignment.centerLeft,
                     child: Container(
-                      margin: EdgeInsets.only(top: 20.0, right: 0.65.sw),
-                      // child: Image.asset(
-                      //   Global.getSetAvatarImageUrl('take_a_rest_icon.png'),
-                      //   fit: BoxFit.fitHeight,
-                      // ),
-                      child: Image.asset(
-                        Global.getGifUrl('take_a_rest.gif'),
-                        fit: BoxFit.fitHeight,
-                      )
+                      margin: EdgeInsets.only(left: 0.1.sw),
+                      child: SizedBox(
+                        height: 0.25.sh,
+                        child: Image.asset(
+                          Global.getGifUrl('take_a_rest.gif'),
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    width: 1.0.sw,
-                    height: 0.6.sh,
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 10.0, left: 0.0),
-                          child: SizedBox(
-                            width: 0.8.sw,
-                            child: Text(
-                              "Take a Rest",
-                              style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 0.1.sw),
+                      child: SizedBox(
+                        height: 0.25.sh,
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 10.0, left: 0.0),
+                              child: SizedBox(
+                                width: 0.8.sw,
+                                child: Text(
+                                  "Take a Rest",
+                                  style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10.0, left: 0.0),
-                          child: SizedBox(
-                            width: 0.8.sw,
-                            child: Text(
-                              "We will be back soon",
-                              style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 4),
+                            Container(
+                              margin: EdgeInsets.only(top: 10.0, left: 0.0),
+                              child: SizedBox(
+                                width: 0.8.sw,
+                                child: Text(
+                                  "We will be back soon",
+                                  style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 4),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ],

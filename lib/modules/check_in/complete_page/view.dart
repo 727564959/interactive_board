@@ -7,9 +7,11 @@ import 'package:interactive_board/app_routes.dart';
 import 'package:intl/intl.dart';
 import 'package:interactive_board/modules/check_in/data/booking.dart';
 import 'package:interactive_board/modules/check_in/widget/button.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 import '../../../common.dart';
 import '../../../mirra_style.dart';
+import '../../../widgets/custom_countdown.dart';
 
 class CompletePage extends StatelessWidget {
   const CompletePage({Key? key}) : super(key: key);
@@ -54,34 +56,40 @@ class CompletePage extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Align(
-                alignment: const Alignment(-0.6, 0.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              SizedBox(
+                width: 1.0.sw,
+                child: Row(
                   children: [
-                    const SizedBox(height: 50),
-                    Text(
-                      "Successfully Checked in",
-                      style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
-                    ),
-                    const SizedBox(height: 30),
-                    Text(
-                      "Welcome, ${customer.name}!",
-                      style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 3),
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Your Games will start at ',
-                        style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "${DateFormat('kk:mm').format(startTime.add(8.hours))}",
-                            style: CustomTextStyles.title(color: color, fontSize: 36.sp, level: 4),
+                    Container(
+                      margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Successfully Checked in",
+                            style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                           ),
-                          TextSpan(
-                            text:
-                                ", please be seated by ${DateFormat('kk:mm').format(startTime.add(8.hours - 15.minutes))}, Enjoy!",
-                            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                          const SizedBox(height: 30),
+                          Text(
+                            "Welcome, ${customer.name}!",
+                            style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 3),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: 'Your Games will start at ',
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: "${DateFormat('kk:mm').format(startTime.add(8.hours))}",
+                                  style: CustomTextStyles.title(color: color, fontSize: 36.sp, level: 4),
+                                ),
+                                TextSpan(
+                                  text:
+                                  ", please be seated by ${DateFormat('kk:mm').format(startTime.add(8.hours - 15.minutes))}, Enjoy!",
+                                  style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -145,17 +153,99 @@ class CompletePage extends StatelessWidget {
               // //   style: TextStyle(fontSize: 70, fontWeight: FontWeight.bold),
               // // ),
               const SizedBox(height: 80),
-              CheckInButton(
-                title: "Back",
-                onPress: () {
-                  Get.searchDelegate(null).toNamedAndOffUntil(
-                    AppRoutes.verificationCode,
-                    (p0) {
-                      return p0.name == AppRoutes.verificationCode;
+              _BackButton(width: 600.w,),
+              // CheckInButton(
+              //   title: "Back",
+              //   onPress: () {
+              //     // Get.searchDelegate(null).toNamedAndOffUntil(
+              //     //   AppRoutes.verificationCode,
+              //     //   (p0) {
+              //     //     return p0.name == AppRoutes.verificationCode;
+              //     //   },
+              //     // );
+              //     Get.searchDelegate(null).toNamedAndOffUntil(
+              //       AppRoutes.landingPage,
+              //           (p0) {
+              //         return p0.name == AppRoutes.landingPage;
+              //       },
+              //     );
+              //   },
+              // ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BackButton extends StatelessWidget {
+  _BackButton({
+    Key? key,
+    required this.width,
+  }) : super(key: key);
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        await Get.searchDelegate(null).toNamedAndOffUntil(
+          AppRoutes.landingPage,
+              (p0) {
+            return p0.name == AppRoutes.landingPage;
+          },
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          //设置边框
+          border: new Border.all(color: Color(0xff13EFEF), width: 1),
+          color: Color(0xFF233342),
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+        ),
+        margin: EdgeInsets.only(top: 0.0, left: 0.0),
+        constraints: BoxConstraints.tightFor(width: width, height: 100.h), //卡片大小
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center, // 子项水平居中对齐
+            children: [
+              Text(
+                "BACK",
+                textAlign: TextAlign.center,
+                style: CustomTextStyles.button(color: Color(0xffFFFFFF), fontSize: 28.sp),
+              ),
+              CustomCountdown(
+                duration: Duration(seconds: 3),
+                color: Color(0xffFFFFFF),
+                start: true,
+                onCountdownComplete: () async {
+                  await Get.searchDelegate(null).toNamedAndOffUntil(
+                    AppRoutes.landingPage,
+                        (p0) {
+                      return p0.name == AppRoutes.landingPage;
                     },
                   );
                 },
               ),
+              // Countdown(
+              //   seconds: 3,
+              //   build: (context, time) => TextButton(
+              //       onPressed: () {},
+              //       child: Text(
+              //         "(" + "${time.toInt()}s" + ")",
+              //         style: CustomTextStyles.button(color: Color(0xffFFFFFF), fontSize: 28.sp),
+              //       )),
+              //   onFinished: () async {
+              //     await Get.searchDelegate(null).toNamedAndOffUntil(
+              //           AppRoutes.landingPage,
+              //               (p0) {
+              //             return p0.name == AppRoutes.landingPage;
+              //           },
+              //         );
+              //   },
+              // ),
             ],
           ),
         ),

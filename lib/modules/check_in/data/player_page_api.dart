@@ -1,0 +1,112 @@
+import 'package:dio/dio.dart';
+
+import '../../../common.dart';
+import 'avatar_info.dart';
+import 'casual_user.dart';
+import 'user_info.dart';
+import 'team_info.dart';
+
+class PlayerPageApi {
+  static PlayerPageApi? _instance;
+  factory PlayerPageApi() => _instance ?? PlayerPageApi._internal();
+  final dio = Dio();
+  PlayerPageApi._internal() {
+    _instance = this;
+  }
+
+  Future<List<UserInfo>> fetchUsers(int showId) async {
+    print("是否进入了查询用户信息方法");
+    print("$showId");
+    final response = await dio.get(
+      "$baseApiUrl/shows/$showId/players",
+      queryParameters: {"tableId": Global.tableId},
+    );
+    // List userList = response.data['playerList'];
+    print("测试接口 $response");
+    List userList = response.data;
+    return userList.map((user) => UserInfo.fromJson(user)).toList();
+  }
+
+  Future<List<CasualUser>> fetchCasualUser(int showId) async {
+    print("是否进入了查询临时用户信息方法");
+    print("$showId");
+    final response = await dio.get(
+      "$baseApiUrl/shows/$showId/check-in/players",
+      queryParameters: {"tableId": Global.tableId},
+    );
+    print("临时用户 $response");
+    List casualUser = response.data;
+    // List casualUser = [
+    //   {
+    //     "userId": 267,
+    //     "nickname": "M_Zq",
+    //     "bTemped": false,
+    //     "bShowRegisterDialog": false
+    //   },
+    //   {
+    //     "userId": 266,
+    //     "nickname": "player8649",
+    //     "bTemped": true,
+    //     "bShowRegisterDialog": false
+    //   },
+    //   {
+    //     "userId": 260,
+    //     "nickname": "player1650",
+    //     "bTemped": true,
+    //     "bShowRegisterDialog": false
+    //   }
+    // ];
+    return casualUser.map((user) => CasualUser.fromJson(user)).toList();
+  }
+
+  Future<List<ResourceInfo>> fetchAvatars() async {
+    print("获取头像信息接口");
+    final response = await dio.get(
+      "$baseApiUrl/game-items",
+      queryParameters: {
+        "populate[0]": "icon",
+      },
+    );
+    print(response.data);
+    final result = <ResourceInfo>[];
+    for (final item in response.data["data"]) {
+      result.add(ResourceInfo.fromJson(item));
+    }
+    return result;
+  }
+
+  Future<List<GameItemInfo>> fetchUserGameItems(userId) async {
+    final response = await dio.get(
+      "$baseApiUrl/players/$userId/game-items",
+    );
+    final result = <GameItemInfo>[];
+    for (final item in response.data) {
+      result.add(GameItemInfo.fromJson(item['gameItem']));
+    }
+    return result;
+  }
+
+  // 查询队伍信息
+  Future<List<TeamInfo>> fetchTeamInfo(int showId) async {
+    print("是否进入了查询队伍信息方法");
+    print("$showId");
+    final response = await dio.get(
+        "$baseApiUrl/shows/$showId/team-info"
+    );
+    print("所有队伍信息 $response");
+    List teamList = response.data;
+    return teamList.map((team) => TeamInfo.fromJson(team)).toList();
+  }
+
+  // 查询并清理头套
+  Future<List<GameItemInfo>> fetchHeadgearInfo(userId) async {
+    final response = await dio.get(
+      "$baseApiUrl/players/$userId/game-items",
+    );
+    final result = <GameItemInfo>[];
+    for (final item in response.data) {
+      result.add(GameItemInfo.fromJson(item['gameItem']));
+    }
+    return result;
+  }
+}

@@ -4,24 +4,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../../../common.dart';
 import '../../../../widgets/check_in_title.dart';
 import '../../../mirra_style.dart';
+import '../../../widgets/date_picker.dart';
+import '../data/avatar_info.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../headgear_acquisition/view.dart';
 import '../player_page/logic.dart';
+import '../player_page/player_squad.dart';
 import '../player_page/view.dart';
 import 'logic.dart';
 
 class BirthdayPage extends StatelessWidget {
   BirthdayPage({
     Key? key,
-    required this.showInfo,
-    required this.customer,
   }) : super(key: key);
-  final ShowInfo showInfo;
-  final Customer customer;
   final logic = Get.put(AddPlayerLogic());
 
   @override
@@ -38,95 +38,102 @@ class BirthdayPage extends StatelessWidget {
                 SizedBox(
                   height: 0.15.sh,
                 ),
-                SizedBox(
-                  child: GetBuilder<AddPlayerLogic>(
-                    builder: (logic) {
-                      return Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 20.0, left: 0.35.sw),
-                            constraints: BoxConstraints.tightFor(
-                                width: 0.3.sw, height: 0.2.sh),
-                            child: ElevatedButton(
-                              // style: ButtonStyle(
-                              //   backgroundColor: MaterialStateProperty.all(
-                              //       Color(0xff4D797F)), //背景颜色
-                              //   side: MaterialStateProperty.all(BorderSide(
-                              //       width: 1, color: Color(0xffffffff))), //边框
-                              // ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xff4D797F),//背景颜色
-                                side: BorderSide(width: 1,color: Color(0xffffffff)),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8), // 设置圆角矩形
-                                ),
-                              ),
-                              onPressed: () async {
-                                var select_day_time = await showDatePicker(
-                                  context: context,
-                                  initialEntryMode: DatePickerEntryMode.inputOnly,
-                                  builder: (context, child) {
-                                    return Theme(
-                                      data: ThemeData(
-                                        // primarySwatch: Colors.amber,
-                                        primarySwatch: createMaterialColor(
-                                            Color(0xff13EFEF)),
-                                      ),
-                                      child: child!,
-                                    );
-                                  },
-                                  initialDate: logic.birthdayStr ==
-                                          "Please enter your birthday"
-                                      ? DateTime.now()
-                                      : DateTime.parse(logic.birthdayStr), //起始时间
-                                  firstDate: DateTime(1900, 1, 1), //最小可以选日期
-                                  lastDate: DateTime.now(),
-                                  errorFormatText: 'Wrong date format',
-                                  errorInvalidText: 'Invalid date format',
-                                  fieldHintText: 'MM/dd/yyyy',
-                                  fieldLabelText: 'Please enter your birthday',
-                                );
-                                print('select_day_time$select_day_time');
-                                // 当前年份
-                                int currentYear = DateTime.now().year;
-                                // 选择的年份
-                                var selectYear = select_day_time?.year;
-                                print('selectYear$selectYear');
-                                // 是否选择了日期
-                                if (select_day_time != null) {
-                                  // 如果小于13岁给出提示，反之直接选择
-                                  if (currentYear -
-                                          int.parse(selectYear.toString()) <=
-                                      13) {
-                                    EasyLoading.showError(
-                                        "Players should be over 13 yearss");
-                                  } else {
-                                    // 调用生日选择
-                                    logic.confirmBirthdayFun(select_day_time);
-                                  }
-                                } else {
-                                  EasyLoading.showError("Please select a date!");
-                                }
-                              },
-                              child: Text(
-                                logic.birthdayStr,
-                                style: TextStyle(
-                                  fontSize: 45.sp,
-                                  decoration: TextDecoration.none,
-                                  fontFamily: 'BurbankBold',
-                                  color: Colors.white,
-                                  letterSpacing: 3.sp,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
+                // SizedBox(
+                //   child: GetBuilder<AddPlayerLogic>(
+                //     builder: (logic) {
+                //       return Row(
+                //         children: [
+                //           Container(
+                //             margin: EdgeInsets.only(top: 20.0, left: 0.35.sw),
+                //             constraints: BoxConstraints.tightFor(
+                //                 width: 0.3.sw, height: 0.2.sh),
+                //             child: ElevatedButton(
+                //               // style: ButtonStyle(
+                //               //   backgroundColor: MaterialStateProperty.all(
+                //               //       Color(0xff4D797F)), //背景颜色
+                //               //   side: MaterialStateProperty.all(BorderSide(
+                //               //       width: 1, color: Color(0xffffffff))), //边框
+                //               // ),
+                //               style: ElevatedButton.styleFrom(
+                //                 backgroundColor: Color(0xff4D797F),//背景颜色
+                //                 side: BorderSide(width: 1,color: Color(0xffffffff)),
+                //                 shape: RoundedRectangleBorder(
+                //                   borderRadius: BorderRadius.circular(8), // 设置圆角矩形
+                //                 ),
+                //               ),
+                //               onPressed: () async {
+                //                 var select_day_time = await showDatePicker(
+                //                   context: context,
+                //                   initialEntryMode: DatePickerEntryMode.inputOnly,
+                //                   builder: (context, child) {
+                //                     return Theme(
+                //                       data: ThemeData(
+                //                         // primarySwatch: Colors.amber,
+                //                         primarySwatch: createMaterialColor(
+                //                             Color(0xff13EFEF)),
+                //                       ),
+                //                       child: child!,
+                //                     );
+                //                   },
+                //                   initialDate: logic.birthdayStr ==
+                //                           "Please enter your birthday"
+                //                       ? DateTime.now()
+                //                       : DateTime.parse(logic.birthdayStr), //起始时间
+                //                   firstDate: DateTime(1900, 1, 1), //最小可以选日期
+                //                   lastDate: DateTime.now(),
+                //                   errorFormatText: 'Wrong date format',
+                //                   errorInvalidText: 'Invalid date format',
+                //                   fieldHintText: 'MM/dd/yyyy',
+                //                   fieldLabelText: 'Please enter your birthday',
+                //                 );
+                //                 print('select_day_time$select_day_time');
+                //                 // 当前年份
+                //                 int currentYear = DateTime.now().year;
+                //                 // 选择的年份
+                //                 var selectYear = select_day_time?.year;
+                //                 print('selectYear$selectYear');
+                //                 // 是否选择了日期
+                //                 if (select_day_time != null) {
+                //                   // 如果小于13岁给出提示，反之直接选择
+                //                   if (currentYear -
+                //                           int.parse(selectYear.toString()) <=
+                //                       13) {
+                //                     EasyLoading.showError(
+                //                         "Players should be over 13 yearss");
+                //                   } else {
+                //                     // 调用生日选择
+                //                     logic.confirmBirthdayFun(select_day_time);
+                //                   }
+                //                 } else {
+                //                   EasyLoading.showError("Please select a date!");
+                //                 }
+                //               },
+                //               child: Text(
+                //                 logic.birthdayStr,
+                //                 style: TextStyle(
+                //                   fontSize: 45.sp,
+                //                   decoration: TextDecoration.none,
+                //                   fontFamily: 'BurbankBold',
+                //                   color: Colors.white,
+                //                   letterSpacing: 3.sp,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       );
+                //     },
+                //   ),
+                // ),
+                DatePicker(
+                    initialDate: logic.birthdayStr,
+                    onChange: (selectedDate) {
+                      print('Selected Date: $selectedDate');
+                      logic.birthdayStr = selectedDate;
                     },
-                  ),
                 ),
                 SizedBox(
-                  height: 50.0,
+                  height: 0.25.sh,
                 ),
                 // Container(
                 //   margin: EdgeInsets.only(top: 0.0),
@@ -148,9 +155,7 @@ class BirthdayPage extends StatelessWidget {
                 //   ),
                 // ),
                 _AddBirthdayButton(
-                  width: 800.w,
-                  showInfo: showInfo,
-                  customer: customer,
+                  width: 600.w,
                 ),
                 _BackButton(),
               ],
@@ -162,7 +167,7 @@ class BirthdayPage extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 60.0, left: 30.0),
+                  margin: EdgeInsets.only(top: 60.0, left: 40.0),
                   constraints: BoxConstraints.tightFor(width: 0.75.sw), //卡片大小
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,13 +236,12 @@ class _AddBirthdayButton extends StatelessWidget {
   _AddBirthdayButton({
     Key? key,
     required this.width,
-    required this.showInfo,
-    required this.customer,
   }) : super(key: key);
   final double width;
-  final ShowInfo showInfo;
-  final Customer customer;
   final logic = Get.find<AddPlayerLogic>();
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  Customer get customer => Get.arguments["customer"];
+  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
 
   @override
   Widget build(BuildContext context) {
@@ -249,6 +253,8 @@ class _AddBirthdayButton extends StatelessWidget {
         print("查重返回 ${checkingUser.isEmpty}");
         print("参数 ${Get.arguments}");
         // print("参数 ${logic.showState}");
+        String birthDay = DateFormat('yyyy-MM-dd')
+            .format(logic.birthdayStr);
         if (checkingUser.isEmpty) {
           print("是新增!!!!!");
           String testPhone = "+(1)" + logic.phone;
@@ -259,51 +265,36 @@ class _AddBirthdayButton extends StatelessWidget {
                 testPhone,
                 logic.firstName,
                 logic.lastName,
-                logic.birthdayStr);
+                // logic.birthdayStr);
+                birthDay);
             EasyLoading.dismiss(animation: false);
             // 加入到show
-            await logic.addPlayerToShow(
-                showInfo.showId, Global.tableId, addUserInfo['userId']);
+            await logic.addPlayerToShow(showInfo.showId, Global.tableId, addUserInfo['userId']);
+
             print("参数 ${addUserInfo['userId']}");
-            Map headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
+            // Map headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
+            List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
             if(headgearObj.isEmpty) {
-              Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+              Get.offAll(() => PlayerSquadPage(),
+                  arguments: {
+                    'showInfo': showInfo,
+                    'customer': customer,
+                    "isAddPlayerClick": isAddPlayerClick,
+                  });
+              // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
             }
             else {
               // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: addUserInfo['userId']));
-              Get.offAll(
-                    () => HeadgearAcquisitionPage(),
+              Get.offAll(() => HeadgearAcquisitionPage(),
                 arguments: {
                   'showInfo': showInfo,
                   'customer': customer,
                   'headgearObj': headgearObj,
                   'userId': addUserInfo['userId'],
+                  "isAddPlayerClick": isAddPlayerClick,
                 },
               );
             }
-            // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
-
-            // Map<String, dynamic> jsonObj = {
-            //   "userId": addUserInfo['userId'],
-            //   "showId": Get.arguments.showId,
-            //   "status": Get.arguments.status.toString()
-            // };
-            // print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
-            // if(Get.isRegistered<SetAvatarLogic>()) {
-            //   Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
-            //   Get.find<SetAvatarLogic>().updatePlayer(addUserInfo['userId'].toString());
-            // }
-            // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
-
-            // if(Get.isRegistered<PlayerShowLogic>()) {
-            //   Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
-            // }
-
-            // await Get.offAll(
-            //   () => PlayerInfoShow(
-            //     showInfo: showInfo,
-            //     customer: customer,),
-            // );
           } on DioException catch (e) {
             EasyLoading.dismiss();
             if (e.response == null) EasyLoading.showError("Network Error!");
@@ -315,11 +306,18 @@ class _AddBirthdayButton extends StatelessWidget {
           try {
             EasyLoading.dismiss(animation: false);
             // 加入到show
-            // await logic.addPlayerToShow(13, Global.tableId, checkingUser['userId']);
+            await logic.addPlayerToShow(showInfo.showId, Global.tableId, checkingUser['userId']);
 
-            Map headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
+            List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
+            // Map headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
             if(headgearObj.isEmpty) {
-              Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+              Get.offAll(() => PlayerSquadPage(),
+                  arguments: {
+                    'showInfo': showInfo,
+                    'customer': customer,
+                    "isAddPlayerClick": isAddPlayerClick,
+                  });
+              // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
             }
             else {
               // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: checkingUser['userId']));
@@ -330,37 +328,15 @@ class _AddBirthdayButton extends StatelessWidget {
                   'customer': customer,
                   'headgearObj': headgearObj,
                   'userId': checkingUser['userId'],
+                  "isAddPlayerClick": isAddPlayerClick,
                 },
               );
             }
-            // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
-
-            // if(Get.isRegistered<PlayerShowLogic>()) {
-            //   Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
-            // }
-            // await Get.offAll(
-            //   () => PlayerInfoShow(
-            //     showInfo: showInfo,
-            //     customer: customer,
-            //   ),
-            // );
           } on DioException catch (e) {
             EasyLoading.dismiss();
             if (e.response == null) EasyLoading.showError("Network Error!");
             EasyLoading.showError(e.response?.data["error"]["message"]);
           }
-
-          // Map<String, dynamic> jsonObj = {
-          //   "userId": checkingUser['userId'],
-          //   "showId": Get.arguments.showId,
-          //   "status": Get.arguments.status.toString()
-          // };
-          // print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
-          // if(Get.isRegistered<SetAvatarLogic>()) {
-          //   Get.find<SetAvatarLogic>().updateUserList(Get.arguments.showId);
-          //   Get.find<SetAvatarLogic>().updatePlayer(checkingUser['userId'].toString());
-          // }
-          // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
         }
       },
       child: Container(

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import '../../../common.dart';
+import '../data/avatar_info.dart';
 
 class ChooseTableLogic extends GetxController {
   int? selectedTableId;
@@ -13,29 +14,39 @@ class ChooseTableLogic extends GetxController {
   }
 
   // 查询并清理头套
-  Future<Map> fetchHeadgearInfo(int userId) async {
-    final response = await _dio.post("$baseApiUrl/players/$userId/headgear-acquisition-event", data: {});
-    print("爆头套 $response");
-
-    Map<String, dynamic> result = response.data;
-    // Map<String, dynamic> result = {
-    //             "itemInfo": {
-    //                 "id": 22,
-    //                 "name": "LowPoly_Dragn",
-    //                 "type": "headgear",
-    //                 "level": 1,
-    //                 "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
-    //               }
-    //               // "itemInfo": {
-    //               //   "id": 20,
-    //               //   "name": "Food_Burger",
-    //               //   "type": "headgear",
-    //               //   "level": 1,
-    //               //   "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
-    //               // }
-    //             };
+  Future<List<GameItemInfo>> fetchHeadgearInfo(userId) async {
+    final response = await _dio.get(
+      "$baseApiUrl/players/$userId/game-items",
+    );
+    final result = <GameItemInfo>[];
+    for (final item in response.data) {
+      result.add(GameItemInfo.fromJson(item['gameItem']));
+    }
     return result;
   }
+  // Future<Map> fetchHeadgearInfo(int userId) async {
+  //   final response = await _dio.post("$baseApiUrl/players/$userId/headgear-acquisition-event", data: {});
+  //   print("爆头套 $response");
+  //
+  //   Map<String, dynamic> result = response.data;
+  //   // Map<String, dynamic> result = {
+  //   //             "itemInfo": {
+  //   //                 "id": 22,
+  //   //                 "name": "LowPoly_Dragn",
+  //   //                 "type": "headgear",
+  //   //                 "level": 1,
+  //   //                 "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
+  //   //               }
+  //   //               // "itemInfo": {
+  //   //               //   "id": 20,
+  //   //               //   "name": "Food_Burger",
+  //   //               //   "type": "headgear",
+  //   //               //   "level": 1,
+  //   //               //   "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+  //   //               // }
+  //   //             };
+  //   return result;
+  // }
 
   Future<int> loginInOrRegister({
     required String name,
@@ -62,12 +73,14 @@ class ChooseTableLogic extends GetxController {
   Future<void> customerCheckIn({
     required int showId,
     required int userId,
+    required String code,
   }) async {
     await _dio.post(
       "$baseApiUrl/shows/$showId/customer-checked",
       data: {
         "userId": userId,
         "showId": showId,
+        "code": code,
         "tableId": selectedTableId!,
       },
     );

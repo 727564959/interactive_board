@@ -5,23 +5,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../../../app_routes.dart';
 import '../../../../common.dart';
 import '../../../../widgets/check_in_title.dart';
 import '../../../mirra_style.dart';
+import '../data/avatar_info.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../headgear_acquisition/view.dart';
 import '../player_page/logic.dart';
+import '../player_page/player_squad.dart';
 import '../player_page/view.dart';
 import 'birthday_page.dart';
 import 'logic.dart';
 
 class AddPlayerPage extends StatelessWidget {
-  AddPlayerPage({Key? key,required this.showInfo,required this.customer,}) : super(key: key);
-  final ShowInfo showInfo;
-  final Customer customer;
-
+  AddPlayerPage({Key? key}) : super(key: key);
   final logic = Get.put(AddPlayerLogic());
 
   @override
@@ -33,32 +31,28 @@ class AddPlayerPage extends StatelessWidget {
           return Container(
             width: 1.0.sw,
             height: 1.0.sh,
-            // decoration: BoxDecoration(
-            //   image: DecorationImage(
-            //     image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
             color: Color(0xFF233342),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 1.0.sw,
-                  child: GetBuilder<AddPlayerLogic>(
-                    builder: (logic) {
-                      return Column(
-                        children: [
-                          // 顶部文本信息
-                          CheckInTitlePage(titleText: "Add Player"),
-                          _PlayerForm(),
-                          // 底部按钮区域
-                          _BottomBtns(showInfo: showInfo, customer: customer,),
-                        ],
-                      );
-                    },
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 1.0.sw,
+                    child: GetBuilder<AddPlayerLogic>(
+                      builder: (logic) {
+                        return Column(
+                          children: [
+                            // 顶部文本信息
+                            CheckInTitlePage(titleText: "Add Player"),
+                            _PlayerForm(),
+                            // 底部按钮区域
+                            _BottomBtns(),
+                          ],
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
@@ -93,17 +87,21 @@ class _PlayerForm extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 40.0, left: 120.0),
+                    margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
                     constraints: BoxConstraints.tightFor(width: 750.w, height: 270.h), //卡片大小
-                    // alignment: Alignment.center, //卡片内文字居中
+                    alignment: Alignment.center, //卡片内文字居中
                     child: Column(
                       children: [
                         Align(
-                          heightFactor: 3,
-                          alignment: const Alignment(-1.0, 0.0),
-                          child: Text(
-                            "First Name",
-                            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                          // heightFactor: 3,
+                          // alignment: const Alignment(-1.0, 0.0),
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            margin: EdgeInsets.only(left: 30.0, top: 40.0),
+                            child: Text(
+                              "First Name",
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 5),
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -163,11 +161,13 @@ class _PlayerForm extends StatelessWidget {
                     child: Column(
                       children: [
                         Align(
-                          heightFactor: 3,
-                          alignment: const Alignment(-1.0, 0.0),
-                          child: Text(
-                            "Last Name",
-                            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            margin: EdgeInsets.only(left: 30.0, top: 40.0),
+                            child: Text(
+                              "Last Name",
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -225,16 +225,18 @@ class _PlayerForm extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 0.0, left: 120.0),
+                    margin: EdgeInsets.only(top: 0.0, left: 0.1.sw),
                     constraints: BoxConstraints.tightFor(width: 750.w, height: 270.h), //卡片大小
                     child: Column(
                       children: [
                         Align(
-                          heightFactor: 3,
-                          alignment: const Alignment(-1.0, 0.0),
-                          child: Text(
-                            "Email",
-                            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            margin: EdgeInsets.only(left: 30.0, top: 20.0),
+                            child: Text(
+                              "Email",
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -292,11 +294,13 @@ class _PlayerForm extends StatelessWidget {
                     child: Column(
                       children: [
                         Align(
-                          heightFactor: 3,
-                          alignment: const Alignment(-1.0, 0.0),
-                          child: Text(
-                            "Phone number",
-                            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            margin: EdgeInsets.only(left: 30.0, top: 20.0),
+                            child: Text(
+                              "Phone number",
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -363,11 +367,7 @@ class _PlayerForm extends StatelessWidget {
 class _BottomBtns extends StatelessWidget  {
   const _BottomBtns({
     Key? key,
-    required this.showInfo,
-    required this.customer,
   }) : super(key: key);
-  final ShowInfo showInfo;
-  final Customer customer;
 
   @override
   Widget build(BuildContext context) {
@@ -389,7 +389,7 @@ class _BottomBtns extends StatelessWidget  {
                       children: [
                         _BackButton(width: 600.w),
                         SizedBox(width: 10,),
-                        _NextButton(width: 600.w, showInfo: showInfo, customer: customer,),
+                        _NextButton(width: 600.w),
                       ],
                     ),
                   ),
@@ -397,7 +397,7 @@ class _BottomBtns extends StatelessWidget  {
               ),
               Container(
                 margin: EdgeInsets.only(top: 30.0, right: 30.0),
-                child: _MaybeLatterButton(showInfo: showInfo, customer: customer,),
+                child: _MaybeLatterButton(),
               ),
             ],
           )
@@ -413,13 +413,12 @@ class _NextButton extends StatelessWidget {
   _NextButton({
     Key? key,
     required this.width,
-    required this.showInfo,
-    required this.customer,
   }) : super(key: key);
   final double width;
-  final ShowInfo showInfo;
-  final Customer customer;
   final logic = Get.find<AddPlayerLogic>();
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  Customer get customer => Get.arguments["customer"];
+  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
 
   final testTabId = Global.tableId;
 
@@ -429,7 +428,7 @@ class _NextButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         if(logic.email.isNotEmpty && logic.phone.isNotEmpty && logic.firstName.isNotEmpty && logic.lastName.isNotEmpty) {
-          Get.to(() => BirthdayPage(showInfo: showInfo, customer: customer,), arguments: Get.arguments);
+          Get.to(() => BirthdayPage(), arguments: {'showInfo': showInfo, 'customer': customer, "isAddPlayerClick": isAddPlayerClick,},);
         }
         else {
           EasyLoading.showError("Please fill in the information !");
@@ -498,12 +497,11 @@ class _BackButton extends StatelessWidget {
 class _MaybeLatterButton extends StatelessWidget {
   _MaybeLatterButton({
     Key? key,
-    required this.showInfo,
-    required this.customer,
   }) : super(key: key);
-  final ShowInfo showInfo;
-  final Customer customer;
   final logic = Get.find<AddPlayerLogic>();
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  Customer get customer => Get.arguments["customer"];
+  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
 
   @override
   Widget build(BuildContext context) {
@@ -514,12 +512,19 @@ class _MaybeLatterButton extends StatelessWidget {
         Map skipUserInfo = await logic.addSkipPlayer();
         // 加入到show
         await logic.addPlayerToShow(showInfo.showId, Global.tableId, skipUserInfo['userId']);
-        Map headgearObj = await logic.fetchHeadgearInfo(skipUserInfo['userId']);
+        // Map headgearObj = await logic.fetchHeadgearInfo(skipUserInfo['userId']);
+        List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(skipUserInfo['userId']);
         if(headgearObj.isEmpty) {
           if(Get.isRegistered<PlayerShowLogic>()) {
-            Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
+            Get.find<PlayerShowLogic>().getPlayerCardInfo(showInfo.showId);
           }
-          Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+          Get.offAll(() => PlayerSquadPage(),
+              arguments: {
+                'showInfo': showInfo,
+                'customer': customer,
+                "isAddPlayerClick": isAddPlayerClick,
+              });
+          // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
         }
         else {
           print("headgearObj: ${headgearObj}");
@@ -531,12 +536,13 @@ class _MaybeLatterButton extends StatelessWidget {
             // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: skipUserInfo['userId']));
             Get.offAll(
                   () => HeadgearAcquisitionPage(),
-              arguments: {
-                'showInfo': showInfo,
-                'customer': customer,
-                'headgearObj': headgearObj,
-                'userId': skipUserInfo['userId'],
-              },
+                      arguments: {
+                        'showInfo': showInfo,
+                        'customer': customer,
+                        'headgearObj': headgearObj,
+                        'userId': skipUserInfo['userId'],
+                        "isAddPlayerClick": isAddPlayerClick,
+                      },
             );
           });
         }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -49,7 +50,7 @@ class CheckInTitlePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 0.0, left: 60.0),
+            margin: EdgeInsets.only(top: 0.0, left: 40.0),
             child: Text(
               titleText,
               style: CustomTextStyles.title(color: Colors.white, fontSize: 60.sp, level: 2),
@@ -62,10 +63,12 @@ class CheckInTitlePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CurrentTimer(),
-                Text(
-                  // "Bay " + Global.tableId.toString(),
-                  "Bay " + bayString,
-                  style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 3),
+                Container(
+                  margin: EdgeInsets.only(bottom: 5.0),
+                  child: Text(
+                    "Bay " + bayString,
+                    style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 3),
+                  ),
                 ),
               ],
             ),

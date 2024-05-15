@@ -12,8 +12,10 @@ class HeadgearAcquisitionLogic extends GetxController {
   Map argumentsMap = Get.arguments;
   late ShowInfo showInfo;
   late Customer customer;
-  late Map headgearObj;
+  // late Map headgearObj;
+  late List headgearObj;
   late int userId;
+  late int clickSelectId;
 
   void updateHeadgearPageFun() {
     if(!isClickCard) {

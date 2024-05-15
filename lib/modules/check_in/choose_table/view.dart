@@ -7,9 +7,11 @@ import 'package:intl/intl.dart';
 
 import '../../../mirra_style.dart';
 import '../complete_page/view.dart';
+import '../data/avatar_info.dart';
 import '../data/show.dart';
 import '../data/booking.dart';
 import '../headgear_acquisition/view.dart';
+import '../player_page/player_squad.dart';
 import '../player_page/view.dart';
 import 'logic.dart';
 import '../../../common.dart';
@@ -21,17 +23,13 @@ class ChooseTablePage extends StatelessWidget {
   }) : super(key: key);
   ShowInfo get showInfo => Get.arguments["showInfo"];
   Customer get customer => Get.arguments["customer"];
+  String get code => Get.arguments["code"];
+  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
   final logic = Get.put(ChooseTableLogic());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
         color: Color(0xFF233342),
         child: Container(
           // alignment: Alignment.center,
@@ -45,26 +43,16 @@ class ChooseTablePage extends StatelessWidget {
                   children: [
                     SizedBox(height: 50),
                     Text(
-                      "Choose Table",
+                      "Choose Bay",
                       style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                     ),
                     Text(
-                      "Please Choose Your Gaming Table",
+                      "Let's Gather! Pick Your Bay for Fun",
                       style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 36.sp, level: 4),
                     ),
                   ],
                 ),
               ),
-              // const SizedBox(height: 50),
-              // const Text(
-              //   "Choose Table",
-              //   style: TextStyle(fontSize: 50),
-              // ),
-              // const SizedBox(height: 70),
-              // const Text(
-              //   "Please Choose Your Gaming Table",
-              //   style: TextStyle(fontSize: 50),
-              // ),
               const SizedBox(height: 100),
               Align(
                 alignment: const Alignment(-1.0, 0.0),
@@ -75,22 +63,22 @@ class ChooseTablePage extends StatelessWidget {
                       "Game Times: ${DateFormat('kk:mm').format(showInfo.startTime.add(8.hours))}",
                       style: CustomTextStyles.title(color: Colors.white, fontSize: 34.sp, level: 5),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          Global.getSetAvatarImageUrl('time_icon.png'),
-                          fit: BoxFit.fill,
-                        ),
-                        SizedBox(
-                          width: 5.0,
-                        ),
-                        Text(
-                          "40 Mins",
-                          style: CustomTextStyles.title(color: Colors.white, fontSize: 34.sp, level: 5),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Image.asset(
+                    //       Global.getSetAvatarImageUrl('time_icon.png'),
+                    //       fit: BoxFit.fill,
+                    //     ),
+                    //     SizedBox(
+                    //       width: 5.0,
+                    //     ),
+                    //     Text(
+                    //       "40 Mins",
+                    //       style: CustomTextStyles.title(color: Colors.white, fontSize: 34.sp, level: 5),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
@@ -121,9 +109,67 @@ class ChooseTablePage extends StatelessWidget {
               const SizedBox(height: 120),
               GetBuilder<ChooseTableLogic>(
                 builder: (logic) => CheckInButton(
-                  title: "Next",
+                  title: "NEXT",
                   disable: !logic.bSelected,
                   onPress: () async {
+                    // List headgearObj = [
+                    //   {
+                    //     "itemInfo": {
+                    //       "id": 22,
+                    //       "name": "LowPoly_Dragn",
+                    //       "type": "headgear",
+                    //       "level": 1,
+                    //       "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
+                    //     }
+                    //   },
+                    //   {
+                    //     "itemInfo": {
+                    //       "id": 20,
+                    //       "name": "Food_Burger",
+                    //       "type": "headgear",
+                    //       "level": 1,
+                    //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+                    //     }
+                    //   },
+                    //   {
+                    //     "itemInfo": {
+                    //       "id": 2,
+                    //       "name": "TV",
+                    //       "type": "headgear",
+                    //       "level": 1,
+                    //       "icon": "/uploads/TV_00b57f3012.png"
+                    //     }
+                    //   },
+                    //   {
+                    //     "itemInfo": {
+                    //       "id": 20,
+                    //       "name": "Food_Burger",
+                    //       "type": "headgear",
+                    //       "level": 1,
+                    //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+                    //     }
+                    //   },
+                    //   {
+                    //     "itemInfo": {
+                    //       "id": 2,
+                    //       "name": "TV",
+                    //       "type": "headgear",
+                    //       "level": 1,
+                    //       "icon": "/uploads/TV_00b57f3012.png"
+                    //     }
+                    //   },
+                    // ];
+                    // Global.setTableId(logic.selectedTableId!);
+                    // Get.offAll(
+                    //       () => HeadgearAcquisitionPage(),
+                    //       arguments: {
+                    //         'showInfo': showInfo,
+                    //         'customer': customer,
+                    //         'headgearObj': headgearObj,
+                    //         'userId': 368,
+                    //       },
+                    // );
+
                     EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
                     try {
                       Global.setTableId(logic.selectedTableId!);
@@ -132,36 +178,74 @@ class ChooseTablePage extends StatelessWidget {
                         email: customer.email,
                         phone: customer.phone,
                       );
-                      await logic.customerCheckIn(showId: showInfo.showId, userId: userId);
+                      print("userId ${userId}");
+                      print("showId ${showInfo.showId}");
+                      print("code ${code}");
+                      print("logic.selectedTableId ${logic.selectedTableId}");
+                      // 验票
+                      await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
+                      print("哈哈哈哈哈");
                       EasyLoading.dismiss(animation: false);
-                      // await Get.to(
-                      //   () => CompletePage(
-                      //     tableId: logic.selectedTableId!,
-                      //     startTime: showInfo.startTime,
-                      //     customer: customer,
-                      //   ),
-                      //   preventDuplicates: false,
-                      // );
-
-                      // await Get.to(
-                      //   () => PlayerInfoShow(
-                      //     showInfo: showInfo,
-                      //     customer: customer,
-                      //   ),
-                      //   preventDuplicates: false,
-                      // );
-
-                      Map headgearObj = await logic.fetchHeadgearInfo(userId);
+                      List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
+                      print("headgearObj ${headgearObj}");
+                      // List headgearObj = [
+                      //   {
+                      //     "itemInfo": {
+                      //       "id": 22,
+                      //       "name": "LowPoly_Dragn",
+                      //       "type": "headgear",
+                      //       "level": 1,
+                      //       "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
+                      //     }
+                      //   },
+                      //   {
+                      //     "itemInfo": {
+                      //       "id": 20,
+                      //       "name": "Food_Burger",
+                      //       "type": "headgear",
+                      //       "level": 1,
+                      //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+                      //     }
+                      //   },
+                      //   {
+                      //     "itemInfo": {
+                      //       "id": 2,
+                      //       "name": "TV",
+                      //       "type": "headgear",
+                      //       "level": 1,
+                      //       "icon": "/uploads/TV_00b57f3012.png"
+                      //     }
+                      //   },
+                      //   {
+                      //     "itemInfo": {
+                      //       "id": 20,
+                      //       "name": "Food_Burger",
+                      //       "type": "headgear",
+                      //       "level": 1,
+                      //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+                      //     }
+                      //   },
+                      //   {
+                      //     "itemInfo": {
+                      //       "id": 2,
+                      //       "name": "TV",
+                      //       "type": "headgear",
+                      //       "level": 1,
+                      //       "icon": "/uploads/TV_00b57f3012.png"
+                      //     }
+                      //   },
+                      // ];
                       print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
+                      // 如果爆过头套就直接去展示用户，反之就走爆头套、选肤色和性别
                       if (headgearObj.isEmpty) {
                         Get.offAll(
-                            () => PlayerInfoDeskShow(
-                                  showInfo: showInfo,
-                                  customer: customer,
-                                ),
-                            arguments: showInfo);
+                            () => PlayerSquadPage(),
+                            arguments: {
+                              'showInfo': showInfo,
+                              'customer': customer,
+                              "isAddPlayerClick": isAddPlayerClick,
+                            });
                       } else {
-                        // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId));
                         Get.offAll(
                           () => HeadgearAcquisitionPage(),
                           arguments: {
@@ -169,31 +253,21 @@ class ChooseTablePage extends StatelessWidget {
                             'customer': customer,
                             'headgearObj': headgearObj,
                             'userId': userId,
+                            "isAddPlayerClick": isAddPlayerClick,
                           },
                         );
                       }
-                      // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
                     } on DioException catch (e) {
+                      print("hahah ${e}");
                       EasyLoading.dismiss();
-
-                      // print("测试测试测试 ${logic.selectedTableId}");
-                      // Global.setTableId(logic.selectedTableId!);
-                      // print("哈哈哈哈哈 ${Global.tableId}");
-                      // Map headgearObj = await logic.fetchHeadgearInfo(279);
-                      // print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
-                      // if(headgearObj.isEmpty) {
-                      //   Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
-                      // }
-                      // else {
-                      //   await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: 279));
-                      // }
-
                       if (e.response == null) EasyLoading.showError("Network Error!");
                       EasyLoading.showError(e.response?.data["error"]["message"]);
                     }
                   },
                 ),
               ),
+              SizedBox(height: 30),
+              _BackButton(),
             ],
           ),
         ),
@@ -297,5 +371,25 @@ class _TableItemState extends State<_TableItem> {
     } else {
       return "D";
     }
+  }
+}
+
+class _BackButton extends StatelessWidget {
+  _BackButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        Get.back();
+      },
+      child: Text(
+        "BACK",
+        style: CustomTextStyles.button(color: Color(0xFF13EFEF), fontSize: 28.sp),
+      ),
+    );
   }
 }

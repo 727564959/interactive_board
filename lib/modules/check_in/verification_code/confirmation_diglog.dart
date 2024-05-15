@@ -54,7 +54,7 @@ class ConfirmationDialog extends StatelessWidget {
                   //     customer: bookingInfo.customer,
                   //   ),
                   // );
-                  await Get.to(() => TermsOfUsePage(isAddPlayerClick: false, showInfo: showInfo, customer: bookingInfo.customer));
+                  await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfo, "customer": bookingInfo.customer});
                   WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
                   logic.codeController.clear();
                 } on DioException catch (e) {
@@ -77,7 +77,7 @@ class ConfirmationDialog extends StatelessWidget {
                   print("哈哈哈哈哈: ${bookingInfo.customer}");
                   print("哈哈哈哈哈: ${showInfoTest}");
                   EasyLoading.dismiss();
-                  await Get.to(() => TermsOfUsePage(isAddPlayerClick: false, showInfo: showInfoTest, customer: bookingInfo.customer));
+                  await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfoTest, "customer": bookingInfo.customer});
                   if (e.response == null) EasyLoading.showError("Network Error!");
                   EasyLoading.showError(e.response?.data["error"]["message"]);
                 }

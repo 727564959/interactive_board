@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import '../../../common.dart';
+import '../data/avatar_info.dart';
 
 class AddPlayerLogic extends GetxController {
   int? selectedTableId;
@@ -8,23 +9,24 @@ class AddPlayerLogic extends GetxController {
   String phone = "";
   String firstName = "";
   String lastName = "";
-  String birthdayStr = "Please enter your birthday";
+  // String birthdayStr = "Please enter your birthday";
+  DateTime birthdayStr = DateTime.now();
   bool get bSelected => selectedTableId != null;
   final _dio = Dio();
 
   // 选择生日确定
-  void confirmBirthdayFun(var val) {
-    print("选择生日 $val");
-    birthdayStr = "${val?.year}" +
-        "-" +
-        (val?.month <= 9 ? "0" : "") +
-        "${val?.month}" +
-        "-" +
-        (val?.day <= 9 ? "0" : "") +
-        "${val?.day}";
-    print("选择生日 $birthdayStr");
-    update();
-  }
+  // void confirmBirthdayFun(var val) {
+  //   print("选择生日 $val");
+  //   birthdayStr = "${val?.year}" +
+  //       "-" +
+  //       (val?.month <= 9 ? "0" : "") +
+  //       "${val?.month}" +
+  //       "-" +
+  //       (val?.day <= 9 ? "0" : "") +
+  //       "${val?.day}";
+  //   print("选择生日 $birthdayStr");
+  //   update();
+  // }
 
   // 查重
   Future<Map> checkingPlayer(String email) async {
@@ -90,28 +92,38 @@ class AddPlayerLogic extends GetxController {
   }
 
   // 查询并清理头套
-  Future<Map> fetchHeadgearInfo(int userId) async {
-    print("爆头套需要的userId $userId");
-    final response = await _dio.post("$baseApiUrl/players/$userId/headgear-acquisition-event", data: {});
-    print("爆头套 $response");
-
-    Map<String, dynamic> result = response.data;
-    // Map<String, dynamic> result = {
-    //   "itemInfo": {
-    //     "id": 22,
-    //     "name": "LowPoly_Dragn",
-    //     "type": "headgear",
-    //     "level": 1,
-    //     "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
-    //   }
-    //   // "itemInfo": {
-    //   //   "id": 20,
-    //   //   "name": "Food_Burger",
-    //   //   "type": "headgear",
-    //   //   "level": 1,
-    //   //   "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
-    //   // }
-    // };
+  Future<List<GameItemInfo>> fetchHeadgearInfo(userId) async {
+    final response = await _dio.get(
+      "$baseApiUrl/players/$userId/game-items",
+    );
+    final result = <GameItemInfo>[];
+    for (final item in response.data) {
+      result.add(GameItemInfo.fromJson(item['gameItem']));
+    }
     return result;
   }
+  // Future<Map> fetchHeadgearInfo(int userId) async {
+  //   print("爆头套需要的userId $userId");
+  //   final response = await _dio.post("$baseApiUrl/players/$userId/headgear-acquisition-event", data: {});
+  //   print("爆头套 $response");
+  //
+  //   Map<String, dynamic> result = response.data;
+  //   // Map<String, dynamic> result = {
+  //   //   "itemInfo": {
+  //   //     "id": 22,
+  //   //     "name": "LowPoly_Dragn",
+  //   //     "type": "headgear",
+  //   //     "level": 1,
+  //   //     "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
+  //   //   }
+  //   //   // "itemInfo": {
+  //   //   //   "id": 20,
+  //   //   //   "name": "Food_Burger",
+  //   //   //   "type": "headgear",
+  //   //   //   "level": 1,
+  //   //   //   "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+  //   //   // }
+  //   // };
+  //   return result;
+  // }
 }
