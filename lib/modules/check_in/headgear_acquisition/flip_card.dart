@@ -31,7 +31,6 @@ class HeadgearFlipCard extends StatefulWidget {
 
 class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
   double get width => widget.width;
-  late final Timer timer;
   late final controller = FlipCardController();
   Color get labelColor {
     if (widget.bSelected ?? false) return const Color(0xFF13EFEF);
@@ -70,7 +69,6 @@ class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
 
   @override
   void dispose() {
-    timer.cancel();
     super.dispose();
   }
 
@@ -108,7 +106,15 @@ class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
               width: width,
               height: width * 1.05,
               decoration: BoxDecoration(
-                color: backgroundColor,
+                // color: backgroundColor,
+                gradient: RadialGradient(
+                  center: Alignment.center,
+                  radius: 0.5,
+                  colors: [
+                    labelColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
+                    backgroundColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
+                  ],
+                ),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
@@ -122,7 +128,7 @@ class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
               ),
             ),
             Container(
-              height: 1,
+              height: 4,
               color: Colors.white,
             ),
             Padding(

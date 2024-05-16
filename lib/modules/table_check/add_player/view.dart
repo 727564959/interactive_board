@@ -39,7 +39,23 @@ class AddPlayerDataPage extends StatelessWidget {
                         return Column(
                           children: [
                             // 顶部文本信息
-                            CheckInTitlePage(titleText: "Add Player"),
+                            SizedBox(
+                              width: 1.0.sw,
+                              height: 0.15.sh,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 40.0, left: 40.0),
+                                    child: SizedBox(
+                                      child: Text(
+                                        "Add Player",
+                                        style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                             _PlayerForm(),
                             // 底部按钮区域
                             _BottomBtns(),

@@ -13,9 +13,7 @@ import '../data/avatar_info.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../headgear_acquisition/view.dart';
-import '../player_page/logic.dart';
 import '../player_page/player_squad.dart';
-import '../player_page/view.dart';
 import 'logic.dart';
 
 class BirthdayPage extends StatelessWidget {
@@ -30,13 +28,12 @@ class BirthdayPage extends StatelessWidget {
         body: Stack(
         children: [
           Container(
+            width: 1.0.sw,
             color: Color(0xFF233342),
             child: Column(
               children: [
-                // 顶部文本信息
-                CheckInTitlePage(titleText: ""),
                 SizedBox(
-                  height: 0.15.sh,
+                  height: 0.25.sh,
                 ),
                 // SizedBox(
                 //   child: GetBuilder<AddPlayerLogic>(
@@ -242,6 +239,7 @@ class _AddBirthdayButton extends StatelessWidget {
   ShowInfo get showInfo => Get.arguments["showInfo"];
   Customer get customer => Get.arguments["customer"];
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -260,7 +258,7 @@ class _AddBirthdayButton extends StatelessWidget {
           String testPhone = "+(1)" + logic.phone;
           try {
             Map addUserInfo = await logic.addPlayerFun(
-                Global.tableId,
+                tableId,
                 logic.email,
                 testPhone,
                 logic.firstName,
@@ -269,7 +267,7 @@ class _AddBirthdayButton extends StatelessWidget {
                 birthDay);
             EasyLoading.dismiss(animation: false);
             // 加入到show
-            await logic.addPlayerToShow(showInfo.showId, Global.tableId, addUserInfo['userId']);
+            await logic.addPlayerToShow(showInfo.showId, tableId, addUserInfo['userId']);
 
             print("参数 ${addUserInfo['userId']}");
             // Map headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
@@ -280,6 +278,7 @@ class _AddBirthdayButton extends StatelessWidget {
                     'showInfo': showInfo,
                     'customer': customer,
                     "isAddPlayerClick": isAddPlayerClick,
+                    "tableId": tableId,
                   });
               // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
             }
@@ -292,6 +291,7 @@ class _AddBirthdayButton extends StatelessWidget {
                   'headgearObj': headgearObj,
                   'userId': addUserInfo['userId'],
                   "isAddPlayerClick": isAddPlayerClick,
+                  "tableId": tableId,
                 },
               );
             }
@@ -306,7 +306,7 @@ class _AddBirthdayButton extends StatelessWidget {
           try {
             EasyLoading.dismiss(animation: false);
             // 加入到show
-            await logic.addPlayerToShow(showInfo.showId, Global.tableId, checkingUser['userId']);
+            await logic.addPlayerToShow(showInfo.showId, tableId, checkingUser['userId']);
 
             List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
             // Map headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
@@ -316,6 +316,7 @@ class _AddBirthdayButton extends StatelessWidget {
                     'showInfo': showInfo,
                     'customer': customer,
                     "isAddPlayerClick": isAddPlayerClick,
+                    "tableId": tableId,
                   });
               // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
             }
@@ -329,6 +330,7 @@ class _AddBirthdayButton extends StatelessWidget {
                   'headgearObj': headgearObj,
                   'userId': checkingUser['userId'],
                   "isAddPlayerClick": isAddPlayerClick,
+                  "tableId": tableId,
                 },
               );
             }

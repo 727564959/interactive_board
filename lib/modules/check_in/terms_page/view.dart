@@ -4,7 +4,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../../common.dart';
 import '../../../mirra_style.dart';
 import '../add_player/view.dart';
 import '../choose_table/view.dart';
@@ -34,9 +33,8 @@ class TermsOfUsePage extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 40.0, left: 120.0),
+                          margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
                           child: SizedBox(
-                            width: 0.24.sw,
                             child: Text(
                               "Term of Use",
                               style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
@@ -54,7 +52,7 @@ class TermsOfUsePage extends StatelessWidget {
                             color: Color(0xFFDBE2E3),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
-                          margin: EdgeInsets.only(top: 0.0, left: 120.0),
+                          margin: EdgeInsets.only(top: 0.0, left: 0.1.sw),
                           constraints: BoxConstraints.tightFor(width: 0.8.sw, height: 0.6.sh), //卡片大小
                           child: ListView(
                             shrinkWrap: true,
@@ -137,6 +135,7 @@ class _AgreeButton extends StatelessWidget {
   ShowInfo get showInfo => Get.arguments["showInfo"];
   Customer get customer => Get.arguments["customer"];
   String get code => Get.arguments["code"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +146,13 @@ class _AgreeButton extends StatelessWidget {
         print("object ${isAddPlayerClick}");
         // 是新增点击则去新增页面，反之去选桌
         if (isAddPlayerClick) {
-          await Get.to(() => AddPlayerPage(), arguments: {"showInfo": showInfo, "customer": customer, "isAddPlayerClick": isAddPlayerClick,});
+          await Get.to(() => AddPlayerPage(),
+              arguments: {
+                "showInfo": showInfo,
+                "customer": customer,
+                "isAddPlayerClick": isAddPlayerClick,
+                "tableId": tableId,
+              });
         } else {
           EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
           try {

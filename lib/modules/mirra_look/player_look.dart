@@ -120,14 +120,16 @@ class _PlayerInfoArea extends StatefulWidget {
 
 class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
   final logic = Get.put(MirraLookLogic());
+  int get tableId => Get.arguments["tableId"];
+
   Color get color {
-    if (Global.tableId == 1) {
+    if (tableId == 1) {
       // background: #FFBD80;
       return const Color(0xFFFFBD80);
-    } else if (Global.tableId == 2) {
+    } else if (tableId == 2) {
       // background: #EFB5FD;
       return const Color(0xFFEFB5FD);
-    } else if (Global.tableId == 3) {
+    } else if (tableId == 3) {
       // background: #8EE8BD;
       return const Color(0xFF8EE8BD);
     } else {
@@ -137,11 +139,11 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
   }
   // 浅色
   Color get lightColor {
-    if (Global.tableId == 1) {
+    if (tableId == 1) {
       return const Color(0xFFE6BC9C);
-    } else if (Global.tableId == 2) {
+    } else if (tableId == 2) {
       return const Color(0xFFE8B6E0);
-    } else if (Global.tableId == 3) {
+    } else if (tableId == 3) {
       return const Color(0xFFBCDBBC);
     } else {
       return const Color(0xFFC5D4E6);
@@ -149,11 +151,11 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
   }
   // 深色
   Color get darkColor {
-    if (Global.tableId == 1) {
+    if (tableId == 1) {
       return const Color(0xFFCB8C5E);
-    } else if (Global.tableId == 2) {
+    } else if (tableId == 2) {
       return const Color(0xFFBB7EB1);
-    } else if (Global.tableId == 3) {
+    } else if (tableId == 3) {
       return const Color(0xFF81AE81);
     } else {
       return const Color(0xFF85AEDE);
@@ -623,12 +625,12 @@ class _SaveButton extends StatelessWidget {
     required this.width,
   }) : super(key: key);
   final double width;
-  final testTabId = Global.tableId;
   ShowInfo get showInfo => Get.arguments?["showInfo"];
   Customer get customer => Get.arguments?["customer"];
   bool get isAddPlayerClick => Get.arguments?["isAddPlayerClick"];
   PlayerCardInfo get card => Get.arguments?["card"];
   ShowState get showState => Get.arguments?["showState"];
+  int get tableId => Get.arguments["tableId"];
   final logic = Get.put(MirraLookLogic());
 
   @override
@@ -642,7 +644,14 @@ class _SaveButton extends StatelessWidget {
           // logic.testFun();
           EasyLoading.dismiss(animation: false);
           if(Get.arguments["showInfo"] != null) {
-            Get.offAll(() => PlayerSquadPage(), arguments: {"showInfo": showInfo, "customer": customer, "isAddPlayerClick": isAddPlayerClick, "isCountdownStart": true});
+            Get.offAll(() => PlayerSquadPage(),
+                arguments: {
+                  "showInfo": showInfo,
+                  "customer": customer,
+                  "isAddPlayerClick": isAddPlayerClick,
+                  "isCountdownStart": true,
+                  "tableId": tableId,
+                });
             print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
             if(Get.isRegistered<PlayerShowLogic>()) {
               Get.find<PlayerShowLogic>().isCountdownStart = true;

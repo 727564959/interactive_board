@@ -15,15 +15,16 @@ import 'player_squad.dart';
 class NewPlayerPage extends StatelessWidget {
   NewPlayerPage({Key? key}) : super(key: key);
   final logic = Get.put(PlayerShowLogic());
+  int get tableId => Get.arguments["tableId"];
+
   Color get color {
-    print("12345 ${Global.tableId}");
-    if (Global.tableId == 1) {
+    if (tableId == 1) {
       // background: #FFBD80;
       return const Color(0xFFFFBD80);
-    } else if (Global.tableId == 2) {
+    } else if (tableId == 2) {
       // background: #EFB5FD;
       return const Color(0xFFEFB5FD);
-    } else if (Global.tableId == 3) {
+    } else if (tableId == 3) {
       // background: #8EE8BD;
       return const Color(0xFF8EE8BD);
     } else {
@@ -290,12 +291,12 @@ class _SaveButton extends StatelessWidget {
   }) : super(key: key);
   final logic = Get.put(PlayerShowLogic());
   final double width;
-  final testTabId = Global.tableId;
   ShowInfo get showInfo => Get.arguments["showInfo"];
   Customer get customer => Get.arguments["customer"];
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
   int get userId => Get.arguments["userId"];
   int get headgearId => Get.arguments["headgearId"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -309,7 +310,13 @@ class _SaveButton extends StatelessWidget {
             logic.updateUserPreference(player.id, player.nickname, headgearId, logic.selectedGender.label??"", logic.selectedSkin.label??"");
             logic.testFun();
             EasyLoading.dismiss(animation: false);
-            Get.to(() => PlayerSquadPage(), arguments: {"showInfo": showInfo, "customer": customer, "isAddPlayerClick": isAddPlayerClick,});
+            Get.to(() => PlayerSquadPage(),
+                arguments: {
+                  "showInfo": showInfo,
+                  "customer": customer,
+                  "isAddPlayerClick": isAddPlayerClick,
+                  "tableId": tableId,
+                });
           } on DioException catch (e) {
             EasyLoading.dismiss();
             if (e.response == null) EasyLoading.showError("Network Error!");

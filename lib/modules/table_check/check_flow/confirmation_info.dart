@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../data/model/show_state.dart';
+import '../player_show/view.dart';
 import 'group_set.dart';
 
 class ConfirmationInfo extends StatelessWidget {
@@ -314,7 +315,12 @@ class _NoProblemButton extends StatelessWidget {
         EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
         try {
           EasyLoading.dismiss(animation: false);
-          await Get.to(() => GroupSetIconPage(), arguments: {"showState": showState});
+          // await Get.to(() => GroupSetIconPage(), arguments: {"showState": showState});
+          // 直接去玩家展示
+          Get.offAll(() => PlayerShowPage(),
+              arguments: {
+                'showState': showState,
+              });
           WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
         } on DioException catch (e) {
           EasyLoading.dismiss();

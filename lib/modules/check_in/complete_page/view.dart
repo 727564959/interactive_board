@@ -6,10 +6,6 @@ import 'package:interactive_board/app_routes.dart';
 
 import 'package:intl/intl.dart';
 import 'package:interactive_board/modules/check_in/data/booking.dart';
-import 'package:interactive_board/modules/check_in/widget/button.dart';
-import 'package:timer_count_down/timer_count_down.dart';
-
-import '../../../common.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/custom_countdown.dart';
 
@@ -185,17 +181,22 @@ class _BackButton extends StatelessWidget {
     required this.width,
   }) : super(key: key);
   final double width;
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        await Get.searchDelegate(null).toNamedAndOffUntil(
+        // await Get.searchDelegate(null).toNamedAndOffUntil(
+        //   AppRoutes.landingPage,
+        //       (p0) {
+        //     return p0.name == AppRoutes.landingPage;
+        //   },
+        // );
+        await Get.offAllNamed(
           AppRoutes.landingPage,
-              (p0) {
-            return p0.name == AppRoutes.landingPage;
-          },
+          arguments: {"tableId": tableId},
         );
       },
       child: Container(
@@ -221,11 +222,15 @@ class _BackButton extends StatelessWidget {
                 color: Color(0xffFFFFFF),
                 start: true,
                 onCountdownComplete: () async {
-                  await Get.searchDelegate(null).toNamedAndOffUntil(
+                  // await Get.searchDelegate(null).toNamedAndOffUntil(
+                  //   AppRoutes.landingPage,
+                  //       (p0) {
+                  //     return p0.name == AppRoutes.landingPage;
+                  //   }
+                  // );
+                  await Get.offAllNamed(
                     AppRoutes.landingPage,
-                        (p0) {
-                      return p0.name == AppRoutes.landingPage;
-                    },
+                    arguments: {"tableId": tableId},
                   );
                 },
               ),

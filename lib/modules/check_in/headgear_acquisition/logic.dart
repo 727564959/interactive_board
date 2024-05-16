@@ -8,31 +8,13 @@ import '../data/booking.dart';
 class HeadgearAcquisitionLogic extends GetxController {
   final _dio = Dio();
 
-  bool isClickCard = false;
   Map argumentsMap = Get.arguments;
   late ShowInfo showInfo;
   late Customer customer;
-  // late Map headgearObj;
   late List headgearObj;
   late int userId;
   late int clickSelectId;
-
-  void updateHeadgearPageFun() {
-    if(!isClickCard) {
-      isClickCard = true;
-      Future.delayed(1.2.seconds).then((value) async {
-        // 刷新当前页面
-        update(['headgearAcquisitionPage']);
-      });
-    }
-    else {
-      isClickCard = false;
-      // 刷新当前页面
-      update(['headgearAcquisitionPage']);
-    }
-    // // 刷新当前页面
-    // update(['headgearAcquisitionPage']);
-  }
+  bool isClickCard = false;
 
   @override
   void onInit() {

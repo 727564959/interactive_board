@@ -5,8 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../../../common.dart';
-import '../../../../widgets/check_in_title.dart';
 import '../../../mirra_style.dart';
 import '../data/avatar_info.dart';
 import '../data/booking.dart';
@@ -14,7 +12,6 @@ import '../data/show.dart';
 import '../headgear_acquisition/view.dart';
 import '../player_page/logic.dart';
 import '../player_page/player_squad.dart';
-import '../player_page/view.dart';
 import 'birthday_page.dart';
 import 'logic.dart';
 
@@ -42,7 +39,23 @@ class AddPlayerPage extends StatelessWidget {
                         return Column(
                           children: [
                             // 顶部文本信息
-                            CheckInTitlePage(titleText: "Add Player"),
+                            SizedBox(
+                              width: 1.0.sw,
+                              height: 0.15.sh,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 40.0, left: 40.0),
+                                    child: SizedBox(
+                                      child: Text(
+                                        "Add Player",
+                                        style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                             _PlayerForm(),
                             // 底部按钮区域
                             _BottomBtns(),
@@ -419,8 +432,7 @@ class _NextButton extends StatelessWidget {
   ShowInfo get showInfo => Get.arguments["showInfo"];
   Customer get customer => Get.arguments["customer"];
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
-
-  final testTabId = Global.tableId;
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -428,7 +440,13 @@ class _NextButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         if(logic.email.isNotEmpty && logic.phone.isNotEmpty && logic.firstName.isNotEmpty && logic.lastName.isNotEmpty) {
-          Get.to(() => BirthdayPage(), arguments: {'showInfo': showInfo, 'customer': customer, "isAddPlayerClick": isAddPlayerClick,},);
+          Get.to(() => BirthdayPage(),
+            arguments: {
+              'showInfo': showInfo,
+              'customer': customer,
+              "isAddPlayerClick": isAddPlayerClick,
+              "tableId": tableId,
+            },);
         }
         else {
           EasyLoading.showError("Please fill in the information !");
@@ -502,6 +520,7 @@ class _MaybeLatterButton extends StatelessWidget {
   ShowInfo get showInfo => Get.arguments["showInfo"];
   Customer get customer => Get.arguments["customer"];
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -511,7 +530,7 @@ class _MaybeLatterButton extends StatelessWidget {
         // Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
         Map skipUserInfo = await logic.addSkipPlayer();
         // 加入到show
-        await logic.addPlayerToShow(showInfo.showId, Global.tableId, skipUserInfo['userId']);
+        await logic.addPlayerToShow(showInfo.showId, tableId, skipUserInfo['userId']);
         // Map headgearObj = await logic.fetchHeadgearInfo(skipUserInfo['userId']);
         List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(skipUserInfo['userId']);
         if(headgearObj.isEmpty) {
@@ -523,6 +542,7 @@ class _MaybeLatterButton extends StatelessWidget {
                 'showInfo': showInfo,
                 'customer': customer,
                 "isAddPlayerClick": isAddPlayerClick,
+                "tableId": tableId,
               });
           // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
         }
@@ -542,6 +562,7 @@ class _MaybeLatterButton extends StatelessWidget {
                         'headgearObj': headgearObj,
                         'userId': skipUserInfo['userId'],
                         "isAddPlayerClick": isAddPlayerClick,
+                        "tableId": tableId,
                       },
             );
           });

@@ -122,13 +122,20 @@ class _AddNowBtn extends StatelessWidget {
   final double width;
   ShowInfo get showInfo => Get.arguments["showInfo"];
   Customer get customer => Get.arguments["customer"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": true, "showInfo": showInfo, "customer": customer});
+        await Get.to(() => TermsOfUsePage(),
+            arguments: {
+              "isAddPlayerClick": true,
+              "showInfo": showInfo,
+              "customer": customer,
+              "tableId": tableId,
+            });
       },
       child: Container(
         decoration: BoxDecoration(

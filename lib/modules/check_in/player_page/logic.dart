@@ -68,6 +68,7 @@ class PlayerShowLogic extends GetxController {
   bool get bSelected => selectedTableId != null;
   SkinOption selectedSkin = SkinOption();
   GenderOption selectedGender = GenderOption();
+  int get tableId => Get.arguments["tableId"];
 
   final _dio = Dio();
 
@@ -84,7 +85,8 @@ class PlayerShowLogic extends GetxController {
     update(['playerSquadPage']);
   }
 
-  Future<void> updateUserPreference(int userId, String nickname, int headgearId, String sex, String skinColor) async {
+  Future<void> updateUserPreference(int userId, String nickname, int headgearId,
+      String sex, String skinColor) async {
     final response = await _dio.post(
       "$baseApiUrl/players/$userId/update-user-preference",
       data: {
@@ -97,26 +99,24 @@ class PlayerShowLogic extends GetxController {
   }
 
   Future<UserAvatar> fetchUserAvatar(userId) async {
-    final response = await _dio.get(
-        "$baseApiUrl/players/$userId/avatar"
-    );
+    final response = await _dio.get("$baseApiUrl/players/$userId/avatar");
     print("用户信息 $response");
     final data = response.data;
-    return UserAvatar.fromJson({
-      ...data
-    });
+    return UserAvatar.fromJson({...data});
   }
 
   Future<void> getPlayerCardInfo(showId) async {
-    casualUser = await playerPageApi.fetchCasualUser(showId);
-    userList = await playerPageApi.fetchUsers(showId);
+    casualUser = await playerPageApi.fetchCasualUser(showId, tableId);
+    userList = await playerPageApi.fetchUsers(showId, tableId);
     playerCardInfo.clear();
     List<PlayerCardInfo> cards = [];
-    for(int j = 0; j < casualUser.length; j++) {
+    for (int j = 0; j < casualUser.length; j++) {
       print("遍历开始 ${casualUser[j].userId}");
       print("userList ${userList}");
-      final gameItem = await playerPageApi.fetchUserGameItems(casualUser[j].userId);
-      final userData = userList.firstWhere((element) => element.id == casualUser[j].userId);
+      final gameItem =
+          await playerPageApi.fetchUserGameItems(casualUser[j].userId);
+      final userData =
+          userList.firstWhere((element) => element.id == casualUser[j].userId);
       print("icon信息 ${gameItem}");
       print("用户 ${userData}");
       int avatarId = 1;
@@ -129,9 +129,9 @@ class PlayerShowLogic extends GetxController {
       // int bodyLevel = 1;
       bool foundAvatar = false; // 布尔标志，用于跟踪是否找到符合条件的 avatar
       // bool foundBody = false; // 布尔标志，用于跟踪是否找到符合条件的 body
-      for(int m = 0; m < gameItem.length; m++){
+      for (int m = 0; m < gameItem.length; m++) {
         print("找相同 ${gameItem[m].id.toString() == userData.headgearId}");
-        if(gameItem[m].id.toString() == userData.headgearId) {
+        if (gameItem[m].id.toString() == userData.headgearId) {
           avatarId = gameItem[m].id;
           avatarIcon = gameItem[m].icon;
           avatarName = gameItem[m].name;
@@ -156,22 +156,21 @@ class PlayerShowLogic extends GetxController {
       if (foundAvatar) {
         print("向玩家卡片加入数据");
         cards.add(PlayerCardInfo(
-          userId: casualUser[j].userId,
-          nickname: casualUser[j].nickname,
-          bTemped: casualUser[j].bTemped,
-          bShowRegisterDialog: casualUser[j].bShowRegisterDialog,
-          avatarId: avatarId,
-          avatarIcon: avatarIcon,
-          avatarName: avatarName,
-          avatarLevel: avatarLevel,
-          // bodyId: bodyId,
-          // bodyIcon: bodyIcon,
-          // bodyName: bodyName,
-          // bodyLevel: bodyLevel,
-          isUserCard: true,
-          skinColor: userData.skinColor,
-          sex: userData.sex
-        ));
+            userId: casualUser[j].userId,
+            nickname: casualUser[j].nickname,
+            bTemped: casualUser[j].bTemped,
+            bShowRegisterDialog: casualUser[j].bShowRegisterDialog,
+            avatarId: avatarId,
+            avatarIcon: avatarIcon,
+            avatarName: avatarName,
+            avatarLevel: avatarLevel,
+            // bodyId: bodyId,
+            // bodyIcon: bodyIcon,
+            // bodyName: bodyName,
+            // bodyLevel: bodyLevel,
+            isUserCard: true,
+            skinColor: userData.skinColor,
+            sex: userData.sex));
       }
     }
 
@@ -206,10 +205,11 @@ class PlayerShowLogic extends GetxController {
   }
 
   Future<void> getCurrentTeam() async {
-    List<TeamInfo> teamList = await playerPageApi.fetchTeamInfo(Get.arguments["showInfo"].showId);
-    for(int i = 0; i < teamList.length; i++) {
+    List<TeamInfo> teamList =
+        await playerPageApi.fetchTeamInfo(Get.arguments["showInfo"].showId);
+    for (int i = 0; i < teamList.length; i++) {
       print("yyyyy ${teamList[i]}");
-      if(teamList[i].teamId == Global.tableId) {
+      if (teamList[i].teamId == tableId) {
         print("hahahha ${teamList[i].iconPath}");
         teamlogo = teamList[i].iconPath;
       }
@@ -219,8 +219,8 @@ class PlayerShowLogic extends GetxController {
   Future<void> getGameItems(userId, avatarId) async {
     print("嘿哈嘿哈");
     gameItemInfo = await playerPageApi.fetchHeadgearInfo(userId);
-    for(int i = 0; i < gameItemInfo.length; i++) {
-      if(gameItemInfo[i].id == avatarId) {
+    for (int i = 0; i < gameItemInfo.length; i++) {
+      if (gameItemInfo[i].id == avatarId) {
         clickedCard = i;
       }
     }
@@ -234,7 +234,7 @@ class PlayerShowLogic extends GetxController {
     getCurrentTeam();
     // 获取用户信息
     testFun();
-    if(Get.arguments["isCountdownStart"] != null) {
+    if (Get.arguments["isCountdownStart"] != null) {
       isCountdownStart = Get.arguments["isCountdownStart"];
     }
     update();

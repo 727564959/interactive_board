@@ -13,6 +13,7 @@ import '../../../../app_routes.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../data/model/show_state.dart';
+import '../../check_in/headgear_acquisition/flip_card.dart';
 import '../../set_avatar/logic.dart';
 import '../../set_avatar/view.dart';
 import '../player_show/new_player_page.dart';
@@ -68,321 +69,74 @@ class _TreasureChestWidget extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      child: Column(
-        children: [
-          Container(
-            width: 0.9.sw,
-            margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Welcome Package",
-                  style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
-                ),
-                SizedBox(height: 10,),
-                if(!logic.isClickCard) Text(
-                  "These exciting headwears options for your upcoming adventures.",
-                  style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
-                ),
-                if(logic.isClickCard) Text(
-                  "Choose one to get start!",
-                  style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
-                ),
-              ],
-            ),
-          ),
-          // FlipCard(headgearObj: headgearObj),
-          CardFlipAnimation(headgearObj: headgearObj),
-          SizedBox(height: 50,),
-          // _NextButton(width: 600.w, showInfo: showInfo, customer: customer, userId: userId,),
-          // if(logic.isClickCard) _NextButton(width: 600.w, showInfo: showInfo, customer: customer, userId: userId,),
-        ],
-      ),
+      child: _CardFlip(headgearObj: headgearObj),
     );
   }
 }
 
-class CardFlipAnimation extends StatefulWidget {
-  CardFlipAnimation({required this.headgearObj});
+class _CardFlip extends StatefulWidget {
+  _CardFlip({Key? key, required this.headgearObj});
   final List headgearObj;
   @override
-  _CardFlipAnimationState createState() => _CardFlipAnimationState();
+  _CardFlipState createState() => _CardFlipState();
 }
-
-class _CardFlipAnimationState extends State<CardFlipAnimation>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _rotationAnimation;
-  bool _isFrontVisible = true;
-  bool _isChangingCardFace = false;
-  int currentIndex = 0;
-  Color get color {
-    if (Global.tableId == 1) {
-      // background: #FFBD80;
-      return const Color(0xFFFFBD80);
-    } else if (Global.tableId == 2) {
-      // background: #EFB5FD;
-      return const Color(0xFFEFB5FD);
-    } else if (Global.tableId == 3) {
-      // background: #8EE8BD;
-      return const Color(0xFF8EE8BD);
-    } else {
-      // background: #9ED7F7;
-      return const Color(0xFF9ED7F7);
-    }
-  }
-  // 浅色
-  Color get lightColor {
-    print("12345 ${Global.tableId}");
-    if (Global.tableId == 1) {
-      return const Color(0xFFE6BC9C);
-    } else if (Global.tableId == 2) {
-      return const Color(0xFFE8B6E0);
-    } else if (Global.tableId == 3) {
-      return const Color(0xFFBCDBBC);
-    } else {
-      return const Color(0xFFC5D4E6);
-    }
-  }
-  // 深色
-  Color get darkColor {
-    print("12345 ${Global.tableId}");
-    if (Global.tableId == 1) {
-      return const Color(0xFFCB8C5E);
-    } else if (Global.tableId == 2) {
-      return const Color(0xFFBB7EB1);
-    } else if (Global.tableId == 3) {
-      return const Color(0xFF81AE81);
-    } else {
-      return const Color(0xFF85AEDE);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // beforeStartCardFlipping();
-    startCardFlipping();
-
-    _animationController = AnimationController(
-      duration: Duration(milliseconds: 1000),
-      // duration: Duration(milliseconds: (currentIndex + 1) * 1000),
-      vsync: this,
-    );
-
-    _rotationAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
-
-    _animationController.addStatusListener((status) {
-      if (status == AnimationStatus.forward) {
-        setState(() {
-          _isChangingCardFace = true;
-        });
-      } else if (status == AnimationStatus.completed ||
-          status == AnimationStatus.dismissed) {
-        setState(() {
-          _isChangingCardFace = false;
-          _isFrontVisible = !_isFrontVisible;
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  // void beforeStartCardFlipping() {
-  //   print("widget.headgearObj ${widget.headgearObj}");
-  //   for (int i = 0; i < widget.headgearObj.length; i++) {
-  //     widget.headgearObj[i]["isCardFlipped"] = false;
-  //     // widget.headgearObj[i]["isFrontVisible"] = true;
-  //     // widget.headgearObj[i]["isChangingCardFace"] = false;
-  //   }
-  //   print("widget.headgearObj ${widget.headgearObj}");
-  //   startCardFlipping();
-  // }
-
-  void startCardFlipping() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        print('Current time: ${DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now())}');
-        print('widget.headgearObj: ${widget.headgearObj}');
-        if(!widget.headgearObj[currentIndex].isCardFlipped) {
-          // if(!_isFrontVisible) {
-          //   _isFrontVisible = true;
-          // }
-          // if(_isChangingCardFace) {
-          //   _isChangingCardFace = false;
-          // }
-          _flipCard(currentIndex);
-          widget.headgearObj[currentIndex].isCardFlipped = !widget.headgearObj[currentIndex].isCardFlipped;
-        }
-
-        // if(widget.headgearObj[currentIndex].isCardFlipped) {
-        //   print("开始翻转: ${currentIndex}");
-        //   _flipCard();
-        // }
-        currentIndex++;
-        if (currentIndex >= 5) {
-          timer.cancel();
-        }
-      });
-    });
-  }
-
-  void _flipCard(int num) {
-    print("开始翻转: ${num}");
-    print("_isFrontVisible: ${_isFrontVisible }");
-    print("_isChangingCardFace: ${_isChangingCardFace}");
-    print("对象数据: ${widget.headgearObj[num].isCardFlipped}");
-    if (_animationController.isAnimating) {
-      print("_animationController.isAnimating");
-      return;
-    }
-    if(!widget.headgearObj[num].isCardFlipped) {
-      print("需要翻转的");
-      // if (_isFrontVisible || widget.headgearObj[num].isCardFlipped) {
-      if (_isFrontVisible) {
-        print("+++ forward +++");
-        _animationController.forward();
-      } else {
-        print("--- reverse ---");
-        _animationController.reverse();
-      }
-    }
-  }
-
+class _CardFlipState extends State<_CardFlip> {
   final logic = Get.find<HeadgearLogic>();
   int? selectIndex;
   ShowState get showState => Get.arguments["showState"];
   int get userId => Get.arguments["userId"];
 
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 0.84.sw,
-      margin: EdgeInsets.only(top: 0.1.sh, left: 0.08.sw, right: 0.08.sw),
-      child: Row(
-        children: List.generate(widget.headgearObj.length, (index) {
-          return GestureDetector(
-            // onTap: _flipCard,
-            onTap: () async {
-              logic.clickSelectId = widget.headgearObj[index].id;
-              setState(() {
-                selectIndex = index;
-              });
-              print("logic.clickSelectId ${logic.clickSelectId}");
-              Future.delayed(0.5.seconds).then((value) async {
-                Get.offAll(() => NewPlayerInfoPage(), arguments: {"userId": userId, "headgearId": logic.clickSelectId, "showState": showState});
-              });
-            },
-            child: AnimatedBuilder(
-              animation: _animationController,
-              builder: (context, child) {
-                final rotationValue = _rotationAnimation.value;
-                return Transform(
-                  transform: Matrix4.identity()
-                  ..setEntry(3, 2, 0.001)
-                  ..rotateY(rotationValue * pi)
-                  // ..scale(_isFrontVisible && !widget.headgearObj[index].isCardFlipped ? 1.0 : -1.0, 1.0, 1.0),
-                    ..scale(_isFrontVisible ? 1.0 : -1.0, 1.0, 1.0),
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: (0.84.sw / 5) - ((10 * 4) / 5),
-                    height: ((0.84.sw / 5) - ((10 * 4) / 5)) / 0.659,
-                    margin: EdgeInsets.only(right: index != widget.headgearObj.length - 1 ? 10 : 0),
-                    // child: (_isFrontVisible || _isChangingCardFace) && (!widget.headgearObj[index].isCardFlipped)
-                    child: (_isFrontVisible || _isChangingCardFace)
-                        ? Image.asset(
-                          MirraIcons.getSetAvatarIconPath('pageage_icon.png'),
-                          fit: BoxFit.contain,
-                        )
-                        : Container(
-                            decoration: selectIndex == null ?
-                              BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                gradient: RadialGradient(
-                                  center: Alignment.center,
-                                  radius: 0.5,
-                                  colors: [
-                                    lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
-                                    darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
-                                  ],
-                                ),
-                              ) : ((selectIndex == index) ?
-                                    BoxDecoration(
-                                      color: Color(0xFF13EFEF),
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                    ) : BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                                          gradient: RadialGradient(
-                                            center: Alignment.center,
-                                            radius: 0.5,
-                                            colors: [
-                                              lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
-                                              darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
-                                            ],
-                                          ),
-                                        )),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(top: 40.0),
-                                  child: CachedNetworkImage(
-                                    height: 200,
-                                    imageUrl: widget.headgearObj[index].icon,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                SizedBox(height: 15,),
-                                Container(
-                                  height: 4.0,
-                                  color: Colors.white,
-                                ),
-                                // SizedBox(height: 15,),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(10.0),
-                                      bottomRight: Radius.circular(10.0),
-                                    ),
-                                    color: selectIndex == null ? color : (selectIndex == index ? Color(0xFF13EFEF) : color),
-                                  ),
-                                  height: (((0.84.sw / 5) - ((10 * 4) / 5)) / 0.659) - (30 + 180 + 32 + 15 + 2),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: List.generate(index + 1, (i) {
-                                      return Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 2), // 设置左右间距
-                                        child: Image.asset(
-                                          MirraIcons.getSetAvatarIconPath('level_star_icon.png'),
-                                          fit: BoxFit.contain,
-                                          width: 32,
-                                        ),
-                                      );
-                                    }),
-                                  ),
-                                )
-                              ],
-                            ),
-                        ),
-                  ),
-                );
-              },
-            ),
-          );
-        }),
-      ),
+    return Column(
+      children: [
+        Container(
+          width: 0.9.sw,
+          margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Welcome Package",
+                style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+              ),
+              SizedBox(height: 10,),
+              Text(
+                !logic.isClickCard
+                    ? "These exciting headwears options for your upcoming adventures."
+                    : "Gear Up for Glory! Choose Your Winning Headgear.",
+                style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          width: 0.84.sw,
+          margin: EdgeInsets.only(top: 0.1.sh, left: 0.08.sw, right: 0.08.sw),
+          child: Row(
+            children: List.generate(widget.headgearObj.length, (index) {
+              return GestureDetector(
+                onTap: () async {
+                  logic.clickSelectId = widget.headgearObj[index].id;
+                  setState(() {
+                    selectIndex = index;
+                    logic.isClickCard = true;
+                  });
+                  print("logic.clickSelectId ${logic.clickSelectId}");
+                  Future.delayed(0.5.seconds).then((value) async {
+                    Get.offAll(() => NewPlayerInfoPage(), arguments: {"userId": userId, "headgearId": logic.clickSelectId, "showState": showState});
+                  });
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: index != widget.headgearObj.length - 1 ? 10 : 0),
+                  child: HeadgearFlipCard(width: (0.84.sw / 5) - ((10 * 4) / 5), tableId: Global.tableId, url: widget.headgearObj[index].icon, level: widget.headgearObj[index].level + 2, bSelected: selectIndex == index ? true : false, delay: Duration(milliseconds: 500 * index)),
+                ),
+              );
+            }),
+          ),
+        ),
+      ],
     );
   }
+
 }

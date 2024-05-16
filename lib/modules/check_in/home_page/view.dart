@@ -110,13 +110,19 @@ class _landingCheckInButton extends StatelessWidget {
     required this.width,
   }) : super(key: key);
   final double width;
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
       onTap: () {
-        Get.offAllNamed(AppRoutes.verificationCode);
+        if (Get.arguments != null && Get.arguments["tableId"] != null) {
+          Get.offAllNamed(AppRoutes.verificationCode, arguments: {"tableId": tableId,});
+        }
+        else {
+          Get.offAllNamed(AppRoutes.verificationCode);
+        }
       },
       child: Container(
         decoration: BoxDecoration(

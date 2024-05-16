@@ -28,12 +28,11 @@ class BirthdayPage extends StatelessWidget {
         children: [
           Container(
             color: Color(0xFF233342),
+            width: 1.0.sw,
             child: Column(
               children: [
-                // 顶部文本信息
-                CheckInTitlePage(titleText: ""),
                 SizedBox(
-                  height: 0.15.sh,
+                  height: 0.25.sh,
                 ),
                 DatePicker(
                     initialDate: logic.birthdayStr,

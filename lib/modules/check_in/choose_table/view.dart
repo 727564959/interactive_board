@@ -10,6 +10,7 @@ import '../complete_page/view.dart';
 import '../data/avatar_info.dart';
 import '../data/show.dart';
 import '../data/booking.dart';
+import '../group_set/view.dart';
 import '../headgear_acquisition/view.dart';
 import '../player_page/player_squad.dart';
 import '../player_page/view.dart';
@@ -172,7 +173,7 @@ class ChooseTablePage extends StatelessWidget {
 
                     EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
                     try {
-                      Global.setTableId(logic.selectedTableId!);
+                      // Global.setTableId(logic.selectedTableId!);
                       final userId = await logic.loginInOrRegister(
                         name: customer.name,
                         email: customer.email,
@@ -183,80 +184,89 @@ class ChooseTablePage extends StatelessWidget {
                       print("code ${code}");
                       print("logic.selectedTableId ${logic.selectedTableId}");
                       // 验票
-                      await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
+                      // await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
                       print("哈哈哈哈哈");
                       EasyLoading.dismiss(animation: false);
-                      List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
-                      print("headgearObj ${headgearObj}");
-                      // List headgearObj = [
-                      //   {
-                      //     "itemInfo": {
-                      //       "id": 22,
-                      //       "name": "LowPoly_Dragn",
-                      //       "type": "headgear",
-                      //       "level": 1,
-                      //       "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
-                      //     }
-                      //   },
-                      //   {
-                      //     "itemInfo": {
-                      //       "id": 20,
-                      //       "name": "Food_Burger",
-                      //       "type": "headgear",
-                      //       "level": 1,
-                      //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
-                      //     }
-                      //   },
-                      //   {
-                      //     "itemInfo": {
-                      //       "id": 2,
-                      //       "name": "TV",
-                      //       "type": "headgear",
-                      //       "level": 1,
-                      //       "icon": "/uploads/TV_00b57f3012.png"
-                      //     }
-                      //   },
-                      //   {
-                      //     "itemInfo": {
-                      //       "id": 20,
-                      //       "name": "Food_Burger",
-                      //       "type": "headgear",
-                      //       "level": 1,
-                      //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
-                      //     }
-                      //   },
-                      //   {
-                      //     "itemInfo": {
-                      //       "id": 2,
-                      //       "name": "TV",
-                      //       "type": "headgear",
-                      //       "level": 1,
-                      //       "icon": "/uploads/TV_00b57f3012.png"
-                      //     }
-                      //   },
-                      // ];
-                      print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
-                      // 如果爆过头套就直接去展示用户，反之就走爆头套、选肤色和性别
-                      if (headgearObj.isEmpty) {
-                        Get.offAll(
-                            () => PlayerSquadPage(),
-                            arguments: {
-                              'showInfo': showInfo,
-                              'customer': customer,
-                              "isAddPlayerClick": isAddPlayerClick,
-                            });
-                      } else {
-                        Get.offAll(
-                          () => HeadgearAcquisitionPage(),
+                      // 选队徽
+                      await Get.to(() => GroupIconSetPage(),
                           arguments: {
                             'showInfo': showInfo,
                             'customer': customer,
-                            'headgearObj': headgearObj,
-                            'userId': userId,
                             "isAddPlayerClick": isAddPlayerClick,
-                          },
-                        );
-                      }
+                            "tableId": logic.selectedTableId,
+                          });
+
+                      // List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
+                      // print("headgearObj ${headgearObj}");
+                      // // List headgearObj = [
+                      // //   {
+                      // //     "itemInfo": {
+                      // //       "id": 22,
+                      // //       "name": "LowPoly_Dragn",
+                      // //       "type": "headgear",
+                      // //       "level": 1,
+                      // //       "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
+                      // //     }
+                      // //   },
+                      // //   {
+                      // //     "itemInfo": {
+                      // //       "id": 20,
+                      // //       "name": "Food_Burger",
+                      // //       "type": "headgear",
+                      // //       "level": 1,
+                      // //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+                      // //     }
+                      // //   },
+                      // //   {
+                      // //     "itemInfo": {
+                      // //       "id": 2,
+                      // //       "name": "TV",
+                      // //       "type": "headgear",
+                      // //       "level": 1,
+                      // //       "icon": "/uploads/TV_00b57f3012.png"
+                      // //     }
+                      // //   },
+                      // //   {
+                      // //     "itemInfo": {
+                      // //       "id": 20,
+                      // //       "name": "Food_Burger",
+                      // //       "type": "headgear",
+                      // //       "level": 1,
+                      // //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+                      // //     }
+                      // //   },
+                      // //   {
+                      // //     "itemInfo": {
+                      // //       "id": 2,
+                      // //       "name": "TV",
+                      // //       "type": "headgear",
+                      // //       "level": 1,
+                      // //       "icon": "/uploads/TV_00b57f3012.png"
+                      // //     }
+                      // //   },
+                      // // ];
+                      // print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
+                      // // 如果爆过头套就直接去展示用户，反之就走爆头套、选肤色和性别
+                      // if (headgearObj.isEmpty) {
+                      //   Get.offAll(
+                      //       () => PlayerSquadPage(),
+                      //       arguments: {
+                      //         'showInfo': showInfo,
+                      //         'customer': customer,
+                      //         "isAddPlayerClick": isAddPlayerClick,
+                      //       });
+                      // } else {
+                      //   Get.offAll(
+                      //     () => HeadgearAcquisitionPage(),
+                      //     arguments: {
+                      //       'showInfo': showInfo,
+                      //       'customer': customer,
+                      //       'headgearObj': headgearObj,
+                      //       'userId': userId,
+                      //       "isAddPlayerClick": isAddPlayerClick,
+                      //     },
+                      //   );
+                      // }
                     } on DioException catch (e) {
                       print("hahah ${e}");
                       EasyLoading.dismiss();

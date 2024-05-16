@@ -22,6 +22,7 @@ class VerificationPage extends StatelessWidget {
   VerificationPage({Key? key}) : super(key: key);
   // final codeController = TextEditingController();
   final logic = Get.put(VerificationCodeLogic());
+  int get tableId => Get.arguments["tableId"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,10 +92,21 @@ class VerificationPage extends StatelessWidget {
                           try {
                             final bookingInfo = await logic.queryBookInfo(code);
                             EasyLoading.dismiss(animation: false);
-                            await Get.offAll(
-                                  () => ConfirmationPage(),
-                              arguments: {"bookingInfo": bookingInfo, "code": code},
-                            );
+                            // 如果签过到，直接去形象设计
+                            if(bookingInfo.status == "completed") {
+                              final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime);
+                              print("showInfo ${showInfo}");
+                              Get.offAll(() => PlayerSquadPage(),
+                                  arguments: {
+                                    'showInfo': showInfo,
+                                    'customer': bookingInfo.customer,
+                                    "isAddPlayerClick": true,
+                                    "tableId": tableId,
+                                  });
+                            }
+                            else {
+                              await Get.offAll(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
+                            }
                           } on DioException catch (e) {
                             EasyLoading.dismiss();
 
@@ -150,6 +162,7 @@ class _CheckInInput extends StatelessWidget {
   final String? title;
 
   final logic = Get.put(VerificationCodeLogic());
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -209,12 +222,12 @@ class _CheckInInput extends StatelessWidget {
                   if(bookingInfo.status == "completed") {
                     final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime);
                     print("showInfo ${showInfo}");
-                    Global.setTableId(Global.tableId);
                     Get.offAll(() => PlayerSquadPage(),
                         arguments: {
                           'showInfo': showInfo,
                           'customer': bookingInfo.customer,
                           "isAddPlayerClick": true,
+                          "tableId": 2,
                         });
                   }
                   else {

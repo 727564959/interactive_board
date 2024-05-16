@@ -10,16 +10,17 @@ class PlayerPageApi {
   static PlayerPageApi? _instance;
   factory PlayerPageApi() => _instance ?? PlayerPageApi._internal();
   final dio = Dio();
+
   PlayerPageApi._internal() {
     _instance = this;
   }
 
-  Future<List<UserInfo>> fetchUsers(int showId) async {
+  Future<List<UserInfo>> fetchUsers(int showId, int tableId) async {
     print("是否进入了查询用户信息方法");
     print("$showId");
     final response = await dio.get(
       "$baseApiUrl/shows/$showId/players",
-      queryParameters: {"tableId": Global.tableId},
+      queryParameters: {"tableId": tableId},
     );
     // List userList = response.data['playerList'];
     print("测试接口 $response");
@@ -27,12 +28,12 @@ class PlayerPageApi {
     return userList.map((user) => UserInfo.fromJson(user)).toList();
   }
 
-  Future<List<CasualUser>> fetchCasualUser(int showId) async {
+  Future<List<CasualUser>> fetchCasualUser(int showId, int tableId) async {
     print("是否进入了查询临时用户信息方法");
     print("$showId");
     final response = await dio.get(
       "$baseApiUrl/shows/$showId/check-in/players",
-      queryParameters: {"tableId": Global.tableId},
+      queryParameters: {"tableId": tableId},
     );
     print("临时用户 $response");
     List casualUser = response.data;

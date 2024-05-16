@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../data/model/show_state.dart';
-import '../../mirra_look/data/player_card.dart';
+import '../../../widgets/check_in_title.dart';
 import '../terms_use/view.dart';
 import 'logic.dart';
 import '../../mirra_look/player_look.dart';
@@ -39,19 +39,23 @@ class PlayerShowPage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Container(
-                      width: 0.92.sw,
-                      margin: EdgeInsets.only(top: 40.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Home Page",
-                            style: CustomTextStyles.title(
-                                color: Colors.white, fontSize: 48.sp, level: 2),
-                          ),
-                        ],
-                      ),
+                    // Container(
+                    //   width: 0.92.sw,
+                    //   margin: EdgeInsets.only(top: 40.0),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       Text(
+                    //         "Home Page",
+                    //         style: CustomTextStyles.title(
+                    //             color: Colors.white, fontSize: 48.sp, level: 2),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // 顶部文本信息
+                    CheckInTitlePage(
+                      titleText: 'Home Page',
                     ),
                     SizedBox(height: 20.0,),
                     _SquadCard(),
@@ -59,6 +63,20 @@ class PlayerShowPage extends StatelessWidget {
                 ),
               );
             },
+          ),
+          Positioned(
+            top: 45,
+            child: Container(
+              width: 1.0.sw,
+              child: Center(
+                child: Text(
+                  'Game Show Coming Soon',
+                  textAlign: TextAlign.center,
+                  style: CustomTextStyles.textBig(
+                      color: Colors.white, fontSize: 30.sp),
+                ),
+              ),
+            ),
           ),
         ],
       ),

@@ -4,12 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:timer_count_down/timer_count_down.dart';
 
-import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../widgets/custom_countdown.dart';
-import '../../mirra_look/logic.dart';
 import '../complete_page/view.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
@@ -22,12 +19,13 @@ class PlayerSquadPage extends StatelessWidget {
   PlayerSquadPage({Key? key}) : super(key: key);
   final logic = Get.put(PlayerShowLogic());
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
     print("isAddPlayerClick ${isAddPlayerClick}");
     if(!isAddPlayerClick) Future.delayed(Duration.zero, () {
-      Get.dialog(Dialog(child: AddDialog())).then((value) {
+      Get.dialog(Dialog(child: AddDialog()), arguments: {"tableId": tableId,}).then((value) {
         logic.isCountdownStart = true;
         logic.testFun();
       });
@@ -86,15 +84,15 @@ class PlayerSquadPage extends StatelessWidget {
 
 class _SquadCard extends StatelessWidget {
   final logic = Get.put(PlayerShowLogic());
+  int get tableId => Get.arguments["tableId"];
   Color get color {
-    print("12345 ${Global.tableId}");
-    if (Global.tableId == 1) {
+    if (tableId == 1) {
       // background: #FFBD80;
       return const Color(0xFFFFBD80);
-    } else if (Global.tableId == 2) {
+    } else if (tableId == 2) {
       // background: #EFB5FD;
       return const Color(0xFFEFB5FD);
-    } else if (Global.tableId == 3) {
+    } else if (tableId == 3) {
       // background: #8EE8BD;
       return const Color(0xFF8EE8BD);
     } else {
@@ -104,12 +102,11 @@ class _SquadCard extends StatelessWidget {
   }
   // 浅色
   Color get lightColor {
-    print("12345 ${Global.tableId}");
-    if (Global.tableId == 1) {
+    if (tableId == 1) {
       return const Color(0xFFE6BC9C);
-    } else if (Global.tableId == 2) {
+    } else if (tableId == 2) {
       return const Color(0xFFE8B6E0);
-    } else if (Global.tableId == 3) {
+    } else if (tableId == 3) {
       return const Color(0xFFBCDBBC);
     } else {
       return const Color(0xFFC5D4E6);
@@ -117,23 +114,22 @@ class _SquadCard extends StatelessWidget {
   }
   // 深色
   Color get darkColor {
-    print("12345 ${Global.tableId}");
-    if (Global.tableId == 1) {
+    if (tableId == 1) {
       return const Color(0xFFCB8C5E);
-    } else if (Global.tableId == 2) {
+    } else if (tableId == 2) {
       return const Color(0xFFBB7EB1);
-    } else if (Global.tableId == 3) {
+    } else if (tableId == 3) {
       return const Color(0xFF81AE81);
     } else {
       return const Color(0xFF85AEDE);
     }
   }
   String get bayString {
-    if (Global.tableId == 1) {
+    if (tableId == 1) {
       return "A";
-    } else if (Global.tableId == 2) {
+    } else if (tableId == 2) {
       return "B";
-    } else if (Global.tableId == 3) {
+    } else if (tableId == 3) {
       return "C";
     } else {
       return "D";
@@ -205,7 +201,13 @@ class _SquadCard extends StatelessWidget {
                         // 点击非用户卡片时的逻辑
                         print("新增用户");
                         logic.testFun();
-                        await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": true, "showInfo": showInfo, "customer": customer});
+                        await Get.to(() => TermsOfUsePage(),
+                            arguments: {
+                              "isAddPlayerClick": true,
+                              "showInfo": showInfo,
+                              "customer": customer,
+                              "tableId": tableId,
+                            });
                       }
                       else {
                         print("设计形象");
@@ -328,6 +330,7 @@ class _DoneButton extends StatelessWidget {
   final bool isCountdownStart;
   ShowInfo get showInfo => Get.arguments["showInfo"];
   Customer get customer => Get.arguments["customer"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -336,7 +339,7 @@ class _DoneButton extends StatelessWidget {
       onTap: () async {
         await Get.to(
               () => const CompletePage(),
-          arguments: {"tableId": Global.tableId, "startTime": showInfo.startTime, "customer": customer},
+          arguments: {"tableId": tableId, "startTime": showInfo.startTime, "customer": customer},
           preventDuplicates: false,
         );
       },
@@ -364,7 +367,7 @@ class _DoneButton extends StatelessWidget {
                 onCountdownComplete: () async {
                   await Get.to(
                         () => const CompletePage(),
-                    arguments: {"tableId": Global.tableId, "startTime": showInfo.startTime, "customer": customer},
+                    arguments: {"tableId": tableId, "startTime": showInfo.startTime, "customer": customer},
                     preventDuplicates: false,
                   );
                 },
@@ -380,7 +383,7 @@ class _DoneButton extends StatelessWidget {
               //   onFinished: () async {
               //     await Get.to(
               //           () => const CompletePage(),
-              //       arguments: {"tableId": Global.tableId, "startTime": showInfo.startTime, "customer": customer},
+              //       arguments: {"tableId": tableId, "startTime": showInfo.startTime, "customer": customer},
               //       preventDuplicates: false,
               //     );
               //   },

@@ -31,9 +31,8 @@ class TermsOfUseInfo extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 40.0, left: 120.0),
+                          margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
                           child: SizedBox(
-                            width: 0.24.sw,
                             child: Text(
                               "Term of Use",
                               style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
@@ -51,7 +50,7 @@ class TermsOfUseInfo extends StatelessWidget {
                             color: Color(0xFFDBE2E3),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
-                          margin: EdgeInsets.only(top: 0.0, left: 120.0),
+                          margin: EdgeInsets.only(top: 0.0, left: 0.1.sw),
                           constraints: BoxConstraints.tightFor(width: 0.8.sw, height: 0.6.sh), //卡片大小
                           child: ListView(
                             shrinkWrap: true,
