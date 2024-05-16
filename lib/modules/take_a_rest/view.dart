@@ -19,7 +19,6 @@ class TakeARestPage extends StatelessWidget {
             Container(
               width: 1.0.sw,
               height: 1.0.sh,
-              // color: Colors.black,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
