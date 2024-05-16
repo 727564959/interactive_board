@@ -423,22 +423,38 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
                                         Container(
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                                            gradient: RadialGradient(
-                                              center: Alignment.center,
-                                              radius: 0.5,
-                                              colors: [
-                                                lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
-                                                darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
-                                              ],
-                                            ),
+                                            // gradient: RadialGradient(
+                                            //   center: Alignment.center,
+                                            //   radius: 0.5,
+                                            //   colors: [
+                                            //     lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
+                                            //     darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
+                                            //   ],
+                                            // ),
+                                            color: lightColor,
                                           ),
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               Container(
-                                                margin: EdgeInsets.only(top: 10.0),
+                                                // margin: EdgeInsets.only(top: 10.0),
+                                                decoration: BoxDecoration(
+                                                  // borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                  borderRadius: const BorderRadius.only(
+                                                    topLeft: Radius.circular(10),
+                                                    topRight: Radius.circular(10),
+                                                  ),
+                                                  gradient: RadialGradient(
+                                                    center: Alignment.center,
+                                                    radius: 0.5,
+                                                    colors: [
+                                                      lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
+                                                      darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
+                                                    ],
+                                                  ),
+                                                ),
                                                 child: CachedNetworkImage(
-                                                  height: 150,
+                                                  height: 160,
                                                   imageUrl: Get.arguments["gameItemInfo"][index].icon,
                                                   fit: BoxFit.cover,
                                                 ),

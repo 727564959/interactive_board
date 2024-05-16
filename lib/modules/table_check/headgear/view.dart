@@ -97,10 +97,14 @@ class _CardFlipState extends State<_CardFlip> {
                 style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
               ),
               SizedBox(height: 10,),
+              // Text(
+              //   !logic.isClickCard
+              //       ? "These exciting headwears options for your upcoming adventures."
+              //       : "Gear Up for Glory! Choose Your Winning Headgear.",
+              //   style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+              // ),
               Text(
-                !logic.isClickCard
-                    ? "These exciting headwears options for your upcoming adventures."
-                    : "Gear Up for Glory! Choose Your Winning Headgear.",
+                "Gear Up for Glory! Choose Your Winning Headgear.",
                 style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
               ),
             ],
@@ -119,13 +123,13 @@ class _CardFlipState extends State<_CardFlip> {
                     logic.isClickCard = true;
                   });
                   print("logic.clickSelectId ${logic.clickSelectId}");
-                  Future.delayed(0.5.seconds).then((value) async {
-                    Get.offAll(() => NewPlayerInfoPage(),
-                        arguments: {
-                          "userId": userId,
-                          "headgearId": logic.clickSelectId,
-                          "showState": showState});
-                  });
+                  // Future.delayed(0.5.seconds).then((value) async {
+                  //   Get.offAll(() => NewPlayerInfoPage(),
+                  //       arguments: {
+                  //         "userId": userId,
+                  //         "headgearId": logic.clickSelectId,
+                  //         "showState": showState});
+                  // });
                 },
                 child: Container(
                   margin: EdgeInsets.only(right: index != widget.headgearObj.length - 1 ? 10 : 0),
@@ -135,7 +139,50 @@ class _CardFlipState extends State<_CardFlip> {
             }),
           ),
         ),
+        SizedBox(height: 50,),
+        if(logic.isClickCard) _NextButton(width: 600.w),
       ],
+    );
+  }
+}
+
+class _NextButton extends StatelessWidget {
+  _NextButton({
+    Key? key,
+    required this.width,
+  }) : super(key: key);
+  final double width;
+  ShowState get showState => Get.arguments["showState"];
+  int get userId => Get.arguments["userId"];
+  final logic = Get.find<HeadgearLogic>();
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        print("logic.clickSelectId ${logic.clickSelectId}");
+          Get.offAll(() => NewPlayerInfoPage(),
+              arguments: {
+                "userId": userId,
+                "headgearId": logic.clickSelectId,
+                "showState": showState});
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color(0xff13EFEF),
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+        ),
+        margin: EdgeInsets.only(top: 0.0, left: 0.0),
+        constraints: BoxConstraints.tightFor(width: width * 0.8, height: 80.h),
+        child: Center(
+          child: Text(
+            "Let's Start!",
+            textAlign: TextAlign.center,
+            style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
+          ),
+        ),
+      ),
     );
   }
 }

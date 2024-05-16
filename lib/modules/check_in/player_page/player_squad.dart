@@ -60,7 +60,7 @@ class PlayerSquadPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Home Page",
+                            "Homepage",
                             style: CustomTextStyles.title(
                                 color: Colors.white, fontSize: 48.sp, level: 2),
                           ),
@@ -188,7 +188,7 @@ class _SquadCard extends StatelessWidget {
               height: 0.65.sh,
               child: GridView.count(
                 crossAxisCount: 4,
-                crossAxisSpacing: 15.0, // 设置列之间的间距
+                crossAxisSpacing: 10.0, // 设置列之间的间距
                 mainAxisSpacing: 10.0, // 行之间的间距
                 childAspectRatio: 0.7, // 设置卡片宽高比
                 children: logic.playerCardInfo.map((card) {
@@ -238,22 +238,38 @@ class _SquadCard extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  gradient: RadialGradient(
-                                    center: Alignment.center,
-                                    radius: 0.5,
-                                    colors: [
-                                      lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
-                                      darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
-                                    ],
-                                  ),
+                                  // gradient: RadialGradient(
+                                  //   center: Alignment.center,
+                                  //   radius: 0.5,
+                                  //   colors: [
+                                  //     lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
+                                  //     darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
+                                  //   ],
+                                  // ),
+                                  color: lightColor,
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.only(top: 10.0),
+                                      // margin: EdgeInsets.only(top: 10.0),
+                                      decoration: BoxDecoration(
+                                        // borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10),
+                                        ),
+                                        gradient: RadialGradient(
+                                          center: Alignment.center,
+                                          radius: 0.5,
+                                          colors: [
+                                            lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
+                                            darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
+                                          ],
+                                        ),
+                                      ),
                                       child: CachedNetworkImage(
-                                        height: 180,
+                                        height: 190,
                                         imageUrl: card.avatarIcon ?? '',
                                         fit: BoxFit.cover,
                                       ),
@@ -279,22 +295,69 @@ class _SquadCard extends StatelessWidget {
                           : Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(10)),
-                              gradient: RadialGradient(
-                                center: Alignment.center,
-                                radius: 0.5,
-                                colors: [
-                                  lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
-                                  darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
-                                ],
-                              ),
+                              // gradient: RadialGradient(
+                              //   center: Alignment.center,
+                              //   radius: 0.5,
+                              //   colors: [
+                              //     lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
+                              //     darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
+                              //   ],
+                              // ),
+                              color: lightColor,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(top: 10.0),
-                                  height: 180,
-                                  child: Icon(Icons.add, color: Colors.white, size: 60,),
+                                  // margin: EdgeInsets.only(top: 10.0),
+                                  // decoration: BoxDecoration(
+                                  //   borderRadius: const BorderRadius.only(
+                                  //     topLeft: Radius.circular(10),
+                                  //     topRight: Radius.circular(10),
+                                  //   ),
+                                  //   gradient: RadialGradient(
+                                  //     center: Alignment.center,
+                                  //     radius: 0.5,
+                                  //     colors: [
+                                  //       lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
+                                  //       darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  // height: 190,
+                                  // child: Icon(Icons.add, color: Colors.white, size: 60,),
+                                  height: 190,
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Positioned.fill(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              gradient: RadialGradient(
+                                                center: Alignment.center,
+                                                radius: 0.5,
+                                                colors: [
+                                                  lightColor.withOpacity(1.0),
+                                                  darkColor.withOpacity(1.0),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          child: Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                            size: 60,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                                 Container(
                                   height: 2.0,
@@ -363,7 +426,7 @@ class _DoneButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center, // 子项水平居中对齐
             children: [
               Text(
-                "Done",
+                "DONE",
                 textAlign: TextAlign.center,
                 style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
               ),

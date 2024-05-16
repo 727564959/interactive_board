@@ -188,7 +188,14 @@ class ChooseTablePage extends StatelessWidget {
                       print("哈哈哈哈哈");
                       EasyLoading.dismiss(animation: false);
                       // 选队徽
-                      await Get.to(() => GroupIconSetPage(),
+                      // await Get.to(() => GroupIconSetPage(),
+                      //     arguments: {
+                      //       'showInfo': showInfo,
+                      //       'customer': customer,
+                      //       "isAddPlayerClick": isAddPlayerClick,
+                      //       "tableId": logic.selectedTableId,
+                      //     });
+                      await Get.offAll(() => GroupIconSetPage(),
                           arguments: {
                             'showInfo': showInfo,
                             'customer': customer,

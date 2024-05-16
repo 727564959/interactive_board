@@ -56,7 +56,10 @@ class ConfirmationPage extends StatelessWidget {
                           child: SizedBox(
                             width: 0.8.sw,
                             child: Text(
-                              "Game Show Time : " + DateFormat("dd/MM/yyyy, kka").format(
+                              // "Game Show Time : " + DateFormat("dd/MM/yyyy, kka").format(
+                              //   bookingInfo.bookingTime.add(8.hours),
+                              // ),
+                              "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(
                                 bookingInfo.bookingTime.add(8.hours),
                               ),
                               style: CustomTextStyles.title(color: Color(0xFF13EFEF), fontSize: 36.sp, level: 2),
@@ -409,7 +412,7 @@ class _BackButton extends StatelessWidget {
         Get.back();
       },
       child: Text(
-        "Back",
+        "BACK",
         style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
       ),
     );

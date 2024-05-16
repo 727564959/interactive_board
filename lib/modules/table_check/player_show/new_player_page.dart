@@ -57,7 +57,7 @@ class NewPlayerInfoPage extends StatelessWidget {
                         children: [
                           Text(
                             "Skin & Gender",
-                            style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 2),
+                            style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                           ),
                           SizedBox(height: 10,),
                           Text(
@@ -139,7 +139,7 @@ class _SelectedAreaState extends State<_SelectedArea> {
         height: 125,
         decoration: BoxDecoration(
           // shape: BoxShape.circle,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.all(Radius.circular(15)),
           color: option.color,
         ),
         child: Align(
@@ -284,7 +284,7 @@ class _SaveButton extends StatelessWidget {
         constraints: BoxConstraints.tightFor(width: width, height: 100.h),
         child: Center(
           child: Text(
-            "Save",
+            "SAVE",
             textAlign: TextAlign.center,
             style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
           ),

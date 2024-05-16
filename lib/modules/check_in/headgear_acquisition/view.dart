@@ -182,10 +182,14 @@ class _CardFlipState extends State<_CardFlip> {
                 style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
               ),
               SizedBox(height: 10,),
+              // Text(
+              //   !logic.isClickCard
+              //       ? "These exciting headwears options for your upcoming adventures."
+              //       : "Gear Up for Glory! Choose Your Winning Headgear.",
+              //   style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+              // ),
               Text(
-                !logic.isClickCard
-                    ? "These exciting headwears options for your upcoming adventures."
-                    : "Gear Up for Glory! Choose Your Winning Headgear.",
+                "Gear Up for Glory! Choose Your Winning Headgear.",
                 style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
               ),
             ],
@@ -204,17 +208,17 @@ class _CardFlipState extends State<_CardFlip> {
                     logic.isClickCard = true;
                   });
                   print("logic.clickSelectId ${logic.clickSelectId}");
-                  Future.delayed(0.5.seconds).then((value) async {
-                    Get.offAll(() => NewPlayerPage(),
-                        arguments: {
-                          "userId": userId,
-                          "headgearId": logic.clickSelectId,
-                          "showInfo": showInfo,
-                          "customer": customer,
-                          "isAddPlayerClick": isAddPlayerClick,
-                          "tableId": tableId,
-                        });
-                  });
+                  // Future.delayed(0.5.seconds).then((value) async {
+                  //   Get.offAll(() => NewPlayerPage(),
+                  //       arguments: {
+                  //         "userId": userId,
+                  //         "headgearId": logic.clickSelectId,
+                  //         "showInfo": showInfo,
+                  //         "customer": customer,
+                  //         "isAddPlayerClick": isAddPlayerClick,
+                  //         "tableId": tableId,
+                  //       });
+                  // });
                 },
                 child: Container(
                   margin: EdgeInsets.only(right: index != widget.headgearObj.length - 1 ? 10 : 0),
@@ -224,6 +228,8 @@ class _CardFlipState extends State<_CardFlip> {
             }),
           ),
         ),
+        SizedBox(height: 50,),
+        if(logic.isClickCard) _NextButton(width: 600.w),
       ],
     );
   }
@@ -574,15 +580,12 @@ class _NextButton extends StatelessWidget {
   _NextButton({
     Key? key,
     required this.width,
-    required this.showInfo,
-    required this.customer,
-    required this.userId,
   }) : super(key: key);
   final double width;
-  final ShowInfo showInfo;
-  final Customer customer;
-  final int userId;
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  Customer get customer => Get.arguments["customer"];
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
+  int get userId => Get.arguments["userId"];
   int get tableId => Get.arguments["tableId"];
   final logic = Get.find<HeadgearAcquisitionLogic>();
 
@@ -601,24 +604,6 @@ class _NextButton extends StatelessWidget {
               "isAddPlayerClick": isAddPlayerClick,
               "tableId": tableId,
             });
-
-        // // Get.offAll(() => PlayerInfoShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
-        // Map<String, dynamic> jsonObj = {
-        //   "userId": userId,
-        //   "showId": showInfo.showId,
-        //   // "status": showInfo.status.toString()
-        // };
-        // print("用于传递的参数: ${jsonObj}");
-        // print("Get.isRegistered<SetAvatarLogic>() ${Get.isRegistered<SetAvatarLogic>()}");
-        // if(Get.isRegistered<SetAvatarLogic>()) {
-        //   Get.find<SetAvatarLogic>().updateUserList(showInfo.showId);
-        //   await Future.delayed(100.ms);
-        //   Get.find<SetAvatarLogic>().updatePlayer(userId.toString());
-        //   await Future.delayed(100.ms);
-        //   Get.find<SetAvatarLogic>().explosiveChestFun(userId);
-        // }
-        // // await Get.toNamed(AppRoutes.setAvatar, arguments: jsonObj);
-        // Get.offAll(() => AvatarDesignPage(showInfo: showInfo, customer: customer,), arguments: jsonObj);
       },
       child: Container(
         decoration: BoxDecoration(

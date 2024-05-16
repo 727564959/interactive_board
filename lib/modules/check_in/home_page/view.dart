@@ -98,8 +98,9 @@ class _CustomSwiperState extends State<CustomSwiper> {
       // autoplay: true,
       pagination: const SwiperPagination(
           builder: DotSwiperPaginationBuilder(
-              color: Color(0xFFFFFFFF), activeColor: Color(0xFFFF4646))),
-      control: SwiperControl(),
+              color: Color(0xFFFFFFFF), activeColor: Color(0xFF000000))),
+      // control: SwiperControl(),
+      control: null,                         // 隐藏左右箭头
     );
   }
 }
@@ -133,7 +134,7 @@ class _landingCheckInButton extends StatelessWidget {
         constraints: BoxConstraints.tightFor(width: width, height: 100.h),
         child: Center(
           child: Text(
-            "CHECH IN",
+            "CHECK IN",
             textAlign: TextAlign.center,
             style: CustomTextStyles.button(color: Colors.black, fontSize: 28.sp),
           ),
@@ -164,7 +165,7 @@ class _landingBookNowButton extends StatelessWidget {
         constraints: BoxConstraints.tightFor(width: width, height: 100.h),
         child: Center(
           child: Text(
-            "BOOK IN",
+            "BOOK NOW",
             textAlign: TextAlign.center,
             style: CustomTextStyles.button(color: Colors.black, fontSize: 28.sp),
           ),

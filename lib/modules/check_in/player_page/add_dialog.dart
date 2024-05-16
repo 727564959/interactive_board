@@ -14,17 +14,26 @@ class AddDialog extends StatelessWidget {
     return Container(
       width: 0.5.sw,
       padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-      color: Color(0xFF272727),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: Color(0xFF272727),
+        border: Border.all(
+          color: Color(0xFF5A5858),    // 边框颜色
+          width: 2.0,           // 边框宽度
+          style: BorderStyle.solid,  // 边框样式
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 30,),
           Text(
             'Add Other Members',
             textAlign: TextAlign.center,
             style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
           ),
-          SizedBox(height: 50,),
+          SizedBox(height: 30,),
           Text(
             'Assemble the Squad.',
             textAlign: TextAlign.center,
@@ -38,6 +47,7 @@ class AddDialog extends StatelessWidget {
           ),
           SizedBox(height: 30,),
           _BottomBtns(),
+          SizedBox(height: 30,),
         ],
       ),
     );
@@ -104,7 +114,7 @@ class _NoThatAllBtn extends StatelessWidget {
         constraints: BoxConstraints.tightFor(width: width, height: 70.h), //卡片大小
         child: Center(
           child: Text(
-            "No, that' all",
+            "NO, THAT'S ALL",
             textAlign: TextAlign.center,
             style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
           ),
@@ -147,7 +157,7 @@ class _AddNowBtn extends StatelessWidget {
         constraints: BoxConstraints.tightFor(width: width, height: 70.h), //卡片大小
         child: Center(
           child: Text(
-            "Add Now",
+            "ADD NOW",
             textAlign: TextAlign.center,
             style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
           ),

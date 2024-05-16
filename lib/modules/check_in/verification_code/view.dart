@@ -77,7 +77,7 @@ class VerificationPage extends StatelessWidget {
                       Align(
                         alignment: Alignment.center,
                         child: Text(
-                          "Enter yourcode to check in 30 minutes before your game.",
+                          "Enter your code to check in 30 minutes before your game.",
                           style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                         ),
                       ),
@@ -105,7 +105,8 @@ class VerificationPage extends StatelessWidget {
                                   });
                             }
                             else {
-                              await Get.offAll(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
+                              await Get.to(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
+                              // await Get.offAll(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
                             }
                           } on DioException catch (e) {
                             EasyLoading.dismiss();
@@ -183,6 +184,8 @@ class _CheckInInput extends StatelessWidget {
           child: TextField(
             autofocus: true,
             controller: controller,
+            cursorWidth: 5.0,          // 光标粗细
+            cursorColor: Colors.black,   // 光标颜色
             textAlign: TextAlign.center, // 设置文本居中
             // maxLength: 6,
             inputFormatters: [
@@ -231,7 +234,8 @@ class _CheckInInput extends StatelessWidget {
                         });
                   }
                   else {
-                    await Get.offAll(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
+                    await Get.to(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
+                    // await Get.offAll(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
                   }
                   // await Get.offAll(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
                 } on DioException catch (e) {

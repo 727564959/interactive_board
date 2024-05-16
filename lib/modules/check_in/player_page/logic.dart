@@ -192,7 +192,7 @@ class PlayerShowLogic extends GetxController {
         if (index < cards.length) {
           return cards[index];
         } else {
-          String temporaryStr = "Player" + index.toString();
+          String temporaryStr = "Player" + (index + 1).toString();
           return PlayerCardInfo(isUserCard: false, nickname: temporaryStr);
         }
       });
