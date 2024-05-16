@@ -29,44 +29,74 @@ class AddPlayerPage extends StatelessWidget {
             width: 1.0.sw,
             height: 1.0.sh,
             color: Color(0xFF233342),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 1.0.sw,
-                    child: GetBuilder<AddPlayerLogic>(
-                      builder: (logic) {
-                        return Column(
+            child: SizedBox(
+              width: 1.0.sw,
+              child: GetBuilder<AddPlayerLogic>(
+                builder: (logic) {
+                  return Column(
+                    children: [
+                      // 顶部文本信息
+                      SizedBox(
+                        width: 1.0.sw,
+                        child: Row(
                           children: [
-                            // 顶部文本信息
-                            SizedBox(
-                              width: 1.0.sw,
-                              height: 0.15.sh,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(top: 40.0, left: 40.0),
-                                    child: SizedBox(
-                                      child: Text(
-                                        "Add Player",
-                                        style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                            Container(
+                              margin: EdgeInsets.only(top: 40.0, left: 40.0),
+                              child: SizedBox(
+                                child: Text(
+                                  "Add Player",
+                                  style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                                ),
                               ),
                             ),
-                            _PlayerForm(),
-                            // 底部按钮区域
-                            _BottomBtns(),
                           ],
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                        ),
+                      ),
+                      _PlayerForm(),
+                      // 底部按钮区域
+                      _BottomBtns(),
+                    ],
+                  );
+                },
               ),
             ),
+            // child: SingleChildScrollView(
+            //   child: Column(
+            //     children: [
+            //       SizedBox(
+            //         width: 1.0.sw,
+            //         child: GetBuilder<AddPlayerLogic>(
+            //           builder: (logic) {
+            //             return Column(
+            //               children: [
+            //                 // 顶部文本信息
+            //                 SizedBox(
+            //                   width: 1.0.sw,
+            //                   child: Row(
+            //                     children: [
+            //                       Container(
+            //                         margin: EdgeInsets.only(top: 40.0, left: 40.0),
+            //                         child: SizedBox(
+            //                           child: Text(
+            //                             "Add Player",
+            //                             style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //                 _PlayerForm(),
+            //                 // 底部按钮区域
+            //                 _BottomBtns(),
+            //               ],
+            //             );
+            //           },
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           );
         },
       ),
@@ -88,287 +118,292 @@ class _PlayerForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: 1.0.sw,
       height: 0.6.sh,
       child: GetBuilder<AddPlayerLogic>(builder: (logic) {
-        return Form(
-          key: _formKey, //设置globalKey，用于后面获取FormState
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(
-            children: [
-              Row(
+        return SingleChildScrollView(
+          child: Container(
+            height: 0.8.sh,
+            child: Form(
+              key: _formKey, //设置globalKey，用于后面获取FormState
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
-                    constraints: BoxConstraints.tightFor(width: 750.w, height: 270.h), //卡片大小
-                    alignment: Alignment.center, //卡片内文字居中
-                    child: Column(
-                      children: [
-                        Align(
-                          // heightFactor: 3,
-                          // alignment: const Alignment(-1.0, 0.0),
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            margin: EdgeInsets.only(left: 30.0, top: 40.0),
-                            child: Text(
-                              "First Name",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 5),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          child: TextFormField(
-                            controller: _firstNameController,
-                            decoration: InputDecoration(
-                              fillColor: Color(0xFFDBE2E3),
-                              filled: true,
-                              contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
-                              // 默认可编辑时的边框
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xff5A5858), //边线颜色为白色
-                                  width: 2, //边线宽度为2
+                  Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
+                        constraints: BoxConstraints.tightFor(width: 750.w, height: 270.h), //卡片大小
+                        alignment: Alignment.center, //卡片内文字居中
+                        child: Column(
+                          children: [
+                            Align(
+                              // heightFactor: 3,
+                              // alignment: const Alignment(-1.0, 0.0),
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                margin: EdgeInsets.only(left: 0.0, top: 40.0),
+                                child: Text(
+                                  "First Name",
+                                  style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 5),
                                 ),
                               ),
-                              // 输入时的边框
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.blue, //边框颜色为白色
-                                  width: 2, //宽度为5
+                            ),
+                            SizedBox(
+                              child: TextFormField(
+                                controller: _firstNameController,
+                                decoration: InputDecoration(
+                                  fillColor: Color(0xFFDBE2E3),
+                                  filled: true,
+                                  contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+                                  // 默认可编辑时的边框
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xff5A5858), //边线颜色为白色
+                                      width: 2, //边线宽度为2
+                                    ),
+                                  ),
+                                  // 输入时的边框
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.blue, //边框颜色为白色
+                                      width: 2, //宽度为5
+                                    ),
+                                  ),
+                                  errorStyle: TextStyle(fontSize: 18),
+                                  errorMaxLines: 1,
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1,
+                                      )),
+                                ),
+                                // 校验用户名
+                                validator: (v) {
+                                  return v!.trim().isNotEmpty ? null : "The name cannot be empty";
+                                },
+                                // 名字校验
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(15),
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp(r'[A-Za-z0-9]+'),
+                                  )
+                                ],
+                                onChanged: (v) {
+                                  print("onChange: $v");
+                                  logic.firstName = v;
+                                },
+                                style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 40.0, left: 10.0),
+                        constraints: BoxConstraints.tightFor(width: 750.w, height: 270.h), //卡片大小
+                        alignment: Alignment.center, //卡片内文字居中
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                margin: EdgeInsets.only(left: 0.0, top: 40.0),
+                                child: Text(
+                                  "Last Name",
+                                  style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                                 ),
                               ),
-                              errorStyle: TextStyle(fontSize: 18),
-                              errorMaxLines: 1,
-                              errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 1,
-                                  )),
                             ),
-                            // 校验用户名
-                            validator: (v) {
-                              return v!.trim().isNotEmpty ? null : "The name cannot be empty";
-                            },
-                            // 名字校验
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(15),
-                              FilteringTextInputFormatter.allow(
-                                RegExp(r'[A-Za-z0-9]+'),
-                              )
-                            ],
-                            onChanged: (v) {
-                              print("onChange: $v");
-                              logic.firstName = v;
-                            },
-                            style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
-                          ),
+                            SizedBox(
+                              child: TextFormField(
+                                controller: _lastNameController,
+                                decoration: InputDecoration(
+                                  fillColor: Color(0xFFDBE2E3),
+                                  filled: true,
+                                  contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+                                  // 默认可编辑时的边框
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xff5A5858), //边线颜色为白色
+                                      width: 2, //边线宽度为2
+                                    ),
+                                  ),
+                                  // 输入时的边框
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.blue, //边框颜色为白色
+                                      width: 2, //宽度为5
+                                    ),
+                                  ),
+                                  errorStyle: TextStyle(fontSize: 18),
+                                  errorMaxLines: 1,
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1,
+                                      )),
+                                ),
+                                // 校验用户名
+                                validator: (v) {
+                                  return v!.trim().isNotEmpty ? null : "The name cannot be empty";
+                                },
+                                // 名字校验
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(15),
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp(r'[A-Za-z0-9]+'),
+                                  )
+                                ],
+                                onChanged: (v) {
+                                  print("onChange: $v");
+                                  logic.lastName = v;
+                                },
+                                style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 40.0, left: 10.0),
-                    constraints: BoxConstraints.tightFor(width: 750.w, height: 270.h), //卡片大小
-                    alignment: Alignment.center, //卡片内文字居中
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            margin: EdgeInsets.only(left: 30.0, top: 40.0),
-                            child: Text(
-                              "Last Name",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          child: TextFormField(
-                            controller: _lastNameController,
-                            decoration: InputDecoration(
-                              fillColor: Color(0xFFDBE2E3),
-                              filled: true,
-                              contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
-                              // 默认可编辑时的边框
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xff5A5858), //边线颜色为白色
-                                  width: 2, //边线宽度为2
+                  Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 0.0, left: 0.1.sw),
+                        constraints: BoxConstraints.tightFor(width: 750.w, height: 270.h), //卡片大小
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                margin: EdgeInsets.only(left: 0.0, top: 20.0),
+                                child: Text(
+                                  "Email",
+                                  style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                                 ),
                               ),
-                              // 输入时的边框
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.blue, //边框颜色为白色
-                                  width: 2, //宽度为5
+                            ),
+                            SizedBox(
+                              child: TextFormField(
+                                keyboardType: TextInputType.emailAddress,
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                  fillColor: Color(0xFFDBE2E3),
+                                  filled: true,
+                                  contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+                                  // 默认可编辑时的边框
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xff5A5858), //边线颜色为白色
+                                      width: 2, //边线宽度为2
+                                    ),
+                                  ),
+                                  // 输入时的边框
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.blue, //边框颜色为白色
+                                      width: 2, //宽度为5
+                                    ),
+                                  ),
+                                  errorStyle: TextStyle(fontSize: 18),
+                                  errorMaxLines: 1,
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1,
+                                      )),
+                                ),
+                                // 校验邮箱
+                                validator: (v) {
+                                  String regexEmail =
+                                      "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}\$";
+                                  return new RegExp(regexEmail).hasMatch(v.toString())
+                                      ? null
+                                      : "The Email format is incorrect";
+                                },
+                                onChanged: (v) {
+                                  print("onChange: $v");
+                                  logic.email = v;
+                                },
+                                style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 0.0, left: 10.0),
+                        constraints: BoxConstraints.tightFor(width: 750.w, height: 270.h), //卡片大小
+                        alignment: Alignment.center, //卡片内文字居中
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                margin: EdgeInsets.only(left: 0.0, top: 20.0),
+                                child: Text(
+                                  "Phone number",
+                                  style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                                 ),
                               ),
-                              errorStyle: TextStyle(fontSize: 18),
-                              errorMaxLines: 1,
-                              errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 1,
-                                  )),
                             ),
-                            // 校验用户名
-                            validator: (v) {
-                              return v!.trim().isNotEmpty ? null : "The name cannot be empty";
-                            },
-                            // 名字校验
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(15),
-                              FilteringTextInputFormatter.allow(
-                                RegExp(r'[A-Za-z0-9]+'),
-                              )
-                            ],
-                            onChanged: (v) {
-                              print("onChange: $v");
-                              logic.lastName = v;
-                            },
-                            style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
-                          ),
+                            SizedBox(
+                              child: TextFormField(
+                                controller: _phoneController,
+                                keyboardType: TextInputType.phone,
+                                decoration: InputDecoration(
+                                  fillColor: Color(0xFFDBE2E3),
+                                  filled: true,
+                                  contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
+                                  // 默认可编辑时的边框
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xff5A5858), //边线颜色为白色
+                                      width: 2, //边线宽度为2
+                                    ),
+                                  ),
+                                  // 输入时的边框
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.blue, //边框颜色为白色
+                                      width: 2, //宽度为5
+                                    ),
+                                  ),
+                                  errorStyle: TextStyle(fontSize: 18),
+                                  errorMaxLines: 1,
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 1,
+                                      )),
+                                ),
+                                // 校验电话
+                                validator: (v) {
+                                  return v!.trim().isNotEmpty ? null : "The phone cannot be empty";
+                                },
+                                // 电话校验
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9]+'),
+                                  )
+                                ],
+                                onChanged: (v) {
+                                  print("onChange: $v");
+                                  logic.phone = v;
+                                },
+                                style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 0.0, left: 0.1.sw),
-                    constraints: BoxConstraints.tightFor(width: 750.w, height: 270.h), //卡片大小
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            margin: EdgeInsets.only(left: 30.0, top: 20.0),
-                            child: Text(
-                              "Email",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            controller: _emailController,
-                            decoration: InputDecoration(
-                              fillColor: Color(0xFFDBE2E3),
-                              filled: true,
-                              contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
-                              // 默认可编辑时的边框
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xff5A5858), //边线颜色为白色
-                                  width: 2, //边线宽度为2
-                                ),
-                              ),
-                              // 输入时的边框
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.blue, //边框颜色为白色
-                                  width: 2, //宽度为5
-                                ),
-                              ),
-                              errorStyle: TextStyle(fontSize: 18),
-                              errorMaxLines: 1,
-                              errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 1,
-                                  )),
-                            ),
-                            // 校验邮箱
-                            validator: (v) {
-                              String regexEmail =
-                                  "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}\$";
-                              return new RegExp(regexEmail).hasMatch(v.toString())
-                                  ? null
-                                  : "The Email format is incorrect";
-                            },
-                            onChanged: (v) {
-                              print("onChange: $v");
-                              logic.email = v;
-                            },
-                            style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 0.0, left: 10.0),
-                    constraints: BoxConstraints.tightFor(width: 750.w, height: 270.h), //卡片大小
-                    alignment: Alignment.center, //卡片内文字居中
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            margin: EdgeInsets.only(left: 30.0, top: 20.0),
-                            child: Text(
-                              "Phone number",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          child: TextFormField(
-                            controller: _phoneController,
-                            keyboardType: TextInputType.phone,
-                            decoration: InputDecoration(
-                              fillColor: Color(0xFFDBE2E3),
-                              filled: true,
-                              contentPadding: EdgeInsets.symmetric(vertical: 32.sp, horizontal: 30.sp),
-                              // 默认可编辑时的边框
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xff5A5858), //边线颜色为白色
-                                  width: 2, //边线宽度为2
-                                ),
-                              ),
-                              // 输入时的边框
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.blue, //边框颜色为白色
-                                  width: 2, //宽度为5
-                                ),
-                              ),
-                              errorStyle: TextStyle(fontSize: 18),
-                              errorMaxLines: 1,
-                              errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 1,
-                                  )),
-                            ),
-                            // 校验电话
-                            validator: (v) {
-                              return v!.trim().isNotEmpty ? null : "The phone cannot be empty";
-                            },
-                            // 电话校验
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9]+'),
-                              )
-                            ],
-                            onChanged: (v) {
-                              print("onChange: $v");
-                              logic.phone = v;
-                            },
-                            style: CustomTextStyles.title(color: Colors.black, fontSize: 34.sp, level: 5),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
+            ),
           ),
         );
       }),

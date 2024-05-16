@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../../../common.dart';
@@ -101,15 +102,69 @@ class BirthdayPage extends StatelessWidget {
   }
 }
 
-// 添加生日
-class _AddBirthdayButton extends StatelessWidget {
+class _AddBirthdayButton extends StatefulWidget {
   _AddBirthdayButton({
     Key? key,
     required this.width,
   }) : super(key: key);
   final double width;
+
+  @override
+  _AddBirthdayButtonState createState() => _AddBirthdayButtonState();
+}
+
+// 添加生日
+class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
+  late FToast fToast;
+
   final logic = Get.find<AddPlayerDataLogic>();
   ShowState get showState => Get.arguments["showState"];
+
+  @override
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+  }
+
+  void showCustomToast() {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Color(0xFF7B7B7B),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.error, color: Colors.black, size: 24,),
+          SizedBox(
+            width: 12.0,
+          ),
+          Text(
+            "Players should be over 13 yearss",
+            style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+          ),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.CENTER,
+      toastDuration: Duration(seconds: 2),
+    );
+
+    // Fluttertoast.showToast(
+    //     msg: "Players should be over 13 yearss",
+    //     toastLength: Toast.LENGTH_SHORT,
+    //     gravity: ToastGravity.CENTER,
+    //     timeInSecForIosWeb: 1,
+    //     backgroundColor: Color(0xFF7B7B7B),
+    //     textColor: Colors.white,
+    //     fontSize: 26.0
+    // );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +254,7 @@ class _AddBirthdayButton extends StatelessWidget {
           }
         }
         else {
-          EasyLoading.showError("Players should be over 13 yearss");
+          showCustomToast();
         }
       },
       child: Container(
@@ -208,7 +263,7 @@ class _AddBirthdayButton extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         margin: EdgeInsets.only(top: 50.0, left: 0.0, bottom: 30.0),
-        constraints: BoxConstraints.tightFor(width: width * 0.8, height: 80.h),
+        constraints: BoxConstraints.tightFor(width: widget.width, height: 100.h),
         child: Center(
           child: Text(
             "NEXT",
@@ -235,9 +290,8 @@ class _BackButton extends StatelessWidget {
         Get.back();
       },
       child: Text(
-        "Back",
-        style:
-            CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
+        "BACK",
+        style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
       ),
     );
   }
