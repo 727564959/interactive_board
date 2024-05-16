@@ -25,6 +25,7 @@ import 'logic.dart';
 class PlayerLookPage extends StatelessWidget {
   PlayerLookPage({Key? key}) : super(key: key);
   final logic = Get.put(MirraLookLogic());
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,7 @@ class PlayerLookPage extends StatelessWidget {
                             return Column(
                               children: [
                                 // 顶部文本信息
-                                CheckInTitlePage(titleText: "Mirra Look"),
+                                CheckInTitlePage(titleText: "Mirra Look", tableId: tableId),
                                 SizedBox(height: 20,),
                                 _PlayerInfoArea(),
                                 SizedBox(height: 30,),
@@ -450,7 +451,7 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
                                                 padding: EdgeInsets.all(6),
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: List.generate(index + 1, (i) {
+                                                  children: List.generate(Get.arguments["gameItemInfo"][index].level + 2, (i) {
                                                     return Padding(
                                                       padding: EdgeInsets.symmetric(horizontal: 2), // 设置左右间距
                                                       child: Image.asset(

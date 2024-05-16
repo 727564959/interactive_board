@@ -6,16 +6,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:interactive_board/pages/check_in/logic.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../app_routes.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../data/model/show_state.dart';
 import '../../check_in/headgear_acquisition/flip_card.dart';
-import '../../set_avatar/logic.dart';
-import '../../set_avatar/view.dart';
 import '../player_show/new_player_page.dart';
 import 'logic.dart';
 
@@ -124,7 +120,11 @@ class _CardFlipState extends State<_CardFlip> {
                   });
                   print("logic.clickSelectId ${logic.clickSelectId}");
                   Future.delayed(0.5.seconds).then((value) async {
-                    Get.offAll(() => NewPlayerInfoPage(), arguments: {"userId": userId, "headgearId": logic.clickSelectId, "showState": showState});
+                    Get.offAll(() => NewPlayerInfoPage(),
+                        arguments: {
+                          "userId": userId,
+                          "headgearId": logic.clickSelectId,
+                          "showState": showState});
                   });
                 },
                 child: Container(
@@ -138,5 +138,4 @@ class _CardFlipState extends State<_CardFlip> {
       ],
     );
   }
-
 }

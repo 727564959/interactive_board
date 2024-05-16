@@ -205,7 +205,15 @@ class _CardFlipState extends State<_CardFlip> {
                   });
                   print("logic.clickSelectId ${logic.clickSelectId}");
                   Future.delayed(0.5.seconds).then((value) async {
-                    Get.offAll(() => NewPlayerPage(), arguments: {"userId": userId, "headgearId": logic.clickSelectId, "showInfo": showInfo, "customer": customer, "isAddPlayerClick": isAddPlayerClick,});
+                    Get.offAll(() => NewPlayerPage(),
+                        arguments: {
+                          "userId": userId,
+                          "headgearId": logic.clickSelectId,
+                          "showInfo": showInfo,
+                          "customer": customer,
+                          "isAddPlayerClick": isAddPlayerClick,
+                          "tableId": tableId,
+                        });
                   });
                 },
                 child: Container(

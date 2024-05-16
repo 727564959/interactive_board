@@ -184,7 +184,7 @@ class ChooseTablePage extends StatelessWidget {
                       print("code ${code}");
                       print("logic.selectedTableId ${logic.selectedTableId}");
                       // 验票
-                      // await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
+                      await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
                       print("哈哈哈哈哈");
                       EasyLoading.dismiss(animation: false);
                       // 选队徽

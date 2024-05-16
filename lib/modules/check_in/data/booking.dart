@@ -12,16 +12,22 @@ class Customer {
 class BookingInfo {
   DateTime bookingTime;
   String status;
+  String? tableId;
+  String? showId;
   Customer customer;
   BookingInfo({
     required this.bookingTime,
     required this.status,
+    this.tableId,
+    this.showId,
     required this.customer,
   });
   factory BookingInfo.fromJson(dynamic map) {
     final customerMap = map["customer"];
     final bookingTime = DateTime.parse(map["booking"]["time"]);
     final status = map["booking"]["status"];
+    final tableId = map["booking"]["tableId"];
+    final showId = map["booking"]["showId"];
     final customer = Customer(
       email: customerMap["email"],
       name: customerMap["name"],
@@ -30,6 +36,8 @@ class BookingInfo {
     return BookingInfo(
       bookingTime: bookingTime,
       status: status,
+      tableId: tableId,
+      showId: showId,
       customer: customer,
     );
   }

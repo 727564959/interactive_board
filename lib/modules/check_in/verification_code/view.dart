@@ -101,7 +101,7 @@ class VerificationPage extends StatelessWidget {
                                     'showInfo': showInfo,
                                     'customer': bookingInfo.customer,
                                     "isAddPlayerClick": true,
-                                    "tableId": tableId,
+                                    "tableId": int.parse(bookingInfo.tableId.toString()),
                                   });
                             }
                             else {
@@ -227,7 +227,7 @@ class _CheckInInput extends StatelessWidget {
                           'showInfo': showInfo,
                           'customer': bookingInfo.customer,
                           "isAddPlayerClick": true,
-                          "tableId": 2,
+                          "tableId": int.parse(bookingInfo.tableId.toString()),
                         });
                   }
                   else {

@@ -217,7 +217,9 @@ class _SquadCard extends StatelessWidget {
                                 "gameItemInfo": logic.gameItemInfo,
                                 "showState": showState,
                                 "card": card,
-                                "isAddPlayerClick": true});
+                                "isAddPlayerClick": true,
+                                "tableId": Global.tableId
+                              });
                         } on DioException catch (e) {
                           EasyLoading.dismiss();
                           if (e.response == null) EasyLoading.showError("Network Error!");

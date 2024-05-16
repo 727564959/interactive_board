@@ -11,20 +11,24 @@ class CheckInTitlePage extends StatelessWidget {
   CheckInTitlePage({
     Key? key,
     required this.titleText,
+    this.tableId,
   }) : super(key: key);
   final String titleText;
-  // Color get color {
-  //   if (Global.tableId == 1) {
-  //     return const Color(0xFFEF7E00);
-  //   } else if (Global.tableId == 2) {
-  //     return const Color(0xFFE11988);
-  //   } else if (Global.tableId == 3) {
-  //     return const Color(0xFF50C68E);
-  //   } else {
-  //     return const Color(0xFF4091F0);
-  //   }
-  // }
+  final int? tableId;
+
   String get bayString {
+    if(tableId != null) {
+      if (tableId == 1) {
+        return "A";
+      } else if (tableId == 2) {
+        return "B";
+      } else if (tableId == 3) {
+        return "C";
+      } else {
+        return "D";
+      }
+    }
+    else {
       if (Global.tableId == 1) {
         return "A";
       } else if (Global.tableId == 2) {
@@ -34,6 +38,7 @@ class CheckInTitlePage extends StatelessWidget {
       } else {
         return "D";
       }
+    }
   }
 
   @override

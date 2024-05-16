@@ -220,7 +220,15 @@ class _SquadCard extends StatelessWidget {
 
                         await Future.delayed(100.ms);
                         print("logic.gameItemInfo ${logic.gameItemInfo}");
-                        Get.offAll(() => PlayerLookPage(), arguments: {"gameItemInfo": logic.gameItemInfo, "showInfo": showInfo, "customer": customer, "card": card, "isAddPlayerClick": isAddPlayerClick});
+                        Get.offAll(() => PlayerLookPage(),
+                            arguments: {
+                              "gameItemInfo": logic.gameItemInfo,
+                              "showInfo": showInfo,
+                              "customer": customer,
+                              "card": card,
+                              "isAddPlayerClick": isAddPlayerClick,
+                              "tableId": tableId
+                        });
                       }
                     },
                     child: Card(

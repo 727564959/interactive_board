@@ -253,92 +253,100 @@ class _AddBirthdayButton extends StatelessWidget {
         // print("参数 ${logic.showState}");
         String birthDay = DateFormat('yyyy-MM-dd')
             .format(logic.birthdayStr);
-        if (checkingUser.isEmpty) {
-          print("是新增!!!!!");
-          String testPhone = "+(1)" + logic.phone;
-          try {
-            Map addUserInfo = await logic.addPlayerFun(
-                tableId,
-                logic.email,
-                testPhone,
-                logic.firstName,
-                logic.lastName,
-                // logic.birthdayStr);
-                birthDay);
-            EasyLoading.dismiss(animation: false);
-            // 加入到show
-            await logic.addPlayerToShow(showInfo.showId, tableId, addUserInfo['userId']);
+        DateTime today = DateTime.now();  // 当前日期时间
+        Duration ageDifference = today.difference(logic.birthdayStr);  // 计算时间间隔
+        int ageInYears = (ageDifference.inDays / 365).floor();
+        if (ageInYears >= 13) {
+          if (checkingUser.isEmpty) {
+            print("是新增!!!!!");
+            String testPhone = "+(1)" + logic.phone;
+            try {
+              Map addUserInfo = await logic.addPlayerFun(
+                  tableId,
+                  logic.email,
+                  testPhone,
+                  logic.firstName,
+                  logic.lastName,
+                  // logic.birthdayStr);
+                  birthDay);
+              EasyLoading.dismiss(animation: false);
+              // 加入到show
+              await logic.addPlayerToShow(showInfo.showId, tableId, addUserInfo['userId']);
 
-            print("参数 ${addUserInfo['userId']}");
-            // Map headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
-            List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
-            if(headgearObj.isEmpty) {
-              Get.offAll(() => PlayerSquadPage(),
+              print("参数 ${addUserInfo['userId']}");
+              // Map headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
+              List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
+              if(headgearObj.isEmpty) {
+                Get.offAll(() => PlayerSquadPage(),
+                    arguments: {
+                      'showInfo': showInfo,
+                      'customer': customer,
+                      "isAddPlayerClick": isAddPlayerClick,
+                      "tableId": tableId,
+                    });
+                // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+              }
+              else {
+                // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: addUserInfo['userId']));
+                Get.offAll(() => HeadgearAcquisitionPage(),
                   arguments: {
                     'showInfo': showInfo,
                     'customer': customer,
+                    'headgearObj': headgearObj,
+                    'userId': addUserInfo['userId'],
                     "isAddPlayerClick": isAddPlayerClick,
                     "tableId": tableId,
-                  });
-              // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+                  },
+                );
+              }
+            } on DioException catch (e) {
+              EasyLoading.dismiss();
+              if (e.response == null) EasyLoading.showError("Network Error!");
+              EasyLoading.showError(e.response?.data["error"]["message"]);
             }
-            else {
-              // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: addUserInfo['userId']));
-              Get.offAll(() => HeadgearAcquisitionPage(),
-                arguments: {
-                  'showInfo': showInfo,
-                  'customer': customer,
-                  'headgearObj': headgearObj,
-                  'userId': addUserInfo['userId'],
-                  "isAddPlayerClick": isAddPlayerClick,
-                  "tableId": tableId,
-                },
-              );
-            }
-          } on DioException catch (e) {
-            EasyLoading.dismiss();
-            if (e.response == null) EasyLoading.showError("Network Error!");
-            EasyLoading.showError(e.response?.data["error"]["message"]);
-          }
-        } else {
-          print("是更新!!!!!");
-          print("参数 ${checkingUser['userId']}");
-          try {
-            EasyLoading.dismiss(animation: false);
-            // 加入到show
-            await logic.addPlayerToShow(showInfo.showId, tableId, checkingUser['userId']);
+          } else {
+            print("是更新!!!!!");
+            print("参数 ${checkingUser['userId']}");
+            try {
+              EasyLoading.dismiss(animation: false);
+              // 加入到show
+              await logic.addPlayerToShow(showInfo.showId, tableId, checkingUser['userId']);
 
-            List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
-            // Map headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
-            if(headgearObj.isEmpty) {
-              Get.offAll(() => PlayerSquadPage(),
+              List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
+              // Map headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
+              if(headgearObj.isEmpty) {
+                Get.offAll(() => PlayerSquadPage(),
+                    arguments: {
+                      'showInfo': showInfo,
+                      'customer': customer,
+                      "isAddPlayerClick": isAddPlayerClick,
+                      "tableId": tableId,
+                    });
+                // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+              }
+              else {
+                // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: checkingUser['userId']));
+                Get.offAll(
+                      () => HeadgearAcquisitionPage(),
                   arguments: {
                     'showInfo': showInfo,
                     'customer': customer,
+                    'headgearObj': headgearObj,
+                    'userId': checkingUser['userId'],
                     "isAddPlayerClick": isAddPlayerClick,
                     "tableId": tableId,
-                  });
-              // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
+                  },
+                );
+              }
+            } on DioException catch (e) {
+              EasyLoading.dismiss();
+              if (e.response == null) EasyLoading.showError("Network Error!");
+              EasyLoading.showError(e.response?.data["error"]["message"]);
             }
-            else {
-              // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: checkingUser['userId']));
-              Get.offAll(
-                    () => HeadgearAcquisitionPage(),
-                arguments: {
-                  'showInfo': showInfo,
-                  'customer': customer,
-                  'headgearObj': headgearObj,
-                  'userId': checkingUser['userId'],
-                  "isAddPlayerClick": isAddPlayerClick,
-                  "tableId": tableId,
-                },
-              );
-            }
-          } on DioException catch (e) {
-            EasyLoading.dismiss();
-            if (e.response == null) EasyLoading.showError("Network Error!");
-            EasyLoading.showError(e.response?.data["error"]["message"]);
           }
+        }
+        else {
+          EasyLoading.showError("Players should be over 13 yearss");
         }
       },
       child: Container(

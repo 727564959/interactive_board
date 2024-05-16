@@ -123,76 +123,83 @@ class _AddBirthdayButton extends StatelessWidget {
         // print("参数 ${logic.showState}");
         String birthDay = DateFormat('yyyy-MM-dd')
             .format(logic.birthdayStr);
+        DateTime today = DateTime.now();  // 当前日期时间
+        Duration ageDifference = today.difference(logic.birthdayStr);  // 计算时间间隔
+        int ageInYears = (ageDifference.inDays / 365).floor();  // 将天数转换为年数
+        if (ageInYears >= 13) {
+          if (checkingUser.isEmpty) {
+            print("是新增!!!!!");
+            String testPhone = "+(1)" + logic.phone;
+            try {
+              Map addUserInfo = await logic.addPlayerFun(
+                  Global.tableId,
+                  logic.email,
+                  testPhone,
+                  logic.firstName,
+                  logic.lastName,
+                  // logic.birthdayStr);
+                  birthDay);
+              EasyLoading.dismiss(animation: false);
+              // 加入到show
+              await logic.addPlayerToShow(showState.showId??1, Global.tableId, addUserInfo['userId']);
 
-        if (checkingUser.isEmpty) {
-          print("是新增!!!!!");
-          String testPhone = "+(1)" + logic.phone;
-          try {
-            Map addUserInfo = await logic.addPlayerFun(
-                Global.tableId,
-                logic.email,
-                testPhone,
-                logic.firstName,
-                logic.lastName,
-                // logic.birthdayStr);
-                birthDay);
-            EasyLoading.dismiss(animation: false);
-            // 加入到show
-            await logic.addPlayerToShow(showState.showId??1, Global.tableId, addUserInfo['userId']);
-
-            print("参数 ${addUserInfo['userId']}");
-            List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
-            if(headgearObj.isEmpty) {
-              Get.offAll(() => PlayerShowPage(),
+              print("参数 ${addUserInfo['userId']}");
+              List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
+              if(headgearObj.isEmpty) {
+                Get.offAll(() => PlayerShowPage(),
+                    arguments: {
+                      'showState': showState,
+                    });
+              }
+              else {
+                Get.offAll(
+                      () => HeadgearPage(),
                   arguments: {
                     'showState': showState,
-                  });
+                    'headgearObj': headgearObj,
+                    'userId': addUserInfo['userId'],
+                  },
+                );
+              }
+            } on DioException catch (e) {
+              EasyLoading.dismiss();
+              if (e.response == null) EasyLoading.showError("Network Error!");
+              EasyLoading.showError(e.response?.data["error"]["message"]);
             }
-            else {
-              Get.offAll(
-                    () => HeadgearPage(),
-                arguments: {
-                  'showState': showState,
-                  'headgearObj': headgearObj,
-                  'userId': addUserInfo['userId'],
-                },
-              );
-            }
-          } on DioException catch (e) {
-            EasyLoading.dismiss();
-            if (e.response == null) EasyLoading.showError("Network Error!");
-            EasyLoading.showError(e.response?.data["error"]["message"]);
-          }
-        } else {
-          print("是更新!!!!!");
-          print("参数 ${checkingUser['userId']}");
-          try {
-            EasyLoading.dismiss(animation: false);
-            // 加入到show
-            await logic.addPlayerToShow(showState.showId??1, Global.tableId, checkingUser['userId']);
+          } else {
+            print("是更新!!!!!");
+            print("参数 ${checkingUser['userId']}");
+            try {
+              EasyLoading.dismiss(animation: false);
+              // 加入到show
+              await logic.addPlayerToShow(showState.showId??1, Global.tableId, checkingUser['userId']);
 
-            List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
-            if(headgearObj.isEmpty) {
-              Get.offAll(() => PlayerShowPage(),
+              List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(checkingUser['userId']);
+              if(headgearObj.isEmpty) {
+                Get.offAll(() => PlayerShowPage(),
+                    arguments: {
+                      'showState': showState,
+                    });
+              }
+              else {
+                Get.offAll(
+                      () => HeadgearPage(),
                   arguments: {
                     'showState': showState,
-                  });
+                    'headgearObj': headgearObj,
+                    'userId': checkingUser['userId'],
+                  },
+                );
+              }
+            } on DioException catch (e) {
+              EasyLoading.dismiss();
+              if (e.response == null) EasyLoading.showError("Network Error!");
+              EasyLoading.showError(e.response?.data["error"]["message"]);
             }
-            else {
-              Get.offAll(
-                    () => HeadgearPage(),
-                arguments: {
-                  'showState': showState,
-                  'headgearObj': headgearObj,
-                  'userId': checkingUser['userId'],
-                },
-              );
-            }
-          } on DioException catch (e) {
-            EasyLoading.dismiss();
-            if (e.response == null) EasyLoading.showError("Network Error!");
-            EasyLoading.showError(e.response?.data["error"]["message"]);
           }
+        }
+        else {
+          EasyLoading.showError("Players should be over 13 yearss");
         }
       },
       child: Container(
