@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import '../../../common.dart';
@@ -14,20 +15,11 @@ class AddPlayerLogic extends GetxController {
   bool get bSelected => selectedTableId != null;
   final _dio = Dio();
 
-  // 选择生日确定
-  // void confirmBirthdayFun(var val) {
-  //   print("选择生日 $val");
-  //   birthdayStr = "${val?.year}" +
-  //       "-" +
-  //       (val?.month <= 9 ? "0" : "") +
-  //       "${val?.month}" +
-  //       "-" +
-  //       (val?.day <= 9 ? "0" : "") +
-  //       "${val?.day}";
-  //   print("选择生日 $birthdayStr");
-  //   update();
-  // }
-
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   // 查重
   Future<Map> checkingPlayer(String email) async {
     print("通过邮箱进行玩家查重");
