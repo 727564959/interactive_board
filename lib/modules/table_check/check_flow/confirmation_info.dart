@@ -16,6 +16,7 @@ import 'group_set.dart';
 class ConfirmationInfo extends StatelessWidget {
   ConfirmationInfo({Key? key}) : super(key: key);
   Map get singlePlayer => Get.arguments["singlePlayer"];
+  DateTime get startTime => (Get.arguments["showState"].details as ShowPreparingDetails).startTime;
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +55,9 @@ class ConfirmationInfo extends StatelessWidget {
                           child: SizedBox(
                             width: 0.8.sw,
                             child: Text(
-                              singlePlayer['name'],
-                              style: CustomTextStyles.title(color: Color(0xFFFFFFFF), fontSize: 36.sp, level: 2),
+                              // singlePlayer['name'],
+                              "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(startTime.add(8.hours)),
+                              style: CustomTextStyles.title(color: Color(0xFF13EFEF), fontSize: 36.sp, level: 2),
                             ),
                           ),
                         ),

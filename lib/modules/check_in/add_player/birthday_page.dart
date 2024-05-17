@@ -144,7 +144,7 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
             width: 12.0,
           ),
           Text(
-            "Players should be over 13 yearss",
+            "Players should be over 13 years",
             style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
           ),
         ],
