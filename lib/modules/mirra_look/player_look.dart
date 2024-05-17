@@ -8,7 +8,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../common.dart';
 import '../../../mirra_style.dart';
 import '../../data/model/show_state.dart';
 import '../../widgets/check_in_title.dart';
@@ -17,7 +16,6 @@ import '../check_in/data/show.dart';
 import '../check_in/data/skin_gender_option.dart';
 import '../check_in/player_page/logic.dart';
 import '../check_in/player_page/player_squad.dart';
-import '../table_check/player_show/logic.dart';
 import '../table_check/player_show/view.dart';
 import 'data/player_card.dart';
 import 'logic.dart';

@@ -1,15 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import '../../../common.dart';
 import '../data/avatar_info.dart';
 
 class AddPlayerDataLogic extends GetxController {
-  String email = "";
-  String phone = "";
-  String firstName = "";
-  String lastName = "";
   DateTime birthdayStr = DateTime.now();
   final _dio = Dio();
+
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   // 查重
   Future<Map> checkingPlayer(String email) async {

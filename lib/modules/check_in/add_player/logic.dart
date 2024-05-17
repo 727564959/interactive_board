@@ -6,11 +6,6 @@ import '../data/avatar_info.dart';
 
 class AddPlayerLogic extends GetxController {
   int? selectedTableId;
-  String email = "";
-  String phone = "";
-  String firstName = "";
-  String lastName = "";
-  // String birthdayStr = "Please enter your birthday";
   DateTime birthdayStr = DateTime.now();
   bool get bSelected => selectedTableId != null;
   final _dio = Dio();
@@ -48,6 +43,10 @@ class AddPlayerLogic extends GetxController {
   // 正常添加玩家
   Future<Map> addPlayerFun(int tableId,
       [String? email, String? phone, String? firstName, String? lastName, String? birthday]) async {
+    // print("email ${email}");
+    // print("phone ${phone}");
+    // print("firstName ${firstName}");
+    // print("lastName ${lastName}");
     String userName = (firstName != null && lastName != null)
         ? (firstName + " " + lastName)
         : ((firstName != null ? firstName : (lastName != null ? lastName : '')));

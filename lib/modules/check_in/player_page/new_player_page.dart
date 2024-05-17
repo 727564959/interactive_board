@@ -9,6 +9,7 @@ import '../../../../mirra_style.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../data/skin_gender_option.dart';
+import '../data/user_info.dart';
 import 'logic.dart';
 import 'player_squad.dart';
 
@@ -91,6 +92,7 @@ class _SelectedArea extends StatefulWidget {
 
 class _SelectedAreaState extends State<_SelectedArea> {
   final logic = Get.put(PlayerShowLogic());
+  UserInfo get userData => Get.arguments?["userData"];
 
   List<SkinOption> skinOptions = [
     SkinOption(color: Color(0xFFFFF3E0), label: 'white'),
@@ -102,6 +104,24 @@ class _SelectedAreaState extends State<_SelectedArea> {
     GenderOption(color: Color(0xFF6CC1FF), label: 'male'),
     GenderOption(color: Color(0xFFFF9AE9), label: 'female'),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    print("userData ${userData.skinColor}");
+    for(int i = 0; i < skinOptions.length; i++) {
+      if(userData.skinColor == skinOptions[i].label) {
+        logic.selectedSkin = skinOptions[i];
+      }
+    }
+    print("logic.selectedSkin ${logic.selectedSkin}");
+    for(int j = 0; j < genderOptions.length; j++) {
+      if(userData.sex == genderOptions[j].label) {
+        logic.selectedGender = genderOptions[j];
+      }
+    }
+  }
+
   // 肤色
   Widget buildSkinOption(SkinOption option) {
     bool isSelected = option == logic.selectedSkin;

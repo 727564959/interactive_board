@@ -12,10 +12,6 @@ import '../data/user_info.dart';
 
 class PlayerShowLogic extends GetxController {
   int? selectedTableId;
-  String email = "";
-  String phone = "";
-  String firstName = "";
-  String lastName = "";
   int? clickedCard;
   final playerPageApi = PlayerPageApi();
   List<UserInfo> userList = [];
@@ -224,6 +220,12 @@ class PlayerShowLogic extends GetxController {
         clickedCard = i;
       }
     }
+  }
+
+  Future<UserInfo> getCurrentUser(showId, tableId, userId) async {
+    List<UserInfo> currentUserList = await playerPageApi.fetchUsers(showId, tableId);
+    UserInfo userData = currentUserList.firstWhere((element) => element.id == userId);
+    return userData;
   }
 
   @override

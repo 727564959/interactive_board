@@ -7,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../../../common.dart';
-import '../../../../widgets/check_in_title.dart';
 import '../../../data/model/show_state.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/date_picker.dart';
@@ -154,16 +153,6 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
       gravity: ToastGravity.CENTER,
       toastDuration: Duration(seconds: 2),
     );
-
-    // Fluttertoast.showToast(
-    //     msg: "Players should be over 13 yearss",
-    //     toastLength: Toast.LENGTH_SHORT,
-    //     gravity: ToastGravity.CENTER,
-    //     timeInSecForIosWeb: 1,
-    //     backgroundColor: Color(0xFF7B7B7B),
-    //     textColor: Colors.white,
-    //     fontSize: 26.0
-    // );
   }
 
   @override
@@ -172,7 +161,7 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
       // 点击事件
       onTap: () async {
         // 用户查重
-        Map checkingUser = await logic.checkingPlayer(logic.email);
+        Map checkingUser = await logic.checkingPlayer(logic.emailController.text);
         print("查重返回 ${checkingUser.isEmpty}");
         print("参数 ${Get.arguments}");
         // print("参数 ${logic.showState}");
@@ -184,15 +173,14 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
         if (ageInYears >= 13) {
           if (checkingUser.isEmpty) {
             print("是新增!!!!!");
-            String testPhone = "+(1)" + logic.phone;
+            String testPhone = "+(1)" + logic.phoneController.text;
             try {
               Map addUserInfo = await logic.addPlayerFun(
                   Global.tableId,
-                  logic.email,
+                  logic.emailController.text,
                   testPhone,
-                  logic.firstName,
-                  logic.lastName,
-                  // logic.birthdayStr);
+                  logic.firstNameController.text,
+                  logic.lastNameController.text,
                   birthDay);
               EasyLoading.dismiss(animation: false);
               // 加入到show
@@ -207,8 +195,7 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
                     });
               }
               else {
-                Get.offAll(
-                      () => HeadgearPage(),
+                Get.offAll(() => HeadgearPage(),
                   arguments: {
                     'showState': showState,
                     'headgearObj': headgearObj,
@@ -237,8 +224,7 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
                     });
               }
               else {
-                Get.offAll(
-                      () => HeadgearPage(),
+                Get.offAll(() => HeadgearPage(),
                   arguments: {
                     'showState': showState,
                     'headgearObj': headgearObj,

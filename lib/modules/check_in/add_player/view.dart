@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -60,7 +59,6 @@ class AddPlayerPage extends StatelessWidget {
                           ),
                         ),
                         _PlayerInfoForm(),
-
                         _BottomBtns(),
                       ],
                     );
@@ -198,7 +196,6 @@ class _BottomBtns extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final content = Container(
-      // margin: EdgeInsets.only(top: 0.0, left: 0.0),
       margin: EdgeInsets.only(top: 0.0, left: 0.0),
       constraints: BoxConstraints.tightFor(width: 1.0.sw, height: 200.h), //卡片大小
       alignment: Alignment.center,
@@ -243,6 +240,7 @@ class _NextButton extends StatelessWidget {
     required this.width,
   }) : super(key: key);
   final double width;
+
   final logic = Get.find<AddPlayerLogic>();
   ShowInfo get showInfo => Get.arguments["showInfo"];
   Customer get customer => Get.arguments["customer"];
@@ -255,22 +253,20 @@ class _NextButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         logic.formKey.currentState!.validate();
-        // if (logic.email.isNotEmpty &&
-        //     logic.phone.isNotEmpty &&
-        //     logic.firstName.isNotEmpty &&
-        //     logic.lastName.isNotEmpty) {
-        //   Get.to(
-        //     () => BirthdayPage(),
-        //     arguments: {
-        //       'showInfo': showInfo,
-        //       'customer': customer,
-        //       "isAddPlayerClick": isAddPlayerClick,
-        //       "tableId": tableId,
-        //     },
-        //   );
-        // } else {
-        //   EasyLoading.showError("Please fill in the information !");
-        // }
+        if (logic.firstNameController.text.isNotEmpty &&
+            logic.lastNameController.text.isNotEmpty &&
+            logic.emailController.text.isNotEmpty &&
+            logic.phoneController.text.isNotEmpty) {
+          // print("logic.firstNameController.text ${logic.firstNameController.text}");
+          Get.to(() => BirthdayPage(),
+            arguments: {
+              'showInfo': showInfo,
+              'customer': customer,
+              "isAddPlayerClick": isAddPlayerClick,
+              "tableId": tableId,
+            },
+          );
+        }
       },
       child: GetBuilder<AddPlayerLogic>(
         id: "editNextBtn",
@@ -281,7 +277,7 @@ class _NextButton extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(30)),
             ),
             margin: EdgeInsets.only(top: 0.0, left: 0.0),
-            constraints: BoxConstraints.tightFor(width: width, height: 80.h),
+            constraints: BoxConstraints.tightFor(width: width, height: 100.h),
             child: Center(
               child: Text(
                 "NEXT",
@@ -347,11 +343,9 @@ class _MaybeLatterButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        // Get.to(() => PlayerInfoShow(), arguments: Get.arguments);
         Map skipUserInfo = await logic.addSkipPlayer();
         // 加入到show
         await logic.addPlayerToShow(showInfo.showId, tableId, skipUserInfo['userId']);
-        // Map headgearObj = await logic.fetchHeadgearInfo(skipUserInfo['userId']);
         List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(skipUserInfo['userId']);
         if (headgearObj.isEmpty) {
           if (Get.isRegistered<PlayerShowLogic>()) {
@@ -363,7 +357,6 @@ class _MaybeLatterButton extends StatelessWidget {
             "isAddPlayerClick": isAddPlayerClick,
             "tableId": tableId,
           });
-          // Get.offAll(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
         } else {
           print("headgearObj: ${headgearObj}");
           print("headgearObj: ${skipUserInfo['userId']}");
@@ -371,9 +364,7 @@ class _MaybeLatterButton extends StatelessWidget {
             print("延迟跳转");
             print("headgearObj: ${headgearObj}");
             print("headgearObj: ${skipUserInfo['userId']}");
-            // await Get.offAll(() => HeadgearAcquisitionPage(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: skipUserInfo['userId']));
-            Get.offAll(
-              () => HeadgearAcquisitionPage(),
+            Get.offAll(() => HeadgearAcquisitionPage(),
               arguments: {
                 'showInfo': showInfo,
                 'customer': customer,
@@ -385,10 +376,6 @@ class _MaybeLatterButton extends StatelessWidget {
             );
           });
         }
-        // if(Get.isRegistered<PlayerShowLogic>()) {
-        //   Get.find<PlayerShowLogic>().fetchCasualUser(showInfo.showId);
-        // }
-        // Get.to(() => PlayerInfoDeskShow(showInfo: showInfo, customer: customer,), arguments: showInfo);
       },
       child: GetBuilder<AddPlayerLogic>(
         id: "maybeLatterBtn",

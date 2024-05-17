@@ -3,7 +3,9 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +14,7 @@ import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../data/model/show_state.dart';
 import '../../check_in/headgear_acquisition/flip_card.dart';
+import '../data/user_info.dart';
 import '../player_show/new_player_page.dart';
 import 'logic.dart';
 
@@ -162,11 +165,20 @@ class _NextButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         print("logic.clickSelectId ${logic.clickSelectId}");
+        try {
+          EasyLoading.dismiss(animation: false);
+          UserInfo userData = await logic.getCurrentUser(showState.showId, Global.tableId, userId);
           Get.offAll(() => NewPlayerInfoPage(),
               arguments: {
                 "userId": userId,
                 "headgearId": logic.clickSelectId,
-                "showState": showState});
+                "showState": showState,
+                "userData": userData,});
+        } on DioException catch (e) {
+          EasyLoading.dismiss();
+          if (e.response == null) EasyLoading.showError("Network Error!");
+          EasyLoading.showError(e.response?.data["error"]["message"]);
+        }
       },
       child: Container(
         decoration: BoxDecoration(

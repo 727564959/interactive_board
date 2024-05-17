@@ -3,7 +3,9 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/pages/check_in/logic.dart';
@@ -16,6 +18,7 @@ import '../../set_avatar/logic.dart';
 import '../../set_avatar/view.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
+import '../data/user_info.dart';
 import '../player_page/new_player_page.dart';
 import '../player_page/view.dart';
 import 'flip_card.dart';
@@ -595,15 +598,24 @@ class _NextButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         print("logic.clickSelectId ${logic.clickSelectId}");
-        Get.offAll(() => NewPlayerPage(),
-            arguments: {
-              "userId": userId,
-              "headgearId": logic.clickSelectId,
-              "showInfo": showInfo,
-              "customer": customer,
-              "isAddPlayerClick": isAddPlayerClick,
-              "tableId": tableId,
-            });
+        try {
+          EasyLoading.dismiss(animation: false);
+          UserInfo userData = await logic.getCurrentUser(showInfo.showId, tableId, userId);
+          Get.offAll(() => NewPlayerPage(),
+              arguments: {
+                "userId": userId,
+                "headgearId": logic.clickSelectId,
+                "showInfo": showInfo,
+                "customer": customer,
+                "isAddPlayerClick": isAddPlayerClick,
+                "tableId": tableId,
+                "userData": userData,
+              });
+        } on DioException catch (e) {
+          EasyLoading.dismiss();
+          if (e.response == null) EasyLoading.showError("Network Error!");
+          EasyLoading.showError(e.response?.data["error"]["message"]);
+        }
       },
       child: Container(
         decoration: BoxDecoration(
