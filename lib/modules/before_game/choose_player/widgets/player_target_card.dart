@@ -36,7 +36,9 @@ class _PlayerTargetCardState extends State<PlayerTargetCard> with SingleTickerPr
   @override
   void initState() {
     Future.delayed(delay).then((value) {
-      controller.forward().then((value) => controller.reverse());
+      if (player == null && position != logic.selectedPosition) {
+        controller.forward().then((value) => controller.reverse());
+      }
       timer = Timer.periodic(periodicTime, (timer) async {
         if (player == null && position != logic.selectedPosition) {
           gifController.play();
@@ -63,7 +65,7 @@ class _PlayerTargetCardState extends State<PlayerTargetCard> with SingleTickerPr
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: GestureDetector(
-        onTapUp: (details) {
+        onTapDown: (_) {
           logic.showBottomBar(position);
         },
         onPanStart: (detail) {
