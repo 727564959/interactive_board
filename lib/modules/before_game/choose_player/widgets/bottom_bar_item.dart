@@ -16,7 +16,10 @@ class BottomBarItem extends StatefulWidget {
 
 class _BottomBarItemState extends State<BottomBarItem> with SingleTickerProviderStateMixin {
   late final controller = AnimationController(vsync: this, duration: 300.ms);
-  late final animation = ColorTween(begin: baseColor, end: selectedColor).animate(controller);
+  late final animation = ColorTween(begin: baseColor, end: selectedColor).animate(CurvedAnimation(
+    parent: controller,
+    curve: Curves.easeOut,
+  ));
   PlayerInfo get player => widget.player;
   final logic = Get.find<ChoosePlayerLogic>();
   Color get baseColor => const Color(0xfff0f0f0);
