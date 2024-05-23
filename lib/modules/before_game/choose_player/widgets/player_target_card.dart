@@ -30,15 +30,12 @@ class _PlayerTargetCardState extends State<PlayerTargetCard> with SingleTickerPr
   int get position => widget.position;
   double get width => 270.w;
   PlayerInfo? get player => logic.optionalPositions[position];
-  Duration get delay => widget.delay ?? 200.ms;
+  Duration get delay => widget.delay ?? 0.ms;
   Duration get periodicTime => 1200.ms;
 
   @override
   void initState() {
     Future.delayed(delay).then((value) {
-      if (player == null && position != logic.selectedPosition) {
-        controller.forward().then((value) => controller.reverse());
-      }
       timer = Timer.periodic(periodicTime, (timer) async {
         if (player == null && position != logic.selectedPosition) {
           gifController.play();
