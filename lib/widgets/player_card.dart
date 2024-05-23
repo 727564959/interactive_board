@@ -59,11 +59,16 @@ class AvatarCard extends StatelessWidget {
     if (subTitle == null) {
       bottomLabel = Padding(
         padding: EdgeInsets.only(top: 7.w, bottom: 15.w),
-        child: Text(
-          title,
-          style: CustomTextStyles.title5(
-            color: Colors.black,
-            fontSize: 32.sp,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: CustomTextStyles.title5(
+              color: Colors.black,
+              fontSize: 32.sp,
+            ),
           ),
         ),
       );
@@ -71,13 +76,16 @@ class AvatarCard extends StatelessWidget {
       bottomLabel = Padding(
         padding: EdgeInsets.only(top: 7.w, bottom: 10.w),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: CustomTextStyles.title5(
-              color: Colors.black,
-              fontSize: 30.sp,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: CustomTextStyles.title5(
+                color: Colors.black,
+                fontSize: 30.sp,
+              ),
             ),
           ),
           Transform.translate(
@@ -110,13 +118,17 @@ class AvatarCard extends StatelessWidget {
                     width: width,
                     height: width,
                     child: Image.asset(
-                      MirraIcons.getGameShowIconPath("player_card_bg.png"),
+                      MirraIcons.getGameShowIconPath("avatar_placeholder${Global.tableId}.png"),
                       fit: BoxFit.fill,
                     ),
                   ),
                   child,
                 ],
               ),
+            ),
+            Container(
+              height: 1.5,
+              color: Colors.white,
             ),
             bottomLabel,
           ],

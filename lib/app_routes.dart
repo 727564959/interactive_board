@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:interactive_board/modules/before_game/confirm_selection/view.dart';
 import 'package:interactive_board/modules/game_over/honor/binding.dart';
 import 'modules/check_in/choose_table/view.dart';
 import 'modules/check_in/complete_page/view.dart';
@@ -44,8 +45,7 @@ class AppRoutes {
   static const String statisticsPage = "/statisticsPage";
   // 荣誉墙展示
   static const String honorPage = "/honorPage";
-  // 下个游戏
-  // static const String nextGame = "/nextGame";
+  static const String confirmChoicePlayerPage = "/confirmChoicePlayerPage";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -57,6 +57,12 @@ class AppRoutes {
       name: choosePlayer,
       page: () => ChoosePlayerPage(),
       bindings: [ChoosePlayerBinding()],
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ),
+    GetPage(
+      name: confirmChoicePlayerPage,
+      page: () => const ConfirmSelectionPage(),
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
     ),

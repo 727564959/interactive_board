@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
+import 'package:interactive_board/app_routes.dart';
 import 'package:interactive_board/common.dart';
 import 'package:interactive_board/data/model/show_state.dart';
 
@@ -60,6 +61,8 @@ class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderState
     return result;
   }
 
+  List<PlayerInfo> bottomBarPlayers = [];
+
   int? selectedPosition;
 
   late final animationController = AnimationController(vsync: this, duration: 300.ms)..addListener(() => update());
@@ -105,7 +108,7 @@ class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderState
     _timer?.cancel();
     if (!bSelectComplete) return;
     _timer = Timer(3.seconds, () {
-      Get.to(() => const ConfirmSelectionPage());
+      Get.toNamed(AppRoutes.confirmChoicePlayerPage);
     });
   }
 
@@ -133,7 +136,6 @@ class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderState
     try {
       await playerApi.updatePosition(showInfo.roundId, position, playerId);
       optionalPositions[position] = player;
-      animationController.reverse();
       selectedPosition = null;
       update();
       resetJumpTimer();
@@ -144,7 +146,7 @@ class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderState
     }
   }
 
-  void removePlayer(position) async {
+  Future<void> removePlayer(position) async {
     optionalPositions[position] = null;
     try {
       await playerApi.updatePosition(showInfo.roundId, position, null);
@@ -158,7 +160,7 @@ class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderState
   void showBottomBar(int position) {
     selectedPosition = position;
     animationController.forward();
-    removePlayer(position);
+    removePlayer(position).then((value) => bottomBarPlayers = List.of(unselectedPlayers));
     resetJumpTimer();
     update();
   }

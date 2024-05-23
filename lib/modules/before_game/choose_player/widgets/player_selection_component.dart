@@ -56,7 +56,7 @@ class NormalModeContent extends StatelessWidget {
           offset: const Offset(0, -30),
           child: PlayerTargetCard(position: position1),
         ),
-        PlayerTargetCard(position: position2),
+        PlayerTargetCard(position: position2, delay: 320.ms),
         SizedBox(width: 30.w),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +70,7 @@ class NormalModeContent extends StatelessWidget {
             ),
             SizedBox(height: 20.w),
             Text(
-              "   2 Player in This Round",
+              "        2 player in This Round",
               style: CustomTextStyles.display2(
                 color: Colors.white,
                 fontSize: 60.sp,
