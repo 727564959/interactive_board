@@ -56,7 +56,7 @@ class NormalModeContent extends StatelessWidget {
           offset: const Offset(0, -30),
           child: PlayerTargetCard(position: position1),
         ),
-        PlayerTargetCard(position: position2, delay: 500.ms),
+        PlayerTargetCard(position: position2, delay: 400.ms),
         SizedBox(width: 30.w),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -40,7 +40,7 @@ class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderState
   //         ]
   //       }
   //     });
-  ShowState get showState => Get.arguments;
+  final ShowState showState = Get.arguments;
   String get game => (showState.details as GamingDetails).game;
   Timer? _timer;
   int get showId => showState.showId!;
@@ -65,7 +65,7 @@ class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderState
 
   int? selectedPosition;
 
-  late final animationController = AnimationController(vsync: this, duration: 300.ms)..addListener(() => update());
+  late final animationController = AnimationController(vsync: this, duration: 500.ms)..addListener(() => update());
 
   @override
   void onInit() async {
