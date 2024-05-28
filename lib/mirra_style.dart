@@ -207,6 +207,21 @@ const fontVariations_TextBig = [
   FontVariation.weight(700),
 ];
 
+const fontVariations_TextNormal = [
+  FontVariation("GRAD", 0),
+  FontVariation.width(151),
+  FontVariation.slant(0),
+  FontVariation("XOPQ", 96),
+  FontVariation("YOPQ", 79),
+  FontVariation("XTRA", 524),
+  FontVariation("YTUC", 712),
+  FontVariation("YTLC", 514),
+  FontVariation("YTAS", 750),
+  FontVariation("YTDE", -203),
+  FontVariation("YTFI", 738),
+  FontVariation.weight(600),
+];
+
 const fontVariations_TextSmall = [
   FontVariation("GRAD", 0),
   FontVariation.width(151),
@@ -399,7 +414,7 @@ class CustomTextStyles {
     );
   }
 
-  static TextStyle textSmall({
+  static TextStyle textNormal({
     Color? color,
     double? fontSize,
     String? grade,
@@ -409,7 +424,7 @@ class CustomTextStyles {
       decoration: TextDecoration.none,
       fontFamily: 'RobotoFlex',
       color: color,
-      fontVariations: fontVariations_TextSmall,
+      fontVariations: fontVariations_TextNormal,
     );
   }
 

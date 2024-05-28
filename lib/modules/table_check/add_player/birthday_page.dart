@@ -149,7 +149,11 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
     );
 
     fToast.showToast(
-      child: toast,
+      // child: toast,
+      child: Transform.translate(
+        offset: Offset(0, 36.0), // 调整垂直方向上的偏移量
+        child: toast,
+      ),
       gravity: ToastGravity.CENTER,
       toastDuration: Duration(seconds: 2),
     );
@@ -246,7 +250,7 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
       child: Container(
         decoration: BoxDecoration(
           color: Color(0xff13EFEF),
-          borderRadius: BorderRadius.all(Radius.circular(30)),
+          borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
         margin: EdgeInsets.only(top: 50.0, left: 0.0, bottom: 30.0),
         constraints: BoxConstraints.tightFor(width: widget.width, height: 100.h),

@@ -43,6 +43,14 @@ class HeadgearLogic extends GetxController {
     showState = argumentsMap['showState'];
     headgearObj = argumentsMap['headgearObj'];
     userId = argumentsMap['userId'];
+
+    Future.delayed(2.5.seconds).then((value) async {
+      print("延迟");
+      isClickCard = true;
+      UserInfo userData = await getCurrentUser(showState.showId, Global.tableId, userId);
+      playerName = userData.nickname;
+      update(["headgearAcquisitionPage"]);
+    });
     update();
   }
 }

@@ -414,7 +414,7 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
                                 children: [
                                   Container(
                                     margin: EdgeInsets.only(right: 10.0),
-                                    width: 160,
+                                    width: 140,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
@@ -429,7 +429,7 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
                                             //     darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
                                             //   ],
                                             // ),
-                                            color: lightColor,
+                                            color: color,
                                           ),
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -454,7 +454,7 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
                                                 child: CachedNetworkImage(
                                                   height: 160,
                                                   imageUrl: Get.arguments["gameItemInfo"][index].icon,
-                                                  fit: BoxFit.cover,
+                                                  fit: BoxFit.fitWidth,
                                                 ),
                                               ),
                                               Container(
@@ -471,7 +471,7 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
                                                       child: Image.asset(
                                                         MirraIcons.getSetAvatarIconPath('level_star_icon.png'),
                                                         fit: BoxFit.contain,
-                                                        width: 25,
+                                                        width: 20,
                                                       ),
                                                     );
                                                   }),

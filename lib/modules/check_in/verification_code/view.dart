@@ -48,6 +48,7 @@ class VerificationPage extends StatelessWidget {
           GetBuilder<VerificationCodeLogic>(
             id: "verificationPage",
             builder: (logic) {
+              print("logic.focusNode.hasFocus ${logic.focusNode.hasFocus}");
               return Container(
                 width: 1.0.sw,
                 height: 1.0.sh,
@@ -127,14 +128,113 @@ class VerificationPage extends StatelessWidget {
                       const SizedBox(height: 60),
                       _CheckInInput(title: "", controller: logic.codeController),
                       const SizedBox(height: 50),
-                      if(logic.isButtonShow) Container(
+                      if(logic.isStateShow == -1) Container(
                         margin: EdgeInsets.only(left: 0.1.sw),
-                        child: Text(
-                          'Code check in failed. Please review your information',
-                          style: CustomTextStyles.title(
-                              color: Color(0xFFFF4848),
-                              fontSize: 74.sp,
-                              level: 1),
+                        width: 0.9.sw,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Code check in failed. Please review your information',
+                              style: CustomTextStyles.title(
+                                  color: Color(0xFFFF4848),
+                                  fontSize: 74.sp,
+                                  level: 1),
+                            ),
+                            SizedBox(height: 180.0,),
+                            Container(
+                              margin: EdgeInsets.only(left: (1.0.sw - 600)/2),
+                              child: _ConfirmButton(width: 600.w),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if(logic.isStateShow == 1) Container(
+                        margin: EdgeInsets.only(left: 0.1.sw),
+                        width: 0.9.sw,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Uh oh, your booking for",
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: "game show " + DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime)) + " ",
+                                // style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                                style: TextStyle(
+                                  fontSize: 74.sp,
+                                  decoration: TextDecoration.underline,
+                                  fontFamily: 'RobotoFlex',
+                                  color: Colors.white,
+                                  fontVariations: fontVariations_TitleH1,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: "isn't valid",
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Text(
+                              "anymore.",
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                            ),
+                            SizedBox(height: 30,),
+                            Text(
+                              "Don't miss out! Browse similar events or contact us for assistance!",
+                              style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 30.sp, level: 1),
+                            ),
+                            SizedBox(height: 60.0,),
+                            Container(
+                              margin: EdgeInsets.only(left: (1.0.sw - 600)/2),
+                              child: _ConfirmButton(width: 600.w),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if(logic.isStateShow == 2) Container(
+                        margin: EdgeInsets.only(left: 0.1.sw),
+                        width: 0.9.sw,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Check-in for the",
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: "game show " + DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime)) + " ",
+                                // style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                                style: TextStyle(
+                                  fontSize: 74.sp,
+                                  decoration: TextDecoration.underline,
+                                  fontFamily: 'RobotoFlex',
+                                  color: Colors.white,
+                                  fontVariations: fontVariations_TitleH1,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: "will start at",
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 30,),
+                            Text(
+                              DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime).subtract(Duration(hours: 1))),
+                              style: CustomTextStyles.title(color: Colors.orange, fontSize: 74.sp, level: 1),
+                            ),
+                            SizedBox(height: 90.0,),
+                            Container(
+                              margin: EdgeInsets.only(left: (1.0.sw - 600)/2),
+                              child: _ConfirmButton(width: 600.w),
+                            ),
+                          ],
                         ),
                       ),
                       // const SizedBox(height: 100),
@@ -200,104 +300,104 @@ class VerificationPage extends StatelessWidget {
               );
             },
           ),
-          // 错误信息的全屏蒙版
-          GetBuilder<VerificationCodeLogic>(
-            id: "verificationMasking",
-            builder: (logic) {
-              if(logic.isShowMasking == 1 || logic.isShowMasking == 2) {
-                return Positioned.fill(
-                  child: GestureDetector(
-                    onTap: () async {
-                      logic.updatePageFun(0);
-                      logic.codeController.clear();
-                      // 获取焦点到 focusNode
-                      FocusScope.of(context).requestFocus(logic.focusNode);
-                    },
-                    child: Container(
-                      color: Colors.black54,
-                      child: Container(
-                        margin: EdgeInsets.only(left: 0.1.sw, top: 0.4.sh),
-                        child: logic.isShowMasking == 1
-                            ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Uh oh, your booking for",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                text: "game show " + DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime)) + " ",
-                                // style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                                style: TextStyle(
-                                  fontSize: 74.sp,
-                                  decoration: TextDecoration.underline,
-                                  fontFamily: 'RobotoFlex',
-                                  color: Colors.white,
-                                  fontVariations: fontVariations_TitleH1,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: "isn't valid",
-                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              "anymore.",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                            ),
-                            SizedBox(height: 30,),
-                            Text(
-                              "Don't miss out! Browse similar events or contact us for assistance!",
-                              style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 30.sp, level: 1),
-                            ),
-                          ],
-                        )
-                            : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Check-in for the",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                text: "game show " + DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime)) + " ",
-                                // style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                                style: TextStyle(
-                                  fontSize: 74.sp,
-                                  decoration: TextDecoration.underline,
-                                  fontFamily: 'RobotoFlex',
-                                  color: Colors.white,
-                                  fontVariations: fontVariations_TitleH1,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: "will start at",
-                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 30,),
-                            Text(
-                              DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime).subtract(Duration(hours: 1))),
-                              style: CustomTextStyles.title(color: Colors.orange, fontSize: 74.sp, level: 1),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }
-              else {
-                return Container();
-              }
-            },
-          ),
+          // // 错误信息的全屏蒙版
+          // GetBuilder<VerificationCodeLogic>(
+          //   id: "verificationMasking",
+          //   builder: (logic) {
+          //     if(logic.isShowMasking == 1 || logic.isShowMasking == 2) {
+          //       return Positioned.fill(
+          //         child: GestureDetector(
+          //           onTap: () async {
+          //             logic.updatePageFun(0);
+          //             logic.codeController.clear();
+          //             // 获取焦点到 focusNode
+          //             FocusScope.of(context).requestFocus(logic.focusNode);
+          //           },
+          //           child: Container(
+          //             color: Colors.black54,
+          //             child: Container(
+          //               margin: EdgeInsets.only(left: 0.1.sw, top: 0.4.sh),
+          //               child: logic.isShowMasking == 1
+          //                   ? Column(
+          //                     crossAxisAlignment: CrossAxisAlignment.start,
+          //                     children: [
+          //                       Text(
+          //                         "Uh oh, your booking for",
+          //                         style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+          //                       ),
+          //                       RichText(
+          //                         text: TextSpan(
+          //                           text: "game show " + DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime)) + " ",
+          //                           // style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+          //                           style: TextStyle(
+          //                             fontSize: 74.sp,
+          //                             decoration: TextDecoration.underline,
+          //                             fontFamily: 'RobotoFlex',
+          //                             color: Colors.white,
+          //                             fontVariations: fontVariations_TitleH1,
+          //                           ),
+          //                           children: [
+          //                             TextSpan(
+          //                               text: "isn't valid",
+          //                               style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+          //                             ),
+          //                           ],
+          //                         ),
+          //                       ),
+          //                       Text(
+          //                         "anymore.",
+          //                         style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+          //                       ),
+          //                       SizedBox(height: 30,),
+          //                       Text(
+          //                         "Don't miss out! Browse similar events or contact us for assistance!",
+          //                         style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 30.sp, level: 1),
+          //                       ),
+          //                     ],
+          //                   )
+          //                   : Column(
+          //                     crossAxisAlignment: CrossAxisAlignment.start,
+          //                     children: [
+          //                       Text(
+          //                         "Check-in for the",
+          //                         style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+          //                       ),
+          //                       RichText(
+          //                         text: TextSpan(
+          //                           text: "game show " + DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime)) + " ",
+          //                           // style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+          //                           style: TextStyle(
+          //                             fontSize: 74.sp,
+          //                             decoration: TextDecoration.underline,
+          //                             fontFamily: 'RobotoFlex',
+          //                             color: Colors.white,
+          //                             fontVariations: fontVariations_TitleH1,
+          //                           ),
+          //                           children: [
+          //                             TextSpan(
+          //                               text: "will start at",
+          //                               style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+          //                             ),
+          //                           ],
+          //                         ),
+          //                       ),
+          //                       SizedBox(height: 30,),
+          //                       Text(
+          //                         DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime).subtract(Duration(hours: 1))),
+          //                         style: CustomTextStyles.title(color: Colors.orange, fontSize: 74.sp, level: 1),
+          //                       ),
+          //                     ],
+          //                   ),
+          //             ),
+          //           ),
+          //         ),
+          //       );
+          //     }
+          //     else {
+          //       return Container();
+          //     }
+          //   },
+          // ),
         ],
       ),
     );
@@ -336,6 +436,7 @@ class _CheckInInput extends StatelessWidget {
             autofocus: true,
             controller: controller,
             cursorWidth: 5.0,          // 光标粗细
+            cursorRadius: Radius.circular(3.0), // 使用Radius.circular设置圆形半径
             cursorColor: Colors.black,   // 光标颜色
             cursorHeight: 48.0, // 设置光标的高度，与文字的字体大小一致
             textAlign: TextAlign.center, // 设置文本居中
@@ -374,9 +475,10 @@ class _CheckInInput extends StatelessWidget {
                   final bookingInfo = await logic.queryBookInfo(code);
                   EasyLoading.dismiss(animation: false);
 
-                  logic.updateStateFun(false);
-                  // 点击空白处时请求取消焦点
-                  logic.focusNode.unfocus();
+                  logic.updateStateShowFun(0);
+                  // logic.updateStateFun(false);
+                  // // 点击空白处时请求取消焦点
+                  // logic.focusNode.unfocus();
 
                   logic.bookingDate = bookingInfo.bookingDate;
                   logic.bookingTime = bookingInfo.bookingTime;
@@ -386,12 +488,12 @@ class _CheckInInput extends StatelessWidget {
                   DateTime currentDateTime = DateTime.now();
                   // 解析开始时间
                   DateTime targetDateTime = DateTime.parse(bookingInfo.bookingDate + " " + bookingInfo.bookingTime);
-                  // targetDateTime = targetDateTime.add(8.hours);
-                  // targetDateTime = targetDateTime.subtract(Duration(hours: 1));
+                  targetDateTime = targetDateTime.add(1.hours);
+                  // targetDateTime = targetDateTime.subtract(Duration(hours: 3));
                   // 解析结束时间时间
                   DateTime targetDateTime1 = DateTime.parse(bookingInfo.bookingDate + " " + bookingInfo.bookingEnd);
-                  // targetDateTime1 = targetDateTime1.add(8.hours);
-                  // targetDateTime1 = targetDateTime1.subtract(Duration(hours: 1));
+                  targetDateTime1 = targetDateTime1.add(1.hours);
+                  // targetDateTime1 = targetDateTime1.subtract(Duration(hours: 3));
                   // 计算时间差
                   Duration difference = targetDateTime.difference(currentDateTime);
                   // 计算开始时间和结束时间的时间差
@@ -424,7 +526,8 @@ class _CheckInInput extends StatelessWidget {
                   } else {
                     if(currentDateTime.isAfter(targetDateTime1)) {
                       print('当前时间大于目标时间');
-                      logic.updatePageFun(1);
+                      logic.updateStateShowFun(1);
+                      // logic.updatePageFun(1);
                       // Future.delayed(5.seconds).then((value) async {
                       //   print("自动关闭蒙版");
                       //   logic.updatePageFun(0);
@@ -435,7 +538,8 @@ class _CheckInInput extends StatelessWidget {
                     }
                     else {
                       print('当前时间与目标时间的时间差大于一个小时');
-                      logic.updatePageFun(2);
+                      logic.updateStateShowFun(2);
+                      // logic.updatePageFun(2);
                       // Future.delayed(5.seconds).then((value) async {
                       //   print("自动关闭蒙版");
                       //   logic.updatePageFun(0);
@@ -451,7 +555,8 @@ class _CheckInInput extends StatelessWidget {
                   EasyLoading.dismiss();
                   if (e.response == null) EasyLoading.showError("Network Error!");
                   // EasyLoading.showError(e.response?.data["error"]["message"]);
-                  logic.updateStateFun(true);
+                  // logic.updateStateFun(true);
+                  logic.updateStateShowFun(-1);
                 }
               }
               else if (value.length < 6 && value.length >= 1) {
@@ -460,7 +565,8 @@ class _CheckInInput extends StatelessWidget {
               }
               else {
                 print("为空");
-                logic.updateStateFun(false);
+                // logic.updateStateFun(false);
+                logic.updateStateShowFun(0);
               }
             },
             decoration: InputDecoration(
@@ -485,6 +591,44 @@ class _CheckInInput extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+// 下一步的按钮
+class _ConfirmButton extends StatelessWidget {
+  _ConfirmButton({
+    Key? key,
+    required this.width,
+  }) : super(key: key);
+  final double width;
+  final logic = Get.put(VerificationCodeLogic());
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        logic.updateStateShowFun(0);
+        logic.codeController.clear();
+        // 获取焦点到 focusNode
+        FocusScope.of(context).requestFocus(logic.focusNode);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Color(0xff13EFEF),
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+        ),
+        margin: EdgeInsets.only(top: 0.0, left: 0.0),
+        constraints: BoxConstraints.tightFor(width: width, height: 100.h),
+        child: Center(
+          child: Text(
+            "OK",
+            textAlign: TextAlign.center,
+            style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
+          ),
+        ),
+      ),
     );
   }
 }

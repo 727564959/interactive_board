@@ -175,7 +175,7 @@ class _SquadCard extends StatelessWidget {
                   SizedBox(height: 20.0),
                   Text(
                     num.toString() + ' / 8',
-                    style: CustomTextStyles.textSmall(color: Color(0xFFFFFFFF), fontSize: 24.sp),
+                    style: CustomTextStyles.textNormal(color: Color(0xFFFFFFFF), fontSize: 24.sp),
                   ),
                 ],
               ),
@@ -246,7 +246,7 @@ class _SquadCard extends StatelessWidget {
                                   //     darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
                                   //   ],
                                   // ),
-                                  color: lightColor,
+                                  color: color,
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -269,9 +269,9 @@ class _SquadCard extends StatelessWidget {
                                         ),
                                       ),
                                       child: CachedNetworkImage(
-                                        height: 190,
+                                        height: 200,
                                         imageUrl: card.avatarIcon ?? '',
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.contain,
                                       ),
                                     ),
                                     Container(
@@ -279,7 +279,7 @@ class _SquadCard extends StatelessWidget {
                                       color: Colors.white,
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.all(3),
+                                      padding: EdgeInsets.all(0),
                                       child: Text(
                                         card.nickname ?? '',
                                         maxLines: 1, // 最大显示行数
@@ -303,7 +303,7 @@ class _SquadCard extends StatelessWidget {
                               //     darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
                               //   ],
                               // ),
-                              color: lightColor,
+                              color: color,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -326,7 +326,7 @@ class _SquadCard extends StatelessWidget {
                                   // ),
                                   // height: 190,
                                   // child: Icon(Icons.add, color: Colors.white, size: 60,),
-                                  height: 190,
+                                  height: 200,
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(10),
@@ -364,7 +364,7 @@ class _SquadCard extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.all(3),
+                                  padding: EdgeInsets.all(0),
                                   child: Text(
                                     card.nickname ?? '',
                                     maxLines: 1, // 最大显示行数

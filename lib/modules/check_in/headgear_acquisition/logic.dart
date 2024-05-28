@@ -14,7 +14,7 @@ class HeadgearAcquisitionLogic extends GetxController {
   late Customer customer;
   late List headgearObj;
   late int userId;
-  late int clickSelectId;
+  int? clickSelectId;
   bool isClickCard = false;
   String playerName = "";
 
@@ -48,6 +48,14 @@ class HeadgearAcquisitionLogic extends GetxController {
     customer = argumentsMap['customer'];
     headgearObj = argumentsMap['headgearObj'];
     userId = argumentsMap['userId'];
+
+    Future.delayed(2.5.seconds).then((value) async {
+      print("延迟");
+      isClickCard = true;
+      UserInfo userData = await getCurrentUser(showInfo.showId, Get.arguments["tableId"], userId);
+      playerName = userData.nickname;
+      update(["headgearAcquisitionPage"]);
+    });
     update();
   }
 }

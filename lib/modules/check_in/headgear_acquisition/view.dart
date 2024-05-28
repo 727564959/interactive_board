@@ -552,36 +552,37 @@ class _NextButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        print("logic.clickSelectId ${logic.clickSelectId}");
-        try {
-          EasyLoading.dismiss(animation: false);
-          UserInfo userData = await logic.getCurrentUser(showInfo.showId, tableId, userId);
-          Get.offAll(() => NewPlayerPage(),
-              arguments: {
-                "userId": userId,
-                "headgearId": logic.clickSelectId,
-                "showInfo": showInfo,
-                "customer": customer,
-                "isAddPlayerClick": isAddPlayerClick,
-                "tableId": tableId,
-                "userData": userData,
-              });
-        } on DioException catch (e) {
-          EasyLoading.dismiss();
-          if (e.response == null) EasyLoading.showError("Network Error!");
-          EasyLoading.showError(e.response?.data["error"]["message"]);
+        if(logic.clickSelectId != null && logic.isClickCard) {
+          try {
+            EasyLoading.dismiss(animation: false);
+            UserInfo userData = await logic.getCurrentUser(showInfo.showId, tableId, userId);
+            Get.offAll(() => NewPlayerPage(),
+                arguments: {
+                  "userId": userId,
+                  "headgearId": logic.clickSelectId,
+                  "showInfo": showInfo,
+                  "customer": customer,
+                  "isAddPlayerClick": isAddPlayerClick,
+                  "tableId": tableId,
+                  "userData": userData,
+                });
+          } on DioException catch (e) {
+            EasyLoading.dismiss();
+            if (e.response == null) EasyLoading.showError("Network Error!");
+            EasyLoading.showError(e.response?.data["error"]["message"]);
+          }
         }
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Color(0xff13EFEF),
-          borderRadius: BorderRadius.all(Radius.circular(30)),
+          color: (logic.clickSelectId != null && logic.isClickCard) ? Color(0xff13EFEF) : Color(0xff9B9B9B),
+          borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
         margin: EdgeInsets.only(top: 0.0, left: 0.0),
-        constraints: BoxConstraints.tightFor(width: width * 0.8, height: 80.h),
+        constraints: BoxConstraints.tightFor(width: width, height: 100.h),
         child: Center(
           child: Text(
-            "Let's Start!",
+            "NEXT",
             textAlign: TextAlign.center,
             style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
           ),

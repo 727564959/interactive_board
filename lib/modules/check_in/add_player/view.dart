@@ -274,7 +274,7 @@ class _NextButton extends StatelessWidget {
           return Container(
             decoration: BoxDecoration(
               color: Color(0xff13EFEF),
-              borderRadius: BorderRadius.all(Radius.circular(30)),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
             ),
             margin: EdgeInsets.only(top: 0.0, left: 0.0),
             constraints: BoxConstraints.tightFor(width: width, height: 100.h),
@@ -312,10 +312,10 @@ class _BackButton extends StatelessWidget {
           //设置边框
           border: new Border.all(color: Color(0xff13EFEF), width: 1),
           color: Color(0xFF233342),
-          borderRadius: BorderRadius.all(Radius.circular(30)),
+          borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
         margin: EdgeInsets.only(top: 0.0, left: 30.0),
-        constraints: BoxConstraints.tightFor(width: width, height: 80.h), //卡片大小
+        constraints: BoxConstraints.tightFor(width: width, height: 100.h), //卡片大小
         child: Center(
           child: Text(
             "BACK",

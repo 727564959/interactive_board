@@ -97,7 +97,7 @@ class GroupIconSetPage extends StatelessWidget {
                         return Row(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 0.0, left: 0.3.sw),
+                              margin: EdgeInsets.only(top: 0.0, left: 0.28.sw),
                               constraints: BoxConstraints.tightFor(width: 0.2.sw, height: 0.5.sh),//卡片大小
                               alignment: Alignment.center, //卡片内文字居中
                               child: Column(
@@ -138,7 +138,7 @@ class GroupIconSetPage extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 0.0, right: 0.3.sw),
+                              margin: EdgeInsets.only(top: 0.0, right: 0.28.sw),
                               constraints: BoxConstraints.tightFor(width: 0.2.sw, height: 0.5.sh),//卡片大小
                               alignment: Alignment.center, //卡片内文字居中
                               child: Column(

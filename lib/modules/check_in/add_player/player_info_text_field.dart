@@ -61,7 +61,7 @@ class PlayerInfoTextField extends StatelessWidget {
                     width: 2,
                   ),
                 ),
-                errorStyle: CustomTextStyles.textSmall(color: Color(0xFFFF4848), fontSize: 30.sp),
+                errorStyle: CustomTextStyles.textNormal(color: Color(0xFFFF4848), fontSize: 30.sp),
                 errorMaxLines: 1,
                 errorBorder: const OutlineInputBorder(
                   borderSide: BorderSide(

@@ -32,6 +32,22 @@ class HeadgearFlipCard extends StatefulWidget {
 class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
   double get width => widget.width;
   late final controller = FlipCardController();
+  Color get color {
+    if (widget.bSelected ?? false) return const Color(0xff13EFEF);
+    if (widget.tableId == 1) {
+      // background: #FFBD80;
+      return const Color(0xFFFFBD80);
+    } else if (widget.tableId == 2) {
+      // background: #EFB5FD;
+      return const Color(0xFFEFB5FD);
+    } else if (widget.tableId == 3) {
+      // background: #8EE8BD;
+      return const Color(0xFF8EE8BD);
+    } else {
+      // background: #9ED7F7;
+      return const Color(0xFF9ED7F7);
+    }
+  }
   Color get labelColor {
     if (widget.bSelected ?? false) return const Color(0xFF13EFEF);
     if (widget.tableId == 1) {
@@ -95,7 +111,7 @@ class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
       side: CardSide.BACK,
       front: Container(
         decoration: BoxDecoration(
-          color: labelColor,
+          color: color,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         width: width,

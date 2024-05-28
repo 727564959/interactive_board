@@ -10,22 +10,31 @@ class VerificationCodeLogic extends GetxController {
   final codeController = TextEditingController();
   final focusNode = FocusNode();
 
-  bool isButtonShow = false;
+  // bool isButtonShow = false;
+  // 0：初始状态 1：迟到 2：早到 -1：报错
+  int isStateShow = 0;
   String bookingDate = "";
   String bookingTime = "";
   String bookingEnd = "";
-  // 0：初始状态 1：迟到 2：早到
-  int isShowMasking = 0;
+  // // 0：初始状态 1：迟到 2：早到
+  // int isShowMasking = 0;
 
-  void updatePageFun(int judgeVal) {
-    isShowMasking = judgeVal;
-    update(["verificationMasking"]);
-  }
-
-  void updateStateFun(bool judgeVal) {
-    isButtonShow = judgeVal;
+  void updateStateShowFun(int judgeVal) {
+    isStateShow = judgeVal;
+    focusNode.unfocus();
     update(["verificationPage"]);
   }
+
+  // void updatePageFun(int judgeVal) {
+  //   isShowMasking = judgeVal;
+  //   update(["verificationMasking"]);
+  // }
+
+  // void updateStateFun(bool judgeVal) {
+  //   isButtonShow = judgeVal;
+  //   focusNode.unfocus();
+  //   update(["verificationPage"]);
+  // }
 
   Future<BookingInfo> queryBookInfo(String code) async {
     final response = await _dio.get(
