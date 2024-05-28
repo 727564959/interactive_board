@@ -659,18 +659,21 @@ class _SaveButton extends StatelessWidget {
           // logic.testFun();
           EasyLoading.dismiss(animation: false);
           if(Get.arguments["showInfo"] != null) {
-            Get.offAll(() => PlayerSquadPage(),
-                arguments: {
-                  "showInfo": showInfo,
-                  "customer": customer,
-                  "isAddPlayerClick": isAddPlayerClick,
-                  "isCountdownStart": true,
-                  "tableId": tableId,
-                });
+            Future.delayed(0.5.seconds).then((value) async {
+              Get.offAll(() => PlayerSquadPage(),
+                  arguments: {
+                    "showInfo": showInfo,
+                    "customer": customer,
+                    "isAddPlayerClick": isAddPlayerClick,
+                    "isCountdownStart": true,
+                    "tableId": tableId,
+                  });
+            });
             print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
             if(Get.isRegistered<PlayerShowLogic>()) {
               Get.find<PlayerShowLogic>().isCountdownStart = true;
-              Get.find<PlayerShowLogic>().testFun();
+              // Get.find<PlayerShowLogic>().testFun();
+              Get.find<PlayerShowLogic>().getPlayerCardInfo(showInfo.showId);
             }
           }
           else {
@@ -678,7 +681,6 @@ class _SaveButton extends StatelessWidget {
                 arguments: {
                   'showState': showState,
                 });
-
             // Get.offAll(() => PlayerShowPage(),
             //     arguments: {
             //       'showState': showState,
