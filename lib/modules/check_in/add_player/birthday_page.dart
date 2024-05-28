@@ -32,7 +32,7 @@ class BirthdayPage extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: 0.25.sh,
+                  height: 0.3.sh,
                 ),
                 DatePicker(
                     initialDate: logic.birthdayStr,
@@ -42,7 +42,7 @@ class BirthdayPage extends StatelessWidget {
                     },
                 ),
                 SizedBox(
-                  height: 0.25.sh,
+                  height: 0.2.sh,
                 ),
                 _AddBirthdayButton(
                   width: 600.w,
@@ -58,7 +58,7 @@ class BirthdayPage extends StatelessWidget {
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 60.0, left: 40.0),
-                  constraints: BoxConstraints.tightFor(width: 0.75.sw), //卡片大小
+                  constraints: BoxConstraints.tightFor(width: 1.0.sw - 40), //卡片大小
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -75,8 +75,8 @@ class BirthdayPage extends StatelessWidget {
                         child: Text(
                           'Collecting your birthday information to friendly gaming experience.',
                           style: CustomTextStyles.title(
-                              color: Color(0xFFD0D0D0),
-                              fontSize: 26.sp,
+                              color: Color(0xFFFFFFFF),
+                              fontSize: 36.sp,
                               level: 4),
                         ),
                       ),
@@ -85,8 +85,8 @@ class BirthdayPage extends StatelessWidget {
                         child: Text(
                           'we will not disclose this information. Please rest assured.',
                           style: CustomTextStyles.title(
-                              color: Color(0xFFD0D0D0),
-                              fontSize: 26.sp,
+                              color: Color(0xFFFFFFFF),
+                              fontSize: 36.sp,
                               level: 4),
                         ),
                       ),

@@ -34,7 +34,7 @@ class ConfirmationInfo extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
+                          margin: EdgeInsets.only(top: 20.0, left: 40.0),
                           child: SizedBox(
                             width: 0.24.sw,
                             child: Text(
@@ -93,7 +93,7 @@ class ConfirmationInfo extends StatelessWidget {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
-                                    singlePlayer['name'],
+                                    singlePlayer['firstName'],
                                     style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
@@ -126,7 +126,7 @@ class ConfirmationInfo extends StatelessWidget {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
-                                    singlePlayer['name'],
+                                    singlePlayer['lastName'],
                                     style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
                                   ),
                                 ),

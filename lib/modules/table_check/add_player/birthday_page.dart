@@ -25,78 +25,78 @@ class BirthdayPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-        children: [
-          Container(
-            color: Color(0xFF233342),
-            width: 1.0.sw,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 0.25.sh,
-                ),
-                DatePicker(
-                    initialDate: logic.birthdayStr,
-                    onChange: (selectedDate) {
-                      print('Selected Date: $selectedDate');
-                      logic.birthdayStr = selectedDate;
-                    },
-                ),
-                SizedBox(
-                  height: 0.25.sh,
-                ),
-                _AddBirthdayButton(
-                  width: 600.w,
-                ),
-                _BackButton(),
-              ],
-            ),
-          ),
-          Positioned(
-            left: 0.0,
-            top: -30.0,
-            child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 60.0, left: 40.0),
-                  constraints: BoxConstraints.tightFor(width: 0.75.sw), //卡片大小
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 10.0),
-                        child: Text(
-                          'When’s your birthday?',
-                          style: CustomTextStyles.title(
-                              color: Colors.white, fontSize: 48.sp, level: 2),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 0.0),
-                        child: Text(
-                          'Collecting your birthday information to friendly gaming experience.',
-                          style: CustomTextStyles.title(
-                              color: Color(0xFFD0D0D0),
-                              fontSize: 26.sp,
-                              level: 4),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 0.0),
-                        child: Text(
-                          'we will not disclose this information. Please rest assured.',
-                          style: CustomTextStyles.title(
-                              color: Color(0xFFD0D0D0),
-                              fontSize: 26.sp,
-                              level: 4),
-                        ),
-                      ),
-                    ],
+          children: [
+            Container(
+              color: Color(0xFF233342),
+              width: 1.0.sw,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 0.3.sh,
                   ),
-                ),
-              ],
+                  DatePicker(
+                      initialDate: logic.birthdayStr,
+                      onChange: (selectedDate) {
+                        print('Selected Date: $selectedDate');
+                        logic.birthdayStr = selectedDate;
+                      },
+                  ),
+                  SizedBox(
+                    height: 0.2.sh,
+                  ),
+                  _AddBirthdayButton(
+                    width: 600.w,
+                  ),
+                  _BackButton(),
+                ],
+              ),
             ),
-          ),
-        ],
+            Positioned(
+              left: 0.0,
+              top: -30.0,
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 60.0, left: 40.0),
+                    constraints: BoxConstraints.tightFor(width: 1.0.sw - 40), //卡片大小
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            'When’s your birthday?',
+                            style: CustomTextStyles.title(
+                                color: Colors.white, fontSize: 48.sp, level: 2),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            'Collecting your birthday information to friendly gaming experience.',
+                            style: CustomTextStyles.title(
+                                color: Color(0xFFFFFFFF),
+                                fontSize: 36.sp,
+                                level: 4),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 0.0),
+                          child: Text(
+                            'we will not disclose this information. Please rest assured.',
+                            style: CustomTextStyles.title(
+                                color: Color(0xFFFFFFFF),
+                                fontSize: 36.sp,
+                                level: 4),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
     ));
   }
 }

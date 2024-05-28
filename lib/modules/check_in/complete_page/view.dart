@@ -52,40 +52,81 @@ class CompletePage extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              SizedBox(
-                width: 1.0.sw,
-                child: Row(
+              // SizedBox(
+              //   width: 1.0.sw,
+              //   child: Row(
+              //     children: [
+              //       Container(
+              //         margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Text(
+              //               "Successfully Checked in",
+              //               style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+              //             ),
+              //             const SizedBox(height: 30),
+              //             Text(
+              //               "Welcome, ${customer.name}!",
+              //               style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 3),
+              //             ),
+              //             RichText(
+              //               text: TextSpan(
+              //                 text: 'Your Games will start at ',
+              //                 style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+              //                 children: <TextSpan>[
+              //                   TextSpan(
+              //                     text: "${DateFormat('kk:mm').format(startTime.add(8.hours))}",
+              //                     style: CustomTextStyles.title(color: color, fontSize: 36.sp, level: 4),
+              //                   ),
+              //                   TextSpan(
+              //                     text:
+              //                     ", please be seated by ${DateFormat('kk:mm').format(startTime.add(8.hours - 15.minutes))}, Enjoy!",
+              //                     style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+              //                   ),
+              //                 ],
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              Container(
+                margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                constraints: BoxConstraints.tightFor(width: (1.0.sw - 40)), //卡片大小
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Successfully Checked in",
-                            style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                      child: Text(
+                        "Successfully Checked in",
+                        style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 30.0),
+                      child: Text(
+                        "Welcome, ${customer.name}!",
+                        style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 3),
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text: 'Your Games will start at ',
+                        style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                        children: <TextSpan>[
+                          TextSpan(
+                            // text: "${DateFormat('kk:mm').format(startTime.add(8.hours))}",
+                            text: "${DateFormat('kk:mm').format(startTime)}",
+                            style: CustomTextStyles.title(color: color, fontSize: 36.sp, level: 4),
                           ),
-                          const SizedBox(height: 30),
-                          Text(
-                            "Welcome, ${customer.name}!",
-                            style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 3),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: 'Your Games will start at ',
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: "${DateFormat('kk:mm').format(startTime.add(8.hours))}",
-                                  style: CustomTextStyles.title(color: color, fontSize: 36.sp, level: 4),
-                                ),
-                                TextSpan(
-                                  text:
-                                  ", please be seated by ${DateFormat('kk:mm').format(startTime.add(8.hours - 15.minutes))}, Enjoy!",
-                                  style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
-                                ),
-                              ],
-                            ),
+                          TextSpan(
+                            text:
+                            // ", please be seated by ${DateFormat('kk:mm').format(startTime.add(8.hours - 15.minutes))}, Enjoy!",
+                            ", please be seated by ${DateFormat('kk:mm').format(startTime.subtract(Duration(minutes: 15)))}, Enjoy!",
+                            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                           ),
                         ],
                       ),
@@ -218,7 +259,7 @@ class _BackButton extends StatelessWidget {
                 style: CustomTextStyles.button(color: Color(0xffFFFFFF), fontSize: 28.sp),
               ),
               CustomCountdown(
-                duration: Duration(seconds: 3),
+                duration: Duration(seconds: 10),
                 color: Color(0xffFFFFFF),
                 start: true,
                 onCountdownComplete: () async {

@@ -14,6 +14,7 @@ class HeadgearLogic extends GetxController {
   late List headgearObj;
   late int userId;
   late int clickSelectId;
+  String playerName = "";
 
   Future<List<UserInfo>> fetchUsers(int showId, int tableId) async {
     print("是否进入了查询用户信息方法");

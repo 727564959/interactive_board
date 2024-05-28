@@ -9,11 +9,14 @@ class ShowInfo {
     // required this.status,
     required this.fullTables});
   factory ShowInfo.fromJson(dynamic map) {
-    final startTime = DateTime.parse(map["startTime"]);
+    // print("map ${map}");
+    // final startTime = DateTime.parse(map["startTime"]);
+    final startTime = DateTime.parse(map["startDate"] + " " + map["startTime"]);
     final fullTables = <int>[];
     for (final item in map["associatedUsers"] ?? []) {
       fullTables.add(item['tableId']);
     }
+    // print("startTime ${startTime}");
     return ShowInfo(
         startTime: startTime,
         showId: map["showId"],

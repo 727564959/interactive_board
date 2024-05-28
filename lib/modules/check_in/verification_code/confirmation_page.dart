@@ -35,7 +35,7 @@ class ConfirmationPage extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
+                          margin: EdgeInsets.only(top: 20.0, left: 40.0),
                           child: SizedBox(
                             width: 0.24.sw,
                             child: Text(
@@ -59,8 +59,11 @@ class ConfirmationPage extends StatelessWidget {
                               // "Game Show Time : " + DateFormat("dd/MM/yyyy, kka").format(
                               //   bookingInfo.bookingTime.add(8.hours),
                               // ),
+                              // "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(
+                              //   bookingInfo.bookingTime.add(8.hours),
+                              // ),
                               "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(
-                                bookingInfo.bookingTime.add(8.hours),
+                                  DateTime.parse(bookingInfo.bookingDate + " " + bookingInfo.bookingTime),
                               ),
                               style: CustomTextStyles.title(color: Color(0xFF13EFEF), fontSize: 36.sp, level: 2),
                             ),
@@ -98,7 +101,7 @@ class ConfirmationPage extends StatelessWidget {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
-                                    bookingInfo.customer.name,
+                                    bookingInfo.customer.firstName,
                                     style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
@@ -131,7 +134,7 @@ class ConfirmationPage extends StatelessWidget {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
-                                    bookingInfo.customer.name,
+                                    bookingInfo.customer.lastName,
                                     style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
@@ -369,7 +372,11 @@ class _NoProblemButton extends StatelessWidget {
         EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
         try {
           // final showInfo = await logic.ticketValidation(code, bookingInfo.bookingTime);
-          final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime);
+
+          // final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime);
+          print("bookingInfo.bookingTime ${bookingInfo.bookingTime}");
+          print("bookingInfo.bookingDate ${bookingInfo.bookingDate}");
+          final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime, bookingInfo.bookingDate);
           EasyLoading.dismiss(animation: false);
           await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfo, "customer": bookingInfo.customer, "code": code});
           WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());

@@ -54,8 +54,8 @@ class PlayerSquadPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Container(
-                      width: 0.92.sw,
-                      margin: EdgeInsets.only(top: 40.0),
+                      width: 1.0.sw,
+                      margin: EdgeInsets.only(top: 20.0, left: 40.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

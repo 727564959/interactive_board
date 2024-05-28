@@ -203,7 +203,6 @@ class _SquadCard extends StatelessWidget {
                         await Get.to(() => TermsOfUseInfo(), arguments: {"showState": showState});
                       }
                       else {
-
                         try {
                           print("设计形象");
                           logic.getGameItems(card.userId, card.avatarId);
@@ -303,14 +302,15 @@ class _SquadCard extends StatelessWidget {
                           : Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(10)),
-                              gradient: RadialGradient(
-                                center: Alignment.center,
-                                radius: 0.5,
-                                colors: [
-                                  lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
-                                  darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
-                                ],
-                              ),
+                              // gradient: RadialGradient(
+                              //   center: Alignment.center,
+                              //   radius: 0.5,
+                              //   colors: [
+                              //     lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
+                              //     darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
+                              //   ],
+                              // ),
+                              color: lightColor,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,

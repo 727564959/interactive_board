@@ -58,7 +58,7 @@ class CheckInTitlePage extends StatelessWidget {
             margin: EdgeInsets.only(top: 0.0, left: 40.0),
             child: Text(
               titleText,
-              style: CustomTextStyles.title(color: Colors.white, fontSize: 60.sp, level: 2),
+              style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
             ),
           ),
           Container(

@@ -8,8 +8,19 @@ import '../data/booking.dart';
 class VerificationCodeLogic extends GetxController {
   final _dio = Dio();
   final codeController = TextEditingController();
+  final focusNode = FocusNode();
 
   bool isButtonShow = false;
+  String bookingDate = "";
+  String bookingTime = "";
+  String bookingEnd = "";
+  // 0：初始状态 1：迟到 2：早到
+  int isShowMasking = 0;
+
+  void updatePageFun(int judgeVal) {
+    isShowMasking = judgeVal;
+    update(["verificationMasking"]);
+  }
 
   void updateStateFun(bool judgeVal) {
     isButtonShow = judgeVal;
@@ -24,10 +35,18 @@ class VerificationCodeLogic extends GetxController {
     return BookingInfo.fromJson(response.data);
   }
 
-  Future<ShowInfo> bookingTimeChecked(DateTime bookingTime) async {
+  // Future<ShowInfo> bookingTimeChecked(DateTime bookingTime) async {
+  //   final response = await _dio.get(
+  //     "$baseApiUrl/shows/booking-time-checked",
+  //     queryParameters: {"bookingTime": bookingTime},
+  //   );
+  //   final showInfo = ShowInfo.fromJson(response.data);
+  //   return showInfo;
+  // }
+  Future<ShowInfo> bookingTimeChecked(String bookingTime, String bookingDate) async {
     final response = await _dio.get(
       "$baseApiUrl/shows/booking-time-checked",
-      queryParameters: {"bookingTime": bookingTime},
+      queryParameters: {"bookingTime": bookingTime, "bookingDate": bookingDate},
     );
     final showInfo = ShowInfo.fromJson(response.data);
     return showInfo;

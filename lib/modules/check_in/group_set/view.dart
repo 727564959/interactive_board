@@ -36,33 +36,55 @@ class GroupIconSetPage extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  SizedBox(
-                    width: 1.0.sw,
-                    child: Row(
+                  // SizedBox(
+                  //   width: 1.0.sw,
+                  //   child: Row(
+                  //     children: [
+                  //       Container(
+                  //         margin: EdgeInsets.only(top: 20.0, left: 0.1.sw),
+                  //         child: SizedBox(
+                  //           child: Text(
+                  //             "Squad settings",
+                  //             style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 2),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   width: 1.0.sw,
+                  //   child: Row(
+                  //     children: [
+                  //       Container(
+                  //         margin: EdgeInsets.only(top: 10.0, left: 0.1.sw),
+                  //         child: SizedBox(
+                  //           child: Text(
+                  //             "Please Choose Your Squad Badge",
+                  //             style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 36.sp, level: 4),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                    constraints: BoxConstraints.tightFor(width: (1.0.sw - 40)), //卡片大小
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 20.0, left: 0.1.sw),
-                          child: SizedBox(
-                            child: Text(
-                              "Squad settings",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 2),
-                            ),
+                          child: Text(
+                            "Squad Settings",
+                            style: CustomTextStyles.title(color: Colors.white, fontSize: 40.sp, level: 2),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 1.0.sw,
-                    child: Row(
-                      children: [
                         Container(
-                          margin: EdgeInsets.only(top: 10.0, left: 0.1.sw),
-                          child: SizedBox(
-                            child: Text(
-                              "Please Choose Your Squad Badge",
-                              style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 36.sp, level: 4),
-                            ),
+                          margin: EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            "Please Choose Your Squad Badge",
+                            style: CustomTextStyles.title(color: Color(0xFFFFFFFF), fontSize: 36.sp, level: 4),
                           ),
                         ),
                       ],
@@ -162,7 +184,7 @@ class GroupIconSetPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 80,),
-                  _NextDefaultButton(width: 800.w),
+                  _NextDefaultButton(width: 600.w),
                 ],
               ),
             ),

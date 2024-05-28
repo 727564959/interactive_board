@@ -53,20 +53,42 @@ class NewPlayerPage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
+                    // Container(
+                    //   width: 0.9.sw,
+                    //   margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       Text(
+                    //         "Skin & Gender",
+                    //         style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                    //       ),
+                    //       SizedBox(height: 10,),
+                    //       Text(
+                    //         "Time to Shine! Design Your Mirra Look.",
+                    //         style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Container(
-                      width: 0.9.sw,
-                      margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
+                      margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                      constraints: BoxConstraints.tightFor(width: (1.0.sw - 40)), //卡片大小
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Skin & Gender",
-                            style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                          Container(
+                            child: Text(
+                              "Skin & Gender",
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                            ),
                           ),
-                          SizedBox(height: 10,),
-                          Text(
-                            "Time to Shine! Design Your Mirra Look.",
-                            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                          Container(
+                            margin: EdgeInsets.only(top: 10.0),
+                            child: Text(
+                              "Time to Shine! Design Your Mirra Look.",
+                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                            ),
                           ),
                         ],
                       ),

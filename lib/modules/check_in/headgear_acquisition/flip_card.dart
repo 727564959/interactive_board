@@ -104,7 +104,7 @@ class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
           children: [
             Container(
               width: width,
-              height: width * 1.05,
+              height: width * 1.35,
               decoration: BoxDecoration(
                 // color: backgroundColor,
                 gradient: RadialGradient(

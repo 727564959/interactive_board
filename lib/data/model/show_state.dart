@@ -40,7 +40,8 @@ class ShowState {
       details = null;
     } else if (status == ShowStatus.showPreparing) {
       final detailsData = json['details'];
-      final startTime = DateTime.parse(detailsData["startTime"]);
+      // final startTime = DateTime.parse(detailsData["startTime"]);
+      final startTime = DateTime.parse(detailsData["startDate"] + " " + detailsData["startTime"]);
       final customers = <CustomerItem>[];
       for (final item in detailsData["customers"]) {
         customers.add(CustomerItem(userId: item["consumerId"], tableId: item["tableId"]));

@@ -30,264 +30,297 @@ class ChooseTablePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Color(0xFF233342),
-        child: Container(
-          // alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 200.w),
-          child: Column(
-            children: [
-              Align(
-                alignment: const Alignment(-1.0, 0.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 50),
-                    Text(
-                      "Choose Bay",
-                      style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
-                    ),
-                    Text(
-                      "Let's Gather! Pick Your Bay for Fun",
-                      style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 36.sp, level: 4),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 100),
-              Align(
-                alignment: const Alignment(-1.0, 0.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Game Times: ${DateFormat('kk:mm').format(showInfo.startTime.add(8.hours))}",
-                      style: CustomTextStyles.title(color: Colors.white, fontSize: 34.sp, level: 5),
-                    ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Image.asset(
-                    //       Global.getSetAvatarImageUrl('time_icon.png'),
-                    //       fit: BoxFit.fill,
-                    //     ),
-                    //     SizedBox(
-                    //       width: 5.0,
-                    //     ),
-                    //     Text(
-                    //       "40 Mins",
-                    //       style: CustomTextStyles.title(color: Colors.white, fontSize: 34.sp, level: 5),
-                    //     ),
-                    //   ],
-                    // ),
-                  ],
-                ),
-              ),
-              Container(
-                // decoration: BoxDecoration(
-                //   border: Border.all(color: Colors.white),
-                // ),
-                // height: 600.w,
-                // padding: EdgeInsets.only(top: 150.w, left: 100.w, right: 100.w),
-                child: GetBuilder<ChooseTableLogic>(
-                  builder: (ChooseTableLogic logic) {
-                    return Row(
-                      mainAxisSize: MainAxisSize.max,
+      body: Stack(
+        children: [
+          Container(
+            color: Color(0xFF233342),
+            child: Container(
+              // alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 200.w),
+              child: Column(
+                children: [
+                  // Align(
+                  //   alignment: const Alignment(-1.0, 0.0),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       SizedBox(height: 50),
+                  //       Text(
+                  //         "Choose Bay",
+                  //         style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                  //       ),
+                  //       Text(
+                  //         "Let's Gather! Pick Your Bay for Fun",
+                  //         style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 36.sp, level: 4),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  SizedBox(height: 0.24.sh),
+                  Align(
+                    alignment: const Alignment(-1.0, 0.0),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [1, 2, 3, 4]
-                          .map(
-                            (e) => _TableItem(
+                      children: [
+                        Text(
+                          // "Game Time: ${DateFormat('kk:mm').format(showInfo.startTime.add(8.hours))}",
+                          "Game Time: ${DateFormat('hh:mm a').format(showInfo.startTime)}",
+                          style: CustomTextStyles.title(color: Colors.white, fontSize: 34.sp, level: 5),
+                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Image.asset(
+                        //       Global.getSetAvatarImageUrl('time_icon.png'),
+                        //       fit: BoxFit.fill,
+                        //     ),
+                        //     SizedBox(
+                        //       width: 5.0,
+                        //     ),
+                        //     Text(
+                        //       "40 Mins",
+                        //       style: CustomTextStyles.title(color: Colors.white, fontSize: 34.sp, level: 5),
+                        //     ),
+                        //   ],
+                        // ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    // decoration: BoxDecoration(
+                    //   border: Border.all(color: Colors.white),
+                    // ),
+                    // height: 600.w,
+                    // padding: EdgeInsets.only(top: 150.w, left: 100.w, right: 100.w),
+                    child: GetBuilder<ChooseTableLogic>(
+                      builder: (ChooseTableLogic logic) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [1, 2, 3, 4]
+                              .map(
+                                (e) => _TableItem(
                               tableId: e,
                               bSelected: logic.selectedTableId == e,
                               bAvailable: !showInfo.fullTables.contains(e),
                             ),
                           )
-                          .toList(),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 120),
-              GetBuilder<ChooseTableLogic>(
-                builder: (logic) => CheckInButton(
-                  title: "NEXT",
-                  disable: !logic.bSelected,
-                  onPress: () async {
-                    // List headgearObj = [
-                    //   {
-                    //     "itemInfo": {
-                    //       "id": 22,
-                    //       "name": "LowPoly_Dragn",
-                    //       "type": "headgear",
-                    //       "level": 1,
-                    //       "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
-                    //     }
-                    //   },
-                    //   {
-                    //     "itemInfo": {
-                    //       "id": 20,
-                    //       "name": "Food_Burger",
-                    //       "type": "headgear",
-                    //       "level": 1,
-                    //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
-                    //     }
-                    //   },
-                    //   {
-                    //     "itemInfo": {
-                    //       "id": 2,
-                    //       "name": "TV",
-                    //       "type": "headgear",
-                    //       "level": 1,
-                    //       "icon": "/uploads/TV_00b57f3012.png"
-                    //     }
-                    //   },
-                    //   {
-                    //     "itemInfo": {
-                    //       "id": 20,
-                    //       "name": "Food_Burger",
-                    //       "type": "headgear",
-                    //       "level": 1,
-                    //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
-                    //     }
-                    //   },
-                    //   {
-                    //     "itemInfo": {
-                    //       "id": 2,
-                    //       "name": "TV",
-                    //       "type": "headgear",
-                    //       "level": 1,
-                    //       "icon": "/uploads/TV_00b57f3012.png"
-                    //     }
-                    //   },
-                    // ];
-                    // Global.setTableId(logic.selectedTableId!);
-                    // Get.offAll(
-                    //       () => HeadgearAcquisitionPage(),
-                    //       arguments: {
-                    //         'showInfo': showInfo,
-                    //         'customer': customer,
-                    //         'headgearObj': headgearObj,
-                    //         'userId': 368,
-                    //       },
-                    // );
+                              .toList(),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 120),
+                  GetBuilder<ChooseTableLogic>(
+                    builder: (logic) => CheckInButton(
+                      title: "NEXT",
+                      disable: !logic.bSelected,
+                      onPress: () async {
+                        // List headgearObj = [
+                        //   {
+                        //     "itemInfo": {
+                        //       "id": 22,
+                        //       "name": "LowPoly_Dragn",
+                        //       "type": "headgear",
+                        //       "level": 1,
+                        //       "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
+                        //     }
+                        //   },
+                        //   {
+                        //     "itemInfo": {
+                        //       "id": 20,
+                        //       "name": "Food_Burger",
+                        //       "type": "headgear",
+                        //       "level": 1,
+                        //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+                        //     }
+                        //   },
+                        //   {
+                        //     "itemInfo": {
+                        //       "id": 2,
+                        //       "name": "TV",
+                        //       "type": "headgear",
+                        //       "level": 1,
+                        //       "icon": "/uploads/TV_00b57f3012.png"
+                        //     }
+                        //   },
+                        //   {
+                        //     "itemInfo": {
+                        //       "id": 20,
+                        //       "name": "Food_Burger",
+                        //       "type": "headgear",
+                        //       "level": 1,
+                        //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+                        //     }
+                        //   },
+                        //   {
+                        //     "itemInfo": {
+                        //       "id": 2,
+                        //       "name": "TV",
+                        //       "type": "headgear",
+                        //       "level": 1,
+                        //       "icon": "/uploads/TV_00b57f3012.png"
+                        //     }
+                        //   },
+                        // ];
+                        // Global.setTableId(logic.selectedTableId!);
+                        // Get.offAll(
+                        //       () => HeadgearAcquisitionPage(),
+                        //       arguments: {
+                        //         'showInfo': showInfo,
+                        //         'customer': customer,
+                        //         'headgearObj': headgearObj,
+                        //         'userId': 368,
+                        //       },
+                        // );
 
-                    EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
-                    try {
-                      // Global.setTableId(logic.selectedTableId!);
-                      final userId = await logic.loginInOrRegister(
-                        name: customer.name,
-                        email: customer.email,
-                        phone: customer.phone,
-                      );
-                      print("userId ${userId}");
-                      print("showId ${showInfo.showId}");
-                      print("code ${code}");
-                      print("logic.selectedTableId ${logic.selectedTableId}");
-                      // 验票
-                      await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
-                      print("哈哈哈哈哈");
-                      EasyLoading.dismiss(animation: false);
-                      // 选队徽
-                      // await Get.to(() => GroupIconSetPage(),
-                      //     arguments: {
-                      //       'showInfo': showInfo,
-                      //       'customer': customer,
-                      //       "isAddPlayerClick": isAddPlayerClick,
-                      //       "tableId": logic.selectedTableId,
-                      //     });
-                      await Get.offAll(() => GroupIconSetPage(),
-                          arguments: {
-                            'showInfo': showInfo,
-                            'customer': customer,
-                            "isAddPlayerClick": isAddPlayerClick,
-                            "tableId": logic.selectedTableId,
-                          });
+                        EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
+                        try {
+                          // Global.setTableId(logic.selectedTableId!);
+                          final userId = await logic.loginInOrRegister(
+                            name: customer.name,
+                            email: customer.email,
+                            phone: customer.phone,
+                          );
+                          print("userId ${userId}");
+                          print("showId ${showInfo.showId}");
+                          print("code ${code}");
+                          print("logic.selectedTableId ${logic.selectedTableId}");
+                          // 验票
+                          await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
+                          print("哈哈哈哈哈");
+                          EasyLoading.dismiss(animation: false);
+                          // 选队徽
+                          // await Get.to(() => GroupIconSetPage(),
+                          //     arguments: {
+                          //       'showInfo': showInfo,
+                          //       'customer': customer,
+                          //       "isAddPlayerClick": isAddPlayerClick,
+                          //       "tableId": logic.selectedTableId,
+                          //     });
+                          await Get.offAll(() => GroupIconSetPage(),
+                              arguments: {
+                                'showInfo': showInfo,
+                                'customer': customer,
+                                "isAddPlayerClick": isAddPlayerClick,
+                                "tableId": logic.selectedTableId,
+                              });
 
-                      // List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
-                      // print("headgearObj ${headgearObj}");
-                      // // List headgearObj = [
-                      // //   {
-                      // //     "itemInfo": {
-                      // //       "id": 22,
-                      // //       "name": "LowPoly_Dragn",
-                      // //       "type": "headgear",
-                      // //       "level": 1,
-                      // //       "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
-                      // //     }
-                      // //   },
-                      // //   {
-                      // //     "itemInfo": {
-                      // //       "id": 20,
-                      // //       "name": "Food_Burger",
-                      // //       "type": "headgear",
-                      // //       "level": 1,
-                      // //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
-                      // //     }
-                      // //   },
-                      // //   {
-                      // //     "itemInfo": {
-                      // //       "id": 2,
-                      // //       "name": "TV",
-                      // //       "type": "headgear",
-                      // //       "level": 1,
-                      // //       "icon": "/uploads/TV_00b57f3012.png"
-                      // //     }
-                      // //   },
-                      // //   {
-                      // //     "itemInfo": {
-                      // //       "id": 20,
-                      // //       "name": "Food_Burger",
-                      // //       "type": "headgear",
-                      // //       "level": 1,
-                      // //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
-                      // //     }
-                      // //   },
-                      // //   {
-                      // //     "itemInfo": {
-                      // //       "id": 2,
-                      // //       "name": "TV",
-                      // //       "type": "headgear",
-                      // //       "level": 1,
-                      // //       "icon": "/uploads/TV_00b57f3012.png"
-                      // //     }
-                      // //   },
-                      // // ];
-                      // print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
-                      // // 如果爆过头套就直接去展示用户，反之就走爆头套、选肤色和性别
-                      // if (headgearObj.isEmpty) {
-                      //   Get.offAll(
-                      //       () => PlayerSquadPage(),
-                      //       arguments: {
-                      //         'showInfo': showInfo,
-                      //         'customer': customer,
-                      //         "isAddPlayerClick": isAddPlayerClick,
-                      //       });
-                      // } else {
-                      //   Get.offAll(
-                      //     () => HeadgearAcquisitionPage(),
-                      //     arguments: {
-                      //       'showInfo': showInfo,
-                      //       'customer': customer,
-                      //       'headgearObj': headgearObj,
-                      //       'userId': userId,
-                      //       "isAddPlayerClick": isAddPlayerClick,
-                      //     },
-                      //   );
-                      // }
-                    } on DioException catch (e) {
-                      print("hahah ${e}");
-                      EasyLoading.dismiss();
-                      if (e.response == null) EasyLoading.showError("Network Error!");
-                      EasyLoading.showError(e.response?.data["error"]["message"]);
-                    }
-                  },
-                ),
+                          // List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
+                          // print("headgearObj ${headgearObj}");
+                          // // List headgearObj = [
+                          // //   {
+                          // //     "itemInfo": {
+                          // //       "id": 22,
+                          // //       "name": "LowPoly_Dragn",
+                          // //       "type": "headgear",
+                          // //       "level": 1,
+                          // //       "icon": "/uploads/Highres_Screenshot00004_9049db84a3.png"
+                          // //     }
+                          // //   },
+                          // //   {
+                          // //     "itemInfo": {
+                          // //       "id": 20,
+                          // //       "name": "Food_Burger",
+                          // //       "type": "headgear",
+                          // //       "level": 1,
+                          // //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+                          // //     }
+                          // //   },
+                          // //   {
+                          // //     "itemInfo": {
+                          // //       "id": 2,
+                          // //       "name": "TV",
+                          // //       "type": "headgear",
+                          // //       "level": 1,
+                          // //       "icon": "/uploads/TV_00b57f3012.png"
+                          // //     }
+                          // //   },
+                          // //   {
+                          // //     "itemInfo": {
+                          // //       "id": 20,
+                          // //       "name": "Food_Burger",
+                          // //       "type": "headgear",
+                          // //       "level": 1,
+                          // //       "icon": "/uploads/Highres_Screenshot00005_67afaf9dc4.png"
+                          // //     }
+                          // //   },
+                          // //   {
+                          // //     "itemInfo": {
+                          // //       "id": 2,
+                          // //       "name": "TV",
+                          // //       "type": "headgear",
+                          // //       "level": 1,
+                          // //       "icon": "/uploads/TV_00b57f3012.png"
+                          // //     }
+                          // //   },
+                          // // ];
+                          // print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
+                          // // 如果爆过头套就直接去展示用户，反之就走爆头套、选肤色和性别
+                          // if (headgearObj.isEmpty) {
+                          //   Get.offAll(
+                          //       () => PlayerSquadPage(),
+                          //       arguments: {
+                          //         'showInfo': showInfo,
+                          //         'customer': customer,
+                          //         "isAddPlayerClick": isAddPlayerClick,
+                          //       });
+                          // } else {
+                          //   Get.offAll(
+                          //     () => HeadgearAcquisitionPage(),
+                          //     arguments: {
+                          //       'showInfo': showInfo,
+                          //       'customer': customer,
+                          //       'headgearObj': headgearObj,
+                          //       'userId': userId,
+                          //       "isAddPlayerClick": isAddPlayerClick,
+                          //     },
+                          //   );
+                          // }
+                        } on DioException catch (e) {
+                          print("hahah ${e}");
+                          EasyLoading.dismiss();
+                          if (e.response == null) EasyLoading.showError("Network Error!");
+                          EasyLoading.showError(e.response?.data["error"]["message"]);
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  _BackButton(),
+                ],
               ),
-              SizedBox(height: 30),
-              _BackButton(),
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            child: Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                  constraints: BoxConstraints.tightFor(width: (1.0.sw - 40)), //卡片大小
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Text(
+                          "Choose Bay",
+                          style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          "Let's Gather! Pick Your Bay for Fun",
+                          style: CustomTextStyles.title(color: Color(0xFFFFFFFF), fontSize: 36.sp, level: 4),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

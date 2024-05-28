@@ -16,6 +16,7 @@ class HeadgearAcquisitionLogic extends GetxController {
   late int userId;
   late int clickSelectId;
   bool isClickCard = false;
+  String playerName = "";
 
   Future<List<UserInfo>> fetchUsers(int showId, int tableId) async {
     print("是否进入了查询用户信息方法");

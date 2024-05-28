@@ -235,7 +235,8 @@ class PlayerShowLogic extends GetxController {
     // 获取队伍
     getCurrentTeam();
     // 获取用户信息
-    testFun();
+    // testFun();
+    getPlayerCardInfo(Get.arguments["showInfo"].showId);
     if (Get.arguments["isCountdownStart"] != null) {
       isCountdownStart = Get.arguments["isCountdownStart"];
     }

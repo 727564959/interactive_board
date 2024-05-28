@@ -168,8 +168,8 @@ class PlayerShowPageLogic extends GetxController {
       playerCardInfo = List.generate(cards.length, (index) => cards[index]);
       // playerCardInfo.addAll(List.generate(8 - cards.length, (index) => PlayerCardInfo(isUserCard: false, nickname: "")));
     }
-    print("playerCardInfo ${playerCardInfo}");
-    update(['playerSquadPage']);
+    print("playerCardInfo的数据组装好了 ${playerCardInfo}");
+    update(['playerShowPage']);
   }
 
   Future<void> getCurrentTeam() async {
@@ -209,9 +209,9 @@ class PlayerShowPageLogic extends GetxController {
     getCurrentTeam();
     // 获取用户信息
     getPlayerCardInfo(Get.arguments["showState"].showId);
-    Future.delayed(0.5.seconds).then((value) async {
-      print("延迟刷新 $playerCardInfo");
-      update(['playerShowPage']);
-    },);
+    // Future.delayed(0.5.seconds).then((value) async {
+    //   print("延迟刷新 $playerCardInfo");
+    //   update(['playerShowPage']);
+    // },);
   }
 }

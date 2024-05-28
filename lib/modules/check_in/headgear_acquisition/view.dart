@@ -24,77 +24,6 @@ import '../player_page/view.dart';
 import 'flip_card.dart';
 import 'logic.dart';
 
-// class HeadgearAcquisitionPage extends StatefulWidget {
-//   HeadgearAcquisitionPage({
-//     Key? key,
-//     required this.showInfo,
-//     required this.customer,
-//     required this.headgearObj,
-//     required this.userId,
-//   }) : super(key: key);
-//
-//   final ShowInfo showInfo;
-//   final Customer customer;
-//   final Map headgearObj;
-//   final int userId;
-//
-//   @override
-//   _HeadgearAcquisitionPageState createState() => _HeadgearAcquisitionPageState();
-// }
-//
-// class _HeadgearAcquisitionPageState extends State<HeadgearAcquisitionPage> {
-//   late final ShowInfo showInfo;
-//   late final Customer customer;
-//   late final Map headgearObj;
-//   late final int userId;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     showInfo = widget.showInfo;
-//     customer = widget.customer;
-//     headgearObj = widget.headgearObj;
-//     userId = widget.userId;
-//     // 打印参数值
-//     print("showInfo: $showInfo");
-//     print("customer: $customer");
-//     print("headgearObj: $headgearObj");
-//     print("userId: $userId");
-//   }
-//
-//   @override
-//   void didUpdateWidget(covariant HeadgearAcquisitionPage oldWidget) {
-//     super.didUpdateWidget(oldWidget);
-//     if (widget.showInfo != oldWidget.showInfo ||
-//         widget.customer != oldWidget.customer ||
-//         widget.headgearObj != oldWidget.headgearObj ||
-//         widget.userId != oldWidget.userId) {
-//       setState(() {
-//         showInfo = widget.showInfo;
-//         customer = widget.customer;
-//         headgearObj = widget.headgearObj;
-//         userId = widget.userId;
-//       });
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final logic = Get.put(HeadgearAcquisitionLogic());
-//     return Scaffold(
-//         body: Stack(
-//           children: [
-//             GetBuilder<HeadgearAcquisitionLogic>(
-//                 id: "headgearAcquisitionPage",
-//                 builder: (logic) {
-//                   return _TreasureChestWidget(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId);
-//                 }
-//             ),
-//           ],
-//         ));
-//   }
-// }
-
 class HeadgearAcquisitionPage extends StatelessWidget {
   HeadgearAcquisitionPage({
     Key? key,
@@ -174,26 +103,50 @@ class _CardFlipState extends State<_CardFlip> {
 
     return Column(
       children: [
+        // Container(
+        //   width: 0.9.sw,
+        //   margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       Text(
+        //         "Welcome Package",
+        //         style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+        //       ),
+        //       SizedBox(height: 10,),
+        //       // Text(
+        //       //   !logic.isClickCard
+        //       //       ? "These exciting headwears options for your upcoming adventures."
+        //       //       : "Gear Up for Glory! Choose Your Winning Headgear.",
+        //       //   style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+        //       // ),
+        //       Text(
+        //         "Gear Up for Glory! Choose Your Winning Headgear.",
+        //         style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+        //       ),
+        //     ],
+        //   ),
+        // ),
         Container(
-          width: 0.9.sw,
-          margin: EdgeInsets.only(top: 40.0, left: 0.1.sw),
+          margin: EdgeInsets.only(top: 20.0, left: 40.0),
+          constraints: BoxConstraints.tightFor(width: (1.0.sw - 40)), //卡片大小
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Welcome Package",
-                style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+              Container(
+                child: Text(
+                  "Welcome Package",
+                  style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                ),
               ),
-              SizedBox(height: 10,),
-              // Text(
-              //   !logic.isClickCard
-              //       ? "These exciting headwears options for your upcoming adventures."
-              //       : "Gear Up for Glory! Choose Your Winning Headgear.",
-              //   style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
-              // ),
-              Text(
-                "Gear Up for Glory! Choose Your Winning Headgear.",
-                style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+              Container(
+                margin: EdgeInsets.only(top: 10.0),
+                child: Text(
+                  !logic.isClickCard
+                      ? "Gear Up for Glory! Choose Your Winning Headgear."
+                      : ("Hi," + logic.playerName + ", Choose Your Winning Headgear."),
+                  style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                ),
               ),
             ],
           ),
@@ -206,8 +159,10 @@ class _CardFlipState extends State<_CardFlip> {
               return GestureDetector(
                 onTap: () async {
                   logic.clickSelectId = widget.headgearObj[index].id;
+                  UserInfo userData = await logic.getCurrentUser(showInfo.showId, tableId, userId);
                   setState(() {
                     selectIndex = index;
+                    logic.playerName = userData.nickname;
                     logic.isClickCard = true;
                   });
                   print("logic.clickSelectId ${logic.clickSelectId}");

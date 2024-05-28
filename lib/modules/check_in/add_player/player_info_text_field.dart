@@ -39,6 +39,9 @@ class PlayerInfoTextField extends StatelessWidget {
             child: TextFormField(
               keyboardType: keyboardType,
               controller: controller,
+              cursorWidth: 5.0,          // 光标粗细
+              cursorColor: Colors.black,   // 光标颜色
+              cursorHeight: 34.0, // 设置光标的高度，与文字的字体大小一致
               validator: validator,
               inputFormatters: inputFormatters,
               style: CustomTextStyles.title5(color: Colors.black, fontSize: 34.sp),

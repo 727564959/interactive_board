@@ -64,7 +64,7 @@ class WelcomePlayerPage extends StatelessWidget {
                                         style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 2),
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: logic.singlePlayer.length > 0 ? (logic.singlePlayer['name'] + " !") : "",
+                                            text: logic.singlePlayer.length > 0 ? (logic.singlePlayer['firstName'] + " !") : "",
                                             style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
                                           ),
                                         ],
@@ -82,7 +82,8 @@ class WelcomePlayerPage extends StatelessWidget {
                                         style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 5),
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: "${DateFormat('kk:mm').format(logic.startTime.add(8.hours))}",
+                                            // text: "${DateFormat('kk:mm').format(logic.startTime.add(8.hours))}",
+                                            text: "${DateFormat('kk:mm').format(logic.startTime)}",
                                             style: CustomTextStyles.display(color: Color(0xFF00F5FF), fontSize: 48.sp, level: 5),
                                           ),
                                         ],
