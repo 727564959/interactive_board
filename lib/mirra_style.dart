@@ -414,10 +414,22 @@ class CustomTextStyles {
     );
   }
 
+  static TextStyle textSmall({
+    Color? color,
+    double? fontSize,
+  }) {
+    return TextStyle(
+      fontSize: fontSize,
+      decoration: TextDecoration.none,
+      fontFamily: 'RobotoFlex',
+      color: color,
+      fontVariations: fontVariations_TextSmall,
+    );
+  }
+
   static TextStyle textNormal({
     Color? color,
     double? fontSize,
-    String? grade,
   }) {
     return TextStyle(
       fontSize: fontSize,
@@ -431,7 +443,6 @@ class CustomTextStyles {
   static TextStyle textBig({
     Color? color,
     double? fontSize,
-    String? grade,
   }) {
     return TextStyle(
       fontSize: fontSize,

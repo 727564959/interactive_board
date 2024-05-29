@@ -84,7 +84,9 @@ class GroupIconSetPage extends StatelessWidget {
                           margin: EdgeInsets.only(top: 10.0),
                           child: Text(
                             "Please Choose Your Squad Badge",
-                            style: CustomTextStyles.title(color: Color(0xFFFFFFFF), fontSize: 36.sp, level: 4),
+                            style: CustomTextStyles.textSmall(
+                              color: Color(0xFFFFFFFF),
+                              fontSize: 26.sp,),
                           ),
                         ),
                       ],

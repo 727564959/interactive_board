@@ -311,7 +311,9 @@ class ChooseTablePage extends StatelessWidget {
                         margin: EdgeInsets.only(top: 10.0),
                         child: Text(
                           "Let's Gather! Pick Your Bay for Fun",
-                          style: CustomTextStyles.title(color: Color(0xFFFFFFFF), fontSize: 36.sp, level: 4),
+                          style: CustomTextStyles.textSmall(
+                            color: Color(0xFFFFFFFF),
+                            fontSize: 26.sp,),
                         ),
                       ),
                     ],

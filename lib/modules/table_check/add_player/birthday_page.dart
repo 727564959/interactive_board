@@ -74,20 +74,18 @@ class BirthdayPage extends StatelessWidget {
                           margin: EdgeInsets.only(top: 10.0),
                           child: Text(
                             'Collecting your birthday information to friendly gaming experience.',
-                            style: CustomTextStyles.title(
-                                color: Color(0xFFFFFFFF),
-                                fontSize: 36.sp,
-                                level: 4),
+                            style: CustomTextStyles.textSmall(
+                              color: Color(0xFFFFFFFF),
+                              fontSize: 26.sp,),
                           ),
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 0.0),
                           child: Text(
-                            'we will not disclose this information. Please rest assured.',
-                            style: CustomTextStyles.title(
-                                color: Color(0xFFFFFFFF),
-                                fontSize: 36.sp,
-                                level: 4),
+                            'We will not disclose this information. Please rest assured.',
+                            style: CustomTextStyles.textSmall(
+                              color: Color(0xFFFFFFFF),
+                              fontSize: 26.sp,),
                           ),
                         ),
                       ],

@@ -73,10 +73,9 @@ class VerificationPage extends StatelessWidget {
                               margin: EdgeInsets.only(top: 10.0),
                               child: Text(
                                 'Enter your code to check in 30 minutes before your game.',
-                                style: CustomTextStyles.title(
+                                style: CustomTextStyles.textSmall(
                                     color: Color(0xFFFFFFFF),
-                                    fontSize: 36.sp,
-                                    level: 4),
+                                    fontSize: 26.sp,),
                               ),
                             ),
                           ],
@@ -488,11 +487,11 @@ class _CheckInInput extends StatelessWidget {
                   DateTime currentDateTime = DateTime.now();
                   // 解析开始时间
                   DateTime targetDateTime = DateTime.parse(bookingInfo.bookingDate + " " + bookingInfo.bookingTime);
-                  targetDateTime = targetDateTime.add(1.hours);
+                  // targetDateTime = targetDateTime.add(3.hours);
                   // targetDateTime = targetDateTime.subtract(Duration(hours: 3));
                   // 解析结束时间时间
                   DateTime targetDateTime1 = DateTime.parse(bookingInfo.bookingDate + " " + bookingInfo.bookingEnd);
-                  targetDateTime1 = targetDateTime1.add(1.hours);
+                  // targetDateTime1 = targetDateTime1.add(3.hours);
                   // targetDateTime1 = targetDateTime1.subtract(Duration(hours: 3));
                   // 计算时间差
                   Duration difference = targetDateTime.difference(currentDateTime);

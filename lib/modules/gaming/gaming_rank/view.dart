@@ -39,10 +39,10 @@ class GamingRankPage extends StatelessWidget {
                 ],
               ),
             ),
-            const Align(
-              alignment: Alignment(0.9, 0),
-              child: _MirraLookButton(),
-            ),
+            // const Align(
+            //   alignment: Alignment(0.9, 0),
+            //   child: _MirraLookButton(),
+            // ),
           ],
         ),
       ),

@@ -131,7 +131,9 @@ class _CardFlipState extends State<_CardFlip> {
                   !logic.isClickCard
                       ? "Gear Up for Glory! Choose Your Winning Headgear."
                       : ("Hi," + logic.playerName + ", Choose Your Winning Headgear."),
-                  style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                  style: CustomTextStyles.textSmall(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 26.sp,),
                 ),
               ),
             ],

@@ -66,7 +66,9 @@ class NewPlayerInfoPage extends StatelessWidget {
                             margin: EdgeInsets.only(top: 10.0),
                             child: Text(
                               "Time to Shine! Design Your Mirra Look.",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+                              style: CustomTextStyles.textSmall(
+                                color: Color(0xFFFFFFFF),
+                                fontSize: 26.sp,),
                             ),
                           ),
                         ],
