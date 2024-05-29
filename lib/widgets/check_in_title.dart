@@ -119,7 +119,7 @@ class _CurrentTimerState extends State<CurrentTimer> {
   Widget build(BuildContext context) {
     return Text(
       "${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}",
-      style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 30.sp),
+      style: CustomTextStyles.textNormal(color: Colors.white, fontSize: 30.sp),
     );
   }
 }

@@ -51,7 +51,7 @@ class _MirraAppBarState extends State<MirraAppBar> {
             children: [
               Text(
                 DateFormat("Hm").format(now),
-                style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 27.sp),
+                style: CustomTextStyles.textNormal(color: Colors.white, fontSize: 27.sp),
               ),
               const SizedBox(width: 50),
               Text(

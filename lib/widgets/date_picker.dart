@@ -54,7 +54,7 @@ class _DatePickerState extends State<DatePicker> {
                       itemHeight: 90.w,
                       pickerHeight: 440.w,
                       backgroundColor: Colors.transparent,
-                      itemTextStyle: CustomTextStyles.textSmall(color: Colors.black, fontSize: 35.sp),
+                      itemTextStyle: CustomTextStyles.textNormal(color: Colors.black, fontSize: 35.sp),
                       dividerColor: Colors.transparent,
                     ),
                     firstDate: DateTime(1960, 1, 1),
