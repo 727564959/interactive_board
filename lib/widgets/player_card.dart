@@ -12,17 +12,15 @@ class PlayerCard extends StatelessWidget {
     required this.nickname,
     required this.width,
     this.position,
-    this.labelColor,
   }) : super(key: key);
   final String avatarUrl;
   final String nickname;
   final double width;
   final int? position;
-  final Color? labelColor;
+
   @override
   Widget build(BuildContext context) {
     return AvatarCard(
-      labelColor: labelColor ?? const Color(0xfff0f0f0),
       title: nickname,
       subTitle: position == null ? null : Global.getDeviceName(position!),
       width: width,
@@ -40,16 +38,21 @@ class PlayerCard extends StatelessWidget {
 }
 
 class AvatarCard extends StatelessWidget {
-  const AvatarCard(
-      {Key? key,
-      required this.child,
-      required this.labelColor,
-      required this.title,
-      this.subTitle,
-      required this.width})
+  const AvatarCard({Key? key, required this.child, required this.title, this.subTitle, required this.width})
       : super(key: key);
   final Widget child;
-  final Color labelColor;
+  Color get labelColor {
+    if (Global.tableId == 1) {
+      return const Color(0xFFFFBD80);
+    } else if (Global.tableId == 2) {
+      return const Color(0xFFEFB5FD);
+    } else if (Global.tableId == 3) {
+      return const Color(0xFF8EE8BD);
+    } else {
+      return const Color(0xFF9ED7F7);
+    }
+  }
+
   final String title;
   final String? subTitle;
   final double width;

@@ -20,11 +20,11 @@ class PlayerTargetCard extends StatefulWidget {
   State<PlayerTargetCard> createState() => _PlayerTargetCardState();
 }
 
-class _PlayerTargetCardState extends State<PlayerTargetCard> with SingleTickerProviderStateMixin {
+class _PlayerTargetCardState extends State<PlayerTargetCard> with TickerProviderStateMixin {
   late final AnimationController controller = AnimationController(value: 1.0, vsync: this, duration: 200.ms);
   late final GifController gifController = GifController(autoPlay: false, loop: false);
   late final Timer timer;
-
+  late final AnimationController tapController = AnimationController(value: 1.0, vsync: this, duration: 200.ms);
   final logic = Get.find<ChoosePlayerLogic>();
 
   int get position => widget.position;
@@ -62,7 +62,10 @@ class _PlayerTargetCardState extends State<PlayerTargetCard> with SingleTickerPr
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: GestureDetector(
-        onTapDown: (_) {
+        onTapDown: (_) async {
+          logic.cancelTimer();
+          await tapController.reverse();
+          await tapController.forward();
           logic.showBottomBar(position);
         },
         onPanStart: (detail) {
@@ -78,7 +81,6 @@ class _PlayerTargetCardState extends State<PlayerTargetCard> with SingleTickerPr
           }
         },
         child: AvatarCard(
-          labelColor: const Color(0xfff0f0f0),
           title: player?.nickname ?? "Player name",
           subTitle: Global.getDeviceName(position),
           width: width,
@@ -109,7 +111,7 @@ class _PlayerTargetCardState extends State<PlayerTargetCard> with SingleTickerPr
                 ).animate().scaleXY(duration: 300.ms),
             ],
           ),
-        ),
+        ).animate(autoPlay: false, controller: tapController).scaleXY(duration: 150.ms, begin: 0.9, end: 1.0),
       ),
     ).animate(autoPlay: false, controller: controller).moveY(curve: Curves.easeOut, end: -20);
   }

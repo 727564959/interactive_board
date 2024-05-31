@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/animation.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/app_routes.dart';
 import 'package:interactive_board/common.dart';
@@ -13,7 +14,7 @@ import '../confirm_selection/view.dart';
 import 'data/player.dart';
 import 'data/player_api.dart';
 
-class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderStateMixin {
+class ChoosePlayerLogic extends GetxController with GetTickerProviderStateMixin {
   final playerApi = PlayerApi();
   List<PlayerInfo> players = [];
   // ShowState get showState => ShowState.fromJson({
@@ -65,7 +66,9 @@ class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderState
 
   int? selectedPosition;
 
-  late final animationController = AnimationController(vsync: this, duration: 500.ms)..addListener(() => update());
+  late final animationController = AnimationController(vsync: this, duration: 400.ms)..addListener(() => update());
+
+  late final delayController = AnimationController(vsync: this, duration: 350.ms)..addListener(() => update());
 
   @override
   void onInit() async {
@@ -126,6 +129,8 @@ class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderState
   @override
   void onClose() {
     positionSocket.close();
+    delayController.dispose();
+    animationController.dispose();
     _timer?.cancel();
     super.onClose();
   }
@@ -159,6 +164,8 @@ class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderState
 
   void showBottomBar(int position) {
     selectedPosition = position;
+    delayController.reset();
+    Future.delayed(100.ms).then((value) => delayController.forward());
     animationController.forward();
     removePlayer(position).then((value) => bottomBarPlayers = List.of(unselectedPlayers));
     resetJumpTimer();
@@ -168,7 +175,14 @@ class ChoosePlayerLogic extends GetxController with GetSingleTickerProviderState
   void dismissBottomBar() {
     selectedPosition = null;
     animationController.reverse();
+    delayController.stop();
     resetJumpTimer();
     update();
+  }
+
+  void cancelTimer() {
+    if (_timer == null) return;
+    if (!_timer!.isActive) return;
+    _timer?.cancel();
   }
 }

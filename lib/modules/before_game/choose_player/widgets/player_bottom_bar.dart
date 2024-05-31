@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -17,25 +15,17 @@ class PlayerBottomBar extends StatefulWidget {
   State<PlayerBottomBar> createState() => _PlayerBottomBarState();
 }
 
-class _PlayerBottomBarState extends State<PlayerBottomBar> {
+class _PlayerBottomBarState extends State<PlayerBottomBar> with TickerProviderStateMixin {
   final logic = Get.find<ChoosePlayerLogic>();
-
   late final animation = Tween<double>(begin: 0.5.sh, end: 0)
       .animate(CurvedAnimation(parent: logic.animationController, curve: Curves.easeOut));
-
+  late final delayAnimation = Tween<double>(begin: 100, end: 0).animate(logic.delayController);
   int? selectIndex;
-  Timer? timer;
+
   void dismiss() async {
-    timer?.cancel();
     logic.dismissBottomBar();
     await logic.animationController.reverse();
     selectIndex = null;
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
   }
 
   @override
@@ -59,54 +49,44 @@ class _PlayerBottomBarState extends State<PlayerBottomBar> {
                   filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                   child: Container(
                     width: double.infinity,
-                    height: 0.5.sh,
+                    height: 0.4.sh,
                     alignment: Alignment.center,
                     color: const Color(0x665E6F9A),
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                height: 0.5.sh,
-                child: ListView.builder(
-                  itemCount: logic.bottomBarPlayers.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, idx) {
-                    // 选中的item增加下移距离
-                    late final double transactionY;
-                    if (selectIndex == idx) {
-                      transactionY = 100.0 * max(logic.bottomBarPlayers.length, 6);
-                    } else {
-                      transactionY = 100.0 * idx;
-                    }
-                    final cardAnimation = Tween<double>(begin: transactionY, end: 0).animate(logic.animationController);
-                    final player = logic.bottomBarPlayers[idx];
-                    return Transform.translate(
-                      offset: Offset(0, cardAnimation.value),
-                      child: Container(
+              Transform.translate(
+                offset: Offset(0, delayAnimation.value),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  height: 0.4.sh,
+                  child: ListView.builder(
+                    itemCount: logic.bottomBarPlayers.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, idx) {
+                      final tapController = AnimationController(value: 1.0, vsync: this, duration: 150.ms);
+
+                      final player = logic.bottomBarPlayers[idx];
+                      return Container(
                         alignment: Alignment.center,
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: GestureDetector(
-                          onTapUp: (details) {
-                            if (timer != null && timer!.isActive) return;
-                            timer?.cancel();
-                            timer = Timer(400.ms, () async {
-                              logic.updatePosition(player.id);
-                              await Future.delayed(100.ms);
-                              dismiss();
-                            });
-                            setState(() {
-                              selectIndex = idx;
-                            });
+                          onTapUp: (details) async {
+                            if (selectIndex != null) return;
+                            selectIndex = idx;
+                            await tapController.reverse();
+                            await tapController.forward();
+                            logic.updatePosition(player.id);
+                            dismiss();
                           },
                           child: BottomBarItem(
                             player: player,
-                            bSelected: selectIndex == idx,
+                            controller: tapController,
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

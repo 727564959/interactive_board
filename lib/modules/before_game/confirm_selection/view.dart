@@ -34,7 +34,7 @@ class _ConfirmSelectionPageState extends State<ConfirmSelectionPage> {
             nickname: player.nickname,
             position: position,
             width: 270.w,
-            bMask: bFinish,
+            bFinish: bFinish,
           ),
         ),
       );
