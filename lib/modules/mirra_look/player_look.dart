@@ -16,6 +16,7 @@ import '../check_in/data/show.dart';
 import '../check_in/data/skin_gender_option.dart';
 import '../check_in/player_page/logic.dart';
 import '../check_in/player_page/player_squad.dart';
+import '../table_check/player_show/logic.dart';
 import '../table_check/player_show/view.dart';
 import 'data/player_card.dart';
 import 'logic.dart';
@@ -677,10 +678,17 @@ class _SaveButton extends StatelessWidget {
             }
           }
           else {
-            Get.offAll(() => PlayerShowPage(),
-                arguments: {
-                  'showState': showState,
-                });
+            Future.delayed(0.5.seconds).then((value) async {
+              Get.offAll(() => PlayerShowPage(),
+                  arguments: {
+                    'showState': showState,
+                  });
+            });
+            print("嘿嘿嘿嘿 ${Get.isRegistered<PlayerShowPageLogic>()}");
+            if(Get.isRegistered<PlayerShowPageLogic>()) {
+              Get.find<PlayerShowPageLogic>().getPlayerCardInfo(showState.showId);
+            }
+
             // Get.offAll(() => PlayerShowPage(),
             //     arguments: {
             //       'showState': showState,

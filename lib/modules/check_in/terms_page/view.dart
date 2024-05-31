@@ -10,6 +10,8 @@ import '../add_player/view.dart';
 import '../choose_table/view.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
+import '../player_page/logic.dart';
+import '../player_page/player_squad.dart';
 import '../verification_code/logic.dart';
 
 class TermsOfUsePage extends StatelessWidget {
@@ -185,7 +187,7 @@ class _AgreeButton extends StatelessWidget {
             EasyLoading.dismiss(animation: false);
             await Get.to(() => ChooseTablePage(), arguments: {"showInfo": showInfo, "customer": customer, "code": code, "isAddPlayerClick": isAddPlayerClick,});
             // await Get.offAll(() => ChooseTablePage(), arguments: {"showInfo": showInfo, "customer": customer, "code": code, "isAddPlayerClick": isAddPlayerClick,});
-            WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
+            // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
             if (Get.isRegistered<VerificationCodeLogic>()) {
               Get.find<VerificationCodeLogic>()?.codeController?.clear();
             }
@@ -219,13 +221,35 @@ class _BackButton extends StatelessWidget {
   _BackButton({
     Key? key,
   }) : super(key: key);
+  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  Customer get customer => Get.arguments["customer"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        Get.back();
+        print("isAddPlayerClick ${isAddPlayerClick}");
+        if(isAddPlayerClick) {
+          Get.offAll(() => PlayerSquadPage(),
+              arguments: {
+                "showInfo": showInfo,
+                "customer": customer,
+                "isAddPlayerClick": isAddPlayerClick,
+                "isCountdownStart": true,
+                "tableId": tableId,
+              });
+          print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
+          if(Get.isRegistered<PlayerShowLogic>()) {
+            Get.find<PlayerShowLogic>().isCountdownStart = true;
+            Get.find<PlayerShowLogic>().getPlayerCardInfo(showInfo.showId);
+          }
+        }
+        else {
+          Get.back();
+        }
       },
       child: Text(
         "BACK",

@@ -12,8 +12,8 @@ class AddDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 0.5.sw,
-      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+      width: 0.4.sw,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         color: Color(0xFF272727),
@@ -33,7 +33,7 @@ class AddDialog extends StatelessWidget {
             textAlign: TextAlign.center,
             style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
           ),
-          SizedBox(height: 30,),
+          SizedBox(height: 20,),
           Text(
             'Assemble the Squad.',
             textAlign: TextAlign.center,
@@ -63,7 +63,7 @@ class _BottomBtns extends StatelessWidget {
   Widget build(BuildContext context) {
     final content = Container(
       margin: EdgeInsets.only(top: 0.0, left: 0.0),
-      constraints: BoxConstraints.tightFor(width: 0.8.sw), //卡片大小
+      constraints: BoxConstraints.tightFor(width: 0.7.sw), //卡片大小
       alignment: Alignment.center,
       child: Stack(
         children: [
@@ -110,7 +110,7 @@ class _NoThatAllBtn extends StatelessWidget {
           color: Color(0xFF272727),
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
-        margin: EdgeInsets.only(top: 0.0, left: 30.0),
+        margin: EdgeInsets.only(top: 0.0, left: 0.0),
         constraints: BoxConstraints.tightFor(width: width, height: 70.h), //卡片大小
         child: Center(
           child: Text(
@@ -153,7 +153,7 @@ class _AddNowBtn extends StatelessWidget {
           color: Color(0xFF13EFEF),
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
-        margin: EdgeInsets.only(top: 0.0, left: 30.0),
+        margin: EdgeInsets.only(top: 0.0, left: 0.0),
         constraints: BoxConstraints.tightFor(width: width, height: 70.h), //卡片大小
         child: Center(
           child: Text(

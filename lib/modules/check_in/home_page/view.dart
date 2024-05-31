@@ -119,10 +119,12 @@ class _landingCheckInButton extends StatelessWidget {
       // 点击事件
       onTap: () {
         if (Get.arguments != null && Get.arguments["tableId"] != null) {
-          Get.offAllNamed(AppRoutes.verificationCode, arguments: {"tableId": tableId,});
+          // Get.offAllNamed(AppRoutes.verificationCode, arguments: {"tableId": tableId,});
+          Get.toNamed(AppRoutes.verificationCode, arguments: {"tableId": tableId,});
         }
         else {
-          Get.offAllNamed(AppRoutes.verificationCode);
+          // Get.offAllNamed(AppRoutes.verificationCode);
+          Get.toNamed(AppRoutes.verificationCode);
         }
       },
       child: Container(

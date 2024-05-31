@@ -13,7 +13,7 @@ class HeadgearLogic extends GetxController {
   late ShowState showState;
   late List headgearObj;
   late int userId;
-  late int clickSelectId;
+  int? clickSelectId;
   String playerName = "";
 
   Future<List<UserInfo>> fetchUsers(int showId, int tableId) async {
@@ -49,7 +49,7 @@ class HeadgearLogic extends GetxController {
       isClickCard = true;
       UserInfo userData = await getCurrentUser(showState.showId, Global.tableId, userId);
       playerName = userData.nickname;
-      update(["headgearAcquisitionPage"]);
+      update(["headgearPage"]);
     });
     update();
   }
