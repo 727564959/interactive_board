@@ -43,8 +43,10 @@ class ProcessController {
 
     _showSocket.on('start_show', (data) async {
       state = ShowState.fromJson(data);
+      final details = state.details as ShowPreparingDetails;
+      isChecked = details.customers.any((element) => Global.tableId == element.tableId);
       if (!isChecked) return;
-      Get.offAllNamed(AppRoutes.choosePlayer, arguments: state);
+      Get.offAllNamed(AppRoutes.checkIn, arguments: state);
     });
 
     _showSocket.on('stop_show', (data) async {
@@ -53,25 +55,15 @@ class ProcessController {
       Get.offAllNamed(AppRoutes.takeARest);
     });
 
-    _showSocket.on('publish_show', (data) async {
-      state = ShowState.fromJson(data);
-      final details = state.details as ShowPreparingDetails;
-      isChecked = details.customers.any((element) => Global.tableId == element.tableId);
-      if (!isChecked) return;
-      Get.offAllNamed(AppRoutes.checkIn, arguments: state);
-    });
-
     _showSocket.on("game_interruption", (data) async {
       state = ShowState.fromJson(data);
       if (!isChecked) return;
-      // await Future.delayed(1.ms);
       final logic = Get.findOrNull<ChoosePlayerLogic>();
-
       await Get.offAllNamed(AppRoutes.choosePlayer, arguments: state);
       logic?.updateAllPositions();
     });
 
-    _showSocket.on("next_round", (data) async {
+    _showSocket.on("choose_player", (data) async {
       state = ShowState.fromJson(data);
       if (!isChecked) return;
       Get.offAllNamed(AppRoutes.choosePlayer, arguments: state);
@@ -98,10 +90,10 @@ class ProcessController {
       Get.offAllNamed(AppRoutes.takeARest);
       return;
     }
-    if (state.status == ShowStatus.gamePreparing) {
+    if (state.status == ShowStatus.choosePlayer) {
       Get.offAllNamed(AppRoutes.choosePlayer, arguments: state);
     }
-    if (state.status == ShowStatus.showPreparing) {
+    if (state.status == ShowStatus.gamePreparing) {
       Get.offAllNamed(AppRoutes.checkIn, arguments: state);
     }
     if (state.status == ShowStatus.gaming) {

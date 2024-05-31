@@ -2,7 +2,7 @@ import 'package:interactive_board/pages/check_in/data/team_info.dart';
 
 enum ShowStatus {
   waiting,
-  showPreparing,
+  choosePlayer,
   gamePreparing,
   gaming,
   complete;
@@ -10,8 +10,8 @@ enum ShowStatus {
   factory ShowStatus.status(String status) {
     if (status == "waiting") {
       return ShowStatus.waiting;
-    } else if (status == "show_preparing") {
-      return ShowStatus.showPreparing;
+    } else if (status == "choose_player") {
+      return ShowStatus.choosePlayer;
     } else if (status == "game_preparing") {
       return ShowStatus.gamePreparing;
     } else if (status == "gaming") {
@@ -38,9 +38,8 @@ class ShowState {
 
     if (status == ShowStatus.waiting) {
       details = null;
-    } else if (status == ShowStatus.showPreparing) {
+    } else if (status == ShowStatus.gamePreparing) {
       final detailsData = json['details'];
-      // final startTime = DateTime.parse(detailsData["startTime"]);
       final startTime = DateTime.parse(detailsData["startDate"] + " " + detailsData["startTime"]);
       final customers = <CustomerItem>[];
       for (final item in detailsData["customers"]) {
