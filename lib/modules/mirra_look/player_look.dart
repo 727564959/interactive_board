@@ -592,10 +592,16 @@ class _NicknamePageState extends State<_NicknamePage> {
   void initState() {
     super.initState();
     logic.currentName = card.nickname??"";
+    logic.nameTextFieldController.text = card.nickname??"";
     focusNode.addListener(() {
       setState(() {
         isFocused = focusNode.hasFocus;
       });
+      if (focusNode.hasFocus) {
+        logic.nameTextFieldController.selection = TextSelection.fromPosition(
+          TextPosition(offset: logic.nameTextFieldController.text.length),
+        );
+      }
     });
   }
 
@@ -607,9 +613,14 @@ class _NicknamePageState extends State<_NicknamePage> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _nameTextFieldController = new TextEditingController(text: logic.currentName);
+    // TextEditingController _nameTextFieldController = new TextEditingController(text: logic.currentName);
     return TextField(
-      controller: _nameTextFieldController,
+      // controller: _nameTextFieldController,
+      controller: logic.nameTextFieldController,
+      cursorWidth: 3.0,          // 光标粗细
+      cursorRadius: Radius.circular(3.0), // 使用Radius.circular设置圆形半径
+      cursorColor: Colors.black,   // 光标颜色
+      cursorHeight: 36.0, // 设置光标的高度，与文字的字体大小一致
       maxLines: 1,
       focusNode: focusNode,
       textAlign: TextAlign.center,
@@ -618,7 +629,7 @@ class _NicknamePageState extends State<_NicknamePage> {
         fillColor: Color(0xFF5E6F96),
         filled: true,
         suffixIcon: isFocused ? null : Icon(Icons.edit, color: Colors.white, size: 35,),
-        contentPadding: EdgeInsets.symmetric(vertical: 30.sp, horizontal: 0.sp),
+        contentPadding: EdgeInsets.symmetric(vertical: 10.sp, horizontal: 5.sp),
       ),
       inputFormatters: [
         LengthLimitingTextInputFormatter(15),

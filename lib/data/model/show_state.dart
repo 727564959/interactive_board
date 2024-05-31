@@ -1,5 +1,3 @@
-import 'package:interactive_board/pages/check_in/data/team_info.dart';
-
 enum ShowStatus {
   waiting,
   choosePlayer,

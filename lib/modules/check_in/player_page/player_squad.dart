@@ -279,7 +279,8 @@ class _SquadCard extends StatelessWidget {
                                       color: Colors.white,
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.all(0),
+                                      // padding: EdgeInsets.all(0),
+                                      padding: EdgeInsets.symmetric(horizontal: 15.0),
                                       child: Text(
                                         card.nickname ?? '',
                                         maxLines: 1, // 最大显示行数

@@ -233,14 +233,16 @@ class _BackButton extends StatelessWidget {
       onTap: () async {
         print("isAddPlayerClick ${isAddPlayerClick}");
         if(isAddPlayerClick) {
-          Get.offAll(() => PlayerSquadPage(),
-              arguments: {
-                "showInfo": showInfo,
-                "customer": customer,
-                "isAddPlayerClick": isAddPlayerClick,
-                "isCountdownStart": true,
-                "tableId": tableId,
-              });
+          Future.delayed(0.5.seconds).then((value) async {
+            Get.offAll(() => PlayerSquadPage(),
+                arguments: {
+                  "showInfo": showInfo,
+                  "customer": customer,
+                  "isAddPlayerClick": isAddPlayerClick,
+                  "isCountdownStart": true,
+                  "tableId": tableId,
+                });
+          });
           print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
           if(Get.isRegistered<PlayerShowLogic>()) {
             Get.find<PlayerShowLogic>().isCountdownStart = true;

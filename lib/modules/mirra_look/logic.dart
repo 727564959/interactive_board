@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import '../../../common.dart';
@@ -9,6 +10,7 @@ class MirraLookLogic extends GetxController {
   String currentName = "";
   SkinOption selectedSkin = SkinOption();
   GenderOption selectedGender = GenderOption();
+  final nameTextFieldController = TextEditingController();
 
   final _dio = Dio();
 
