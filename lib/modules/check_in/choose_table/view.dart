@@ -13,7 +13,6 @@ import '../data/booking.dart';
 import '../group_set/view.dart';
 import '../headgear_acquisition/view.dart';
 import '../player_page/player_squad.dart';
-import '../player_page/view.dart';
 import 'logic.dart';
 import '../../../common.dart';
 import '../widget/button.dart';
@@ -100,11 +99,11 @@ class ChooseTablePage extends StatelessWidget {
                           children: [1, 2, 3, 4]
                               .map(
                                 (e) => _TableItem(
-                              tableId: e,
-                              bSelected: logic.selectedTableId == e,
-                              bAvailable: !showInfo.fullTables.contains(e),
-                            ),
-                          )
+                                  tableId: e,
+                                  bSelected: logic.selectedTableId == e,
+                                  bAvailable: !showInfo.fullTables.contains(e),
+                                ),
+                              )
                               .toList(),
                         );
                       },
@@ -198,13 +197,12 @@ class ChooseTablePage extends StatelessWidget {
                           //       "isAddPlayerClick": isAddPlayerClick,
                           //       "tableId": logic.selectedTableId,
                           //     });
-                          await Get.offAll(() => GroupIconSetPage(),
-                              arguments: {
-                                'showInfo': showInfo,
-                                'customer': customer,
-                                "isAddPlayerClick": isAddPlayerClick,
-                                "tableId": logic.selectedTableId,
-                              });
+                          await Get.offAll(() => GroupIconSetPage(), arguments: {
+                            'showInfo': showInfo,
+                            'customer': customer,
+                            "isAddPlayerClick": isAddPlayerClick,
+                            "tableId": logic.selectedTableId,
+                          });
 
                           // List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
                           // print("headgearObj ${headgearObj}");
@@ -313,7 +311,8 @@ class ChooseTablePage extends StatelessWidget {
                           "Let's Gather! Pick Your Bay for Fun",
                           style: CustomTextStyles.textSmall(
                             color: Color(0xFFFFFFFF),
-                            fontSize: 26.sp,),
+                            fontSize: 26.sp,
+                          ),
                         ),
                       ),
                     ],

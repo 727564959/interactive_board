@@ -10,13 +10,8 @@ import 'modules/game_over/statistics/view.dart';
 import 'modules/game_over/statistics/widgets/next_game.dart';
 import 'modules/game_over/winner/binding.dart';
 import 'modules/game_over/winner/view.dart';
-import 'modules/set_avatar/binding.dart';
-import 'modules/set_avatar/view.dart';
 import 'modules/table_check/welcome_page/welcome_page.dart';
 import 'modules/take_a_rest/view.dart';
-import 'pages/check_in/binding.dart';
-import 'pages/check_in/view.dart';
-import 'pages/check_in/welcome_page.dart';
 // import 'pages/check_in/view.dart';
 import 'modules/before_game/choose_player/view.dart';
 import 'modules/initialize_page/view.dart';
@@ -38,7 +33,6 @@ class AppRoutes {
   static const String landingPage = "/landingPage";
   // 桌屏等待页面
   static const String takeARest = "/take_a_rest";
-  static const String setAvatar = "/setAvatar";
   // 获胜这页面
   static const String winnerPage = "/winnerPage";
   // 统计图展示
@@ -100,13 +94,7 @@ class AppRoutes {
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
     ),
-    GetPage(
-      name: setAvatar,
-      page: () => AvatarDesignPage(),
-      bindings: [SetAvatarBinding()],
-      transitionDuration: Duration.zero,
-      reverseTransitionDuration: Duration.zero,
-    ),
+
     GetPage(
       name: winnerPage,
       page: () => WinnerPage(),

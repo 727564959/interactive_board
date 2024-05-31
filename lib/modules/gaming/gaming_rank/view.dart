@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 import '../../../app_routes.dart';
 import '../../../mirra_style.dart';
-import '../../../pages/check_in/widgets/after_checkIn/player_info_show.dart';
 import '../../../widgets/mirra_app_bar.dart';
 import 'widgets/leaderboard.dart';
 import 'widgets/player_display.dart';

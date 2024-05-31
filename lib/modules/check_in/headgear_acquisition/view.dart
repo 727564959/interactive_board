@@ -8,19 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:interactive_board/pages/check_in/logic.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../app_routes.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
-import '../../set_avatar/logic.dart';
-import '../../set_avatar/view.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../data/user_info.dart';
 import '../player_page/new_player_page.dart';
-import '../player_page/view.dart';
 import 'flip_card.dart';
 import 'logic.dart';
 
@@ -34,21 +30,20 @@ class HeadgearAcquisitionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-          children: [
-            GetBuilder<HeadgearAcquisitionLogic>(
-                id: "headgearAcquisitionPage",
-                builder: (logic) {
-                  // return _TreasureChestWidget(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId);
-                  return _TreasureChestWidget(
-                    showInfo: logic.showInfo,
-                    customer: logic.customer,
-                    headgearObj: logic.headgearObj,
-                    userId: logic.userId,
-                  );
-                }
-            ),
-          ],
-        ));
+      children: [
+        GetBuilder<HeadgearAcquisitionLogic>(
+            id: "headgearAcquisitionPage",
+            builder: (logic) {
+              // return _TreasureChestWidget(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId);
+              return _TreasureChestWidget(
+                showInfo: logic.showInfo,
+                customer: logic.customer,
+                headgearObj: logic.headgearObj,
+                userId: logic.userId,
+              );
+            }),
+      ],
+    ));
   }
 }
 
@@ -89,6 +84,7 @@ class _CardFlip extends StatefulWidget {
   @override
   _CardFlipState createState() => _CardFlipState();
 }
+
 class _CardFlipState extends State<_CardFlip> {
   final logic = Get.find<HeadgearAcquisitionLogic>();
   int? selectIndex;
@@ -100,7 +96,6 @@ class _CardFlipState extends State<_CardFlip> {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         // Container(
@@ -147,7 +142,8 @@ class _CardFlipState extends State<_CardFlip> {
                       : ("Hi," + logic.playerName + ", Choose Your Winning Headgear."),
                   style: CustomTextStyles.textSmall(
                     color: Color(0xFFFFFFFF),
-                    fontSize: 26.sp,),
+                    fontSize: 26.sp,
+                  ),
                 ),
               ),
             ],
@@ -182,18 +178,25 @@ class _CardFlipState extends State<_CardFlip> {
                 },
                 child: Container(
                   margin: EdgeInsets.only(right: index != widget.headgearObj.length - 1 ? 10 : 0),
-                  child: HeadgearFlipCard(width: (0.84.sw / 5) - ((10 * 4) / 5), tableId: tableId, url: widget.headgearObj[index].icon, level: widget.headgearObj[index].level + 2, bSelected: selectIndex == index ? true : false, delay: Duration(milliseconds: 500 * index)),
+                  child: HeadgearFlipCard(
+                      width: (0.84.sw / 5) - ((10 * 4) / 5),
+                      tableId: tableId,
+                      url: widget.headgearObj[index].icon,
+                      level: widget.headgearObj[index].level + 2,
+                      bSelected: selectIndex == index ? true : false,
+                      delay: Duration(milliseconds: 500 * index)),
                 ),
               );
             }),
           ),
         ),
-        SizedBox(height: 50,),
-        if(logic.isClickCard) _NextButton(width: 600.w),
+        SizedBox(
+          height: 50,
+        ),
+        if (logic.isClickCard) _NextButton(width: 600.w),
       ],
     );
   }
-
 }
 
 // class CardFlipAnimation extends StatefulWidget {
@@ -554,20 +557,19 @@ class _NextButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () async {
-        if(logic.clickSelectId != null && logic.isClickCard) {
+        if (logic.clickSelectId != null && logic.isClickCard) {
           try {
             EasyLoading.dismiss(animation: false);
             UserInfo userData = await logic.getCurrentUser(showInfo.showId, tableId, userId);
-            Get.offAll(() => NewPlayerPage(),
-                arguments: {
-                  "userId": userId,
-                  "headgearId": logic.clickSelectId,
-                  "showInfo": showInfo,
-                  "customer": customer,
-                  "isAddPlayerClick": isAddPlayerClick,
-                  "tableId": tableId,
-                  "userData": userData,
-                });
+            Get.offAll(() => NewPlayerPage(), arguments: {
+              "userId": userId,
+              "headgearId": logic.clickSelectId,
+              "showInfo": showInfo,
+              "customer": customer,
+              "isAddPlayerClick": isAddPlayerClick,
+              "tableId": tableId,
+              "userData": userData,
+            });
           } on DioException catch (e) {
             EasyLoading.dismiss();
             if (e.response == null) EasyLoading.showError("Network Error!");
