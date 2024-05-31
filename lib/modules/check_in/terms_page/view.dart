@@ -185,7 +185,7 @@ class _AgreeButton extends StatelessWidget {
             EasyLoading.dismiss(animation: false);
             await Get.to(() => ChooseTablePage(), arguments: {"showInfo": showInfo, "customer": customer, "code": code, "isAddPlayerClick": isAddPlayerClick,});
             // await Get.offAll(() => ChooseTablePage(), arguments: {"showInfo": showInfo, "customer": customer, "code": code, "isAddPlayerClick": isAddPlayerClick,});
-            WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
+            // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
             if (Get.isRegistered<VerificationCodeLogic>()) {
               Get.find<VerificationCodeLogic>()?.codeController?.clear();
             }

@@ -379,7 +379,7 @@ class _NoProblemButton extends StatelessWidget {
           final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime, bookingInfo.bookingDate);
           EasyLoading.dismiss(animation: false);
           await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfo, "customer": bookingInfo.customer, "code": code});
-          WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
+          // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
           logic.codeController.clear();
         } on DioException catch (e) {
           EasyLoading.dismiss();

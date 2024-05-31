@@ -40,6 +40,7 @@ class PlayerInfoTextField extends StatelessWidget {
               keyboardType: keyboardType,
               controller: controller,
               cursorWidth: 5.0,          // 光标粗细
+              cursorRadius: Radius.circular(3.0), // 使用Radius.circular设置圆形半径
               cursorColor: Colors.black,   // 光标颜色
               cursorHeight: 34.0, // 设置光标的高度，与文字的字体大小一致
               validator: validator,
