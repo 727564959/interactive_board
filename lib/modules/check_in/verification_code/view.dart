@@ -127,7 +127,8 @@ class VerificationPage extends StatelessWidget {
                       // ),
                       const SizedBox(height: 60),
                       _CheckInInput(title: "", controller: logic.codeController),
-                      const SizedBox(height: 50),
+                      SizedBox(height: logic.isStateShow == 0 ? 30 : 50),
+                      if(logic.isStateShow == 0) _BackButton(),
                       if(logic.isStateShow == -1) Container(
                         margin: EdgeInsets.only(left: 0.1.sw),
                         width: 0.9.sw,
@@ -135,7 +136,7 @@ class VerificationPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Code check in failed. Please review your information',
+                              'Code check in failed, Please review your information.',
                               style: CustomTextStyles.title(
                                   color: Color(0xFFFF4848),
                                   fontSize: 74.sp,
@@ -488,11 +489,11 @@ class _CheckInInput extends StatelessWidget {
                   DateTime currentDateTime = DateTime.now();
                   // 解析开始时间
                   DateTime targetDateTime = DateTime.parse(bookingInfo.bookingDate + " " + bookingInfo.bookingTime);
-                  // targetDateTime = targetDateTime.add(24.hours);
+                  // targetDateTime = targetDateTime.add(2.hours);
                   // targetDateTime = targetDateTime.subtract(Duration(hours: 3));
                   // 解析结束时间时间
                   DateTime targetDateTime1 = DateTime.parse(bookingInfo.bookingDate + " " + bookingInfo.bookingEnd);
-                  // targetDateTime1 = targetDateTime1.add(24.hours);
+                  // targetDateTime1 = targetDateTime1.add(2.hours);
                   // targetDateTime1 = targetDateTime1.subtract(Duration(hours: 3));
                   // 计算时间差
                   Duration difference = targetDateTime.difference(currentDateTime);
@@ -639,6 +640,30 @@ class _ConfirmButton extends StatelessWidget {
             style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _BackButton extends StatelessWidget {
+  _BackButton({
+    Key? key,
+  }) : super(key: key);
+  final logic = Get.put(VerificationCodeLogic());
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        logic.focusNode.unfocus();
+        Future.delayed(0.3.seconds).then((value) async {
+          Get.back();
+        });
+      },
+      child: Text(
+        "BACK",
+        style: CustomTextStyles.button(color: Color(0xFF13EFEF), fontSize: 28.sp),
       ),
     );
   }

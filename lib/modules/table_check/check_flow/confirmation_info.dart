@@ -57,7 +57,7 @@ class ConfirmationInfo extends StatelessWidget {
                             child: Text(
                               // singlePlayer['name'],
                               // "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(startTime.add(8.hours)),
-                              "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(startTime),
+                              "Game Show Time : " + DateFormat("dd/MM/yyyy, hh:mm a").format(startTime),
                               style: CustomTextStyles.title(color: Color(0xFF13EFEF), fontSize: 36.sp, level: 2),
                             ),
                           ),

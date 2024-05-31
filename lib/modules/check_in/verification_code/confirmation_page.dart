@@ -62,7 +62,7 @@ class ConfirmationPage extends StatelessWidget {
                               // "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(
                               //   bookingInfo.bookingTime.add(8.hours),
                               // ),
-                              "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(
+                              "Game Show Time : " + DateFormat("dd/MM/yyyy, hh:mm a").format(
                                   DateTime.parse(bookingInfo.bookingDate + " " + bookingInfo.bookingTime),
                               ),
                               style: CustomTextStyles.title(color: Color(0xFF13EFEF), fontSize: 36.sp, level: 2),
