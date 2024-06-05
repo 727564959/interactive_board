@@ -60,10 +60,10 @@ class GameShowEndPage extends StatelessWidget {
                               // ),
                               FloatingTextAnimation(),
                               Container(
-                                width: 1.0.sw - 40.0,
+                                width: 1.0.sw,
                                 height: 1.0.sh - 320.0,
-                                margin: EdgeInsets.only(left: 40.0),
-                                child: SingleChildScrollView(
+                                // margin: EdgeInsets.only(left: 40.0),
+                                child: logic.userList.length > 6 ? SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -71,6 +71,8 @@ class GameShowEndPage extends StatelessWidget {
                                       FloatingPlayerAnimation(),
                                     ],
                                   ),
+                                ) : Center(
+                                  child: FloatingPlayerAnimation(),
                                 ),
                               ),
                               // Container(
@@ -253,6 +255,5 @@ class _FloatingPlayerAnimationState extends State<FloatingPlayerAnimation> with 
         );
       },
     );
-
   }
 }

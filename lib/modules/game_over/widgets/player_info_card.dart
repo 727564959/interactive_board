@@ -28,8 +28,10 @@ class PlayerInfoCard extends StatelessWidget {
       child: CachedNetworkImage(
         fadeInDuration: 0.ms,
         imageUrl: avatarUrl,
-        width: width,
-        fit: BoxFit.fitWidth,
+        height: width * 1.08,
+        fit: BoxFit.contain,
+        // width: width,
+        // fit: BoxFit.fitWidth,
       ),
       // child: Align(
       //   alignment: Alignment.bottomCenter,
@@ -231,7 +233,8 @@ class _AvatarCardState extends State<AvatarCard> {
       );
     } else {
       bottomLabel = Padding(
-        padding: EdgeInsets.only(top: 7.w, bottom: 10.w),
+        // padding: EdgeInsets.only(top: 7.w, bottom: 10.w),
+        padding: EdgeInsets.only(top: 5.w, bottom: 0),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -267,12 +270,13 @@ class _AvatarCardState extends State<AvatarCard> {
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         width: width,
+        height: width * 1.4,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               width: width,
-              height: width * 1.35,
+              // height: width * 1.35,
               decoration: BoxDecoration(
                 // color: backgroundColor,
                 gradient: RadialGradient(
@@ -291,7 +295,7 @@ class _AvatarCardState extends State<AvatarCard> {
               child: child,
             ),
             Container(
-              height: 4,
+              height: 3,
               color: Colors.white,
             ),
             bottomLabel,

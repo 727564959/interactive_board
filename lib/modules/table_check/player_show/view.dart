@@ -149,6 +149,9 @@ class _SquadCard extends StatelessWidget {
       }
     }
     print("logic.playerCardInfo ${logic.playerCardInfo}");
+
+    // double parentWidth = MediaQuery.of(context).size.width; // 父级的宽度
+    // print("parentWidth ${parentWidth}");
     return Container(
       child: Row(
         children: [
@@ -188,9 +191,9 @@ class _SquadCard extends StatelessWidget {
               height: 0.65.sh,
               child: GridView.count(
                 crossAxisCount: 4,
-                crossAxisSpacing: 10.0, // 设置列之间的间距
+                crossAxisSpacing: 3.0, // 设置列之间的间距
                 mainAxisSpacing: 10.0, // 行之间的间距
-                childAspectRatio: 0.7, // 设置卡片宽高比
+                childAspectRatio: 0.714, // 设置卡片宽高比
                 children: logic.playerCardInfo.map((card) {
                   return GestureDetector(
                     onTap: () async {
@@ -276,7 +279,7 @@ class _SquadCard extends StatelessWidget {
                                         ),
                                       ),
                                       child: CachedNetworkImage(
-                                        height: 200,
+                                        height: 196,
                                         imageUrl: card.avatarIcon ?? '',
                                         fit: BoxFit.contain,
                                       ),
@@ -317,7 +320,7 @@ class _SquadCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  height: 200,
+                                  height: 196,
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(10),
@@ -374,7 +377,9 @@ class _SquadCard extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: SizedBox(),
+            child: Container(decoration: BoxDecoration(
+              color: Colors.blue, // 设置背景色
+            ),),
           ),
         ],
       ),

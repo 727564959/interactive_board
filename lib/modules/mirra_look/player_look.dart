@@ -453,11 +453,12 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
                       ),
                       Container(
                         margin: EdgeInsets.only(left: 20.0),
-                        height: 200,
+                        height: 0.35.sh - 60,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: Get.arguments["gameItemInfo"].length,
                           itemBuilder: (context, index) {
+                            print("object ${0.35.sh - 60}");
                             return GestureDetector(
                               onTap: () {
                                 print("点击了卡牌");
@@ -471,72 +472,69 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
                                   Container(
                                     margin: EdgeInsets.only(right: 10.0),
                                     width: 140,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                                            // gradient: RadialGradient(
-                                            //   center: Alignment.center,
-                                            //   radius: 0.5,
-                                            //   colors: [
-                                            //     lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
-                                            //     darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
-                                            //   ],
-                                            // ),
-                                            color: color,
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                // margin: EdgeInsets.only(top: 10.0),
-                                                decoration: BoxDecoration(
-                                                  // borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                  borderRadius: const BorderRadius.only(
-                                                    topLeft: Radius.circular(10),
-                                                    topRight: Radius.circular(10),
-                                                  ),
-                                                  gradient: RadialGradient(
-                                                    center: Alignment.center,
-                                                    radius: 0.5,
-                                                    colors: [
-                                                      lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
-                                                      darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
-                                                    ],
-                                                  ),
-                                                ),
-                                                child: CachedNetworkImage(
-                                                  height: 160,
-                                                  imageUrl: Get.arguments["gameItemInfo"][index].icon,
-                                                  fit: BoxFit.fitWidth,
-                                                ),
+                                    height: 196,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                        // gradient: RadialGradient(
+                                        //   center: Alignment.center,
+                                        //   radius: 0.5,
+                                        //   colors: [
+                                        //     lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
+                                        //     darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
+                                        //   ],
+                                        // ),
+                                        color: color,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            // margin: EdgeInsets.only(top: 10.0),
+                                            decoration: BoxDecoration(
+                                              // borderRadius: BorderRadius.all(Radius.circular(10)),
+                                              borderRadius: const BorderRadius.only(
+                                                topLeft: Radius.circular(10),
+                                                topRight: Radius.circular(10),
                                               ),
-                                              Container(
-                                                height: 2.0,
-                                                color: Colors.white,
+                                              gradient: RadialGradient(
+                                                center: Alignment.center,
+                                                radius: 0.5,
+                                                colors: [
+                                                  lightColor.withOpacity(1.0), // 设置渐变起始颜色并设置透明度
+                                                  darkColor.withOpacity(1.0), // 设置渐变结束颜色并设置透明度
+                                                ],
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.all(6),
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: List.generate(Get.arguments["gameItemInfo"][index].level + 2, (i) {
-                                                    return Padding(
-                                                      padding: EdgeInsets.symmetric(horizontal: 2), // 设置左右间距
-                                                      child: Image.asset(
-                                                        MirraIcons.getSetAvatarIconPath('level_star_icon.png'),
-                                                        fit: BoxFit.contain,
-                                                        width: 20,
-                                                      ),
-                                                    );
-                                                  }),
-                                                ),
-                                              )
-                                            ],
+                                            ),
+                                            child: CachedNetworkImage(
+                                              height: 153,
+                                              imageUrl: Get.arguments["gameItemInfo"][index].icon,
+                                              // fit: BoxFit.fitWidth,
+                                              fit: BoxFit.contain,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                          Container(
+                                            height: 2.0,
+                                            color: Colors.white,
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: List.generate(Get.arguments["gameItemInfo"][index].level + 2, (i) {
+                                                return Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: 2), // 设置左右间距
+                                                  child: Image.asset(
+                                                    MirraIcons.getSetAvatarIconPath('level_star_icon.png'),
+                                                    fit: BoxFit.contain,
+                                                    width: 20,
+                                                  ),
+                                                );
+                                              }),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   if(index == logic.clickedCard) Positioned(

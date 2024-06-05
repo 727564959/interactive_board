@@ -98,7 +98,7 @@ class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
           child: Image.asset(
             MirraIcons.getSetAvatarIconPath('level_star_icon.png'),
             fit: BoxFit.fitWidth,
-            width: 35.w,
+            width: 40.w,
           ),
         ),
       );
@@ -115,12 +115,13 @@ class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         width: width,
+        height: width * 1.4,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               width: width,
-              height: width * 1.35,
+              // height: width * 1.35,
               decoration: BoxDecoration(
                 // color: backgroundColor,
                 gradient: RadialGradient(
@@ -139,16 +140,18 @@ class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
               child: CachedNetworkImage(
                 fadeInDuration: 0.ms,
                 imageUrl: widget.url,
-                width: width,
-                fit: BoxFit.fitWidth,
+                height: width * 1.08,
+                // width: width,
+                // fit: BoxFit.fitWidth,
+                fit: BoxFit.contain,
               ),
             ),
             Container(
-              height: 4,
+              height: 3,
               color: Colors.white,
             ),
             Padding(
-              padding: EdgeInsets.only(top: 18.w, bottom: 18.w),
+              padding: EdgeInsets.only(top: 20.w, bottom: 20.w),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: stars,
