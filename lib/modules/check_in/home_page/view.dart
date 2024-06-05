@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../../app_routes.dart';
 import '../../../common.dart';
 import '../../../mirra_style.dart';
+import '../../../widgets/common_button.dart';
 
 class LandingPage extends StatelessWidget {
   List banner = [
@@ -23,6 +24,8 @@ class LandingPage extends StatelessWidget {
       "https://ts1.cn.mm.bing.net/th/id/R-C.ddfbf9ed55354323035f947515fe0233?rik=0KFdFk3RHUzBdg&riu=http%3a%2f%2fi1.img.969g.com%2fdown%2fimgx2013%2f01%2f05%2f206_164916_4fab0.jpg&ehk=Vqb%2f5c3%2fW5n39t7bAae6YpUlfG4ibEbf9lpETY5Xz4c%3d&risl=&pid=ImgRaw&r=0"
     }
   ];
+
+  bool testBool = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,9 +62,36 @@ class LandingPage extends StatelessWidget {
                             ),
                   ),
                   SizedBox(height: 150,),
-                  _landingCheckInButton(width: 700.w,),
+                  // _landingCheckInButton(width: 700.w,),
+                  CommonButton(
+                    width: 700.w,
+                    height: 100.h,
+                    btnText: 'CHECK IN',
+                    btnBgColor: Color(0xff13EFEF),
+                    textColor: Colors.black,
+                    onPress: () {
+                      if (Get.arguments != null && Get.arguments["tableId"] != null) {
+                        Get.toNamed(AppRoutes.verificationCode, arguments: {"tableId": Get.arguments["tableId"],});
+                      }
+                      else {
+                        Get.toNamed(AppRoutes.verificationCode);
+                      }
+                    },
+                    // isChangeBgColor: true,
+                    changedBgColor: Color(0xffA4EDF1),
+                  ),
                   SizedBox(height: 30,),
-                  _landingBookNowButton(width: 700.w,),
+                  // _landingBookNowButton(width: 700.w,),
+                  CommonButton(
+                    width: 700.w,
+                    height: 100.h,
+                    btnText: 'BOOK NOW',
+                    btnBgColor: Color(0xffEFB5FD),
+                    textColor: Colors.black,
+                    onPress: () {
+                    },
+                    changedBgColor: Color(0xffF5CBFF),
+                  ),
                 ],
               ),
             ),

@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../../app_routes.dart';
 import '../../../mirra_style.dart';
+import '../../../widgets/common_button.dart';
 import '../data/booking.dart';
 import '../player_page/logic.dart';
 import '../player_page/player_squad.dart';
@@ -145,7 +146,30 @@ class VerificationPage extends StatelessWidget {
                             SizedBox(height: 180.0,),
                             Container(
                               margin: EdgeInsets.only(left: (1.0.sw - 600)/2),
-                              child: _ConfirmButton(width: 600.w, btnText: "OK"),
+                              // child: _ConfirmButton(width: 600.w, btnText: "OK"),
+                              child: CommonButton(
+                                width: 600.w,
+                                height: 100.h,
+                                btnText: 'OK',
+                                btnBgColor: Color(0xff13EFEF),
+                                textColor: Colors.black,
+                                onPress: () {
+                                  // 如果是早到、晚到这两种状态，直接回到首页
+                                  if(logic.isStateShow == 1 || logic.isStateShow == 2) {
+                                    logic.updateStateShowFun(0);
+                                    logic.codeController.clear();
+                                    // 跳转回首页
+                                    Get.offAllNamed(AppRoutes.landingPage);
+                                  }
+                                  else {
+                                    logic.updateStateShowFun(0);
+                                    logic.codeController.clear();
+                                    // 获取焦点到 focusNode
+                                    FocusScope.of(context).requestFocus(logic.focusNode);
+                                  }
+                                },
+                                changedBgColor: Color(0xffA4EDF1),
+                              ),
                             ),
                           ],
                         ),
@@ -191,7 +215,29 @@ class VerificationPage extends StatelessWidget {
                             SizedBox(height: 60.0,),
                             Container(
                               margin: EdgeInsets.only(left: (1.0.sw - 600)/2),
-                              child: _ConfirmButton(width: 600.w, btnText: "CLOSE"),
+                              child: CommonButton(
+                                width: 600.w,
+                                height: 100.h,
+                                btnText: 'CLOSE',
+                                btnBgColor: Color(0xff13EFEF),
+                                textColor: Colors.black,
+                                onPress: () {
+                                  // 如果是早到、晚到这两种状态，直接回到首页
+                                  if(logic.isStateShow == 1 || logic.isStateShow == 2) {
+                                    logic.updateStateShowFun(0);
+                                    logic.codeController.clear();
+                                    // 跳转回首页
+                                    Get.offAllNamed(AppRoutes.landingPage);
+                                  }
+                                  else {
+                                    logic.updateStateShowFun(0);
+                                    logic.codeController.clear();
+                                    // 获取焦点到 focusNode
+                                    FocusScope.of(context).requestFocus(logic.focusNode);
+                                  }
+                                },
+                                changedBgColor: Color(0xffA4EDF1),
+                              ),
                             ),
                           ],
                         ),
@@ -233,7 +279,29 @@ class VerificationPage extends StatelessWidget {
                             SizedBox(height: 90.0,),
                             Container(
                               margin: EdgeInsets.only(left: (1.0.sw - 600)/2),
-                              child: _ConfirmButton(width: 600.w, btnText: "CLOSE"),
+                              child: CommonButton(
+                                width: 600.w,
+                                height: 100.h,
+                                btnText: 'CLOSE',
+                                btnBgColor: Color(0xff13EFEF),
+                                textColor: Colors.black,
+                                onPress: () {
+                                  // 如果是早到、晚到这两种状态，直接回到首页
+                                  if(logic.isStateShow == 1 || logic.isStateShow == 2) {
+                                    logic.updateStateShowFun(0);
+                                    logic.codeController.clear();
+                                    // 跳转回首页
+                                    Get.offAllNamed(AppRoutes.landingPage);
+                                  }
+                                  else {
+                                    logic.updateStateShowFun(0);
+                                    logic.codeController.clear();
+                                    // 获取焦点到 focusNode
+                                    FocusScope.of(context).requestFocus(logic.focusNode);
+                                  }
+                                },
+                                changedBgColor: Color(0xffA4EDF1),
+                              ),
                             ),
                           ],
                         ),
@@ -489,11 +557,11 @@ class _CheckInInput extends StatelessWidget {
                   DateTime currentDateTime = DateTime.now();
                   // 解析开始时间
                   DateTime targetDateTime = DateTime.parse(bookingInfo.bookingDate + " " + bookingInfo.bookingTime);
-                  targetDateTime = targetDateTime.add(1.hours);
+                  // targetDateTime = targetDateTime.add(1.hours);
                   // targetDateTime = targetDateTime.subtract(Duration(hours: 3));
                   // 解析结束时间时间
                   DateTime targetDateTime1 = DateTime.parse(bookingInfo.bookingDate + " " + bookingInfo.bookingEnd);
-                  targetDateTime1 = targetDateTime1.add(1.hours);
+                  // targetDateTime1 = targetDateTime1.add(1.hours);
                   // targetDateTime1 = targetDateTime1.subtract(Duration(hours: 3));
                   // 计算时间差
                   Duration difference = targetDateTime.difference(currentDateTime);

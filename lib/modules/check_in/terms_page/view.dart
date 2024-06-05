@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../mirra_style.dart';
+import '../../../widgets/common_button.dart';
 import '../../../widgets/term_of_use.dart';
 import '../add_player/view.dart';
 import '../choose_table/view.dart';
@@ -18,6 +19,11 @@ class TermsOfUsePage extends StatelessWidget {
   const TermsOfUsePage({
     Key? key,
   }) : super(key: key);
+  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  Customer get customer => Get.arguments["customer"];
+  String get code => Get.arguments["code"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +148,44 @@ class TermsOfUsePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 40),
-                  _AgreeButton(width: 600.w),
+                  // _AgreeButton(width: 600.w),
+                  CommonButton(
+                    width: 600.w,
+                    height: 100.h,
+                    btnText: 'AGREE',
+                    btnBgColor: Color(0xff13EFEF),
+                    textColor: Colors.black,
+                    onPress: () async {
+                      print("接受了协议");
+                      print("object ${isAddPlayerClick}");
+                      // 是新增点击则去新增页面，反之去选桌
+                      if (isAddPlayerClick) {
+                        await Get.to(() => AddPlayerPage(),
+                            arguments: {
+                              "showInfo": showInfo,
+                              "customer": customer,
+                              "isAddPlayerClick": isAddPlayerClick,
+                              "tableId": tableId,
+                            });
+                      } else {
+                        EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+                        try {
+                          EasyLoading.dismiss(animation: false);
+                          await Get.to(() => ChooseTablePage(), arguments: {"showInfo": showInfo, "customer": customer, "code": code, "isAddPlayerClick": isAddPlayerClick,});
+                          // await Get.offAll(() => ChooseTablePage(), arguments: {"showInfo": showInfo, "customer": customer, "code": code, "isAddPlayerClick": isAddPlayerClick,});
+                          // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
+                          if (Get.isRegistered<VerificationCodeLogic>()) {
+                            Get.find<VerificationCodeLogic>()?.codeController?.clear();
+                          }
+                        } on DioException catch (e) {
+                          EasyLoading.dismiss();
+                          if (e.response == null) EasyLoading.showError("Network Error!");
+                          EasyLoading.showError(e.response?.data["error"]["message"]);
+                        }
+                      }
+                    },
+                    changedBgColor: Color(0xffA4EDF1),
+                  ),
                   SizedBox(height: 20),
                   _BackButton(),
                 ],

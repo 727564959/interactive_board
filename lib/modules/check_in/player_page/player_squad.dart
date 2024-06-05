@@ -392,7 +392,7 @@ class _SquadCard extends StatelessWidget {
   }
 }
 
-class _DoneButton extends StatelessWidget {
+class _DoneButton extends StatefulWidget {
   _DoneButton({
     Key? key,
     required this.width,
@@ -400,24 +400,40 @@ class _DoneButton extends StatelessWidget {
   }) : super(key: key);
   final double width;
   final bool isCountdownStart;
+
+  @override
+  _DoneButtonState createState() => _DoneButtonState();
+}
+class _DoneButtonState extends State<_DoneButton> {
+  double get width => widget.width;
+  bool get isCountdownStart => widget.isCountdownStart;
   ShowInfo get showInfo => Get.arguments["showInfo"];
   Customer get customer => Get.arguments["customer"];
   int get tableId => Get.arguments["tableId"];
+  bool isChangeBgColor = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
-      onTap: () async {
+      onTapUp: (details) async {
+        setState(() {
+          isChangeBgColor = false;
+        });
         await Get.to(
               () => const CompletePage(),
           arguments: {"tableId": tableId, "startTime": showInfo.startTime, "customer": customer},
           preventDuplicates: false,
         );
       },
+      onTapDown: (details) {
+        setState(() {
+          isChangeBgColor = true;
+        });
+      },
       child: Container(
         decoration: BoxDecoration(
-          color: Color(0xff13EFEF),
+          color: isChangeBgColor ? Color(0xffA4EDF1) : Color(0xff13EFEF),
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
         margin: EdgeInsets.only(top: 0.0, left: 0.0),

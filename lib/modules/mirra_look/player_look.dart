@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import '../../../mirra_style.dart';
 import '../../data/model/show_state.dart';
 import '../../widgets/check_in_title.dart';
+import '../../widgets/common_button.dart';
 import '../check_in/data/booking.dart';
 import '../check_in/data/show.dart';
 import '../check_in/data/skin_gender_option.dart';
@@ -25,6 +26,11 @@ class PlayerLookPage extends StatelessWidget {
   PlayerLookPage({Key? key}) : super(key: key);
   final logic = Get.put(MirraLookLogic());
   int get tableId => Get.arguments["tableId"];
+  ShowInfo get showInfo => Get.arguments?["showInfo"];
+  Customer get customer => Get.arguments?["customer"];
+  bool get isAddPlayerClick => Get.arguments?["isAddPlayerClick"];
+  PlayerCardInfo get card => Get.arguments?["card"];
+  ShowState get showState => Get.arguments?["showState"];
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +87,56 @@ class PlayerLookPage extends StatelessWidget {
                                       // ),
                                       Container(
                                         margin: EdgeInsets.only(right: 40.0),
-                                        child: _SaveButton(width: 317.w,),
+                                        // child: _SaveButton(width: 317.w,),
+                                        child: CommonButton(
+                                          width: 317.w,
+                                          height: 100.h,
+                                          btnText: "SAVE",
+                                          // btnBgColor: Color(0xFF272727),
+                                          textColor: Color(0xff13EFEF),
+                                          onPress: () async {
+                                            try {
+                                              logic.updateUserPreference(card.userId??0, logic.currentName, Get.arguments["gameItemInfo"][logic.clickedCard??0].id, logic.selectedGender.label??"", logic.selectedSkin.label??"");
+                                              EasyLoading.dismiss(animation: false);
+                                              if(Get.arguments["showInfo"] != null) {
+                                                Future.delayed(0.5.seconds).then((value) async {
+                                                  Get.offAll(() => PlayerSquadPage(),
+                                                      arguments: {
+                                                        "showInfo": showInfo,
+                                                        "customer": customer,
+                                                        "isAddPlayerClick": isAddPlayerClick,
+                                                        "isCountdownStart": true,
+                                                        "tableId": tableId,
+                                                      });
+                                                });
+                                                print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
+                                                if(Get.isRegistered<PlayerShowLogic>()) {
+                                                  Get.find<PlayerShowLogic>().isCountdownStart = true;
+                                                  Get.find<PlayerShowLogic>().getPlayerCardInfo(showInfo.showId);
+                                                }
+                                              }
+                                              else {
+                                                Future.delayed(0.5.seconds).then((value) async {
+                                                  Get.offAll(() => PlayerShowPage(),
+                                                      arguments: {
+                                                        'showState': showState,
+                                                      });
+                                                });
+                                                print("嘿嘿嘿嘿 ${Get.isRegistered<PlayerShowPageLogic>()}");
+                                                if(Get.isRegistered<PlayerShowPageLogic>()) {
+                                                  Get.find<PlayerShowPageLogic>().getPlayerCardInfo(showState.showId);
+                                                }
+                                              }
+                                            } on DioException catch (e) {
+                                              EasyLoading.dismiss();
+                                              if (e.response == null) EasyLoading.showError("Network Error!");
+                                              EasyLoading.showError(e.response?.data["error"]["message"]);
+                                            }
+                                          },
+                                          borderColor: Color(0xff13EFEF),
+                                          changedBorderColor: Color(0xffA4EDF1),
+                                          changedTextColor: Color(0xffA4EDF1),
+                                        ),
                                       ),
                                     ],
                                   ),

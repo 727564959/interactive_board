@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../../../common.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/check_in_title.dart';
+import '../../../widgets/common_button.dart';
 import '../check_flow/confirmation_info.dart';
 import 'logic.dart';
 
@@ -103,7 +104,20 @@ class WelcomePlayerPage extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.only(left: 0.1.sw),
                       child: SizedBox(
-                        child: _EnterButton(width: 300.w),
+                        // child: _EnterButton(width: 300.w),
+                        child: CommonButton(
+                          width: 300.w,
+                          height: 100.h,
+                          btnText: 'On board',
+                          btnBgColor: Color(0xff13EFEF),
+                          textColor: Colors.black,
+                          onPress: () async {
+                            Get.to(() => ConfirmationInfo(), arguments: {
+                              "singlePlayer": logic.singlePlayer,
+                              "showState": Get.arguments});
+                          },
+                          changedBgColor: Color(0xffA4EDF1),
+                        ),
                       ),
                     ),
                   ),

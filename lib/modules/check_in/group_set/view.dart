@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
+import '../../../widgets/common_button.dart';
 import '../data/avatar_info.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
@@ -19,6 +20,10 @@ import 'logic.dart';
 class GroupIconSetPage extends StatelessWidget {
   GroupIconSetPage({Key? key}) : super(key: key);
   final logic = Get.put(GroupIconSetLogic());
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  Customer get customer => Get.arguments["customer"];
+  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +191,71 @@ class GroupIconSetPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 80,),
-                  _NextDefaultButton(width: 600.w),
+                  // _NextDefaultButton(width: 600.w),
+                  CommonButton(
+                    width: 600.w,
+                    height: 100.h,
+                    btnText: 'NEXT',
+                    btnBgColor: Color(0xff13EFEF),
+                    textColor: Colors.black,
+                    onPress: () async {
+                      // 必须选择队伍icon，logic.teamInfoIndex不为空即为选择了
+                      if(logic.teamInfoIndex != null) {
+                        // 更新队伍的icon
+                        print("队伍icon集合: ${logic.teamInfo}");
+                        print("选择的队伍icon索引: ${logic.teamInfoIndex}");
+                        // 更新队伍的icon
+                        await logic.updateTeamInfo(showInfo.showId, logic.teamInfo[int.parse(logic.teamInfoIndex.toString())]);
+                        EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
+                        try {
+                          final userId = await logic.loginInOrRegister(
+                            name: customer.name,
+                            email: customer.email,
+                            phone: customer.phone,
+                          );
+                          print("userId ${userId}");
+                          print("showId ${showInfo.showId}");
+                          print("哈哈哈哈哈");
+                          EasyLoading.dismiss(animation: false);
+                          List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
+                          print("headgearObj ${headgearObj}");
+                          print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
+                          // 如果爆过头套就直接去展示用户，反之就走爆头套、选肤色和性别
+                          if (headgearObj.isEmpty) {
+                            Get.offAll(
+                                    () => PlayerSquadPage(),
+                                arguments: {
+                                  'showInfo': showInfo,
+                                  'customer': customer,
+                                  "isAddPlayerClick": isAddPlayerClick,
+                                  "tableId": tableId,
+                                });
+                          } else {
+                            Get.offAll(
+                                  () => HeadgearAcquisitionPage(),
+                              arguments: {
+                                'showInfo': showInfo,
+                                'customer': customer,
+                                'headgearObj': headgearObj,
+                                'userId': userId,
+                                "isAddPlayerClick": isAddPlayerClick,
+                                "tableId": tableId,
+                              },
+                            );
+                          }
+                        } on DioException catch (e) {
+                          print("hahah ${e}");
+                          EasyLoading.dismiss();
+                          if (e.response == null) EasyLoading.showError("Network Error!");
+                          EasyLoading.showError(e.response?.data["error"]["message"]);
+                        }
+                      }
+                      else {
+                        EasyLoading.showError("Please Choose Your Squad Badge !");
+                      }
+                    },
+                    changedBgColor: Color(0xffA4EDF1),
+                  ),
                 ],
               ),
             ),
@@ -314,7 +383,7 @@ class _NextDefaultButton extends StatelessWidget {
           }
         }
         else {
-          EasyLoading.showError("Please Choose Your Squad icon !");
+              EasyLoading.showError("Please Choose Your Squad Badge !");
         }
       },
       child: Container(

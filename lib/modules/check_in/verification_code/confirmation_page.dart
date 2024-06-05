@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
+import '../../../widgets/common_button.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../terms_page/view.dart';
@@ -18,6 +19,7 @@ class ConfirmationPage extends StatelessWidget {
   ConfirmationPage({Key? key}) : super(key: key);
   BookingInfo get bookingInfo => Get.arguments["bookingInfo"];
   String get code => Get.arguments["code"];
+  final logic = Get.put(VerificationCodeLogic());
 
   @override
   Widget build(BuildContext context) {
@@ -305,7 +307,31 @@ class ConfirmationPage extends StatelessWidget {
                   //   ),
                   // ),
                   SizedBox(height: 0.1.sh,),
-                  _NoProblemButton(width: 600.w, bookingInfo: bookingInfo, code: code),
+                  // _NoProblemButton(width: 600.w, bookingInfo: bookingInfo, code: code),
+                  CommonButton(
+                    width: 600.w,
+                    height: 100.h,
+                    btnText: 'NO PROBLEM',
+                    btnBgColor: Color(0xff13EFEF),
+                    textColor: Colors.black,
+                    onPress: () async {
+                      EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+                      try {
+                        print("bookingInfo.bookingTime ${bookingInfo.bookingTime}");
+                        print("bookingInfo.bookingDate ${bookingInfo.bookingDate}");
+                        final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime, bookingInfo.bookingDate);
+                        EasyLoading.dismiss(animation: false);
+                        await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfo, "customer": bookingInfo.customer, "code": code});
+                        // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
+                        logic.codeController.clear();
+                      } on DioException catch (e) {
+                        EasyLoading.dismiss();
+                        if (e.response == null) EasyLoading.showError("Network Error!");
+                        EasyLoading.showError(e.response?.data["error"]["message"]);
+                      }
+                    },
+                    changedBgColor: Color(0xffA4EDF1),
+                  ),
                   SizedBox(height: 30.0,),
                   _BackButton(),
                 ],

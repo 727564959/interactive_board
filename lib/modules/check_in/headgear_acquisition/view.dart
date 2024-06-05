@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import '../../../../app_routes.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
+import '../../../widgets/common_button.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../data/user_info.dart';
@@ -30,19 +31,19 @@ class HeadgearAcquisitionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-      children: [
-        GetBuilder<HeadgearAcquisitionLogic>(
-            id: "headgearAcquisitionPage",
-            builder: (logic) {
-              // return _TreasureChestWidget(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId);
-              return _TreasureChestWidget(
-                showInfo: logic.showInfo,
-                customer: logic.customer,
-                headgearObj: logic.headgearObj,
-                userId: logic.userId,
-              );
-            }),
-      ],
+          children: [
+            GetBuilder<HeadgearAcquisitionLogic>(
+                id: "headgearAcquisitionPage",
+                builder: (logic) {
+                  // return _TreasureChestWidget(showInfo: showInfo, customer: customer, headgearObj: headgearObj, userId: userId);
+                  return _TreasureChestWidget(
+                    showInfo: logic.showInfo,
+                    customer: logic.customer,
+                    headgearObj: logic.headgearObj,
+                    userId: logic.userId,
+                  );
+                }),
+          ],
     ));
   }
 }
@@ -130,21 +131,29 @@ class _CardFlipState extends State<_CardFlip> {
             children: [
               Container(
                 child: Text(
-                  "Welcome Package",
+                  // "Welcome Package",
+                  "Hi," + logic.playerName,
                   style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(top: 10.0),
                 child: Text(
-                  !logic.isClickCard
-                      ? "Gear Up for Glory! Choose Your Winning Headgear."
-                      : ("Hi," + logic.playerName + ", Choose Your Winning Headgear."),
+                  "Gear Up for Glory! Choose Your Winning Headgear.",
                   style: CustomTextStyles.textSmall(
                     color: Color(0xFFFFFFFF),
                     fontSize: 26.sp,
                   ),
                 ),
+                // child: Text(
+                //   !logic.isClickCard
+                //       ? "Gear Up for Glory! Choose Your Winning Headgear."
+                //       : ("Hi," + logic.playerName + ", Choose Your Winning Headgear."),
+                //   style: CustomTextStyles.textSmall(
+                //     color: Color(0xFFFFFFFF),
+                //     fontSize: 26.sp,
+                //   ),
+                // ),
               ),
             ],
           ),
@@ -193,7 +202,37 @@ class _CardFlipState extends State<_CardFlip> {
         SizedBox(
           height: 50,
         ),
-        if (logic.isClickCard) _NextButton(width: 600.w),
+        // if (logic.isClickCard) _NextButton(width: 600.w),
+        if (logic.isClickCard) CommonButton(
+                                  width: 600.w,
+                                  height: 100.h,
+                                  btnText: 'NEXT',
+                                  btnBgColor: Color(0xff13EFEF),
+                                  textColor: Colors.black,
+                                  onPress: () async {
+                                    if (logic.clickSelectId != null && logic.isClickCard) {
+                                      try {
+                                        EasyLoading.dismiss(animation: false);
+                                        UserInfo userData = await logic.getCurrentUser(showInfo.showId, tableId, userId);
+                                        Get.offAll(() => NewPlayerPage(), arguments: {
+                                          "userId": userId,
+                                          "headgearId": logic.clickSelectId,
+                                          "showInfo": showInfo,
+                                          "customer": customer,
+                                          "isAddPlayerClick": isAddPlayerClick,
+                                          "tableId": tableId,
+                                          "userData": userData,
+                                        });
+                                      } on DioException catch (e) {
+                                        EasyLoading.dismiss();
+                                        if (e.response == null) EasyLoading.showError("Network Error!");
+                                        EasyLoading.showError(e.response?.data["error"]["message"]);
+                                      }
+                                    }
+                                  },
+                                  disable: logic.clickSelectId != null && logic.isClickCard,
+                                  changedBgColor: Color(0xffA4EDF1),
+                                ),
       ],
     );
   }

@@ -91,6 +91,7 @@ class GroupIconSetLogic extends GetxController {
       teamInfo = await fetchSelectableTeamInfo();
       print("当前队伍能选择的队伍icon: ${teamInfo}");
       teamName = teamInfo[0].name;
+      teamInfoIndex = 0;
     } catch (e) {
       print("查询队伍icon报错 $e");
     }

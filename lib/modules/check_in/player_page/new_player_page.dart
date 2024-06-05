@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
+import '../../../widgets/common_button.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../data/skin_gender_option.dart';
@@ -17,6 +18,11 @@ class NewPlayerPage extends StatelessWidget {
   NewPlayerPage({Key? key}) : super(key: key);
   final logic = Get.put(PlayerShowLogic());
   int get tableId => Get.arguments["tableId"];
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  Customer get customer => Get.arguments["customer"];
+  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
+  int get userId => Get.arguments["userId"];
+  int get headgearId => Get.arguments["headgearId"];
 
   Color get color {
     if (tableId == 1) {
@@ -97,7 +103,39 @@ class NewPlayerPage extends StatelessWidget {
                     ),
                     _SelectedArea(),
                     SizedBox(height: 50,),
-                    _SaveButton(width: 600.w),
+                    // _SaveButton(width: 600.w),
+                    CommonButton(
+                      width: 600.w,
+                      height: 100.h,
+                      btnText: 'SAVE',
+                      btnBgColor: Color(0xff13EFEF),
+                      textColor: Colors.black,
+                      onPress: () async {
+                        if(logic.selectedGender.label != null && logic.selectedSkin.label != null) {
+                          try {
+                            final player = await logic.fetchUserAvatar(userId);
+                            logic.updateUserPreference(player.id, player.nickname, headgearId, logic.selectedGender.label??"", logic.selectedSkin.label??"");
+                            logic.testFun();
+                            EasyLoading.dismiss(animation: false);
+                            Get.to(() => PlayerSquadPage(),
+                                arguments: {
+                                  "showInfo": showInfo,
+                                  "customer": customer,
+                                  "isAddPlayerClick": isAddPlayerClick,
+                                  "tableId": tableId,
+                                });
+                          } on DioException catch (e) {
+                            EasyLoading.dismiss();
+                            if (e.response == null) EasyLoading.showError("Network Error!");
+                            EasyLoading.showError(e.response?.data["error"]["message"]);
+                          }
+                        }
+                        else {
+                          EasyLoading.showError("Please fill in the information !");
+                        }
+                      },
+                      changedBgColor: Color(0xffA4EDF1),
+                    ),
                   ],
                 ),
               );
@@ -348,7 +386,6 @@ class _SaveButton extends StatelessWidget {
       // 点击事件
       onTap: () async {
         if(logic.selectedGender.label != null && logic.selectedSkin.label != null) {
-
           try {
             final player = await logic.fetchUserAvatar(userId);
             logic.updateUserPreference(player.id, player.nickname, headgearId, logic.selectedGender.label??"", logic.selectedSkin.label??"");

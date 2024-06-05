@@ -119,6 +119,7 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
   Customer get customer => Get.arguments["customer"];
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
   int get tableId => Get.arguments["tableId"];
+  bool isChangeBgColor = false;
 
   @override
   void initState() {
@@ -164,7 +165,10 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
-      onTap: () async {
+      onTapUp: (details) async {
+        setState(() {
+          isChangeBgColor = false;
+        });
         // 用户查重
         Map checkingUser = await logic.checkingPlayer(logic.emailController.text);
         print("查重返回 ${checkingUser.isEmpty}");
@@ -259,9 +263,14 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
           showCustomToast();
         }
       },
+      onTapDown: (details) {
+        setState(() {
+          isChangeBgColor = true;
+        });
+      },
       child: Container(
         decoration: BoxDecoration(
-          color: Color(0xff13EFEF),
+          color: isChangeBgColor ? Color(0xffA4EDF1) : Color(0xff13EFEF),
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
         margin: EdgeInsets.only(top: 50.0, left: 0.0, bottom: 30.0),

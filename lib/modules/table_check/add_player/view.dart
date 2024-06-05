@@ -8,6 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../../../common.dart';
 import '../../../data/model/show_state.dart';
 import '../../../mirra_style.dart';
+import '../../../widgets/common_button.dart';
 import '../../check_in/add_player/player_info_text_field.dart';
 import '../data/avatar_info.dart';
 import '../headgear/view.dart';
@@ -189,9 +190,12 @@ class _PlayerInfoForm extends StatelessWidget {
 
 // 底部的功能按钮区域
 class _BottomBtns extends StatelessWidget  {
-  const _BottomBtns({
+  _BottomBtns({
     Key? key,
   }) : super(key: key);
+  final logic = Get.put(AddPlayerDataLogic());
+  ShowState get showState => Get.arguments["showState"];
+  final testTabId = Global.tableId;
 
   @override
   Widget build(BuildContext context) {
@@ -203,25 +207,53 @@ class _BottomBtns extends StatelessWidget  {
         children: [
           Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 0.0, left: 0.0),
-                    child: Row(
-                      children: [
-                        _BackButton(width: 600.w),
-                        SizedBox(width: 10,),
-                        _NextButton(width: 600.w),
-                      ],
-                    ),
-                  ),
-                ],
+              Container(
+                margin: EdgeInsets.only(top: 30.0, right: 30.0),
+                child: CommonButton(
+                  width: 600.w,
+                  height: 100.h,
+                  btnText: 'NEXT',
+                  btnBgColor: Color(0xff13EFEF),
+                  textColor: Colors.black,
+                  onPress: () async {
+                    logic.formKey.currentState!.validate();
+                    if (logic.firstNameController.text.isNotEmpty &&
+                        logic.lastNameController.text.isNotEmpty &&
+                        logic.emailController.text.isNotEmpty &&
+                        logic.phoneController.text.isNotEmpty) {
+                      Get.to(() => BirthdayPage(), arguments: {'showState': showState,},);
+                    }
+                  },
+                  disable: logic.firstNameController.text.isNotEmpty ||
+                      logic.lastNameController.text.isNotEmpty ||
+                      logic.emailController.text.isNotEmpty ||
+                      logic.phoneController.text.isNotEmpty,
+                  changedBgColor: Color(0xffA4EDF1),
+                ),
               ),
               Container(
                 margin: EdgeInsets.only(top: 30.0, right: 30.0),
-                child: _MaybeLatterButton(),
+                child: _BackButton(),
               ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       margin: EdgeInsets.only(top: 0.0, left: 0.0),
+              //       child: Row(
+              //         children: [
+              //           _BackButton(width: 600.w),
+              //           SizedBox(width: 10,),
+              //           _NextButton(width: 600.w),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Container(
+              //   margin: EdgeInsets.only(top: 30.0, right: 30.0),
+              //   child: _MaybeLatterButton(),
+              // ),
             ],
           )
         ],
@@ -275,41 +307,41 @@ class _NextButton extends StatelessWidget {
   }
 }
 
-class _BackButton extends StatelessWidget {
-  _BackButton({
-    Key? key,
-    required this.width,
-  }) : super(key: key);
-  final double width;
-  final logic = Get.find<AddPlayerDataLogic>();
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        Get.back();
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          //设置边框
-          border: new Border.all(color: Color(0xff13EFEF), width: 1),
-          color: Color(0xFF233342),
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-        ),
-        margin: EdgeInsets.only(top: 0.0, left: 30.0),
-        constraints: BoxConstraints.tightFor(width: width, height: 100.h), //卡片大小
-        child: Center(
-          child: Text(
-            "BACK",
-            textAlign: TextAlign.center,
-            style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
-          ),
-        ),
-      ),
-    );
-  }
-}
+// class _BackButton extends StatelessWidget {
+//   _BackButton({
+//     Key? key,
+//     required this.width,
+//   }) : super(key: key);
+//   final double width;
+//   final logic = Get.find<AddPlayerDataLogic>();
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       // 点击事件
+//       onTap: () async {
+//         Get.back();
+//       },
+//       child: Container(
+//         decoration: BoxDecoration(
+//           //设置边框
+//           border: new Border.all(color: Color(0xff13EFEF), width: 1),
+//           color: Color(0xFF233342),
+//           borderRadius: BorderRadius.all(Radius.circular(50)),
+//         ),
+//         margin: EdgeInsets.only(top: 0.0, left: 30.0),
+//         constraints: BoxConstraints.tightFor(width: width, height: 100.h), //卡片大小
+//         child: Center(
+//           child: Text(
+//             "BACK",
+//             textAlign: TextAlign.center,
+//             style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _MaybeLatterButton extends StatelessWidget {
   _MaybeLatterButton({
@@ -350,6 +382,26 @@ class _MaybeLatterButton extends StatelessWidget {
       child: Text(
         "MAYBE LATTER",
         style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
+      ),
+    );
+  }
+}
+
+class _BackButton extends StatelessWidget {
+  _BackButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      // 点击事件
+      onTap: () async {
+        Get.back();
+      },
+      child: Text(
+        "BACK",
+        style: CustomTextStyles.button(color: Color(0xFF13EFEF), fontSize: 28.sp),
       ),
     );
   }

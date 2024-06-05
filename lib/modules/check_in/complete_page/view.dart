@@ -216,19 +216,30 @@ class CompletePage extends StatelessWidget {
   }
 }
 
-class _BackButton extends StatelessWidget {
+class _BackButton extends StatefulWidget {
   _BackButton({
     Key? key,
     required this.width,
   }) : super(key: key);
   final double width;
+
+  @override
+  _BackButtonState createState() => _BackButtonState();
+}
+
+class _BackButtonState extends State<_BackButton> {
+  double get width => widget.width;
   int get tableId => Get.arguments["tableId"];
+  bool isChangeBgColor = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
-      onTap: () async {
+      onTapUp: (details) async {
+        setState(() {
+          isChangeBgColor = false;
+        });
         // await Get.searchDelegate(null).toNamedAndOffUntil(
         //   AppRoutes.landingPage,
         //       (p0) {
@@ -240,10 +251,15 @@ class _BackButton extends StatelessWidget {
           arguments: {"tableId": tableId},
         );
       },
+      onTapDown: (details) {
+        setState(() {
+          isChangeBgColor = true;
+        });
+      },
       child: Container(
         decoration: BoxDecoration(
           //设置边框
-          border: new Border.all(color: Color(0xff13EFEF), width: 1),
+          border: isChangeBgColor ? new Border.all(color: Color(0xffA4EDF1), width: 1) : new Border.all(color: Color(0xff13EFEF), width: 1),
           color: Color(0xFF233342),
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),

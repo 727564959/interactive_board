@@ -13,6 +13,7 @@ import '../../../../app_routes.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../data/model/show_state.dart';
+import '../../../widgets/common_button.dart';
 import '../../check_in/headgear_acquisition/flip_card.dart';
 import '../data/user_info.dart';
 import '../player_show/new_player_page.dart';
@@ -121,20 +122,28 @@ class _CardFlipState extends State<_CardFlip> {
             children: [
               Container(
                 child: Text(
-                  "Welcome Package",
+                  // "Welcome Package",
+                  "Hi," + logic.playerName,
                   style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(top: 10.0),
                 child: Text(
-                  !logic.isClickCard
-                      ? "Gear Up for Glory! Choose Your Winning Headgear."
-                      : ("Hi," + logic.playerName + ", Choose Your Winning Headgear."),
+                  "Gear Up for Glory! Choose Your Winning Headgear.",
                   style: CustomTextStyles.textSmall(
                     color: Color(0xFFFFFFFF),
-                    fontSize: 26.sp,),
+                    fontSize: 26.sp,
+                  ),
                 ),
+                // child: Text(
+                //   !logic.isClickCard
+                //       ? "Gear Up for Glory! Choose Your Winning Headgear."
+                //       : ("Hi," + logic.playerName + ", Choose Your Winning Headgear."),
+                //   style: CustomTextStyles.textSmall(
+                //     color: Color(0xFFFFFFFF),
+                //     fontSize: 26.sp,),
+                // ),
               ),
             ],
           ),
@@ -171,7 +180,34 @@ class _CardFlipState extends State<_CardFlip> {
           ),
         ),
         SizedBox(height: 50,),
-        if(logic.isClickCard) _NextButton(width: 600.w),
+        // if(logic.isClickCard) _NextButton(width: 600.w),
+        if (logic.isClickCard) CommonButton(
+          width: 600.w,
+          height: 100.h,
+          btnText: 'NEXT',
+          btnBgColor: Color(0xff13EFEF),
+          textColor: Colors.black,
+          onPress: () async {
+            if(logic.clickSelectId != null && logic.isClickCard) {
+              try {
+                EasyLoading.dismiss(animation: false);
+                UserInfo userData = await logic.getCurrentUser(showState.showId, Global.tableId, userId);
+                Get.offAll(() => NewPlayerInfoPage(),
+                    arguments: {
+                      "userId": userId,
+                      "headgearId": logic.clickSelectId,
+                      "showState": showState,
+                      "userData": userData,});
+              } on DioException catch (e) {
+                EasyLoading.dismiss();
+                if (e.response == null) EasyLoading.showError("Network Error!");
+                EasyLoading.showError(e.response?.data["error"]["message"]);
+              }
+            }
+          },
+          disable: logic.clickSelectId != null && logic.isClickCard,
+          changedBgColor: Color(0xffA4EDF1),
+        ),
       ],
     );
   }

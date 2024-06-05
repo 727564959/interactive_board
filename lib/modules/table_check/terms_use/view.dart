@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../../../common.dart';
 import '../../../data/model/show_state.dart';
 import '../../../mirra_style.dart';
+import '../../../widgets/common_button.dart';
 import '../../../widgets/term_of_use.dart';
 import '../add_player/view.dart';
 
@@ -14,6 +15,7 @@ class TermsOfUseInfo extends StatelessWidget {
   const TermsOfUseInfo({
     Key? key,
   }) : super(key: key);
+  ShowState get showState => Get.arguments["showState"];
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +134,20 @@ class TermsOfUseInfo extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 40),
-                  _AgreeButton(width: 600.w),
+                  // _AgreeButton(width: 600.w),
+                  CommonButton(
+                    width: 600.w,
+                    height: 100.h,
+                    btnText: 'AGREE',
+                    btnBgColor: Color(0xff13EFEF),
+                    textColor: Colors.black,
+                    onPress: () async {
+                      print("接受了协议");
+                      await Get.to(() => AddPlayerDataPage(),
+                          arguments: {"showState": showState,});
+                    },
+                    changedBgColor: Color(0xffA4EDF1),
+                  ),
                   SizedBox(height: 20),
                   _BackButton(),
                 ],

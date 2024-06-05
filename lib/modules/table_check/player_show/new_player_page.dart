@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../data/model/show_state.dart';
+import '../../../widgets/common_button.dart';
 import '../data/skin_gender_option.dart';
 import '../data/user_info.dart';
 import 'logic.dart';
@@ -30,6 +31,9 @@ class NewPlayerInfoPage extends StatelessWidget {
       return const Color(0xFF9ED7F7);
     }
   }
+  ShowState get showState => Get.arguments["showState"];
+  int get userId => Get.arguments["userId"];
+  int get headgearId => Get.arguments["headgearId"];
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +80,36 @@ class NewPlayerInfoPage extends StatelessWidget {
                     ),
                     _SelectedArea(),
                     SizedBox(height: 50,),
-                    _SaveButton(width: 600.w),
+                    // _SaveButton(width: 600.w),
+                    CommonButton(
+                      width: 600.w,
+                      height: 100.h,
+                      btnText: 'SAVE',
+                      btnBgColor: Color(0xff13EFEF),
+                      textColor: Colors.black,
+                      onPress: () async {
+                        if(logic.selectedGender.label != null && logic.selectedSkin.label != null) {
+                          try {
+                            final player = await logic.fetchUserAvatar(userId);
+                            logic.updateUserPreference(player.id, player.nickname, headgearId, logic.selectedGender.label??"", logic.selectedSkin.label??"");
+                            logic.refreshFun();
+                            EasyLoading.dismiss(animation: false);
+                            Get.offAll(() => PlayerShowPage(),
+                                arguments: {
+                                  'showState': showState,
+                                });
+                          } on DioException catch (e) {
+                            EasyLoading.dismiss();
+                            if (e.response == null) EasyLoading.showError("Network Error!");
+                            EasyLoading.showError(e.response?.data["error"]["message"]);
+                          }
+                        }
+                        else {
+                          EasyLoading.showError("Please fill in the information !");
+                        }
+                      },
+                      changedBgColor: Color(0xffA4EDF1),
+                    ),
                   ],
                 ),
               );

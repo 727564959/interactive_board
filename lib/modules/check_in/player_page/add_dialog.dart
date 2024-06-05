@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../mirra_style.dart';
+import '../../../widgets/common_button.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../terms_page/view.dart';
@@ -59,6 +60,10 @@ class _BottomBtns extends StatelessWidget {
   const _BottomBtns({
     Key? key,
   }) : super(key: key);
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  Customer get customer => Get.arguments["customer"];
+  int get tableId => Get.arguments["tableId"];
+
   @override
   Widget build(BuildContext context) {
     final content = Container(
@@ -74,9 +79,39 @@ class _BottomBtns extends StatelessWidget {
                 margin: EdgeInsets.only(top: 0.0, left: 0.0),
                 child: Row(
                   children: [
-                    _NoThatAllBtn(width: 340.w),
+                    // _NoThatAllBtn(width: 340.w),
+                    CommonButton(
+                      width: 340.w,
+                      height: 70.h,
+                      btnText: "NO, THAT'S ALL",
+                      btnBgColor: Color(0xFF272727),
+                      textColor: Color(0xff13EFEF),
+                      onPress: () async {
+                        Get.back();
+                      },
+                      borderColor: Color(0xff13EFEF),
+                      changedBorderColor: Color(0xffA4EDF1),
+                      changedTextColor: Color(0xffA4EDF1),
+                    ),
                     SizedBox(width: 10,),
-                    _AddNowBtn(width: 340.w),
+                    // _AddNowBtn(width: 340.w),
+                    CommonButton(
+                      width: 340.w,
+                      height: 70.h,
+                      btnText: 'ADD NOW',
+                      btnBgColor: Color(0xff13EFEF),
+                      textColor: Colors.black,
+                      onPress: () async {
+                        await Get.to(() => TermsOfUsePage(),
+                            arguments: {
+                              "isAddPlayerClick": true,
+                              "showInfo": showInfo,
+                              "customer": customer,
+                              "tableId": tableId,
+                            });
+                      },
+                      changedBgColor: Color(0xffA4EDF1),
+                    ),
                   ],
                 ),
               ),

@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../data/model/show_state.dart';
+import '../../../widgets/common_button.dart';
 import '../player_show/view.dart';
 import 'group_set.dart';
 
@@ -17,6 +18,7 @@ class ConfirmationInfo extends StatelessWidget {
   ConfirmationInfo({Key? key}) : super(key: key);
   Map get singlePlayer => Get.arguments["singlePlayer"];
   DateTime get startTime => (Get.arguments["showState"].details as ShowPreparingDetails).startTime;
+  ShowState get showState => Get.arguments["showState"];
 
   @override
   Widget build(BuildContext context) {
@@ -293,7 +295,31 @@ class ConfirmationInfo extends StatelessWidget {
                   //   ),
                   // ),
                   SizedBox(height: 0.1.sh,),
-                  _NoProblemButton(width: 600.w),
+                  // _NoProblemButton(width: 600.w),
+                  CommonButton(
+                    width: 600.w,
+                    height: 100.h,
+                    btnText: 'NO PROBLEM',
+                    btnBgColor: Color(0xff13EFEF),
+                    textColor: Colors.black,
+                    onPress: () async {
+                      EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+                      try {
+                        EasyLoading.dismiss(animation: false);
+                        // 直接去玩家展示
+                        Get.offAll(() => PlayerShowPage(),
+                            arguments: {
+                              'showState': showState,
+                            });
+                        WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
+                      } on DioException catch (e) {
+                        EasyLoading.dismiss();
+                        if (e.response == null) EasyLoading.showError("Network Error!");
+                        EasyLoading.showError(e.response?.data["error"]["message"]);
+                      }
+                    },
+                    changedBgColor: Color(0xffA4EDF1),
+                  ),
                   // SizedBox(height: 30.0,),
                   // _BackButton(),
                 ],
