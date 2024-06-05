@@ -17,92 +17,97 @@ class GameShowEndPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(
-          children: [
-            Container(
-              width: 1.0.sw,
-              height: 1.0.sh,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Column(
-                children: [
-                  // 顶部文本信息
-                  CheckInTitlePage(titleText: logic.gameName),
-                  SizedBox(height: 50,),
-                  SizedBox(
-                    width: 1.0.sw,
-                    height: 1.0.sh - 150,
-                    child: Container(
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center, // 设置水平居中
-                        children: [
-                          // Align(
-                          //   alignment: Alignment.center,
-                          //   child: Text(
-                          //     'Congratulations!',
-                          //     style: CustomTextStyles.display(color: Colors.white, fontSize: 80.sp, level: 4),
-                          //   ),
-                          // ),
-                          // Align(
-                          //   alignment: Alignment.center,
-                          //   child: Text(
-                          //     'You have finished Mirra Journey.',
-                          //     style: CustomTextStyles.display(color: Colors.white, fontSize: 80.sp, level: 4),
-                          //   ),
-                          // ),
-                          FloatingTextAnimation(),
-                          Container(
-                            width: 1.0.sw - 40.0,
-                            height: 1.0.sh - 320.0,
-                            margin: EdgeInsets.only(left: 40.0),
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  FloatingPlayerAnimation(),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // Container(
-                          //   child: Row(
-                          //     mainAxisSize: MainAxisSize.min,
-                          //     children: [
-                          //       // Transform.translate(
-                          //       //   offset: const Offset(0, -30),
-                          //       //   child: PlayerTargetCard(position: position1),
-                          //       // ),
-                          //       // PlayerTargetCard(position: position2, delay: 400.ms),
-                          //     ],
-                          //   ),
-                          // ),
-                        ],
-                      ),
+    return GetBuilder<GameShowEndLogic>(
+      id: "gameShowEndPage",
+      builder: (logic) {
+        return Scaffold(
+            body: Stack(
+              children: [
+                Container(
+                  width: 1.0.sw,
+                  height: 1.0.sh,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ],
-              ),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              top: 60.0,
-              child: SizedBox(
-                height: 0.55.sh,
-                child: Image.asset(
-                  MirraIcons.getGifPath('show_end_fireworks.gif'),
-                  fit: BoxFit.fitHeight,
+                  child: Column(
+                    children: [
+                      // 顶部文本信息
+                      CheckInTitlePage(titleText: logic.gameName),
+                      SizedBox(height: 50,),
+                      SizedBox(
+                        width: 1.0.sw,
+                        height: 1.0.sh - 150,
+                        child: Container(
+                          child: Column(
+                            // mainAxisAlignment: MainAxisAlignment.center, // 设置水平居中
+                            children: [
+                              // Align(
+                              //   alignment: Alignment.center,
+                              //   child: Text(
+                              //     'Congratulations!',
+                              //     style: CustomTextStyles.display(color: Colors.white, fontSize: 80.sp, level: 4),
+                              //   ),
+                              // ),
+                              // Align(
+                              //   alignment: Alignment.center,
+                              //   child: Text(
+                              //     'You have finished Mirra Journey.',
+                              //     style: CustomTextStyles.display(color: Colors.white, fontSize: 80.sp, level: 4),
+                              //   ),
+                              // ),
+                              FloatingTextAnimation(),
+                              Container(
+                                width: 1.0.sw - 40.0,
+                                height: 1.0.sh - 320.0,
+                                margin: EdgeInsets.only(left: 40.0),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      FloatingPlayerAnimation(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              // Container(
+                              //   child: Row(
+                              //     mainAxisSize: MainAxisSize.min,
+                              //     children: [
+                              //       // Transform.translate(
+                              //       //   offset: const Offset(0, -30),
+                              //       //   child: PlayerTargetCard(position: position1),
+                              //       // ),
+                              //       // PlayerTargetCard(position: position2, delay: 400.ms),
+                              //     ],
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ));
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 60.0,
+                  child: SizedBox(
+                    height: 0.55.sh,
+                    child: Image.asset(
+                      MirraIcons.getGifPath('show_end_fireworks.gif'),
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                ),
+              ],
+            ));
+      },
+    );
   }
 }
 

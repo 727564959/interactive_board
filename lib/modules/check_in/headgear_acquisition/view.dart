@@ -230,7 +230,7 @@ class _CardFlipState extends State<_CardFlip> {
                                       }
                                     }
                                   },
-                                  disable: logic.clickSelectId != null && logic.isClickCard,
+                                  disable: logic.clickSelectId != null ? false : true,
                                   changedBgColor: Color(0xffA4EDF1),
                                 ),
       ],

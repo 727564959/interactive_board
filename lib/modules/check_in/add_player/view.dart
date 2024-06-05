@@ -233,10 +233,10 @@ class _BottomBtns extends StatelessWidget {
                       );
                     }
                   },
-                  disable: logic.firstNameController.text.isNotEmpty ||
-                      logic.lastNameController.text.isNotEmpty ||
-                      logic.emailController.text.isNotEmpty ||
-                      logic.phoneController.text.isNotEmpty,
+                  disable: !logic.firstNameController.text.isNotEmpty ||
+                      !logic.lastNameController.text.isNotEmpty ||
+                      !logic.emailController.text.isNotEmpty ||
+                      !logic.phoneController.text.isNotEmpty,
                   changedBgColor: Color(0xffA4EDF1),
                 ),
               ),

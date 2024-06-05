@@ -16,6 +16,7 @@ class HeadgearAcquisitionLogic extends GetxController {
   late int userId;
   int? clickSelectId;
   bool isClickCard = false;
+  late UserInfo userData;
   String playerName = "";
 
   Future<List<UserInfo>> fetchUsers(int showId, int tableId) async {
@@ -38,7 +39,7 @@ class HeadgearAcquisitionLogic extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     // TODO: implement onInit
     super.onInit();
     print("是否初始化进入");
@@ -49,11 +50,14 @@ class HeadgearAcquisitionLogic extends GetxController {
     headgearObj = argumentsMap['headgearObj'];
     userId = argumentsMap['userId'];
 
+    userData = await getCurrentUser(showInfo.showId, Get.arguments["tableId"], userId);
+    playerName = userData.nickname;
+    update(["headgearPage"]);
     Future.delayed(2.5.seconds).then((value) async {
       print("延迟");
       isClickCard = true;
-      UserInfo userData = await getCurrentUser(showInfo.showId, Get.arguments["tableId"], userId);
-      playerName = userData.nickname;
+      // UserInfo userData = await getCurrentUser(showInfo.showId, Get.arguments["tableId"], userId);
+      // playerName = userData.nickname;
       update(["headgearAcquisitionPage"]);
     });
     update();

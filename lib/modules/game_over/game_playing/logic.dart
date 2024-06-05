@@ -1,65 +1,69 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
+import '../../../app_routes.dart';
 import '../../../common.dart';
 import '../../../data/model/show_state.dart';
 import '../data/user_info.dart';
 
 class GamePlayingLogic extends GetxController {
   final _dio = Dio();
+  late final Socket gameServerSocket;
+  final option = OptionBuilder().setTransports(['websocket']).enableReconnection().disableAutoConnect().build();
 
-  bool isWellDone = false;
-  // ShowState get showState => Get.arguments;
-  String jsonString = ''' 
-        {
-    "showId": 35,
-    "status": "choose_player",
-    "details": {
-        "showId": 35,
-        "startDate": "2024-05-17",
-        "startTime": "00:45:00",
-        "roundId": 120,
-        "roundNumber": 1,
-        "totalRound": 1,
-        "mode": "normal",
-        "game": "Jackpot In Pairs",
-        "customers": [],
-        "teams": [
-            {
-                "name": "RABBIT",
-                "teamId": 3,
-                "iconPath": "/uploads/RABBIT_84f4ce33a2.png",
-                "noBorderIconPath": "/uploads/RABBIT_a643234a19.png"
-            },
-            {
-                "name": "OCTOPUS",
-                "teamId": 4,
-                "iconPath": "/uploads/OCTOPUS_4b4cce8c91.png",
-                "noBorderIconPath": "/uploads/OCTOPUS_3c2d3fe5f6.png"
-            },
-            {
-                "name": "PANTHER",
-                "teamId": 2,
-                "iconPath": "/uploads/PANTHER_ee552a9eda.png",
-                "noBorderIconPath": "/uploads/PANTHER_a51915c9a9.png"
-            },
-            {
-                "name": "FOX",
-                "teamId": 1,
-                "iconPath": "/uploads/FOX_4697eff882.png",
-                "noBorderIconPath": "/uploads/FOX_a54ae92df1.png"
-            }
-        ]
-    }
-}
-   ''';
+  bool isWellDone = Get.arguments['isWellDone'];
+  ShowState get showState => Get.arguments['showState'];
+//   String jsonString = '''
+//         {
+//     "showId": 35,
+//     "status": "choose_player",
+//     "details": {
+//         "showId": 35,
+//         "startDate": "2024-05-17",
+//         "startTime": "00:45:00",
+//         "roundId": 120,
+//         "roundNumber": 1,
+//         "totalRound": 1,
+//         "mode": "normal",
+//         "game": "Jackpot In Pairs",
+//         "customers": [],
+//         "teams": [
+//             {
+//                 "name": "RABBIT",
+//                 "teamId": 3,
+//                 "iconPath": "/uploads/RABBIT_84f4ce33a2.png",
+//                 "noBorderIconPath": "/uploads/RABBIT_a643234a19.png"
+//             },
+//             {
+//                 "name": "OCTOPUS",
+//                 "teamId": 4,
+//                 "iconPath": "/uploads/OCTOPUS_4b4cce8c91.png",
+//                 "noBorderIconPath": "/uploads/OCTOPUS_3c2d3fe5f6.png"
+//             },
+//             {
+//                 "name": "PANTHER",
+//                 "teamId": 2,
+//                 "iconPath": "/uploads/PANTHER_ee552a9eda.png",
+//                 "noBorderIconPath": "/uploads/PANTHER_a51915c9a9.png"
+//             },
+//             {
+//                 "name": "FOX",
+//                 "teamId": 1,
+//                 "iconPath": "/uploads/FOX_4697eff882.png",
+//                 "noBorderIconPath": "/uploads/FOX_a54ae92df1.png"
+//             }
+//         ]
+//     }
+// }
+//    ''';
 
-  // // 游戏名称
-  // String get gameName => (showState.details as GamingDetails).game;
-  String gameName = "";
+  // 游戏名称
+  String get gameName => (showState.details as GamingDetails).game;
 
   List<UserInfo> userList = [];
   List<PositionInfo> positionList = [];
@@ -102,14 +106,31 @@ class GamePlayingLogic extends GetxController {
 
   @override
   void onInit() async {
-    Map<String, dynamic> jsonData = json.decode(jsonString);
-    ShowState showState = ShowState.fromJson(jsonData);
-    // 游戏名称
-    gameName = (showState.details as GamingDetails).game;
+    super.onInit();
+
+    print("baseSocketIoUrl $baseSocketIoUrl");
+    gameServerSocket = io('$baseSocketIoUrl/listener/game-server', option);
+    print("Socket connected: ${gameServerSocket.connected}");
+    // 游戏结束监听
+    gameServerSocket.on('game_over', (data) {
+      print("game_over的socket");
+      // Get.offAllNamed(AppRoutes.gamePlayingPage, arguments: {"showState": Get.arguments['showState'], "isWellDone": true});
+      Get.arguments['isWellDone'] = true;
+      isWellDone = Get.arguments['isWellDone'];
+      update(["gamePlayingPage"]);
+    });
+    gameServerSocket.connect();
+    print("Socket connected: ${gameServerSocket.connected}");
+
     print("gameName ${gameName}");
-    Global.setTableId(1);
     positionList = await fetchPositions((showState.details as GamingDetails).roundId);
     print("positionList ${positionList}");
-    update();
+    update(["gamePlayingPage"]);
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    gameServerSocket.close();
   }
 }

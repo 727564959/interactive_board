@@ -208,7 +208,7 @@ class _BottomBtns extends StatelessWidget  {
           Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 30.0, right: 30.0),
+                // margin: EdgeInsets.only(top: 30.0, right: 30.0),
                 child: CommonButton(
                   width: 600.w,
                   height: 100.h,
@@ -224,15 +224,15 @@ class _BottomBtns extends StatelessWidget  {
                       Get.to(() => BirthdayPage(), arguments: {'showState': showState,},);
                     }
                   },
-                  disable: logic.firstNameController.text.isNotEmpty ||
-                      logic.lastNameController.text.isNotEmpty ||
-                      logic.emailController.text.isNotEmpty ||
-                      logic.phoneController.text.isNotEmpty,
+                  disable: !logic.firstNameController.text.isNotEmpty ||
+                      !logic.lastNameController.text.isNotEmpty ||
+                      !logic.emailController.text.isNotEmpty ||
+                      !logic.phoneController.text.isNotEmpty,
                   changedBgColor: Color(0xffA4EDF1),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 30.0, right: 30.0),
+                margin: EdgeInsets.only(top: 30.0),
                 child: _BackButton(),
               ),
               // Row(

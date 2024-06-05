@@ -10,228 +10,232 @@ import '../../../common.dart';
 import '../widgets/player_info_card.dart';
 import 'logic.dart';
 
-
 class GamePlayingPage extends StatelessWidget {
   GamePlayingPage({Key? key}) : super(key: key);
   final logic = Get.put(GamePlayingLogic());
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            width: 1.0.sw,
-            height: 1.0.sh,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Column(
+    return GetBuilder<GamePlayingLogic>(
+      id: "gamePlayingPage",
+      builder: (logic) {
+        return Scaffold(
+            body: Stack(
               children: [
-                // 顶部文本信息
-                CheckInTitlePage(titleText: logic.gameName),
-                const SizedBox(height: 100,),
-                SizedBox(
+                Container(
                   width: 1.0.sw,
-                  height: 1.0.sh - 200,
-                  // color: Colors.red,
+                  height: 1.0.sh,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center, // 设置水平居中
                     children: [
-                      if(!logic.isWellDone) Container(
-                        width: 1.0.sw - 612.w,
-                        height: 1.0.sh - 320.0,
-                        margin: EdgeInsets.only(left: (1.0.sw - 612.w) / 2),
-                        child: FloatingPlayerAnimation(),
-                      ),
-                      if(logic.isWellDone) FloatingTextAnimation(),
-                      if(logic.isWellDone) SizedBox(height: 30.0,),
-                      if(logic.isWellDone) Container(
-                        width: 0.5.sw,
-                        child: Stack(
+                      // 顶部文本信息
+                      CheckInTitlePage(titleText: logic.gameName),
+                      const SizedBox(height: 100,),
+                      SizedBox(
+                        width: 1.0.sw,
+                        height: 1.0.sh - 200,
+                        // color: Colors.red,
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.center, // 设置水平居中
                           children: [
-                            Positioned(
-                              // right: 0.5.sw / 2 + 261.w,
-                              // top: 0.42.sh,
-                              top: 20.0,
-                              right: 261.w,
-                              child: Image.asset(
-                                MirraIcons.getGifPath('High_Five.gif'),
-                                fit: BoxFit.fitHeight,
-                                height: (0.5.sw - 522.w),
-                              ),
+                            if(!logic.isWellDone) Container(
+                              width: 1.0.sw - 612.w,
+                              height: 1.0.sh - 320.0,
+                              margin: EdgeInsets.only(left: (1.0.sw - 612.w) / 2),
+                              child: FloatingPlayerAnimation(),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右对齐
-                              children: [
-                                PlayerInfoCard(
-                                  avatarUrl: logic.positionList[0].player.avatarUrl,
-                                  width: 306.w,
-                                  nickname: logic.positionList[0].player.nickname,
-                                  position: logic.positionList[0].position,
-                                ),
-                                PlayerInfoCard(
-                                  avatarUrl: logic.positionList[1].player.avatarUrl,
-                                  width: 306.w,
-                                  nickname: logic.positionList[1].player.nickname,
-                                  position: logic.positionList[1].position,
-                                ),
-                              ],
+                            if(logic.isWellDone) FloatingTextAnimation(),
+                            if(logic.isWellDone) SizedBox(height: 30.0,),
+                            if(logic.isWellDone) Container(
+                              width: 0.5.sw,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    // right: 0.5.sw / 2 + 261.w,
+                                    // top: 0.42.sh,
+                                    top: 20.0,
+                                    right: 261.w,
+                                    child: Image.asset(
+                                      MirraIcons.getGifPath('High_Five.gif'),
+                                      fit: BoxFit.fitHeight,
+                                      height: (0.5.sw - 522.w),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右对齐
+                                    children: [
+                                      PlayerInfoCard(
+                                        avatarUrl: logic.positionList[0].player.avatarUrl,
+                                        width: 306.w,
+                                        nickname: logic.positionList[0].player.nickname,
+                                        position: logic.positionList[0].position,
+                                      ),
+                                      PlayerInfoCard(
+                                        avatarUrl: logic.positionList[1].player.avatarUrl,
+                                        width: 306.w,
+                                        nickname: logic.positionList[1].player.nickname,
+                                        position: logic.positionList[1].position,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              // child: Row(
+                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右对齐
+                              //   children: [
+                              //     PlayerInfoCard(
+                              //       avatarUrl: logic.positionList[0].player.avatarUrl,
+                              //       width: 306.w,
+                              //       nickname: logic.positionList[0].player.nickname,
+                              //       position: logic.positionList[0].position,
+                              //     ),
+                              //     // Image.asset(
+                              //     //   MirraIcons.getGifPath('High_Five.gif'),
+                              //     //   fit: BoxFit.fitHeight,
+                              //     //   height: (0.5.sw - 612.w),
+                              //     // ),
+                              //     PlayerInfoCard(
+                              //       avatarUrl: logic.positionList[1].player.avatarUrl,
+                              //       width: 306.w,
+                              //       nickname: logic.positionList[1].player.nickname,
+                              //       position: logic.positionList[1].position,
+                              //     ),
+                              //   ],
+                              // ),
                             ),
                           ],
                         ),
-                        // child: Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右对齐
-                        //   children: [
-                        //     PlayerInfoCard(
-                        //       avatarUrl: logic.positionList[0].player.avatarUrl,
-                        //       width: 306.w,
-                        //       nickname: logic.positionList[0].player.nickname,
-                        //       position: logic.positionList[0].position,
-                        //     ),
-                        //     // Image.asset(
-                        //     //   MirraIcons.getGifPath('High_Five.gif'),
-                        //     //   fit: BoxFit.fitHeight,
-                        //     //   height: (0.5.sw - 612.w),
-                        //     // ),
-                        //     PlayerInfoCard(
-                        //       avatarUrl: logic.positionList[1].player.avatarUrl,
-                        //       width: 306.w,
-                        //       nickname: logic.positionList[1].player.nickname,
-                        //       position: logic.positionList[1].position,
-                        //     ),
-                        //   ],
-                        // ),
                       ),
                     ],
                   ),
                 ),
+                if(!logic.isWellDone) Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 30.0,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'On Live',
+                      style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                    ),
+                  ),
+                ),
+                if(!logic.isWellDone) Positioned(
+                  left: (1.0.sw - 612.w) / 2 - 0.15.sh,
+                  top: 120,
+                  child: FutureBuilder<void>(
+                    future: Future.delayed(Duration(milliseconds: 800)),
+                    builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
+                      } else {
+                        return Image.asset(
+                          MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
+                          fit: BoxFit.fitHeight,
+                          height: 0.15.sh,
+                        );
+                      }
+                    },
+                  ),
+                  // child: Image.asset(
+                  //   MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
+                  //   fit: BoxFit.fitHeight,
+                  //   height: 0.15.sh,
+                  // ),
+                ),
+                if(!logic.isWellDone) Positioned(
+                  right: (1.0.sw - 612.w) / 2 - 0.32.sh,
+                  top: 120,
+                  child: Image.asset(
+                    MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
+                    fit: BoxFit.fitHeight,
+                    height: 0.27.sh,
+                  ),
+                ),
+                if(!logic.isWellDone) Positioned(
+                  left: ((1.0.sw - 612.w) / 2) / 2 - 0.1.sh,
+                  bottom: 120,
+                  child: FutureBuilder<void>(
+                    future: Future.delayed(Duration(milliseconds: 1500)),
+                    builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
+                      } else {
+                        return Image.asset(
+                          MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
+                          fit: BoxFit.fitHeight,
+                          height: 0.21.sh,
+                        );
+                      }
+                    },
+                  ),
+                  // child: Image.asset(
+                  //   MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
+                  //   fit: BoxFit.fitHeight,
+                  //   height: 0.21.sh,
+                  // ),
+                ),
+                if(!logic.isWellDone) Positioned(
+                  right: (1.0.sw - 612.w) / 2 - 0.3.sh,
+                  bottom: 80,
+                  child: FutureBuilder<void>(
+                    future: Future.delayed(Duration(milliseconds: 1800)),
+                    builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
+                      } else {
+                        return Image.asset(
+                          MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
+                          fit: BoxFit.fitHeight,
+                          height: 0.21.sh,
+                        );
+                      }
+                    },
+                  ),
+                  // child: Image.asset(
+                  //   MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
+                  //   fit: BoxFit.fitHeight,
+                  //   height: 0.21.sh,
+                  // ),
+                ),
+                // well done的烟花动图
+                if(logic.isWellDone) Positioned(
+                  left: 0.5.sw / 2 - 0.32.sh,
+                  top: 80,
+                  child: Image.asset(
+                    MirraIcons.getGifPath('Firework_Pink_1.gif'),
+                    fit: BoxFit.fitHeight,
+                    height: 0.32.sh,
+                  ),
+                ),
+                if(logic.isWellDone) Positioned(
+                  left: 0.5.sw / 2 + 0.16.sh,
+                  top: 60,
+                  child: Image.asset(
+                    MirraIcons.getGifPath('Firework_Purple_3.gif'),
+                    fit: BoxFit.fitHeight,
+                    height: 0.16.sh,
+                  ),
+                ),
+                if(logic.isWellDone) Positioned(
+                  right: 0.5.sw / 2 - 0.25.sh,
+                  top: 210,
+                  child: Image.asset(
+                    MirraIcons.getGifPath('Firework_Yellow_2.gif'),
+                    fit: BoxFit.fitHeight,
+                    height: 0.25.sh,
+                  ),
+                ),
               ],
-            ),
-          ),
-          if(!logic.isWellDone) Positioned(
-            left: 0,
-            right: 0,
-            top: 30.0,
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(
-                'On Live',
-                style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
-              ),
-            ),
-          ),
-          if(!logic.isWellDone) Positioned(
-            left: (1.0.sw - 612.w) / 2 - 0.15.sh,
-            top: 120,
-            child: FutureBuilder<void>(
-              future: Future.delayed(Duration(milliseconds: 800)),
-              builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
-                } else {
-                  return Image.asset(
-                    MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
-                    fit: BoxFit.fitHeight,
-                    height: 0.15.sh,
-                  );
-                }
-              },
-            ),
-            // child: Image.asset(
-            //   MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
-            //   fit: BoxFit.fitHeight,
-            //   height: 0.15.sh,
-            // ),
-          ),
-          if(!logic.isWellDone) Positioned(
-            right: (1.0.sw - 612.w) / 2 - 0.32.sh,
-            top: 120,
-            child: Image.asset(
-              MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
-              fit: BoxFit.fitHeight,
-              height: 0.27.sh,
-            ),
-          ),
-          if(!logic.isWellDone) Positioned(
-            left: ((1.0.sw - 612.w) / 2) / 2 - 0.1.sh,
-            bottom: 120,
-            child: FutureBuilder<void>(
-              future: Future.delayed(Duration(milliseconds: 1500)),
-              builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
-                } else {
-                  return Image.asset(
-                    MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
-                    fit: BoxFit.fitHeight,
-                    height: 0.21.sh,
-                  );
-                }
-              },
-            ),
-            // child: Image.asset(
-            //   MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
-            //   fit: BoxFit.fitHeight,
-            //   height: 0.21.sh,
-            // ),
-          ),
-          if(!logic.isWellDone) Positioned(
-            right: (1.0.sw - 612.w) / 2 - 0.3.sh,
-            bottom: 80,
-            child: FutureBuilder<void>(
-              future: Future.delayed(Duration(milliseconds: 1800)),
-              builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
-                } else {
-                  return Image.asset(
-                    MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
-                    fit: BoxFit.fitHeight,
-                    height: 0.21.sh,
-                  );
-                }
-              },
-            ),
-            // child: Image.asset(
-            //   MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
-            //   fit: BoxFit.fitHeight,
-            //   height: 0.21.sh,
-            // ),
-          ),
-          // well done的烟花动图
-          if(logic.isWellDone) Positioned(
-            left: 0.5.sw / 2 - 0.32.sh,
-            top: 80,
-            child: Image.asset(
-              MirraIcons.getGifPath('Firework_Pink_1.gif'),
-              fit: BoxFit.fitHeight,
-              height: 0.32.sh,
-            ),
-          ),
-          if(logic.isWellDone) Positioned(
-            left: 0.5.sw / 2 + 0.16.sh,
-            top: 60,
-            child: Image.asset(
-              MirraIcons.getGifPath('Firework_Purple_3.gif'),
-              fit: BoxFit.fitHeight,
-              height: 0.16.sh,
-            ),
-          ),
-          if(logic.isWellDone) Positioned(
-            right: 0.5.sw / 2 - 0.25.sh,
-            top: 210,
-            child: Image.asset(
-              MirraIcons.getGifPath('Firework_Yellow_2.gif'),
-              fit: BoxFit.fitHeight,
-              height: 0.25.sh,
-            ),
-          ),
-        ],
-      ));
+            ));
+      }
+    );
   }
 }
 
