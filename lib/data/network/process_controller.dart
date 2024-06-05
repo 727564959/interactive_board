@@ -110,7 +110,7 @@ class ProcessController {
       Get.offAllNamed(AppRoutes.gamePlayingPage, arguments: {"showState": state, "isWellDone": false});
     }
     if (state.status == ShowStatus.complete) {
-      Get.offAllNamed(AppRoutes.showEndPage, arguments: {"showState": state});
+      Get.offAllNamed(AppRoutes.showEndPage, arguments: state);
     }
   }
 
