@@ -8,6 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import '../../../../common.dart';
 import '../../../data/model/show_state.dart';
 import '../../../mirra_style.dart';
+import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
 import '../../check_in/add_player/player_info_text_field.dart';
 import '../data/avatar_info.dart';
@@ -233,7 +234,15 @@ class _BottomBtns extends StatelessWidget  {
               ),
               Container(
                 margin: EdgeInsets.only(top: 30.0),
-                child: _BackButton(),
+                // child: _BackButton(),
+                child: CommonTextButton(
+                  btnText: "BACK",
+                  textColor: Color(0xff13EFEF),
+                  onPress: () {
+                    Get.back();
+                  },
+                  changedTextColor: Color(0xffA4EDF1),
+                ),
               ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,

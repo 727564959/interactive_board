@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../../../common.dart';
 import '../../../data/model/show_state.dart';
 import '../../../mirra_style.dart';
+import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
 import '../../../widgets/term_of_use.dart';
 import '../add_player/view.dart';
@@ -149,7 +150,15 @@ class TermsOfUseInfo extends StatelessWidget {
                     changedBgColor: Color(0xffA4EDF1),
                   ),
                   SizedBox(height: 20),
-                  _BackButton(),
+                  // _BackButton(),
+                  CommonTextButton(
+                    btnText: "BACK",
+                    textColor: Color(0xff13EFEF),
+                    onPress: () {
+                      Get.back();
+                    },
+                    changedTextColor: Color(0xffA4EDF1),
+                  ),
                 ],
               ),
             ),

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../mirra_style.dart';
+import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
 import '../../../widgets/term_of_use.dart';
 import '../add_player/view.dart';
@@ -187,7 +188,35 @@ class TermsOfUsePage extends StatelessWidget {
                     changedBgColor: Color(0xffA4EDF1),
                   ),
                   SizedBox(height: 20),
-                  _BackButton(),
+                  // _BackButton(),
+                  CommonTextButton(
+                    btnText: "BACK",
+                    textColor: Color(0xff13EFEF),
+                    onPress: () {
+                      print("isAddPlayerClick ${isAddPlayerClick}");
+                      if(isAddPlayerClick) {
+                        Future.delayed(0.5.seconds).then((value) async {
+                          Get.offAll(() => PlayerSquadPage(),
+                              arguments: {
+                                "showInfo": showInfo,
+                                "customer": customer,
+                                "isAddPlayerClick": isAddPlayerClick,
+                                "isCountdownStart": true,
+                                "tableId": tableId,
+                              });
+                        });
+                        print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
+                        if(Get.isRegistered<PlayerShowLogic>()) {
+                          Get.find<PlayerShowLogic>().isCountdownStart = true;
+                          Get.find<PlayerShowLogic>().getPlayerCardInfo(showInfo.showId);
+                        }
+                      }
+                      else {
+                        Get.back();
+                      }
+                    },
+                    changedTextColor: Color(0xffA4EDF1),
+                  ),
                 ],
               ),
             ),

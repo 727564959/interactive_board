@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import '../../../../common.dart';
 import '../../../data/model/show_state.dart';
 import '../../../mirra_style.dart';
+import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/date_picker.dart';
 import '../data/avatar_info.dart';
 import '../headgear/view.dart';
@@ -47,7 +48,15 @@ class BirthdayPage extends StatelessWidget {
                   _AddBirthdayButton(
                     width: 600.w,
                   ),
-                  _BackButton(),
+                  // _BackButton(),
+                  CommonTextButton(
+                    btnText: "BACK",
+                    textColor: Color(0xff13EFEF),
+                    onPress: () {
+                      Get.back();
+                    },
+                    changedTextColor: Color(0xffA4EDF1),
+                  ),
                 ],
               ),
             ),
@@ -252,6 +261,13 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
       onTapDown: (details) {
         setState(() {
           isChangeBgColor = true;
+        });
+      },
+      onTapCancel: () {
+        // 手指离开区域的处理逻辑
+        print('onTapCancel');
+        setState(() {
+          isChangeBgColor = !isChangeBgColor;
         });
       },
       child: Container(

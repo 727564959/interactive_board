@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../mirra_style.dart';
+import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
 import '../complete_page/view.dart';
 import '../data/avatar_info.dart';
@@ -324,7 +325,15 @@ class ChooseTablePage extends StatelessWidget {
                   //   ),
                   // ),
                   SizedBox(height: 30),
-                  _BackButton(),
+                  // _BackButton(),
+                  CommonTextButton(
+                    btnText: "BACK",
+                    textColor: Color(0xff13EFEF),
+                    onPress: () {
+                      Get.back();
+                    },
+                    changedTextColor: Color(0xffA4EDF1),
+                  ),
                 ],
               ),
             ),

@@ -431,6 +431,13 @@ class _DoneButtonState extends State<_DoneButton> {
           isChangeBgColor = true;
         });
       },
+      onTapCancel: () {
+        // 手指离开区域的处理逻辑
+        print('onTapCancel');
+        setState(() {
+          isChangeBgColor = !isChangeBgColor;
+        });
+      },
       child: Container(
         decoration: BoxDecoration(
           color: isChangeBgColor ? Color(0xffA4EDF1) : Color(0xff13EFEF),

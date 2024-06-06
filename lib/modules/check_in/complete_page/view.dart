@@ -256,6 +256,13 @@ class _BackButtonState extends State<_BackButton> {
           isChangeBgColor = true;
         });
       },
+      onTapCancel: () {
+        // 手指离开区域的处理逻辑
+        print('onTapCancel');
+        setState(() {
+          isChangeBgColor = !isChangeBgColor;
+        });
+      },
       child: Container(
         decoration: BoxDecoration(
           //设置边框

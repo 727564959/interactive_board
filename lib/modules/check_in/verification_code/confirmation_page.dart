@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
+import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
@@ -333,7 +334,15 @@ class ConfirmationPage extends StatelessWidget {
                     changedBgColor: Color(0xffA4EDF1),
                   ),
                   SizedBox(height: 30.0,),
-                  _BackButton(),
+                  // _BackButton(),
+                  CommonTextButton(
+                    btnText: "BACK",
+                    textColor: Color(0xff13EFEF),
+                    onPress: () {
+                      Get.back();
+                    },
+                    changedTextColor: Color(0xffA4EDF1),
+                  ),
                 ],
               ),
             ),

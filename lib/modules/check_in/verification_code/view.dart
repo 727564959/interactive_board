@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../../app_routes.dart';
 import '../../../mirra_style.dart';
+import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
 import '../data/booking.dart';
 import '../player_page/logic.dart';
@@ -129,7 +130,18 @@ class VerificationPage extends StatelessWidget {
                       const SizedBox(height: 60),
                       _CheckInInput(title: "", controller: logic.codeController),
                       SizedBox(height: logic.isStateShow == 0 ? 30 : 50),
-                      if(logic.isStateShow == 0) _BackButton(),
+                      // if(logic.isStateShow == 0) _BackButton(),
+                      if(logic.isStateShow == 0) CommonTextButton(
+                                                    btnText: "BACK",
+                                                    textColor: Color(0xff13EFEF),
+                                                    onPress: () {
+                                                      logic.focusNode.unfocus();
+                                                      Future.delayed(0.3.seconds).then((value) async {
+                                                        Get.back();
+                                                      });
+                                                    },
+                                                    changedTextColor: Color(0xffA4EDF1),
+                                                  ),
                       if(logic.isStateShow == -1) Container(
                         margin: EdgeInsets.only(left: 0.1.sw),
                         width: 0.9.sw,

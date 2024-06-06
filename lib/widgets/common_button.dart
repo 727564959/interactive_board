@@ -91,6 +91,8 @@ class _CommonButtonState extends State<CommonButton> {
       // onTapUp: (detail) => disable ? null : widget.onPress(),
       onTapUp: (details) {
         if (!disable!) {
+          // 手指抬起时的处理逻辑
+          print('onTapUp');
           setState(() {
             isChangeBgColor = false;
           });
@@ -99,9 +101,22 @@ class _CommonButtonState extends State<CommonButton> {
         }
       },
       onTapDown: (details) {
-        setState(() {
-          isChangeBgColor = true;
-        });
+        if (!disable!) {
+          // 手指按下时的处理逻辑
+          print('onTapDown');
+          setState(() {
+            isChangeBgColor = true;
+          });
+        }
+      },
+      onTapCancel: () {
+        if (!disable!) {
+          // 手指离开区域的处理逻辑
+          print('onTapCancel');
+          setState(() {
+            isChangeBgColor = !isChangeBgColor;
+          });
+        }
       },
       child: Container(
         decoration: BoxDecoration(
