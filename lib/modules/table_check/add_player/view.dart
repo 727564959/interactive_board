@@ -160,6 +160,13 @@ class _PlayerInfoForm extends StatelessWidget {
                         String regexEmail =
                             "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}\$";
                         return RegExp(regexEmail).hasMatch(v.toString()) ? null : "The Email format is incorrect";
+                        // if (v!.isEmpty) {
+                        //   return 'Please enter an email';
+                        // }
+                        // if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(v)) {
+                        //   return 'Please enter a valid email';
+                        // }
+                        // return null;
                       },
                     ),
                     SizedBox(
@@ -217,13 +224,16 @@ class _BottomBtns extends StatelessWidget  {
                   btnBgColor: Color(0xff13EFEF),
                   textColor: Colors.black,
                   onPress: () async {
-                    logic.formKey.currentState!.validate();
-                    if (logic.firstNameController.text.isNotEmpty &&
-                        logic.lastNameController.text.isNotEmpty &&
-                        logic.emailController.text.isNotEmpty &&
-                        logic.phoneController.text.isNotEmpty) {
+                    print("logic.formKey.currentState!.validate() ${logic.formKey.currentState!.validate()}");
+                    if (logic.formKey.currentState!.validate()) {
                       Get.to(() => BirthdayPage(), arguments: {'showState': showState,},);
                     }
+                    // if (logic.firstNameController.text.isNotEmpty &&
+                    //     logic.lastNameController.text.isNotEmpty &&
+                    //     logic.emailController.text.isNotEmpty &&
+                    //     logic.phoneController.text.isNotEmpty) {
+                    //   Get.to(() => BirthdayPage(), arguments: {'showState': showState,},);
+                    // }
                   },
                   disable: !logic.firstNameController.text.isNotEmpty ||
                       !logic.lastNameController.text.isNotEmpty ||

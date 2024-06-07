@@ -219,11 +219,7 @@ class _BottomBtns extends StatelessWidget {
                   btnBgColor: Color(0xff13EFEF),
                   textColor: Colors.black,
                   onPress: () async {
-                    logic.formKey.currentState!.validate();
-                    if (logic.firstNameController.text.isNotEmpty &&
-                        logic.lastNameController.text.isNotEmpty &&
-                        logic.emailController.text.isNotEmpty &&
-                        logic.phoneController.text.isNotEmpty) {
+                    if (logic.formKey.currentState!.validate()) {
                       Get.to(() => BirthdayPage(),
                         arguments: {
                           'showInfo': showInfo,
@@ -233,6 +229,20 @@ class _BottomBtns extends StatelessWidget {
                         },
                       );
                     }
+                    // logic.formKey.currentState!.validate();
+                    // if (logic.firstNameController.text.isNotEmpty &&
+                    //     logic.lastNameController.text.isNotEmpty &&
+                    //     logic.emailController.text.isNotEmpty &&
+                    //     logic.phoneController.text.isNotEmpty) {
+                    //   Get.to(() => BirthdayPage(),
+                    //     arguments: {
+                    //       'showInfo': showInfo,
+                    //       'customer': customer,
+                    //       "isAddPlayerClick": isAddPlayerClick,
+                    //       "tableId": tableId,
+                    //     },
+                    //   );
+                    // }
                   },
                   disable: !logic.firstNameController.text.isNotEmpty ||
                       !logic.lastNameController.text.isNotEmpty ||
