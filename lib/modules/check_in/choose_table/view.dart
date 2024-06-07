@@ -112,43 +112,45 @@ class ChooseTablePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 120),
-                  CommonButton(
-                    width: 600.w,
-                    height: 100.h,
-                    btnText: 'NEXT',
-                    btnBgColor: Color(0xff13EFEF),
-                    textColor: Colors.black,
-                    onPress: () async {
-                      EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
-                      try {
-                        final userId = await logic.loginInOrRegister(
-                          name: customer.name,
-                          email: customer.email,
-                          phone: customer.phone,
-                        );
-                        print("userId ${userId}");
-                        print("showId ${showInfo.showId}");
-                        print("code ${code}");
-                        print("logic.selectedTableId ${logic.selectedTableId}");
-                        // 验票
-                        await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
-                        print("哈哈哈哈哈");
-                        EasyLoading.dismiss(animation: false);
-                        await Get.offAll(() => GroupIconSetPage(), arguments: {
-                          'showInfo': showInfo,
-                          'customer': customer,
-                          "isAddPlayerClick": isAddPlayerClick,
-                          "tableId": logic.selectedTableId,
-                        });
-                      } on DioException catch (e) {
-                        print("hahah ${e}");
-                        EasyLoading.dismiss();
-                        if (e.response == null) EasyLoading.showError("Network Error!");
-                        EasyLoading.showError(e.response?.data["error"]["message"]);
-                      }
-                    },
-                    disable: !logic.bSelected,
-                    changedBgColor: Color(0xffA4EDF1),
+                  GetBuilder<ChooseTableLogic>(
+                      builder: (logic) => CommonButton(
+                        width: 600.w,
+                        height: 100.h,
+                        btnText: 'NEXT',
+                        btnBgColor: Color(0xff13EFEF),
+                        textColor: Colors.black,
+                        onPress: () async {
+                          EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
+                          try {
+                            final userId = await logic.loginInOrRegister(
+                              name: customer.name,
+                              email: customer.email,
+                              phone: customer.phone,
+                            );
+                            print("userId ${userId}");
+                            print("showId ${showInfo.showId}");
+                            print("code ${code}");
+                            print("logic.selectedTableId ${logic.selectedTableId}");
+                            // 验票
+                            await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
+                            print("哈哈哈哈哈");
+                            EasyLoading.dismiss(animation: false);
+                            await Get.offAll(() => GroupIconSetPage(), arguments: {
+                              'showInfo': showInfo,
+                              'customer': customer,
+                              "isAddPlayerClick": isAddPlayerClick,
+                              "tableId": logic.selectedTableId,
+                            });
+                          } on DioException catch (e) {
+                            print("hahah ${e}");
+                            EasyLoading.dismiss();
+                            if (e.response == null) EasyLoading.showError("Network Error!");
+                            EasyLoading.showError(e.response?.data["error"]["message"]);
+                          }
+                        },
+                        disable: !logic.bSelected,
+                        changedBgColor: Color(0xffA4EDF1),
+                      ),
                   ),
                   // GetBuilder<ChooseTableLogic>(
                   //   builder: (logic) => CheckInButton(
