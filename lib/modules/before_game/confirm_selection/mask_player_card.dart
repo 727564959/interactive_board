@@ -52,13 +52,16 @@ class MaskPlayerCard extends StatelessWidget {
                     height: width * 0.9,
                     fit: BoxFit.fitHeight,
                   ),
-                  Text(
-                    nickname,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: CustomTextStyles.title5(
-                      color: Colors.black,
-                      fontSize: 32.sp,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Text(
+                      nickname,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: CustomTextStyles.title5(
+                        color: Colors.black,
+                        fontSize: 32.sp,
+                      ),
                     ),
                   ),
                   Text(

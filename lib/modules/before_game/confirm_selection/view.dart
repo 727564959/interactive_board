@@ -52,7 +52,7 @@ class _ConfirmSelectionPageState extends State<ConfirmSelectionPage> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const MirraAppBar(title: "Choose Player"),
+            MirraAppBar(title: logic.game),
             Container(
               height: 300.w,
               alignment: Alignment.center,
