@@ -18,6 +18,7 @@ import '../../check_in/headgear_acquisition/flip_card.dart';
 import '../data/user_info.dart';
 import '../player_show/new_player_page.dart';
 import 'logic.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class HeadgearPage extends StatelessWidget {
   HeadgearPage({
@@ -85,6 +86,9 @@ class _CardFlipState extends State<_CardFlip> {
   int? selectIndex;
   ShowState get showState => Get.arguments["showState"];
   int get userId => Get.arguments["userId"];
+
+  // 创建音频播放器实例
+  final audioPlayer = AudioPlayer();
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +158,8 @@ class _CardFlipState extends State<_CardFlip> {
           child: Row(
             children: List.generate(widget.headgearObj.length, (index) {
               return GestureDetector(
-                onTap: () async {
+                onTapUp: (details) async {
+                  await audioPlayer.release;
                   logic.clickSelectId = widget.headgearObj[index].id;
                   UserInfo userData = await logic.getCurrentUser(showState.showId, Global.tableId, userId);
                   setState(() {
@@ -170,6 +175,12 @@ class _CardFlipState extends State<_CardFlip> {
                   //         "headgearId": logic.clickSelectId,
                   //         "showState": showState});
                   // });
+                },
+                onTapDown: (details) async {
+                  await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("card.wav")));
+                },
+                onTapCancel: () async {
+                  await audioPlayer.release;
                 },
                 child: Container(
                   margin: EdgeInsets.only(right: index != widget.headgearObj.length - 1 ? 10 : 0),

@@ -9,6 +9,8 @@ import 'package:interactive_board/modules/check_in/data/booking.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/custom_countdown.dart';
 
+import 'package:audioplayers/audioplayers.dart';
+
 class CompletePage extends StatelessWidget {
   const CompletePage({Key? key}) : super(key: key);
   int get tableId => Get.arguments["tableId"];
@@ -232,11 +234,15 @@ class _BackButtonState extends State<_BackButton> {
   int get tableId => Get.arguments["tableId"];
   bool isChangeBgColor = false;
 
+  // 创建音频播放器实例
+  final audioPlayer = AudioPlayer();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
       onTapUp: (details) async {
+        await audioPlayer.release;
         setState(() {
           isChangeBgColor = false;
         });
@@ -251,14 +257,16 @@ class _BackButtonState extends State<_BackButton> {
           arguments: {"tableId": tableId},
         );
       },
-      onTapDown: (details) {
+      onTapDown: (details) async {
+        await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("normal_click.wav")));
         setState(() {
           isChangeBgColor = true;
         });
       },
-      onTapCancel: () {
+      onTapCancel: () async {
         // 手指离开区域的处理逻辑
         print('onTapCancel');
+        await audioPlayer.release;
         setState(() {
           isChangeBgColor = !isChangeBgColor;
         });

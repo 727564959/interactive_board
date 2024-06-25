@@ -18,6 +18,7 @@ import '../player_page/player_squad.dart';
 import 'logic.dart';
 import '../../../common.dart';
 import '../widget/button.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class ChooseTablePage extends StatelessWidget {
   ChooseTablePage({
@@ -392,16 +393,25 @@ class _TableItem extends StatefulWidget {
 }
 
 class _TableItemState extends State<_TableItem> {
+  // 创建音频播放器实例
+  final audioPlayer = AudioPlayer();
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
-          onTapUp: (details) {
+          onTapUp: (details) async {
             // print("进行点击选桌: ${widget.tableId}");
+            await audioPlayer.release;
             final logic = Get.find<ChooseTableLogic>();
             if (!widget.bAvailable) return;
             logic.selectTable(widget.tableId);
+          },
+          onTapDown: (details) async {
+            await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("choose_bay.wav")));
+          },
+          onTapCancel: () async {
+            await audioPlayer.release;
           },
           child: AnimatedContainer(
             duration: Duration(milliseconds: 300),

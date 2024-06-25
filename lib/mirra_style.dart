@@ -460,4 +460,5 @@ class MirraIcons {
   static String getSetAvatarIconPath(String filename) => "assets/images/set_avatar/$filename";
   static String getGifPath(String filename) => "assets/images/gif/$filename";
   static String getGameShowIconPath(String filename) => "assets/images/game_show/$filename";
+  static String getSoundEffectsCheckPath(String filename) => "sound_effects/normal/$filename";
 }

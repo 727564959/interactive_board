@@ -15,6 +15,8 @@ import 'add_dialog.dart';
 import 'logic.dart';
 import '../../mirra_look/player_look.dart';
 
+import 'package:audioplayers/audioplayers.dart';
+
 class PlayerSquadPage extends StatelessWidget {
   PlayerSquadPage({Key? key}) : super(key: key);
   final logic = Get.put(PlayerShowLogic());
@@ -412,11 +414,15 @@ class _DoneButtonState extends State<_DoneButton> {
   int get tableId => Get.arguments["tableId"];
   bool isChangeBgColor = false;
 
+  // 创建音频播放器实例
+  final audioPlayer = AudioPlayer();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
       onTapUp: (details) async {
+        await audioPlayer.release;
         setState(() {
           isChangeBgColor = false;
         });
@@ -426,14 +432,16 @@ class _DoneButtonState extends State<_DoneButton> {
           preventDuplicates: false,
         );
       },
-      onTapDown: (details) {
+      onTapDown: (details) async {
+        await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("normal_click.wav")));
         setState(() {
           isChangeBgColor = true;
         });
       },
-      onTapCancel: () {
+      onTapCancel: () async {
         // 手指离开区域的处理逻辑
         print('onTapCancel');
+        await audioPlayer.release;
         setState(() {
           isChangeBgColor = !isChangeBgColor;
         });

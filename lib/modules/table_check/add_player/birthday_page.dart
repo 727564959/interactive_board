@@ -16,6 +16,8 @@ import '../headgear/view.dart';
 import '../player_show/view.dart';
 import 'logic.dart';
 
+import 'package:audioplayers/audioplayers.dart';
+
 class BirthdayPage extends StatelessWidget {
   BirthdayPage({
     Key? key,
@@ -167,11 +169,15 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
     );
   }
 
+  // 创建音频播放器实例
+  final audioPlayer = AudioPlayer();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
       onTapUp: (details) async {
+        await audioPlayer.release;
         setState(() {
           isChangeBgColor = false;
         });
@@ -258,14 +264,16 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
           showCustomToast();
         }
       },
-      onTapDown: (details) {
+      onTapDown: (details) async {
+        await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("normal_click.wav")));
         setState(() {
           isChangeBgColor = true;
         });
       },
-      onTapCancel: () {
+      onTapCancel: () async {
         // 手指离开区域的处理逻辑
         print('onTapCancel');
+        await audioPlayer.release;
         setState(() {
           isChangeBgColor = !isChangeBgColor;
         });

@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../mirra_style.dart';
 
+import 'package:audioplayers/audioplayers.dart';
+
 // class CommonButton extends StatelessWidget {
 class CommonButton extends StatefulWidget {
   const CommonButton({
@@ -84,12 +86,15 @@ class _CommonButtonState extends State<CommonButton> {
 
   bool isChangeBgColor = false;
 
+  // 创建音频播放器实例
+  final audioPlayer = AudioPlayer();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
       // onTapUp: (detail) => disable ? null : widget.onPress(),
-      onTapUp: (details) {
+      onTapUp: (details) async {
         if (!disable!) {
           // 手指抬起时的处理逻辑
           print('onTapUp');
@@ -99,8 +104,12 @@ class _CommonButtonState extends State<CommonButton> {
           widget.onPress();
           // Future.delayed(0.5.seconds).then((value) async {});
         }
+        // await audioPlayer.stop();
+        print('audioPlayer ${audioPlayer}');
+        await audioPlayer.release;
+        // audioPlayer.audioCache.clearAll();
       },
-      onTapDown: (details) {
+      onTapDown: (details) async {
         if (!disable!) {
           // 手指按下时的处理逻辑
           print('onTapDown');
@@ -108,8 +117,14 @@ class _CommonButtonState extends State<CommonButton> {
             isChangeBgColor = true;
           });
         }
+        print('hahahh ${MirraIcons.getSoundEffectsCheckPath("normal_click.wav")}');
+        // await player.setSource(source);
+        // await player.stop();
+        // await player.play(source);
+        print("${AssetSource(MirraIcons.getSoundEffectsCheckPath("normal_click.wav"))}");
+        await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("normal_click.wav")));
       },
-      onTapCancel: () {
+      onTapCancel: () async {
         if (!disable!) {
           // 手指离开区域的处理逻辑
           print('onTapCancel');
@@ -117,6 +132,8 @@ class _CommonButtonState extends State<CommonButton> {
             isChangeBgColor = !isChangeBgColor;
           });
         }
+        await audioPlayer.release;
+        // audioPlayer.audioCache.clearAll();
       },
       child: Container(
         decoration: BoxDecoration(

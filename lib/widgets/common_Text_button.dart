@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../mirra_style.dart';
 
+import 'package:audioplayers/audioplayers.dart';
+
 class CommonTextButton extends StatefulWidget {
   const CommonTextButton({
     Key? key,
@@ -30,12 +32,15 @@ class _CommonTextButtonState extends State<CommonTextButton> {
 
   bool isChangeBgColor = false;
 
+  // 创建音频播放器实例
+  final audioPlayer = AudioPlayer();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       // 点击事件
       // onTapUp: (detail) => disable ? null : widget.onPress(),
-      onTapUp: (details) {
+      onTapUp: (details) async {
         if (!disable!) {
           // 手指抬起时的处理逻辑
           print('onTapUp');
@@ -45,8 +50,9 @@ class _CommonTextButtonState extends State<CommonTextButton> {
           widget.onPress();
           // Future.delayed(0.5.seconds).then((value) async {});
         }
+        await audioPlayer.release;
       },
-      onTapDown: (details) {
+      onTapDown: (details) async {
         if (!disable!) {
           // 手指按下时的处理逻辑
           print('onTapDown');
@@ -54,8 +60,10 @@ class _CommonTextButtonState extends State<CommonTextButton> {
             isChangeBgColor = true;
           });
         }
+        // await audioPlayer.setVolume(2.0);
+        await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("normal_click.wav")));
       },
-      onTapCancel: () {
+      onTapCancel: () async {
         if (!disable!) {
           // 手指离开区域的处理逻辑
           print('onTapCancel');
@@ -63,6 +71,7 @@ class _CommonTextButtonState extends State<CommonTextButton> {
             isChangeBgColor = !isChangeBgColor;
           });
         }
+        await audioPlayer.release;
       },
       child: Text(
         btnText,

@@ -16,6 +16,7 @@ import '../data/show.dart';
 import '../headgear_acquisition/view.dart';
 import '../player_page/player_squad.dart';
 import 'logic.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class GroupIconSetPage extends StatelessWidget {
   GroupIconSetPage({Key? key}) : super(key: key);
@@ -24,6 +25,9 @@ class GroupIconSetPage extends StatelessWidget {
   Customer get customer => Get.arguments["customer"];
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
   int get tableId => Get.arguments["tableId"];
+
+  // 创建音频播放器实例
+  final audioPlayer = AudioPlayer();
 
   @override
   Widget build(BuildContext context) {
@@ -127,9 +131,16 @@ class GroupIconSetPage extends StatelessWidget {
                                       borderRadius: BorderRadius.all(Radius.circular(10)),
                                     ),
                                     child: GestureDetector(
-                                      onTap: () async {
+                                      onTapUp: (details) async {
                                         print("object 选择队伍icon 0");
+                                        await audioPlayer.release;
                                         logic.selectTeamIcon(logic.teamInfo[0].name, 0);
+                                      },
+                                      onTapDown: (details) async {
+                                        await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("card.wav")));
+                                      },
+                                      onTapCancel: () async {
+                                        await audioPlayer.release;
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(vertical: 30.0), // 调整上下间距为10
@@ -168,9 +179,16 @@ class GroupIconSetPage extends StatelessWidget {
                                       borderRadius: BorderRadius.all(Radius.circular(10)),
                                     ),
                                     child: GestureDetector(
-                                      onTap: () async {
+                                      onTapUp: (details) async {
                                         print("object 选择队伍icon 0");
+                                        await audioPlayer.release;
                                         logic.selectTeamIcon(logic.teamInfo[1].name, 1);
+                                      },
+                                      onTapDown: (details) async {
+                                        await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("card.wav")));
+                                      },
+                                      onTapCancel: () async {
+                                        await audioPlayer.release;
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(vertical: 30.0), // 调整上下间距为10
