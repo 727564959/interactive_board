@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:interactive_board/mirra_style.dart';
 import 'package:interactive_board/modules/initialize_page/logic.dart';
-import '../../common.dart';
 
 class InitializePage extends StatelessWidget {
   InitializePage({Key? key}) : super(key: key);
@@ -13,47 +13,30 @@ class InitializePage extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(Global.getAssetImageUrl("background.png")),
+            image: AssetImage(MirraIcons.getGameShowIconPath("background.png")),
             fit: BoxFit.cover,
           ),
         ),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [1, 2, 3, 4]
-                .map(
-                  (e) => _TableButton(
-                    tableId: e,
-                    onPressed: () {
-                      logic.setTableId(e);
-                    },
-                  ),
-                )
-                .toList(),
+          child: Obx(
+            () => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "UDID:    ${logic.udid.value}",
+                  style: CustomTextStyles.title3(color: Colors.white, fontSize: 60.sp),
+                ),
+                SizedBox(height: 100.w),
+                Text(
+                  "Device ID:    ${logic.deviceId.value}",
+                  style: CustomTextStyles.title3(color: Colors.white, fontSize: 60.sp),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _TableButton extends StatelessWidget {
-  const _TableButton({
-    Key? key,
-    required this.tableId,
-    required this.onPressed,
-  }) : super(key: key);
-  final int tableId;
-  final void Function() onPressed;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100.w,
-      width: 400.w,
-      color: Colors.grey,
-      child: TextButton(
-        onPressed: onPressed,
-        child: Text("Table $tableId"),
       ),
     );
   }

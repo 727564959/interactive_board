@@ -1,27 +1,36 @@
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/data/network/process_controller.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app_routes.dart';
 import '../../common.dart';
 
+import 'package:flutter_udid/flutter_udid.dart';
+import 'data.dart';
+
 class InitializeLogic extends GetxController {
   final processController = ProcessController();
+  final deviceId = "".obs;
+  final udid = "".obs;
+  final dio = Dio();
+  late final BoardInfo board;
   @override
   void onInit() async {
     super.onInit();
-    await Future.delayed(100.ms);
-    // Get.offAllNamed(AppRoutes.verificationCode);
-    final pref = await SharedPreferences.getInstance();
-    final tableId = pref.getInt('tableId');
-    if (tableId != null) {
-      setTableId(tableId);
-    }
-  }
+    udid.value = await FlutterUdid.udid;
+    final response = await dio.post(
+      "$basePayloadApiUrl/board-configs/register",
+      data: {"udid": udid.value},
+    );
+    board = BoardInfo.fromJsom(response.data);
+    deviceId.value = board.id;
+    if (!board.bChecked) return;
 
-  Future<void> setTableId(int tableId) async {
-    Global.setTableId(tableId);
-    processController.listeningEvents();
+    if (board.type == "interact" && board.tableId != null) {
+      Global.setTableId(board.tableId!);
+      processController.listeningEvents();
+    } else if (board.type == "check_in") {
+      Get.offAllNamed(AppRoutes.verificationCode);
+    }
   }
 }
