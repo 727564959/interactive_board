@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:gif_view/gif_view.dart';
+
 import 'package:interactive_board/common.dart';
+import 'package:interactive_board/3rd_libs/gif_view-0.4.3/gif_view.dart';
+
 import '../data/player.dart';
 import '../logic.dart';
 import '../../../../widgets/player_card.dart';

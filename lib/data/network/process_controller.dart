@@ -24,11 +24,11 @@ class ProcessController {
 
   void listeningEvents() {
     final option = OptionBuilder().setTransports(['websocket']).enableReconnection().disableAutoConnect().build();
-    // _quizSocket = io('$baseSocketIoUrl/listener/quiz', option);
-    // _quizSocket.on('start', (data) {
-    //   Get.toNamed(AppRoutes.quiz, arguments: data);
-    // });
-    // _quizSocket.connect();
+    _quizSocket = io('$baseSocketIoUrl/listener/quiz', option);
+    _quizSocket.on('start', (data) {
+      Get.toNamed(AppRoutes.quiz, arguments: data);
+    });
+    _quizSocket.connect();
 
     _showSocket = io('$baseSocketIoUrl/listener/game-show', option);
     _showSocket.on('show_state', (data) async {

@@ -9,6 +9,8 @@ import 'modules/game_over/statistics/binding.dart';
 import 'modules/game_over/statistics/view.dart';
 import 'modules/game_over/winner/binding.dart';
 import 'modules/game_over/winner/view.dart';
+import 'modules/quiz/binding.dart';
+import 'modules/quiz/view.dart';
 import 'modules/table_check/welcome_page/welcome_page.dart';
 import 'modules/take_a_rest/view.dart';
 import 'modules/before_game/choose_player/view.dart';
@@ -125,6 +127,13 @@ class AppRoutes {
       name: honorPage,
       page: () => HonorPage(),
       bindings: [HonorBinding()],
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ),
+    GetPage(
+      name: quiz,
+      page: () => QuizCoverPage(),
+      bindings: [QuizBinding()],
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
     ),

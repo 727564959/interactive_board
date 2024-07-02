@@ -45,7 +45,6 @@ dependencies:
   animate_do: ^3.1.2
   timer_count_down: ^2.2.2
   step_progress_indicator: ^1.0.2
-  gif_view: ^0.4.3
   animated_flip_counter: ^0.2.6
   auto_size_text: ^3.0.0
   shared_preferences: ^2.2.2
@@ -97,6 +96,8 @@ flutter:
     - assets/images/set_avatar/
     - assets/images/game_show/
     - assets/sound_effects/normal/
+    - assets/images/quiz/
+    - assets/images/quiz/icons/
 
   fonts:
     - family: RobotoFlex
