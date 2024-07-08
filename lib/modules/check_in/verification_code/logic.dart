@@ -38,7 +38,7 @@ class VerificationCodeLogic extends GetxController {
 
   Future<BookingInfo> queryBookInfo(String code) async {
     final response = await _dio.get(
-      "$baseResovaUrl/booking-info",
+      "$baseApiUrl/shows/booking",
       queryParameters: {"code": code},
     );
     return BookingInfo.fromJson(response.data);
