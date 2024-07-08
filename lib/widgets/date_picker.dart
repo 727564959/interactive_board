@@ -26,7 +26,7 @@ class _DatePickerState extends State<DatePicker> {
   });
   late final dropdownBubble = OverlayEntry(
     builder: (context) {
-      int year = DateTime.now().year - 10;
+      int year = DateTime.now().year - 12;
       return Positioned(
         width: 800.w,
         height: 500.w,
@@ -58,7 +58,7 @@ class _DatePickerState extends State<DatePicker> {
                       itemTextStyle: CustomTextStyles.textNormal(color: Colors.black, fontSize: 35.sp),
                       dividerColor: Colors.transparent,
                     ),
-                    firstDate: DateTime(1950),
+                    firstDate: DateTime(1940),
                     lastDate: DateTime(year, 12, 31),
                     initialDate: _selectedDate,
                     dateFormat: "MMM/d/yyyy",
