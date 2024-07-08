@@ -6,7 +6,8 @@ import '../data/avatar_info.dart';
 
 class AddPlayerLogic extends GetxController {
   int? selectedTableId;
-  DateTime birthdayStr = DateTime.now();
+  DateTime birthdayStr = DateTime(DateTime.now().year - 12, DateTime.now().month, DateTime.now().day);
+  // DateTime birthdayStr = DateTime.now();
   bool get bSelected => selectedTableId != null;
   final _dio = Dio();
 

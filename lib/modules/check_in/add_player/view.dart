@@ -9,6 +9,7 @@ import 'package:interactive_board/modules/check_in/add_player/player_info_text_f
 import '../../../mirra_style.dart';
 import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
+import '../../../widgets/common_icon_button.dart';
 import '../data/avatar_info.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
@@ -44,12 +45,19 @@ class AddPlayerPage extends StatelessWidget {
                     return Column(
                       children: [
                         // 顶部文本信息
-                        SizedBox(
+                        Container(
                           width: 1.0.sw,
+                          margin: const EdgeInsets.only(top: 20.0, left: 40.0),
                           child: Row(
                             children: [
+                              CommonIconButton(
+                                onPress: () {
+                                  Get.back();
+                                },
+                              ),
+                              SizedBox(width: 0.1.sw - 48 - 40,),
                               Container(
-                                margin: const EdgeInsets.only(top: 40.0, left: 40.0),
+                                // margin: const EdgeInsets.only(top: 40.0, left: 40.0),
                                 child: SizedBox(
                                   child: Text(
                                     "Add Player",
@@ -211,7 +219,7 @@ class _BottomBtns extends StatelessWidget {
           Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 30.0, right: 30.0),
+                // margin: EdgeInsets.only(top: 0.0, right: 30.0),
                 child: CommonButton(
                   width: 600.w,
                   height: 100.h,
@@ -251,18 +259,18 @@ class _BottomBtns extends StatelessWidget {
                   changedBgColor: Color(0xffA4EDF1),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 30.0, right: 30.0),
-                // child: _BackButton(),
-                child: CommonTextButton(
-                  btnText: "BACK",
-                  textColor: Color(0xff13EFEF),
-                  onPress: () {
-                    Get.back();
-                  },
-                  changedTextColor: Color(0xffA4EDF1),
-                ),
-              ),
+              // Container(
+              //   margin: EdgeInsets.only(top: 30.0),
+              //   // child: _BackButton(),
+              //   child: CommonTextButton(
+              //     btnText: "BACK",
+              //     textColor: Color(0xff13EFEF),
+              //     onPress: () {
+              //       Get.back();
+              //     },
+              //     changedTextColor: Color(0xffA4EDF1),
+              //   ),
+              // ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
               //   children: [

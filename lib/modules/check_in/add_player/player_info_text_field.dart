@@ -23,7 +23,7 @@ class PlayerInfoTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 670.w,
+      width: 750.w,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

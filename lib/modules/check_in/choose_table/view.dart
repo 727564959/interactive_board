@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
+import '../../../widgets/common_icon_button.dart';
 import '../complete_page/view.dart';
 import '../data/avatar_info.dart';
 import '../data/show.dart';
@@ -329,47 +330,59 @@ class ChooseTablePage extends StatelessWidget {
                   // ),
                   SizedBox(height: 30),
                   // _BackButton(),
-                  CommonTextButton(
-                    btnText: "BACK",
-                    textColor: Color(0xff13EFEF),
-                    onPress: () {
-                      Get.back();
-                    },
-                    changedTextColor: Color(0xffA4EDF1),
-                  ),
+                  // CommonTextButton(
+                  //   btnText: "BACK",
+                  //   textColor: Color(0xff13EFEF),
+                  //   onPress: () {
+                  //     Get.back();
+                  //   },
+                  //   changedTextColor: Color(0xffA4EDF1),
+                  // ),
                 ],
               ),
             ),
           ),
           Positioned(
-            child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 20.0, left: 40.0),
-                  constraints: BoxConstraints.tightFor(width: (1.0.sw - 40)), //卡片大小
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: Text(
-                          "Choose Bay",
-                          style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 10.0),
-                        child: Text(
-                          "Let's Gather! Pick Your Bay for Fun",
-                          style: CustomTextStyles.textSmall(
-                            color: Color(0xFFFFFFFF),
-                            fontSize: 26.sp,
+            child: Container(
+              width: 1.0.sw,
+              height: 0.12.sh,
+              margin: EdgeInsets.only(top: 20.0, left: 40.0),
+              child: Row(
+                // crossAxisAlignment: CrossAxisAlignment.start, // 从上往下对齐
+                children: [
+                  CommonIconButton(
+                    onPress: () {
+                      Get.back();
+                    },
+                  ),
+                  SizedBox(width: 0.1.sw - 48 - 40,),
+                  Container(
+                    // margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                    // constraints: BoxConstraints.tightFor(width: (1.0.sw - 40)), //卡片大小
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: Text(
+                            "Choose Bay",
+                            style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                           ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          margin: EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            "Let's Gather! Pick Your Bay for Fun",
+                            style: CustomTextStyles.textSmall(
+                              color: Color(0xFFFFFFFF),
+                              fontSize: 26.sp,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
@@ -482,25 +495,5 @@ class _TableItemState extends State<_TableItem> {
     } else {
       return "D";
     }
-  }
-}
-
-class _BackButton extends StatelessWidget {
-  _BackButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        Get.back();
-      },
-      child: Text(
-        "BACK",
-        style: CustomTextStyles.button(color: Color(0xFF13EFEF), fontSize: 28.sp),
-      ),
-    );
   }
 }

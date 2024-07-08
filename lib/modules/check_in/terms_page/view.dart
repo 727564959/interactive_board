@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
+import '../../../widgets/common_icon_button.dart';
 import '../../../widgets/term_of_use.dart';
 import '../add_player/view.dart';
 import '../choose_table/view.dart';
@@ -37,12 +38,39 @@ class TermsOfUsePage extends StatelessWidget {
               color: Color(0xFF233342),
               child: Column(
                 children: [
-                  SizedBox(
+                  Container(
                     width: 1.0.sw,
+                    margin: EdgeInsets.only(top: 20.0, left: 40.0),
                     child: Row(
                       children: [
+                        CommonIconButton(
+                          onPress: () {
+                            print("isAddPlayerClick ${isAddPlayerClick}");
+                            if(isAddPlayerClick) {
+                              Future.delayed(0.5.seconds).then((value) async {
+                                Get.offAll(() => PlayerSquadPage(),
+                                    arguments: {
+                                      "showInfo": showInfo,
+                                      "customer": customer,
+                                      "isAddPlayerClick": isAddPlayerClick,
+                                      "isCountdownStart": true,
+                                      "tableId": tableId,
+                                    });
+                              });
+                              print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
+                              if(Get.isRegistered<PlayerShowLogic>()) {
+                                Get.find<PlayerShowLogic>().isCountdownStart = true;
+                                Get.find<PlayerShowLogic>().getPlayerCardInfo(showInfo.showId);
+                              }
+                            }
+                            else {
+                              Get.back();
+                            }
+                          },
+                        ),
+                        SizedBox(width: 0.1.sw - 48 - 40,),
                         Container(
-                          margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                          // margin: EdgeInsets.only(top: 20.0, left: 40.0),
                           child: SizedBox(
                             child: Text(
                               "Term of Use",
@@ -189,146 +217,38 @@ class TermsOfUsePage extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   // _BackButton(),
-                  CommonTextButton(
-                    btnText: "BACK",
-                    textColor: Color(0xff13EFEF),
-                    onPress: () {
-                      print("isAddPlayerClick ${isAddPlayerClick}");
-                      if(isAddPlayerClick) {
-                        Future.delayed(0.5.seconds).then((value) async {
-                          Get.offAll(() => PlayerSquadPage(),
-                              arguments: {
-                                "showInfo": showInfo,
-                                "customer": customer,
-                                "isAddPlayerClick": isAddPlayerClick,
-                                "isCountdownStart": true,
-                                "tableId": tableId,
-                              });
-                        });
-                        print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
-                        if(Get.isRegistered<PlayerShowLogic>()) {
-                          Get.find<PlayerShowLogic>().isCountdownStart = true;
-                          Get.find<PlayerShowLogic>().getPlayerCardInfo(showInfo.showId);
-                        }
-                      }
-                      else {
-                        Get.back();
-                      }
-                    },
-                    changedTextColor: Color(0xffA4EDF1),
-                  ),
+                  // CommonTextButton(
+                  //   btnText: "BACK",
+                  //   textColor: Color(0xff13EFEF),
+                  //   onPress: () {
+                  //     print("isAddPlayerClick ${isAddPlayerClick}");
+                  //     if(isAddPlayerClick) {
+                  //       Future.delayed(0.5.seconds).then((value) async {
+                  //         Get.offAll(() => PlayerSquadPage(),
+                  //             arguments: {
+                  //               "showInfo": showInfo,
+                  //               "customer": customer,
+                  //               "isAddPlayerClick": isAddPlayerClick,
+                  //               "isCountdownStart": true,
+                  //               "tableId": tableId,
+                  //             });
+                  //       });
+                  //       print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
+                  //       if(Get.isRegistered<PlayerShowLogic>()) {
+                  //         Get.find<PlayerShowLogic>().isCountdownStart = true;
+                  //         Get.find<PlayerShowLogic>().getPlayerCardInfo(showInfo.showId);
+                  //       }
+                  //     }
+                  //     else {
+                  //       Get.back();
+                  //     }
+                  //   },
+                  //   changedTextColor: Color(0xffA4EDF1),
+                  // ),
                 ],
               ),
             ),
           ],
     ));
-  }
-}
-
-// 同意条款的按钮
-class _AgreeButton extends StatelessWidget {
-  _AgreeButton(
-      {Key? key, required this.width})
-      : super(key: key);
-  final double width;
-  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
-  ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
-  String get code => Get.arguments["code"];
-  int get tableId => Get.arguments["tableId"];
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        print("接受了协议");
-        print("object ${isAddPlayerClick}");
-        // 是新增点击则去新增页面，反之去选桌
-        if (isAddPlayerClick) {
-          await Get.to(() => AddPlayerPage(),
-              arguments: {
-                "showInfo": showInfo,
-                "customer": customer,
-                "isAddPlayerClick": isAddPlayerClick,
-                "tableId": tableId,
-              });
-        } else {
-          EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-          try {
-            EasyLoading.dismiss(animation: false);
-            await Get.to(() => ChooseTablePage(), arguments: {"showInfo": showInfo, "customer": customer, "code": code, "isAddPlayerClick": isAddPlayerClick,});
-            // await Get.offAll(() => ChooseTablePage(), arguments: {"showInfo": showInfo, "customer": customer, "code": code, "isAddPlayerClick": isAddPlayerClick,});
-            // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
-            if (Get.isRegistered<VerificationCodeLogic>()) {
-              Get.find<VerificationCodeLogic>()?.codeController?.clear();
-            }
-          } on DioException catch (e) {
-            EasyLoading.dismiss();
-            if (e.response == null) EasyLoading.showError("Network Error!");
-            EasyLoading.showError(e.response?.data["error"]["message"]);
-          }
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xff13EFEF),
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-        ),
-        margin: EdgeInsets.only(top: 0.0, left: 0.0),
-        constraints: BoxConstraints.tightFor(width: width, height: 100.h),
-        child: Center(
-          child: Text(
-            "AGREE",
-            textAlign: TextAlign.center,
-            style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BackButton extends StatelessWidget {
-  _BackButton({
-    Key? key,
-  }) : super(key: key);
-  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
-  ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
-  int get tableId => Get.arguments["tableId"];
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        print("isAddPlayerClick ${isAddPlayerClick}");
-        if(isAddPlayerClick) {
-          Future.delayed(0.5.seconds).then((value) async {
-            Get.offAll(() => PlayerSquadPage(),
-                arguments: {
-                  "showInfo": showInfo,
-                  "customer": customer,
-                  "isAddPlayerClick": isAddPlayerClick,
-                  "isCountdownStart": true,
-                  "tableId": tableId,
-                });
-          });
-          print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
-          if(Get.isRegistered<PlayerShowLogic>()) {
-            Get.find<PlayerShowLogic>().isCountdownStart = true;
-            Get.find<PlayerShowLogic>().getPlayerCardInfo(showInfo.showId);
-          }
-        }
-        else {
-          Get.back();
-        }
-      },
-      child: Text(
-        "BACK",
-        style: CustomTextStyles.button(color: Color(0xFF13EFEF), fontSize: 28.sp),
-      ),
-    );
   }
 }

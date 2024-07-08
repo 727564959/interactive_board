@@ -11,6 +11,7 @@ import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
+import '../../../widgets/common_icon_button.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../terms_page/view.dart';
@@ -33,14 +34,21 @@ class ConfirmationPage extends StatelessWidget {
               color: Color(0xFF233342),
               child: Column(
                 children: [
-                  SizedBox(
+                  Container(
                     width: 1.0.sw,
+                    margin: EdgeInsets.only(top: 20.0, left: 40.0),
                     child: Row(
                       children: [
+                        CommonIconButton(
+                          onPress: () {
+                            Get.back();
+                          },
+                        ),
+                        SizedBox(width: 0.1.sw - 48 - 40,),
                         Container(
-                          margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                          // margin: EdgeInsets.only(top: 20.0, left: 40.0),
                           child: SizedBox(
-                            width: 0.24.sw,
+                            // width: 0.24.sw,
                             child: Text(
                               "Confirmation",
                               style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
@@ -335,128 +343,18 @@ class ConfirmationPage extends StatelessWidget {
                   ),
                   SizedBox(height: 30.0,),
                   // _BackButton(),
-                  CommonTextButton(
-                    btnText: "BACK",
-                    textColor: Color(0xff13EFEF),
-                    onPress: () {
-                      Get.back();
-                    },
-                    changedTextColor: Color(0xffA4EDF1),
-                  ),
+                  // CommonTextButton(
+                  //   btnText: "BACK",
+                  //   textColor: Color(0xff13EFEF),
+                  //   onPress: () {
+                  //     Get.back();
+                  //   },
+                  //   changedTextColor: Color(0xffA4EDF1),
+                  // ),
                 ],
               ),
             ),
           ],
     ));
-  }
-}
-
-// 确认没问题的按钮
-class _NoProblemButton extends StatelessWidget {
-  _NoProblemButton({Key? key, required this.width, required this.bookingInfo, required this.code}) : super(key: key);
-  final double width;
-  final BookingInfo bookingInfo;
-  final String code;
-
-  final logic = Get.put(VerificationCodeLogic());
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        // String jsonString = '''
-        //           {
-        //               "showId": 29,
-        //               "startTime": "2024-05-09T11:00:00.307Z",
-        //               "associatedUsers": [
-        //                   {
-        //                       "tableId": 2,
-        //                       "userIds": [
-        //                           368,
-        //                           370,
-        //                           369,
-        //                           374,
-        //                           375
-        //                       ],
-        //                       "consumerId": 368
-        //                   },
-        //                   {
-        //                       "tableId": 1,
-        //                       "userIds": [
-        //                           368
-        //                       ],
-        //                       "consumerId": 368
-        //                   },
-        //                   {
-        //                       "tableId": 3,
-        //                       "userIds": [
-        //                           368
-        //                       ],
-        //                       "consumerId": 368
-        //                   }
-        //               ]
-        //           }
-        //         ''';
-        // Map<String, dynamic> jsonData = json.decode(jsonString);
-        // ShowInfo showInfoTest = ShowInfo.fromJson(jsonData);
-        // print("哈哈哈哈哈: ${bookingInfo.customer}");
-        // print("哈哈哈哈哈: ${showInfoTest}");
-        // await Get.to(() => TermsOfUsePage(isAddPlayerClick: false, showInfo: showInfoTest, customer: bookingInfo.customer));
-
-        EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-        try {
-          // final showInfo = await logic.ticketValidation(code, bookingInfo.bookingTime);
-
-          // final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime);
-          print("bookingInfo.bookingTime ${bookingInfo.bookingTime}");
-          print("bookingInfo.bookingDate ${bookingInfo.bookingDate}");
-          final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime, bookingInfo.bookingDate);
-          EasyLoading.dismiss(animation: false);
-          await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfo, "customer": bookingInfo.customer, "code": code});
-          // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
-          logic.codeController.clear();
-        } on DioException catch (e) {
-          EasyLoading.dismiss();
-          if (e.response == null) EasyLoading.showError("Network Error!");
-          EasyLoading.showError(e.response?.data["error"]["message"]);
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xff13EFEF),
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-        ),
-        margin: EdgeInsets.only(top: 0.0, left: 0.0),
-        constraints: BoxConstraints.tightFor(width: width, height: 100.h),
-        child: Center(
-          child: Text(
-            "NO PROBLEM",
-            textAlign: TextAlign.center,
-            style: CustomTextStyles.button(color: Colors.black, fontSize: 28.sp),
-          ),
-        ),
-      ),
-    );
-  }
-}
-// 返回到addPlayer页面
-class _BackButton extends StatelessWidget {
-  _BackButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        Get.back();
-      },
-      child: Text(
-        "BACK",
-        style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
-      ),
-    );
   }
 }

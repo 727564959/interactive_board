@@ -9,6 +9,7 @@ import '../../../data/model/show_state.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
+import '../../../widgets/common_icon_button.dart';
 import '../../../widgets/term_of_use.dart';
 import '../add_player/view.dart';
 
@@ -29,12 +30,19 @@ class TermsOfUseInfo extends StatelessWidget {
               color: Color(0xFF233342),
               child: Column(
                 children: [
-                  SizedBox(
+                  Container(
                     width: 1.0.sw,
+                    margin: EdgeInsets.only(top: 20.0, left: 40.0),
                     child: Row(
                       children: [
+                        CommonIconButton(
+                          onPress: () {
+                            Get.back();
+                          },
+                        ),
+                        SizedBox(width: 0.1.sw - 48 - 40,),
                         Container(
-                          margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                          // margin: EdgeInsets.only(top: 20.0, left: 40.0),
                           child: SizedBox(
                             child: Text(
                               "Term of Use",

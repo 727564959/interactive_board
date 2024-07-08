@@ -5,7 +5,8 @@ import '../../../common.dart';
 import '../data/avatar_info.dart';
 
 class AddPlayerDataLogic extends GetxController {
-  DateTime birthdayStr = DateTime.now();
+  // DateTime birthdayStr = DateTime.now();
+  DateTime birthdayStr = DateTime(DateTime.now().year - 12, DateTime.now().month, DateTime.now().day);
   final _dio = Dio();
 
   final firstNameController = TextEditingController();

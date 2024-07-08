@@ -92,6 +92,7 @@ class _BottomBtns extends StatelessWidget {
                       borderColor: Color(0xff13EFEF),
                       changedBorderColor: Color(0xffA4EDF1),
                       changedTextColor: Color(0xffA4EDF1),
+                      changedBgColor: Color(0xFF272727),
                     ),
                     SizedBox(width: 10,),
                     // _AddNowBtn(width: 340.w),

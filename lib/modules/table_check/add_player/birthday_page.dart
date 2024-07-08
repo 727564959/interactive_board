@@ -10,6 +10,7 @@ import '../../../../common.dart';
 import '../../../data/model/show_state.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/common_Text_button.dart';
+import '../../../widgets/common_icon_button.dart';
 import '../../../widgets/date_picker.dart';
 import '../data/avatar_info.dart';
 import '../headgear/view.dart';
@@ -51,58 +52,69 @@ class BirthdayPage extends StatelessWidget {
                     width: 600.w,
                   ),
                   // _BackButton(),
-                  CommonTextButton(
-                    btnText: "BACK",
-                    textColor: Color(0xff13EFEF),
-                    onPress: () {
-                      Get.back();
-                    },
-                    changedTextColor: Color(0xffA4EDF1),
-                  ),
+                  // CommonTextButton(
+                  //   btnText: "BACK",
+                  //   textColor: Color(0xff13EFEF),
+                  //   onPress: () {
+                  //     Get.back();
+                  //   },
+                  //   changedTextColor: Color(0xffA4EDF1),
+                  // ),
                 ],
               ),
             ),
             Positioned(
               left: 0.0,
               top: -30.0,
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 60.0, left: 40.0),
-                    constraints: BoxConstraints.tightFor(width: 1.0.sw - 40), //卡片大小
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 10.0),
-                          child: Text(
-                            'When’s your birthday?',
-                            style: CustomTextStyles.title(
-                                color: Colors.white, fontSize: 48.sp, level: 2),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 10.0),
-                          child: Text(
-                            'Collecting your birthday information to friendly gaming experience.',
-                            style: CustomTextStyles.textSmall(
-                              color: Color(0xFFFFFFFF),
-                              fontSize: 26.sp,),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 0.0),
-                          child: Text(
-                            'We will not disclose this information. Please rest assured.',
-                            style: CustomTextStyles.textSmall(
-                              color: Color(0xFFFFFFFF),
-                              fontSize: 26.sp,),
-                          ),
-                        ),
-                      ],
+              child: Container(
+                width: 1.0.sw,
+                margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                child: Row(
+                  children: [
+                    CommonIconButton(
+                      onPress: () {
+                        Get.back();
+                      },
                     ),
-                  ),
-                ],
+                    SizedBox(width: 0.1.sw - 48 - 40,),
+                    Container(
+                      // margin: EdgeInsets.only(top: 60.0, left: 40.0),
+                      margin: EdgeInsets.only(top: 20.0),
+                      // constraints: BoxConstraints.tightFor(width: 1.0.sw - 40), //卡片大小
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 10.0),
+                            child: Text(
+                              'When’s your birthday?',
+                              style: CustomTextStyles.title(
+                                  color: Colors.white, fontSize: 48.sp, level: 2),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 10.0),
+                            child: Text(
+                              'Collecting your birthday information to friendly gaming experience.',
+                              style: CustomTextStyles.textSmall(
+                                color: Color(0xFFFFFFFF),
+                                fontSize: 26.sp,),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 0.0),
+                            child: Text(
+                              'We will not disclose this information. Please rest assured.',
+                              style: CustomTextStyles.textSmall(
+                                color: Color(0xFFFFFFFF),
+                                fontSize: 26.sp,),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -151,7 +163,7 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
             width: 12.0,
           ),
           Text(
-            "Players should be over 13 years",
+            "Players should be over 12 years",
             style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
           ),
         ],
@@ -191,7 +203,7 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
         DateTime today = DateTime.now();  // 当前日期时间
         Duration ageDifference = today.difference(logic.birthdayStr);  // 计算时间间隔
         int ageInYears = (ageDifference.inDays / 365).floor();  // 将天数转换为年数
-        if (ageInYears >= 13) {
+        if (ageInYears >= 12) {
           if (checkingUser.isEmpty) {
             print("是新增!!!!!");
             String testPhone = "+(1)" + logic.phoneController.text;
