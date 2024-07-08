@@ -12,6 +12,7 @@ import '../../../app_routes.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
+import '../../../widgets/common_icon_button.dart';
 import '../data/booking.dart';
 import '../player_page/logic.dart';
 import '../player_page/player_squad.dart';
@@ -62,27 +63,61 @@ class VerificationPage extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(top: 20.0, left: 40.0),
                         constraints: BoxConstraints.tightFor(width: (1.0.sw - 40)), //卡片大小
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
                           children: [
-                            Container(
-                              child: Text(
-                                'Hey there, let’s get you in!',
-                                style: CustomTextStyles.title(
-                                    color: Colors.white, fontSize: 48.sp, level: 2),
-                              ),
+                            CommonIconButton(
+                              onPress: () {
+                                logic.focusNode.unfocus();
+                                Future.delayed(0.3.seconds).then((value) async {
+                                  Get.back();
+                                });
+                              },
                             ),
-                            Container(
-                              margin: EdgeInsets.only(top: 10.0),
-                              child: Text(
-                                'Enter your code to check in 30 minutes before your game.',
-                                style: CustomTextStyles.textSmall(
-                                    color: Color(0xFFFFFFFF),
-                                    fontSize: 26.sp,),
-                              ),
+                            SizedBox(width: 0.1.sw - 48 - 40,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: Text(
+                                    'Hey there, let’s get you in!',
+                                    style: CustomTextStyles.title(
+                                        color: Colors.white, fontSize: 48.sp, level: 2),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10.0),
+                                  child: Text(
+                                    'Enter your code to check in 30 minutes before your game.',
+                                    style: CustomTextStyles.textSmall(
+                                      color: Color(0xFFFFFFFF),
+                                      fontSize: 26.sp,),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
+                        // child: Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     Container(
+                        //       child: Text(
+                        //         'Hey there, let’s get you in!',
+                        //         style: CustomTextStyles.title(
+                        //             color: Colors.white, fontSize: 48.sp, level: 2),
+                        //       ),
+                        //     ),
+                        //     Container(
+                        //       margin: EdgeInsets.only(top: 10.0),
+                        //       child: Text(
+                        //         'Enter your code to check in 30 minutes before your game.',
+                        //         style: CustomTextStyles.textSmall(
+                        //             color: Color(0xFFFFFFFF),
+                        //             fontSize: 26.sp,),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ),
                       // SizedBox(
                       //   width: 1.0.sw,
@@ -131,17 +166,17 @@ class VerificationPage extends StatelessWidget {
                       _CheckInInput(title: "", controller: logic.codeController),
                       SizedBox(height: logic.isStateShow == 0 ? 30 : 50),
                       // if(logic.isStateShow == 0) _BackButton(),
-                      if(logic.isStateShow == 0) CommonTextButton(
-                                                    btnText: "BACK",
-                                                    textColor: Color(0xff13EFEF),
-                                                    onPress: () {
-                                                      logic.focusNode.unfocus();
-                                                      Future.delayed(0.3.seconds).then((value) async {
-                                                        Get.back();
-                                                      });
-                                                    },
-                                                    changedTextColor: Color(0xffA4EDF1),
-                                                  ),
+                      // if(logic.isStateShow == 0) CommonTextButton(
+                      //                               btnText: "BACK",
+                      //                               textColor: Color(0xff13EFEF),
+                      //                               onPress: () {
+                      //                                 logic.focusNode.unfocus();
+                      //                                 Future.delayed(0.3.seconds).then((value) async {
+                      //                                   Get.back();
+                      //                                 });
+                      //                               },
+                      //                               changedTextColor: Color(0xffA4EDF1),
+                      //                             ),
                       if(logic.isStateShow == -1) Container(
                         margin: EdgeInsets.only(left: 0.1.sw),
                         width: 0.9.sw,
@@ -584,6 +619,7 @@ class _CheckInInput extends StatelessWidget {
                   // 判断时间差是否小于等于1小时
                   // if (difference <= Duration(hours: 1) && difference >= Duration(hours: 0) && !currentDateTime.isAfter(targetDateTime1)) {
                   if (difference <= Duration(hours: 1) && difference >= difference1 && !currentDateTime.isAfter(targetDateTime1)) {
+                  // if (true) {
                     print('当前时间比目标时间小于等于一个小时');
                     print('开始走正常流程');
                     // 如果签过到，直接去形象设计
@@ -672,79 +708,6 @@ class _CheckInInput extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-// 下一步的按钮
-class _ConfirmButton extends StatelessWidget {
-  _ConfirmButton({
-    Key? key,
-    required this.width,
-    required this.btnText,
-  }) : super(key: key);
-  final double width;
-  final String btnText;
-  final logic = Get.put(VerificationCodeLogic());
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        // 如果是早到、晚到这两种状态，直接回到首页
-        if(logic.isStateShow == 1 || logic.isStateShow == 2) {
-          logic.updateStateShowFun(0);
-          logic.codeController.clear();
-          // 跳转回首页
-          Get.offAllNamed(AppRoutes.landingPage);
-        }
-        else {
-          logic.updateStateShowFun(0);
-          logic.codeController.clear();
-          // 获取焦点到 focusNode
-          FocusScope.of(context).requestFocus(logic.focusNode);
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xff13EFEF),
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-        ),
-        margin: EdgeInsets.only(top: 0.0, left: 0.0),
-        constraints: BoxConstraints.tightFor(width: width, height: 100.h),
-        child: Center(
-          child: Text(
-            btnText,
-            textAlign: TextAlign.center,
-            style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BackButton extends StatelessWidget {
-  _BackButton({
-    Key? key,
-  }) : super(key: key);
-  final logic = Get.put(VerificationCodeLogic());
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        logic.focusNode.unfocus();
-        Future.delayed(0.3.seconds).then((value) async {
-          Get.back();
-        });
-      },
-      child: Text(
-        "BACK",
-        style: CustomTextStyles.button(color: Color(0xFF13EFEF), fontSize: 28.sp),
-      ),
     );
   }
 }
