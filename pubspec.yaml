@@ -60,6 +60,10 @@ dependencies:
   fluttertoast: ^8.2.5
   audioplayers: ^6.0.0
   flutter_udid: ^3.0.0
+  signature: ^5.5.0
+  flutter_markdown: ^0.7.3
+  widgets_to_image: ^1.0.0
+  image_gallery_saver: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -98,6 +102,7 @@ flutter:
     - assets/sound_effects/normal/
     - assets/images/quiz/
     - assets/images/quiz/icons/
+    - assets/terms/RISK_INDEMNITY_ARBITRATION.md
 
   fonts:
     - family: RobotoFlex
