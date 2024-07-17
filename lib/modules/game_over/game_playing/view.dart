@@ -6,13 +6,16 @@ import 'package:get/get.dart';
 
 import '../../../../mirra_style.dart';
 import '../../../../widgets/check_in_title.dart';
+import '../../../3rd_libs/gif_view-0.4.3/gif_view.dart';
 import '../../../common.dart';
+import '../widgets/gif_view_widgets.dart';
 import '../widgets/player_info_card.dart';
 import 'logic.dart';
 
 class GamePlayingPage extends StatelessWidget {
   GamePlayingPage({Key? key}) : super(key: key);
   final logic = Get.put(GamePlayingLogic());
+  final GifController gifController = GifController(autoPlay: false, loop: false);
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +72,13 @@ class GamePlayingPage extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右对齐
                                     children: [
-                                      PlayerInfoCard(
+                                      if(logic.positionList.length > 0 ? true : false) PlayerInfoCard(
                                         avatarUrl: logic.positionList[0].player.avatarUrl,
                                         width: 306.w,
                                         nickname: logic.positionList[0].player.nickname,
                                         position: logic.positionList[0].position,
                                       ),
-                                      PlayerInfoCard(
+                                      if(logic.positionList.length > 1 ? true : false) PlayerInfoCard(
                                         avatarUrl: logic.positionList[1].player.avatarUrl,
                                         width: 306.w,
                                         nickname: logic.positionList[1].player.nickname,
@@ -126,78 +129,86 @@ class GamePlayingPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                // 第二个烟花
                 if(!logic.isWellDone) Positioned(
                   left: (1.0.sw - 612.w) / 2 - 0.15.sh,
                   top: 120,
-                  child: FutureBuilder<void>(
-                    future: Future.delayed(Duration(milliseconds: 800)),
-                    builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
-                      } else {
-                        return Image.asset(
-                          MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
-                          fit: BoxFit.fitHeight,
-                          height: 0.15.sh,
-                        );
-                      }
-                    },
-                  ),
+                  // child: FutureBuilder<void>(
+                  //   future: Future.delayed(Duration(milliseconds: 800)),
+                  //   builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                  //     if (snapshot.connectionState == ConnectionState.waiting) {
+                  //       return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
+                  //     } else {
+                  //       return Image.asset(
+                  //         MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
+                  //         fit: BoxFit.fitHeight,
+                  //         height: 0.15.sh,
+                  //       );
+                  //     }
+                  //   },
+                  // ),
+                  child: GifViewWidgets(gifName: 'Firework_Purple_3_2.gif', height: 0.15.sh, frameRate: 42, delay: 240.ms, periodicTime: 910.ms),
                   // child: Image.asset(
                   //   MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
                   //   fit: BoxFit.fitHeight,
                   //   height: 0.15.sh,
                   // ),
                 ),
+                // 第四个烟花
                 if(!logic.isWellDone) Positioned(
                   right: (1.0.sw - 612.w) / 2 - 0.32.sh,
                   top: 120,
-                  child: Image.asset(
-                    MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
-                    fit: BoxFit.fitHeight,
-                    height: 0.27.sh,
-                  ),
+                  // child: Image.asset(
+                  //   MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
+                  //   fit: BoxFit.fitHeight,
+                  //   height: 0.27.sh,
+                  // ),
+                  child: GifViewWidgets(gifName: 'Firework_Purple_3_2.gif', height: 0.27.sh, frameRate: 53, delay: 0.ms, periodicTime: 1150.ms),
                 ),
+                // 第一个烟花
                 if(!logic.isWellDone) Positioned(
                   left: ((1.0.sw - 612.w) / 2) / 2 - 0.1.sh,
                   bottom: 120,
-                  child: FutureBuilder<void>(
-                    future: Future.delayed(Duration(milliseconds: 1500)),
-                    builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
-                      } else {
-                        return Image.asset(
-                          MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
-                          fit: BoxFit.fitHeight,
-                          height: 0.21.sh,
-                        );
-                      }
-                    },
-                  ),
+                  // child: FutureBuilder<void>(
+                  //   future: Future.delayed(Duration(milliseconds: 1500)),
+                  //   builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                  //     if (snapshot.connectionState == ConnectionState.waiting) {
+                  //       return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
+                  //     } else {
+                  //       return Image.asset(
+                  //         MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
+                  //         fit: BoxFit.fitHeight,
+                  //         height: 0.21.sh,
+                  //       );
+                  //     }
+                  //   },
+                  // ),
+                  child: GifViewWidgets(gifName: 'Firework_Purple_3_2.gif', height: 0.21.sh, frameRate: 48, delay: 110.ms, periodicTime: 1040.ms),
                   // child: Image.asset(
                   //   MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
                   //   fit: BoxFit.fitHeight,
                   //   height: 0.21.sh,
                   // ),
                 ),
+                // 第三个烟花
                 if(!logic.isWellDone) Positioned(
                   right: (1.0.sw - 612.w) / 2 - 0.3.sh,
                   bottom: 80,
-                  child: FutureBuilder<void>(
-                    future: Future.delayed(Duration(milliseconds: 1800)),
-                    builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
-                      } else {
-                        return Image.asset(
-                          MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
-                          fit: BoxFit.fitHeight,
-                          height: 0.21.sh,
-                        );
-                      }
-                    },
-                  ),
+                  // child: FutureBuilder<void>(
+                  //   future: Future.delayed(Duration(milliseconds: 1800)),
+                  //   builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                  //     if (snapshot.connectionState == ConnectionState.waiting) {
+                  //       return Container(); // 如果延迟尚未完成，返回一个空的 Container 或者其他占位符小部件
+                  //     } else {
+                  //       return Image.asset(
+                  //         MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
+                  //         fit: BoxFit.fitHeight,
+                  //         height: 0.21.sh,
+                  //       );
+                  //     }
+                  //   },
+                  // ),
+                  child: GifViewWidgets(gifName: 'Firework_Purple_3_2.gif', height: 0.21.sh, frameRate: 38, delay: 330.ms, periodicTime: 820.ms),
                   // child: Image.asset(
                   //   MirraIcons.getGifPath('Firework_Purple_3_2.gif'),
                   //   fit: BoxFit.fitHeight,
