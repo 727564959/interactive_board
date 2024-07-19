@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -213,24 +215,30 @@ class _SquadCard extends StatelessWidget {
                       }
                       else {
                         print("设计形象");
-                        logic.getGameItems(card.userId, card.avatarId);
-                        // logic.currentName = card.nickname??"";
-                        // logic.currentUserId = card.userId??null;
-
-                        logic.testFun();
-                        // logic.refreshPlayerLook(card.userId, card.avatarId);
-
-                        await Future.delayed(100.ms);
-                        print("logic.gameItemInfo ${logic.gameItemInfo}");
-                        Get.offAll(() => PlayerLookPage(),
-                            arguments: {
-                              "gameItemInfo": logic.gameItemInfo,
-                              "showInfo": showInfo,
-                              "customer": customer,
-                              "card": card,
-                              "isAddPlayerClick": isAddPlayerClick,
-                              "tableId": tableId
-                        });
+                        EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+                        try {
+                          EasyLoading.dismiss(animation: false);
+                          logic.getGameItems(card.userId, card.avatarId);
+                          // logic.currentName = card.nickname??"";
+                          // logic.currentUserId = card.userId??null;
+                          logic.testFun();
+                          // logic.refreshPlayerLook(card.userId, card.avatarId);
+                          await Future.delayed(100.ms);
+                          print("logic.gameItemInfo ${logic.gameItemInfo}");
+                          Get.offAll(() => PlayerLookPage(),
+                              arguments: {
+                                "gameItemInfo": logic.gameItemInfo,
+                                "showInfo": showInfo,
+                                "customer": customer,
+                                "card": card,
+                                "isAddPlayerClick": isAddPlayerClick,
+                                "tableId": tableId
+                              });
+                        } on DioException catch (e) {
+                          EasyLoading.dismiss();
+                          if (e.response == null) EasyLoading.showError("Network Error!");
+                          EasyLoading.showError(e.response?.data["error"]["message"]);
+                        }
                       }
                     },
                     child: Card(
