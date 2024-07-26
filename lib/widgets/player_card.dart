@@ -77,7 +77,7 @@ class AvatarCard extends StatelessWidget {
       );
     } else {
       bottomLabel = Padding(
-        padding: EdgeInsets.only(top: 7.w, bottom: 10.w),
+        padding: EdgeInsets.only(top: 15.w, bottom: 15.w),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),

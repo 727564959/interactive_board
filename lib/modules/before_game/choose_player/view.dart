@@ -28,7 +28,7 @@ class ChoosePlayerPage extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                MirraAppBar(title: logic.game),
+                MirraAppBar(title: "Choose Player", middleString: logic.game),
                 GetBuilder<ChoosePlayerLogic>(
                   builder: (logic) {
                     if (logic.mode == "normal") {

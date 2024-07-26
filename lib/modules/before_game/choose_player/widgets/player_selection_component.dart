@@ -7,7 +7,7 @@ import '../logic.dart';
 import 'player_target_card.dart';
 
 class EventModeContent extends StatelessWidget {
-  EventModeContent({Key? key}) : super(key: key);
+  EventModeContent({super.key});
   final logic = Get.find<ChoosePlayerLogic>();
   @override
   Widget build(BuildContext context) {
@@ -52,32 +52,9 @@ class NormalModeContent extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Transform.translate(
-          offset: const Offset(0, -30),
-          child: PlayerTargetCard(position: position1),
-        ),
-        PlayerTargetCard(position: position2, delay: 400.ms),
+        PlayerTargetCard(position: position1),
         SizedBox(width: 30.w),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              logic.game,
-              style: CustomTextStyles.display1(
-                color: Colors.white,
-                fontSize: 75.sp,
-              ),
-            ),
-            SizedBox(height: 20.w),
-            Text(
-              "        2 player in This Round",
-              style: CustomTextStyles.display2(
-                color: Colors.white,
-                fontSize: 60.sp,
-              ),
-            )
-          ],
-        ),
+        PlayerTargetCard(position: position2, delay: 400.ms),
       ],
     );
   }

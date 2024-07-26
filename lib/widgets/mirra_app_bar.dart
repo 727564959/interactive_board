@@ -8,8 +8,9 @@ import 'package:get/get.dart';
 import 'package:interactive_board/mirra_style.dart';
 
 class MirraAppBar extends StatefulWidget {
-  const MirraAppBar({Key? key, required this.title}) : super(key: key);
+  const MirraAppBar({super.key, required this.title, this.middleString});
   final String title;
+  final String? middleString;
   @override
   State<MirraAppBar> createState() => _MirraAppBarState();
 }
@@ -46,6 +47,11 @@ class _MirraAppBarState extends State<MirraAppBar> {
             widget.title,
             style: CustomTextStyles.title2(color: Colors.white, fontSize: 45.sp),
           ),
+          if (widget.middleString != null)
+            Text(
+              widget.middleString!,
+              style: CustomTextStyles.title2(color: Colors.white, fontSize: 45.sp),
+            ),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [

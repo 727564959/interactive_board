@@ -9,7 +9,7 @@ import 'package:interactive_board/modules/before_game/choose_player/widgets/bott
 import '../logic.dart';
 
 class PlayerBottomBar extends StatefulWidget {
-  const PlayerBottomBar({Key? key}) : super(key: key);
+  const PlayerBottomBar({super.key});
 
   @override
   State<PlayerBottomBar> createState() => _PlayerBottomBarState();
