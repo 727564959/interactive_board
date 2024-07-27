@@ -12,6 +12,7 @@ import '../../../mirra_style.dart';
 import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_icon_button.dart';
 import '../../../widgets/date_picker.dart';
+import '../../term_of_use/view.dart';
 import '../data/avatar_info.dart';
 import '../headgear/view.dart';
 import '../player_show/view.dart';
@@ -219,23 +220,31 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
               // 加入到show
               await logic.addPlayerToShow(showState.showId??1, Global.tableId, addUserInfo['userId']);
 
-              print("参数 ${addUserInfo['userId']}");
-              List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
-              if(headgearObj.isEmpty) {
-                Get.offAll(() => PlayerShowPage(),
-                    arguments: {
-                      'showState': showState,
-                    });
-              }
-              else {
-                Get.offAll(() => HeadgearPage(),
-                  arguments: {
-                    'showState': showState,
-                    'headgearObj': headgearObj,
-                    'userId': addUserInfo['userId'],
-                  },
-                );
-              }
+              await Get.to(() => TermsOfUse(), arguments: {
+                "isAddPlayerClick": true,
+                "showState": showState,
+                "isFlow": "tableCheck",
+                "tableId": Global.tableId,
+                'userId': addUserInfo['userId'],
+              });
+
+              // print("参数 ${addUserInfo['userId']}");
+              // List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
+              // if(headgearObj.isEmpty) {
+              //   Get.offAll(() => PlayerShowPage(),
+              //       arguments: {
+              //         'showState': showState,
+              //       });
+              // }
+              // else {
+              //   Get.offAll(() => HeadgearPage(),
+              //     arguments: {
+              //       'showState': showState,
+              //       'headgearObj': headgearObj,
+              //       'userId': addUserInfo['userId'],
+              //     },
+              //   );
+              // }
             } on DioException catch (e) {
               EasyLoading.dismiss();
               if (e.response == null) EasyLoading.showError("Network Error!");

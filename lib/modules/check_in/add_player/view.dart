@@ -11,9 +11,9 @@ import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
 import '../../../widgets/common_icon_button.dart';
 import '../data/avatar_info.dart';
-import '../data/booking.dart';
 import '../data/show.dart';
 import '../headgear_acquisition/view.dart';
+import '../home_page/booking_state.dart';
 import '../player_page/logic.dart';
 import '../player_page/player_squad.dart';
 import 'birthday_page.dart';
@@ -204,9 +204,11 @@ class _BottomBtns extends StatelessWidget {
   }) : super(key: key);
   final logic = Get.find<AddPlayerLogic>();
   ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
   int get tableId => Get.arguments["tableId"];
+  String get isFlow => Get.arguments["isFlow"];
 
   @override
   Widget build(BuildContext context) {
@@ -231,9 +233,10 @@ class _BottomBtns extends StatelessWidget {
                       Get.to(() => BirthdayPage(),
                         arguments: {
                           'showInfo': showInfo,
-                          'customer': customer,
+                          "bookingState": bookingState,
                           "isAddPlayerClick": isAddPlayerClick,
                           "tableId": tableId,
+                          "isFlow": "checkIn"
                         },
                       );
                     }
@@ -298,182 +301,5 @@ class _BottomBtns extends StatelessWidget {
       ),
     );
     return content;
-  }
-}
-
-// 下一步的按钮
-class _NextButton extends StatelessWidget {
-  _NextButton({
-    Key? key,
-    required this.width,
-  }) : super(key: key);
-  final double width;
-
-  final logic = Get.find<AddPlayerLogic>();
-  ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
-  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
-  int get tableId => Get.arguments["tableId"];
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        logic.formKey.currentState!.validate();
-        if (logic.firstNameController.text.isNotEmpty &&
-            logic.lastNameController.text.isNotEmpty &&
-            logic.emailController.text.isNotEmpty &&
-            logic.phoneController.text.isNotEmpty) {
-          // print("logic.firstNameController.text ${logic.firstNameController.text}");
-          Get.to(() => BirthdayPage(),
-            arguments: {
-              'showInfo': showInfo,
-              'customer': customer,
-              "isAddPlayerClick": isAddPlayerClick,
-              "tableId": tableId,
-            },
-          );
-        }
-      },
-      child: GetBuilder<AddPlayerLogic>(
-        id: "editNextBtn",
-        builder: (logic) {
-          return Container(
-            decoration: BoxDecoration(
-              color: Color(0xff13EFEF),
-              borderRadius: BorderRadius.all(Radius.circular(50)),
-            ),
-            margin: EdgeInsets.only(top: 0.0, left: 0.0),
-            constraints: BoxConstraints.tightFor(width: width, height: 100.h),
-            child: Center(
-              child: Text(
-                "NEXT",
-                textAlign: TextAlign.center,
-                style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-// class _BackButton extends StatelessWidget {
-//   _BackButton({
-//     Key? key,
-//     required this.width,
-//   }) : super(key: key);
-//   final double width;
-//   final logic = Get.find<AddPlayerLogic>();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       // 点击事件
-//       onTap: () async {
-//         Get.back();
-//       },
-//       child: Container(
-//         decoration: BoxDecoration(
-//           //设置边框
-//           border: new Border.all(color: Color(0xff13EFEF), width: 1),
-//           color: Color(0xFF233342),
-//           borderRadius: BorderRadius.all(Radius.circular(50)),
-//         ),
-//         margin: EdgeInsets.only(top: 0.0, left: 30.0),
-//         constraints: BoxConstraints.tightFor(width: width, height: 100.h), //卡片大小
-//         child: Center(
-//           child: Text(
-//             "BACK",
-//             textAlign: TextAlign.center,
-//             style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-class _MaybeLatterButton extends StatelessWidget {
-  _MaybeLatterButton({
-    Key? key,
-  }) : super(key: key);
-  final logic = Get.find<AddPlayerLogic>();
-  ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
-  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
-  int get tableId => Get.arguments["tableId"];
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        Map skipUserInfo = await logic.addSkipPlayer();
-        // 加入到show
-        await logic.addPlayerToShow(showInfo.showId, tableId, skipUserInfo['userId']);
-        List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(skipUserInfo['userId']);
-        if (headgearObj.isEmpty) {
-          if (Get.isRegistered<PlayerShowLogic>()) {
-            Get.find<PlayerShowLogic>().getPlayerCardInfo(showInfo.showId);
-          }
-          Get.offAll(() => PlayerSquadPage(), arguments: {
-            'showInfo': showInfo,
-            'customer': customer,
-            "isAddPlayerClick": isAddPlayerClick,
-            "tableId": tableId,
-          });
-        } else {
-          print("headgearObj: ${headgearObj}");
-          print("headgearObj: ${skipUserInfo['userId']}");
-          Future.delayed(0.5.seconds).then((value) async {
-            print("延迟跳转");
-            print("headgearObj: ${headgearObj}");
-            print("headgearObj: ${skipUserInfo['userId']}");
-            Get.offAll(() => HeadgearAcquisitionPage(),
-              arguments: {
-                'showInfo': showInfo,
-                'customer': customer,
-                'headgearObj': headgearObj,
-                'userId': skipUserInfo['userId'],
-                "isAddPlayerClick": isAddPlayerClick,
-                "tableId": tableId,
-              },
-            );
-          });
-        }
-      },
-      child: GetBuilder<AddPlayerLogic>(
-        id: "maybeLatterBtn",
-        builder: (logic) {
-          return Text(
-            "MAYBE LATTER",
-            style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _BackButton extends StatelessWidget {
-  _BackButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        Get.back();
-      },
-      child: Text(
-        "BACK",
-        style: CustomTextStyles.button(color: Color(0xFF13EFEF), fontSize: 28.sp),
-      ),
-    );
   }
 }

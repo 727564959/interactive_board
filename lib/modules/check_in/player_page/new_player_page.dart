@@ -7,10 +7,10 @@ import 'package:get/get.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../widgets/common_button.dart';
-import '../data/booking.dart';
 import '../data/show.dart';
 import '../data/skin_gender_option.dart';
 import '../data/user_info.dart';
+import '../home_page/booking_state.dart';
 import 'logic.dart';
 import 'player_squad.dart';
 
@@ -19,7 +19,8 @@ class NewPlayerPage extends StatelessWidget {
   final logic = Get.put(PlayerShowLogic());
   int get tableId => Get.arguments["tableId"];
   ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
   int get userId => Get.arguments["userId"];
   int get headgearId => Get.arguments["headgearId"];
@@ -120,7 +121,7 @@ class NewPlayerPage extends StatelessWidget {
                             Get.to(() => PlayerSquadPage(),
                                 arguments: {
                                   "showInfo": showInfo,
-                                  "customer": customer,
+                                  "bookingState": bookingState,
                                   "isAddPlayerClick": isAddPlayerClick,
                                   "tableId": tableId,
                                 });
@@ -361,76 +362,6 @@ class _SelectedAreaState extends State<_SelectedArea> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _SaveButton extends StatelessWidget {
-  _SaveButton({
-    Key? key,
-    required this.width,
-  }) : super(key: key);
-  final logic = Get.put(PlayerShowLogic());
-  final double width;
-  ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
-  bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
-  int get userId => Get.arguments["userId"];
-  int get headgearId => Get.arguments["headgearId"];
-  int get tableId => Get.arguments["tableId"];
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        if(logic.selectedGender.label != null && logic.selectedSkin.label != null) {
-          try {
-            final player = await logic.fetchUserAvatar(userId);
-            logic.updateUserPreference(player.id, player.nickname, headgearId, logic.selectedGender.label??"", logic.selectedSkin.label??"");
-            logic.testFun();
-            EasyLoading.dismiss(animation: false);
-            Get.to(() => PlayerSquadPage(),
-                arguments: {
-                  "showInfo": showInfo,
-                  "customer": customer,
-                  "isAddPlayerClick": isAddPlayerClick,
-                  "tableId": tableId,
-                });
-          } on DioException catch (e) {
-            EasyLoading.dismiss();
-            if (e.response == null) EasyLoading.showError("Network Error!");
-            EasyLoading.showError(e.response?.data["error"]["message"]);
-          }
-
-          // final player = await logic.fetchUserAvatar(userId);
-          // await Future.delayed(100.ms);
-          // logic.updateUserPreference(player.id, player.nickname, headgearId, logic.selectedGender.label??"", logic.selectedSkin.label??"");
-          // await Future.delayed(100.ms);
-          // // logic.getPlayerCardInfo(showInfo.showId);
-          // logic.testFun();
-          // await Future.delayed(1000.ms);
-          // Get.offAll(() => PlayerSquadPage(), arguments: {"showInfo": showInfo, "customer": customer, "isAddPlayerClick": isAddPlayerClick,});
-        }
-        else {
-          EasyLoading.showError("Please fill in the information !");
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xff13EFEF),
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-        ),
-        margin: EdgeInsets.only(top: 0.0, left: 0.0),
-        constraints: BoxConstraints.tightFor(width: width, height: 100.h),
-        child: Center(
-          child: Text(
-            "SAVE",
-            textAlign: TextAlign.center,
-            style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
-          ),
-        ),
       ),
     );
   }

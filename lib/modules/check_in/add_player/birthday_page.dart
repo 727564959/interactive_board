@@ -10,10 +10,11 @@ import '../../../mirra_style.dart';
 import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_icon_button.dart';
 import '../../../widgets/date_picker.dart';
+import '../../term_of_use/view.dart';
 import '../data/avatar_info.dart';
-import '../data/booking.dart';
 import '../data/show.dart';
 import '../headgear_acquisition/view.dart';
+import '../home_page/booking_state.dart';
 import '../player_page/player_squad.dart';
 import 'logic.dart';
 
@@ -139,9 +140,11 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
 
   final logic = Get.find<AddPlayerLogic>();
   ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
   int get tableId => Get.arguments["tableId"];
+  String get isFlow => Get.arguments["isFlow"];
   bool isChangeBgColor = false;
 
   @override
@@ -221,29 +224,38 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
               // 加入到show
               await logic.addPlayerToShow(showInfo.showId, tableId, addUserInfo['userId']);
 
-              print("参数 ${addUserInfo['userId']}");
-              List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
-              if(headgearObj.isEmpty) {
-                Get.offAll(() => PlayerSquadPage(),
-                    arguments: {
-                      'showInfo': showInfo,
-                      'customer': customer,
-                      "isAddPlayerClick": isAddPlayerClick,
-                      "tableId": tableId,
-                    });
-              }
-              else {
-                Get.offAll(() => HeadgearAcquisitionPage(),
-                  arguments: {
-                    'showInfo': showInfo,
-                    'customer': customer,
-                    'headgearObj': headgearObj,
-                    'userId': addUserInfo['userId'],
-                    "isAddPlayerClick": isAddPlayerClick,
-                    "tableId": tableId,
-                  },
-                );
-              }
+              await Get.to(() => TermsOfUse(), arguments: {
+                "isAddPlayerClick": true,
+                "showInfo": showInfo,
+                "bookingState": bookingState,
+                "isFlow": "checkIn",
+                "tableId": tableId,
+                'userId': addUserInfo['userId'],
+              });
+
+              // print("参数 ${addUserInfo['userId']}");
+              // List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(addUserInfo['userId']);
+              // if(headgearObj.isEmpty) {
+              //   Get.offAll(() => PlayerSquadPage(),
+              //       arguments: {
+              //         'showInfo': showInfo,
+              //         "bookingState": bookingState,
+              //         "isAddPlayerClick": isAddPlayerClick,
+              //         "tableId": tableId,
+              //       });
+              // }
+              // else {
+              //   Get.offAll(() => HeadgearAcquisitionPage(),
+              //     arguments: {
+              //       'showInfo': showInfo,
+              //       "bookingState": bookingState,
+              //       'headgearObj': headgearObj,
+              //       'userId': addUserInfo['userId'],
+              //       "isAddPlayerClick": isAddPlayerClick,
+              //       "tableId": tableId,
+              //     },
+              //   );
+              // }
             } on DioException catch (e) {
               EasyLoading.dismiss();
               if (e.response == null) EasyLoading.showError("Network Error!");
@@ -318,28 +330,6 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
             style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
           ),
         ),
-      ),
-    );
-  }
-}
-
-// 返回到addPlayer页面
-class _BackButton extends StatelessWidget {
-  _BackButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        Get.back();
-      },
-      child: Text(
-        "BACK",
-        style:
-            CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
       ),
     );
   }

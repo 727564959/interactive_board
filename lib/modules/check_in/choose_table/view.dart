@@ -12,9 +12,9 @@ import '../../../widgets/common_icon_button.dart';
 import '../complete_page/view.dart';
 import '../data/avatar_info.dart';
 import '../data/show.dart';
-import '../data/booking.dart';
 import '../group_set/view.dart';
 import '../headgear_acquisition/view.dart';
+import '../home_page/booking_state.dart';
 import '../player_page/player_squad.dart';
 import 'logic.dart';
 import '../../../common.dart';
@@ -26,8 +26,8 @@ class ChooseTablePage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
   ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
-  String get code => Get.arguments["code"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
   final logic = Get.put(ChooseTableLogic());
   @override
@@ -131,15 +131,15 @@ class ChooseTablePage extends StatelessWidget {
                             );
                             print("userId ${userId}");
                             print("showId ${showInfo.showId}");
-                            print("code ${code}");
                             print("logic.selectedTableId ${logic.selectedTableId}");
                             // 验票
-                            await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
+                            // await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
+                            await logic.customerCheckIn(showId: showInfo.showId, userId: userId, transactionId: bookingState.transactionId, bookingId: bookingState.bookingId);
                             print("哈哈哈哈哈");
                             EasyLoading.dismiss(animation: false);
                             await Get.offAll(() => GroupIconSetPage(), arguments: {
                               'showInfo': showInfo,
-                              'customer': customer,
+                              "bookingState": bookingState,
                               "isAddPlayerClick": isAddPlayerClick,
                               "tableId": logic.selectedTableId,
                             });
@@ -227,7 +227,6 @@ class ChooseTablePage extends StatelessWidget {
                   //         );
                   //         print("userId ${userId}");
                   //         print("showId ${showInfo.showId}");
-                  //         print("code ${code}");
                   //         print("logic.selectedTableId ${logic.selectedTableId}");
                   //         // 验票
                   //         await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);

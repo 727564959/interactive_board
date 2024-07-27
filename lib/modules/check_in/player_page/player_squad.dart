@@ -9,9 +9,10 @@ import 'package:get/get.dart';
 
 import '../../../../mirra_style.dart';
 import '../../../widgets/custom_countdown.dart';
+import '../../add_player/view.dart';
 import '../complete_page/view.dart';
-import '../data/booking.dart';
 import '../data/show.dart';
+import '../home_page/booking_state.dart';
 import '../terms_page/view.dart';
 import 'add_dialog.dart';
 import 'logic.dart';
@@ -24,12 +25,21 @@ class PlayerSquadPage extends StatelessWidget {
   final logic = Get.put(PlayerShowLogic());
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
   int get tableId => Get.arguments["tableId"];
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
 
   @override
   Widget build(BuildContext context) {
     print("isAddPlayerClick ${isAddPlayerClick}");
-    if(!isAddPlayerClick) Future.delayed(Duration.zero, () {
-      Get.dialog(Dialog(child: AddDialog()), arguments: {"tableId": tableId,}).then((value) {
+    // if(!isAddPlayerClick) Future.delayed(Duration.zero, () {
+    //   Get.dialog(Dialog(child: AddDialog()), arguments: {"tableId": tableId, "showInfo": showInfo, "bookingState": bookingState,}).then((value) {
+    //     logic.isCountdownStart = true;
+    //     logic.testFun();
+    //   });
+    // });
+    Future.delayed(Duration.zero, () {
+      Get.dialog(Dialog(child: AddDialog()), arguments: {"tableId": tableId, "showInfo": showInfo, "bookingState": bookingState,}).then((value) {
         logic.isCountdownStart = true;
         logic.testFun();
       });
@@ -142,7 +152,8 @@ class _SquadCard extends StatelessWidget {
   int num = 0;
 
   ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
 
   @override
@@ -205,12 +216,20 @@ class _SquadCard extends StatelessWidget {
                         // 点击非用户卡片时的逻辑
                         print("新增用户");
                         logic.testFun();
-                        await Get.to(() => TermsOfUsePage(),
+                        // await Get.to(() => TermsOfUsePage(),
+                        //     arguments: {
+                        //       "isAddPlayerClick": true,
+                        //       "showInfo": showInfo,
+                        //       "customer": customer,
+                        //       "tableId": tableId,
+                        //     });
+                        await Get.to(() => UserAuthenticator(),
                             arguments: {
                               "isAddPlayerClick": true,
                               "showInfo": showInfo,
-                              "customer": customer,
+                              "bookingState": bookingState,
                               "tableId": tableId,
+                              "isFlow": "checkIn",
                             });
                       }
                       else {
@@ -229,7 +248,7 @@ class _SquadCard extends StatelessWidget {
                               arguments: {
                                 "gameItemInfo": logic.gameItemInfo,
                                 "showInfo": showInfo,
-                                "customer": customer,
+                                "bookingState": bookingState,
                                 "card": card,
                                 "isAddPlayerClick": isAddPlayerClick,
                                 "tableId": tableId
@@ -418,7 +437,8 @@ class _DoneButtonState extends State<_DoneButton> {
   double get width => widget.width;
   bool get isCountdownStart => widget.isCountdownStart;
   ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   int get tableId => Get.arguments["tableId"];
   bool isChangeBgColor = false;
 
@@ -436,7 +456,7 @@ class _DoneButtonState extends State<_DoneButton> {
         });
         await Get.to(
               () => const CompletePage(),
-          arguments: {"tableId": tableId, "startTime": showInfo.startTime, "customer": customer},
+          arguments: {"tableId": tableId, "startTime": showInfo.startTime, "bookingState": bookingState},
           preventDuplicates: false,
         );
       },
@@ -478,7 +498,7 @@ class _DoneButtonState extends State<_DoneButton> {
                 onCountdownComplete: () async {
                   await Get.to(
                         () => const CompletePage(),
-                    arguments: {"tableId": tableId, "startTime": showInfo.startTime, "customer": customer},
+                    arguments: {"tableId": tableId, "startTime": showInfo.startTime, "bookingState": bookingState},
                     preventDuplicates: false,
                   );
                 },

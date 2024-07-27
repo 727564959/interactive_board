@@ -12,9 +12,9 @@ import '../../../mirra_style.dart';
 import '../../data/model/show_state.dart';
 import '../../widgets/check_in_title.dart';
 import '../../widgets/common_button.dart';
-import '../check_in/data/booking.dart';
 import '../check_in/data/show.dart';
 import '../check_in/data/skin_gender_option.dart';
+import '../check_in/home_page/booking_state.dart';
 import '../check_in/player_page/logic.dart';
 import '../check_in/player_page/player_squad.dart';
 import '../table_check/player_show/logic.dart';
@@ -27,7 +27,9 @@ class PlayerLookPage extends StatelessWidget {
   final logic = Get.put(MirraLookLogic());
   int get tableId => Get.arguments["tableId"];
   ShowInfo get showInfo => Get.arguments?["showInfo"];
-  Customer get customer => Get.arguments?["customer"];
+  // Customer get customer => Get.arguments?["customer"];
+  BookingState get bookingState => Get.arguments?["bookingState"];
+  Customer get customer => bookingState.customer;
   bool get isAddPlayerClick => Get.arguments?["isAddPlayerClick"];
   PlayerCardInfo get card => Get.arguments?["card"];
   ShowState get showState => Get.arguments?["showState"];
@@ -103,7 +105,7 @@ class PlayerLookPage extends StatelessWidget {
                                                   Get.offAll(() => PlayerSquadPage(),
                                                       arguments: {
                                                         "showInfo": showInfo,
-                                                        "customer": customer,
+                                                        "bookingState": bookingState,
                                                         "isAddPlayerClick": isAddPlayerClick,
                                                         "isCountdownStart": true,
                                                         "tableId": tableId,

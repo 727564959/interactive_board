@@ -11,9 +11,9 @@ import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../widgets/common_button.dart';
 import '../data/avatar_info.dart';
-import '../data/booking.dart';
 import '../data/show.dart';
 import '../headgear_acquisition/view.dart';
+import '../home_page/booking_state.dart';
 import '../player_page/player_squad.dart';
 import 'logic.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -22,7 +22,8 @@ class GroupIconSetPage extends StatelessWidget {
   GroupIconSetPage({Key? key}) : super(key: key);
   final logic = Get.put(GroupIconSetLogic());
   ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
   int get tableId => Get.arguments["tableId"];
 
@@ -244,7 +245,7 @@ class GroupIconSetPage extends StatelessWidget {
                                     () => PlayerSquadPage(),
                                 arguments: {
                                   'showInfo': showInfo,
-                                  'customer': customer,
+                                  "bookingState": bookingState,
                                   "isAddPlayerClick": isAddPlayerClick,
                                   "tableId": tableId,
                                 });
@@ -253,7 +254,7 @@ class GroupIconSetPage extends StatelessWidget {
                                   () => HeadgearAcquisitionPage(),
                               arguments: {
                                 'showInfo': showInfo,
-                                'customer': customer,
+                                "bookingState": bookingState,
                                 'headgearObj': headgearObj,
                                 'userId': userId,
                                 "isAddPlayerClick": isAddPlayerClick,
