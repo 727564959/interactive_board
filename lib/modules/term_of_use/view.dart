@@ -144,8 +144,6 @@ class _BottomBtnsState extends State<_BottomBtns> {
 
   final logic = Get.put(TermsOfUseLogic());
 
-  bool isToBottom = false;
-
   @override
   Widget build(BuildContext context) {
     // print("isBottom ${widget.controller.isBottom}");
@@ -157,21 +155,7 @@ class _BottomBtnsState extends State<_BottomBtns> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if(!isToBottom) CommonButton(
-                width: 600.w,
-                height: 100.h,
-                btnText: 'AGREE',
-                btnBgColor: Color(0xff13EFEF),
-                textColor: Colors.black,
-                onPress: () async {
-                  setState(() {
-                    isToBottom = true;
-                  });
-                  widget.controller.scrollToSignatureBar();
-                },
-                changedBgColor: Color(0xffA4EDF1),
-              ),
-              if(isToBottom) CommonButton(
+              CommonButton(
                 width: 600.w,
                 height: 100.h,
                 btnText: "CLEAR",
@@ -189,7 +173,7 @@ class _BottomBtnsState extends State<_BottomBtns> {
                 changedBgColor: Color(0xFF272727),
               ),
               SizedBox(width: 20,),
-              if(isToBottom) CommonButton(
+              CommonButton(
                 width: 600.w,
                 height: 100.h,
                 btnText: 'NEXT',
@@ -197,13 +181,7 @@ class _BottomBtnsState extends State<_BottomBtns> {
                 textColor: Colors.black,
                 // disable: !widget.controller.isSignatureNotEmpty,
                 onPress: () async {
-                  // setState(() {
-                  //   isToBottom = false;
-                  // });
-                  // widget.controller.capture();
-
                   print("接受了协议");
-
                   // 是新增点击则去新增页面，反之去选桌
                   if (isAddPlayerClick) {
                     List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
