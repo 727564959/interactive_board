@@ -56,7 +56,7 @@ class OldUserPage extends StatelessWidget {
                   Align(
                     alignment: Alignment.center,
                     child: Container(
-                      margin: EdgeInsets.only(top: 0.1.sh),
+                      margin: EdgeInsets.only(top: 0.05.sh),
                       child: SizedBox(
                         height: 0.25.sh,
                         child: Image.asset(

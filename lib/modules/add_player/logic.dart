@@ -8,6 +8,8 @@ class UserRegistrationLogic extends GetxController {
   final _dio = Dio();
   final emailController = TextEditingController();
   final focusNode = FocusNode();
+  final nicknameController = TextEditingController();
+  final focusNode1 = FocusNode();
 
   // 根据邮箱查用户
   Future<Map> checkingPlayer(String email) async {

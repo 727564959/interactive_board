@@ -13,6 +13,7 @@ import '../../../widgets/common_button.dart';
 import '../player_page/player_squad.dart';
 import '../verification_code/confirmation_page.dart';
 import 'booking_state.dart';
+import 'confirmation_squad.dart';
 import 'logic.dart';
 
 class LandingCheckIn extends StatefulWidget {
@@ -147,73 +148,142 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                       borderRadius: BorderRadius.all(Radius.circular(20)),
                                       color: index < logic.bookingState.length ? getBgColor(logic.bookingState[index].tableId) : Color(0xffA4EDF1),
                                     ),
-                                    child: GestureDetector(
-                                      onTap: (index + 1) <= logic.bookingState.length ? (
-                                          logic.bookingState[index].status != "pending" ? () async {
-                                            // 执行可点击时的操作
-                                            print("点击了已签到的");
+                                    child: (index + 1) <= logic.bookingState.length
+                                        ? Column(
+                                      mainAxisAlignment: MainAxisAlignment.center, // 设置垂直方向上的对齐方式为居中
+                                      children: [
+                                        Text(
+                                          logic.bookingState[index].customer.firstName,
+                                          style: CustomTextStyles.title(
+                                              color: Colors.black, fontSize: 40.sp, level: 3
+                                          ),
+                                        ),
+                                        Text(
+                                          logic.bookingState[index].customer.lastName,
+                                          style: CustomTextStyles.title(
+                                              color: Colors.black, fontSize: 40.sp, level: 3
+                                          ),
+                                        ),
+                                        const SizedBox(height: 20,),
+                                        if(logic.bookingState[index].status == "pending") CommonButton(
+                                          width: 200.w,
+                                          height: 72.h,
+                                          btnText: "CHECK IN",
+                                          btnBgColor: Color(0xffA4EDF1),
+                                          textColor: Color(0xff000000),
+                                          onPress: () async {
+                                            await Get.to(() => ConfirmationPage(), arguments: {"bookingState": logic.bookingState[index]},);
+                                          },
+                                          borderColor: Color(0xff000000),
+                                          changedBorderColor: Color(0xff000000),
+                                          changedTextColor: Color(0xff000000),
+                                          changedBgColor: Color(0xFF13EFEF),
+                                        ),
+                                        if(logic.bookingState[index].status == "pending") CommonButton(
+                                          width: 200.w,
+                                          height: 72.h,
+                                          btnText: "ADD PLAYER",
+                                          btnBgColor: Color(0xffA4EDF1),
+                                          textColor: Color(0xff000000),
+                                          onPress: () async {
                                             final showInfo = await logic.bookingTimeChecked(logic.bookingState[index].bookingTime, logic.bookingState[index].bookingDate);
                                             print("showInfo ${showInfo}");
-                                            Get.offAll(() => PlayerSquadPage(),
-                                                arguments: {
-                                                  'showInfo': showInfo,
-                                                  "bookingState": logic.bookingState[index],
-                                                  "isAddPlayerClick": true,
-                                                  "tableId": int.parse(logic.bookingState[index].tableId.toString()),
-                                                });
-                                          } : null
-                                      ) : null,
-                                      child: (index + 1) <= logic.bookingState.length
-                                          ? Column(
-                                        mainAxisAlignment: MainAxisAlignment.center, // 设置垂直方向上的对齐方式为居中
-                                        children: [
-                                          Text(
-                                            logic.bookingState[index].customer.firstName,
-                                            style: CustomTextStyles.title(
-                                                color: Colors.black, fontSize: 40.sp, level: 3
-                                            ),
+                                            await Get.to(() => ConfirmationSquadPage(), arguments: {
+                                              "bookingState": logic.bookingState[index],
+                                              "showInfo": showInfo,
+                                            });
+                                          },
+                                          borderColor: Color(0xff000000),
+                                          changedBorderColor: Color(0xff000000),
+                                          changedTextColor: Color(0xff000000),
+                                          changedBgColor: Color(0xFF13EFEF),
+                                        ),
+                                        const SizedBox(height: 20,),
+                                        if(logic.bookingState[index].status != "pending") Text(
+                                          "BAY" + getBayString(logic.bookingState[index].tableId),
+                                          style: CustomTextStyles.textNormal(
+                                              color: Colors.black, fontSize: 30.sp
                                           ),
-                                          Text(
-                                            logic.bookingState[index].customer.lastName,
-                                            style: CustomTextStyles.title(
-                                                color: Colors.black, fontSize: 40.sp, level: 3
-                                            ),
+                                        ),
+                                      ],
+                                    ) : Column(
+                                      mainAxisAlignment: MainAxisAlignment.center, // 设置垂直方向上的对齐方式为居中
+                                      children: [
+                                        Text(
+                                          "OPEN",
+                                          style: CustomTextStyles.title(
+                                              color: Colors.black, fontSize: 40.sp, level: 3
                                           ),
-                                          const SizedBox(height: 20,),
-                                          if(logic.bookingState[index].status == "pending") CommonButton(
-                                            width: 200.w,
-                                            height: 72.h,
-                                            btnText: "CHECK IN",
-                                            btnBgColor: Color(0xffA4EDF1),
-                                            textColor: Color(0xff000000),
-                                            onPress: () async {
-                                              await Get.to(() => ConfirmationPage(), arguments: {"bookingState": logic.bookingState[index]},);
-                                            },
-                                            borderColor: Color(0xff000000),
-                                            changedBorderColor: Color(0xff000000),
-                                            changedTextColor: Color(0xff000000),
-                                            changedBgColor: Color(0xFF13EFEF),
-                                          ),
-                                          if(logic.bookingState[index].status != "pending") Text(
-                                            "BAY" + getBayString(logic.bookingState[index].tableId),
-                                            style: CustomTextStyles.textNormal(
-                                                color: Colors.black, fontSize: 30.sp
-                                            ),
-                                          ),
-                                        ],
-                                      ) : Column(
-                                        mainAxisAlignment: MainAxisAlignment.center, // 设置垂直方向上的对齐方式为居中
-                                        children: [
-                                          Text(
-                                            "TEST",
-                                            style: CustomTextStyles.title(
-                                                color: Colors.black, fontSize: 40.sp, level: 3
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-
+                                    // child: GestureDetector(
+                                    //   onTap: (index + 1) <= logic.bookingState.length ? (
+                                    //       logic.bookingState[index].status != "pending" ? () async {
+                                    //         // 执行可点击时的操作
+                                    //         print("点击了已签到的");
+                                    //         final showInfo = await logic.bookingTimeChecked(logic.bookingState[index].bookingTime, logic.bookingState[index].bookingDate);
+                                    //         print("showInfo ${showInfo}");
+                                    //         // Get.offAll(() => PlayerSquadPage(),
+                                    //         //     arguments: {
+                                    //         //       'showInfo': showInfo,
+                                    //         //       "bookingState": logic.bookingState[index],
+                                    //         //       "isAddPlayerClick": true,
+                                    //         //       "tableId": int.parse(logic.bookingState[index].tableId.toString()),
+                                    //         //     });
+                                    //         await Get.to(() => ConfirmationPage(), arguments: {"bookingState": logic.bookingState[index]},);
+                                    //       } : null
+                                    //   ) : null,
+                                    //   child: (index + 1) <= logic.bookingState.length
+                                    //       ? Column(
+                                    //     mainAxisAlignment: MainAxisAlignment.center, // 设置垂直方向上的对齐方式为居中
+                                    //     children: [
+                                    //       Text(
+                                    //         logic.bookingState[index].customer.firstName,
+                                    //         style: CustomTextStyles.title(
+                                    //             color: Colors.black, fontSize: 40.sp, level: 3
+                                    //         ),
+                                    //       ),
+                                    //       Text(
+                                    //         logic.bookingState[index].customer.lastName,
+                                    //         style: CustomTextStyles.title(
+                                    //             color: Colors.black, fontSize: 40.sp, level: 3
+                                    //         ),
+                                    //       ),
+                                    //       const SizedBox(height: 20,),
+                                    //       if(logic.bookingState[index].status == "pending") CommonButton(
+                                    //         width: 200.w,
+                                    //         height: 72.h,
+                                    //         btnText: "CHECK IN",
+                                    //         btnBgColor: Color(0xffA4EDF1),
+                                    //         textColor: Color(0xff000000),
+                                    //         onPress: () async {
+                                    //           await Get.to(() => ConfirmationPage(), arguments: {"bookingState": logic.bookingState[index]},);
+                                    //         },
+                                    //         borderColor: Color(0xff000000),
+                                    //         changedBorderColor: Color(0xff000000),
+                                    //         changedTextColor: Color(0xff000000),
+                                    //         changedBgColor: Color(0xFF13EFEF),
+                                    //       ),
+                                    //       if(logic.bookingState[index].status != "pending") Text(
+                                    //         "BAY" + getBayString(logic.bookingState[index].tableId),
+                                    //         style: CustomTextStyles.textNormal(
+                                    //             color: Colors.black, fontSize: 30.sp
+                                    //         ),
+                                    //       ),
+                                    //     ],
+                                    //   ) : Column(
+                                    //     mainAxisAlignment: MainAxisAlignment.center, // 设置垂直方向上的对齐方式为居中
+                                    //     children: [
+                                    //       Text(
+                                    //         "TEST",
+                                    //         style: CustomTextStyles.title(
+                                    //             color: Colors.black, fontSize: 40.sp, level: 3
+                                    //         ),
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
                                   ),
                                 );
                               },

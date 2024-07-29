@@ -13,12 +13,14 @@ class PlayerInfoTextField extends StatelessWidget {
     this.inputFormatters,
     this.validator,
     this.keyboardType,
+    this.isFormFieldEnabled = true,
   }) : super(key: key);
   final String title;
   final TextEditingController controller;
   final List<TextInputFormatter>? inputFormatters;
   final FormFieldValidator<String?>? validator;
   final TextInputType? keyboardType;
+  final bool isFormFieldEnabled;
   final VoidCallback? onEditingComplete;
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class PlayerInfoTextField extends StatelessWidget {
           SizedBox(
             height: 200.w,
             child: TextFormField(
+              enabled: isFormFieldEnabled,
               keyboardType: keyboardType,
               controller: controller,
               cursorWidth: 5.0,          // 光标粗细
@@ -45,7 +48,7 @@ class PlayerInfoTextField extends StatelessWidget {
               cursorHeight: 34.0, // 设置光标的高度，与文字的字体大小一致
               validator: validator,
               inputFormatters: inputFormatters,
-              style: CustomTextStyles.title5(color: Colors.black, fontSize: 34.sp),
+              style: CustomTextStyles.title5(color: isFormFieldEnabled ? Colors.black : const Color(0xff9B9B9B), fontSize: 34.sp),
               onEditingComplete: onEditingComplete,
               decoration: InputDecoration(
                 fillColor: const Color(0xFFDBE2E3),

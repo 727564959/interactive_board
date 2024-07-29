@@ -87,6 +87,7 @@ class _PlayerInfoForm extends StatelessWidget {
   _PlayerInfoForm({Key? key}) : super(key: key);
   final logic = Get.find<AddPlayerLogic>();
   final FocusScopeNode node = FocusScopeNode();
+  String get emailInput => Get.arguments["emailInput"];
   @override
   Widget build(BuildContext context) {
     return FocusScope(
@@ -164,6 +165,7 @@ class _PlayerInfoForm extends StatelessWidget {
                         }
                       },
                       controller: logic.emailController,
+                      isFormFieldEnabled: false,
                       validator: (v) {
                         String regexEmail =
                             "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}\$";

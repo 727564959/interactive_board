@@ -16,6 +16,7 @@ import '../../term_of_use/view.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../home_page/booking_state.dart';
+import '../player_page/player_squad.dart';
 import '../terms_page/view.dart';
 import 'logic.dart';
 
@@ -33,7 +34,13 @@ class ConfirmationPage extends StatelessWidget {
             Container(
               width: 1.0.sw,
               height: 1.0.sh,
-              color: Color(0xFF233342),
+              // color: Color(0xFF233342),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Column(
                 children: [
                   Container(
@@ -334,13 +341,23 @@ class ConfirmationPage extends StatelessWidget {
                         EasyLoading.dismiss(animation: false);
                         // await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfo, "customer": bookingState.customer, "code": code, "bookingState": bookingState});
                         print("showInfo ${showInfo}");
-                        await Get.to(() => TermsOfUse(),
-                                          arguments: {
-                                            "isAddPlayerClick": false,
-                                            "showInfo": showInfo,
-                                            "bookingState": bookingState,
-                                            "isFlow": "checkIn"});
-
+                        if(bookingState.status == "pending") {
+                          await Get.to(() => TermsOfUse(),
+                              arguments: {
+                                "isAddPlayerClick": false,
+                                "showInfo": showInfo,
+                                "bookingState": bookingState,
+                                "isFlow": "checkIn"});
+                        }
+                        else {
+                          Get.offAll(() => PlayerSquadPage(),
+                              arguments: {
+                                'showInfo': showInfo,
+                                "bookingState": bookingState,
+                                "isAddPlayerClick": true,
+                                "tableId": int.parse(bookingState.tableId.toString()),
+                              });
+                        }
                         // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
                         // logic.codeController.clear();
                       } on DioException catch (e) {

@@ -84,7 +84,7 @@ class PlayerSquadPage extends StatelessWidget {
                     SizedBox(height: 20.0,),
                     _SquadCard(),
                     SizedBox(height: 10.0,),
-                    _DoneButton(width: 600.w, isCountdownStart: logic.isCountdownStart),
+                    _DoneButton(width: 260.w, isCountdownStart: logic.isCountdownStart),
                   ],
                 ),
               );
@@ -480,7 +480,7 @@ class _DoneButtonState extends State<_DoneButton> {
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
         margin: EdgeInsets.only(top: 0.0, left: 0.0),
-        constraints: BoxConstraints.tightFor(width: width, height: 100.h),
+        constraints: BoxConstraints.tightFor(width: width, height: 70.h),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center, // 子项水平居中对齐

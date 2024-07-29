@@ -95,7 +95,7 @@ class TermsOfUse extends StatelessWidget {
                               Container(
                                 margin: EdgeInsets.only(top: 10.0),
                                 child: Text(
-                                  "Please read the Term of Use and Handwriting signature",
+                                  "Please read and sign the waiver below",
                                   style: CustomTextStyles.textSmall(
                                     color: Color(0xFFFFFFFF),
                                     fontSize: 26.sp,

@@ -113,6 +113,7 @@ class _CheckInInputState extends State<_CheckInInput> {
   );
   bool _isValidEmail = true;
   final logic = Get.put(UserRegistrationLogic());
+  String errorText = '';
 
   @override
   void initState() {
@@ -131,13 +132,16 @@ class _CheckInInputState extends State<_CheckInInput> {
     if (logic.focusNode.hasFocus) {
       // TextField 获得焦点时的处理逻辑
       print('TextField 获得焦点');
+      print("_isValidEmail123123 ${_isValidEmail}");
     } else {
       // TextField 失去焦点时的处理逻辑
       print('TextField 失去焦点');
       setState(() {
         _isValidEmail = _emailRegex.hasMatch(controller.text);
       });
+      print("_isValidEmail ${_isValidEmail}");
       if (_isValidEmail) {
+        errorText = '';
         EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
         try {
           EasyLoading.dismiss(animation: false);
@@ -154,11 +158,12 @@ class _CheckInInputState extends State<_CheckInInput> {
                     "isAddPlayerClick": true,
                     "tableId": tableId,
                     "isFlow": "checkIn",
+                    "emailInput": logic.emailController.text,
                   });
             }
             else if(isFlow == "tableCheck") {
               await Get.to(() => AddPlayerDataPage(),
-                  arguments: {"showState": showState, "isFlow": "tableCheck",});
+                  arguments: {"showState": showState, "isFlow": "tableCheck", "emailInput": logic.emailController.text,});
             }
           }
           else {
@@ -200,6 +205,12 @@ class _CheckInInputState extends State<_CheckInInput> {
           EasyLoading.showError(e.response?.data["error"]["message"]);
         }
       }
+      else if(controller.text.isEmpty) {
+        errorText = '';
+      }
+      else {
+        errorText = 'Enter a valid email';
+      }
     }
   }
 
@@ -237,6 +248,15 @@ class _CheckInInputState extends State<_CheckInInput> {
         decoration: InputDecoration(
           fillColor: Color(0xFFDBE2E3),
           filled: true,
+          errorText: errorText.isNotEmpty ? errorText : null, // 只有在有错误时显示错误文本
+          errorStyle: CustomTextStyles.textNormal(color: Color(0xFFFF4848), fontSize: 30.sp), // 设置错误文本样式
+          errorMaxLines: 1,
+          errorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.red,
+              width: 1,
+            ),
+          ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(

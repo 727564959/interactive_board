@@ -164,6 +164,7 @@ class _PlayerInfoForm extends StatelessWidget {
                         }
                       },
                       controller: logic.emailController,
+                      isFormFieldEnabled: false,
                       validator: (v) {
                         String regexEmail =
                             "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}\$";

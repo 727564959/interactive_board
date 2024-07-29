@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../mirra_style.dart';
 import '../../../widgets/common_button.dart';
+import '../../add_player/view.dart';
 import '../add_player/view.dart';
 import '../data/show.dart';
 import '../home_page/booking_state.dart';
@@ -112,11 +113,19 @@ class _BottomBtns extends StatelessWidget {
                         //       "customer": customer,
                         //       "tableId": tableId,
                         //     });
-                        await Get.to(() => AddPlayerPage(),
+                        // await Get.to(() => AddPlayerPage(),
+                        //     arguments: {
+                        //       "showInfo": showInfo,
+                        //       "bookingState": bookingState,
+                        //       "isAddPlayerClick": true,
+                        //       "tableId": tableId,
+                        //       "isFlow": "checkIn",
+                        //     });
+                        await Get.to(() => UserAuthenticator(),
                             arguments: {
+                              "isAddPlayerClick": true,
                               "showInfo": showInfo,
                               "bookingState": bookingState,
-                              "isAddPlayerClick": true,
                               "tableId": tableId,
                               "isFlow": "checkIn",
                             });
