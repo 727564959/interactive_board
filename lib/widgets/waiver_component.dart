@@ -1,39 +1,60 @@
+import 'dart:convert';
+import 'dart:math';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:interactive_board/mirra_style.dart';
 import 'package:signature/signature.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
 
+String _generateRandomString(int length) {
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  final random = Random();
+  String result = '';
+
+  for (int i = 0; i < length; i++) {
+    int randomIndex = random.nextInt(charset.length);
+    result += charset[randomIndex];
+  }
+
+  return result;
+}
+
 class WaiverController {
   SignatureController signatureController = SignatureController();
-  ScrollController scrollController = ScrollController();
   WidgetsToImageController widgetsToImageController = WidgetsToImageController();
   bool get isSignatureNotEmpty => signatureController.isNotEmpty;
-  bool get isBottom => scrollController.offset >= scrollController.position.maxScrollExtent;
-
-  void scrollToSignatureBar() {
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
-      duration: 300.ms,
-      curve: Curves.easeOut,
-    );
-  }
 
   void clearSignatureBar() {
     signatureController.clear();
   }
 
-  Future<Uint8List?> capture() async {
-    return await widgetsToImageController.capture();
+  Future<void> uploadSignature(String name) async {
+    final date = DateFormat("yyyyMMdd").format(DateTime.now());
+    final dio = Dio();
+    final captureFuture = widgetsToImageController.capture(pixelRatio: 0.5);
+    final presignedFuture = dio.get(
+      "https://inb27b1nma.execute-api.us-east-1.amazonaws.com/put_signature_pic_to_s3",
+      queryParameters: {"object_name": "$date/$name-${_generateRandomString(6)}"},
+    );
+    final [data, response as Response] = await Future.wait([captureFuture, presignedFuture]);
+    if (data == null) throw Exception("Signature data is Null!");
+    String presignedUrl = jsonDecode(response.data)["presigned_url"];
+    await dio.put(
+      presignedUrl,
+      data: data,
+      options: Options(contentType: "image/png"),
+    );
   }
 }
 
 class WaiverComponent extends StatefulWidget {
-  const WaiverComponent({Key? key, required this.controller}) : super(key: key);
+  const WaiverComponent({super.key, required this.controller});
   final WaiverController controller;
   @override
   State<WaiverComponent> createState() => _WaiverComponentState();
@@ -65,12 +86,10 @@ class _WaiverComponentState extends State<WaiverComponent> {
           : RawScrollbar(
               mainAxisMargin: 20.w,
               padding: EdgeInsets.only(right: 10.w),
-              controller: widget.controller.scrollController,
               thumbColor: const Color(0xff7b7b7b),
               thickness: 20.w,
               radius: Radius.circular(10.w),
               child: SingleChildScrollView(
-                controller: widget.controller.scrollController,
                 child: WidgetsToImage(
                   controller: widget.controller.widgetsToImageController,
                   child: Container(
