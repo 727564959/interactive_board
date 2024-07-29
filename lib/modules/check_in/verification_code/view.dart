@@ -69,7 +69,9 @@ class VerificationPage extends StatelessWidget {
                               onPress: () {
                                 logic.focusNode.unfocus();
                                 Future.delayed(0.3.seconds).then((value) async {
-                                  Get.back();
+                                  // Get.back();
+                                  // 跳转回首页
+                                  Get.offAllNamed(AppRoutes.landingPage);
                                 });
                               },
                             ),
@@ -618,8 +620,8 @@ class _CheckInInput extends StatelessWidget {
                   print("difference1 ${difference1}");
                   // 判断时间差是否小于等于1小时
                   // if (difference <= Duration(hours: 1) && difference >= Duration(hours: 0) && !currentDateTime.isAfter(targetDateTime1)) {
-                  if (difference <= Duration(hours: 1) && difference >= difference1 && !currentDateTime.isAfter(targetDateTime1)) {
-                  // if (true) {
+                  // if (difference <= Duration(hours: 1) && difference >= difference1 && !currentDateTime.isAfter(targetDateTime1)) {
+                  if (true) {
                     print('当前时间比目标时间小于等于一个小时');
                     print('开始走正常流程');
                     // 如果签过到，直接去形象设计

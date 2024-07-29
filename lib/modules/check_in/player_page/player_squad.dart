@@ -1,15 +1,18 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../mirra_style.dart';
 import '../../../widgets/custom_countdown.dart';
+import '../../add_player/view.dart';
 import '../complete_page/view.dart';
-import '../data/booking.dart';
 import '../data/show.dart';
+import '../home_page/booking_state.dart';
 import '../terms_page/view.dart';
 import 'add_dialog.dart';
 import 'logic.dart';
@@ -22,12 +25,21 @@ class PlayerSquadPage extends StatelessWidget {
   final logic = Get.put(PlayerShowLogic());
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
   int get tableId => Get.arguments["tableId"];
+  ShowInfo get showInfo => Get.arguments["showInfo"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
 
   @override
   Widget build(BuildContext context) {
     print("isAddPlayerClick ${isAddPlayerClick}");
-    if(!isAddPlayerClick) Future.delayed(Duration.zero, () {
-      Get.dialog(Dialog(child: AddDialog()), arguments: {"tableId": tableId,}).then((value) {
+    // if(!isAddPlayerClick) Future.delayed(Duration.zero, () {
+    //   Get.dialog(Dialog(child: AddDialog()), arguments: {"tableId": tableId, "showInfo": showInfo, "bookingState": bookingState,}).then((value) {
+    //     logic.isCountdownStart = true;
+    //     logic.testFun();
+    //   });
+    // });
+    Future.delayed(Duration.zero, () {
+      Get.dialog(Dialog(child: AddDialog()), arguments: {"tableId": tableId, "showInfo": showInfo, "bookingState": bookingState,}).then((value) {
         logic.isCountdownStart = true;
         logic.testFun();
       });
@@ -72,7 +84,7 @@ class PlayerSquadPage extends StatelessWidget {
                     SizedBox(height: 20.0,),
                     _SquadCard(),
                     SizedBox(height: 10.0,),
-                    _DoneButton(width: 600.w, isCountdownStart: logic.isCountdownStart),
+                    _DoneButton(width: 260.w, isCountdownStart: logic.isCountdownStart),
                   ],
                 ),
               );
@@ -140,7 +152,8 @@ class _SquadCard extends StatelessWidget {
   int num = 0;
 
   ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
 
   @override
@@ -203,34 +216,48 @@ class _SquadCard extends StatelessWidget {
                         // 点击非用户卡片时的逻辑
                         print("新增用户");
                         logic.testFun();
-                        await Get.to(() => TermsOfUsePage(),
+                        // await Get.to(() => TermsOfUsePage(),
+                        //     arguments: {
+                        //       "isAddPlayerClick": true,
+                        //       "showInfo": showInfo,
+                        //       "customer": customer,
+                        //       "tableId": tableId,
+                        //     });
+                        await Get.to(() => UserAuthenticator(),
                             arguments: {
                               "isAddPlayerClick": true,
                               "showInfo": showInfo,
-                              "customer": customer,
+                              "bookingState": bookingState,
                               "tableId": tableId,
+                              "isFlow": "checkIn",
                             });
                       }
                       else {
                         print("设计形象");
-                        logic.getGameItems(card.userId, card.avatarId);
-                        // logic.currentName = card.nickname??"";
-                        // logic.currentUserId = card.userId??null;
-
-                        logic.testFun();
-                        // logic.refreshPlayerLook(card.userId, card.avatarId);
-
-                        await Future.delayed(100.ms);
-                        print("logic.gameItemInfo ${logic.gameItemInfo}");
-                        Get.offAll(() => PlayerLookPage(),
-                            arguments: {
-                              "gameItemInfo": logic.gameItemInfo,
-                              "showInfo": showInfo,
-                              "customer": customer,
-                              "card": card,
-                              "isAddPlayerClick": isAddPlayerClick,
-                              "tableId": tableId
-                        });
+                        EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+                        try {
+                          EasyLoading.dismiss(animation: false);
+                          logic.getGameItems(card.userId, card.avatarId);
+                          // logic.currentName = card.nickname??"";
+                          // logic.currentUserId = card.userId??null;
+                          logic.testFun();
+                          // logic.refreshPlayerLook(card.userId, card.avatarId);
+                          await Future.delayed(100.ms);
+                          print("logic.gameItemInfo ${logic.gameItemInfo}");
+                          Get.offAll(() => PlayerLookPage(),
+                              arguments: {
+                                "gameItemInfo": logic.gameItemInfo,
+                                "showInfo": showInfo,
+                                "bookingState": bookingState,
+                                "card": card,
+                                "isAddPlayerClick": isAddPlayerClick,
+                                "tableId": tableId
+                              });
+                        } on DioException catch (e) {
+                          EasyLoading.dismiss();
+                          if (e.response == null) EasyLoading.showError("Network Error!");
+                          EasyLoading.showError(e.response?.data["error"]["message"]);
+                        }
                       }
                     },
                     child: Card(
@@ -410,7 +437,8 @@ class _DoneButtonState extends State<_DoneButton> {
   double get width => widget.width;
   bool get isCountdownStart => widget.isCountdownStart;
   ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   int get tableId => Get.arguments["tableId"];
   bool isChangeBgColor = false;
 
@@ -428,7 +456,7 @@ class _DoneButtonState extends State<_DoneButton> {
         });
         await Get.to(
               () => const CompletePage(),
-          arguments: {"tableId": tableId, "startTime": showInfo.startTime, "customer": customer},
+          arguments: {"tableId": tableId, "startTime": showInfo.startTime, "bookingState": bookingState},
           preventDuplicates: false,
         );
       },
@@ -452,7 +480,7 @@ class _DoneButtonState extends State<_DoneButton> {
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
         margin: EdgeInsets.only(top: 0.0, left: 0.0),
-        constraints: BoxConstraints.tightFor(width: width, height: 100.h),
+        constraints: BoxConstraints.tightFor(width: width, height: 70.h),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center, // 子项水平居中对齐
@@ -470,7 +498,7 @@ class _DoneButtonState extends State<_DoneButton> {
                 onCountdownComplete: () async {
                   await Get.to(
                         () => const CompletePage(),
-                    arguments: {"tableId": tableId, "startTime": showInfo.startTime, "customer": customer},
+                    arguments: {"tableId": tableId, "startTime": showInfo.startTime, "bookingState": bookingState},
                     preventDuplicates: false,
                   );
                 },

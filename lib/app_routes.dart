@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:interactive_board/modules/before_game/confirm_selection/view.dart';
 import 'package:interactive_board/modules/game_over/honor/binding.dart';
+import 'modules/check_in/home_page/landing_page.dart';
 import 'modules/check_in/home_page/view.dart';
 import 'modules/game_over/game_playing/view.dart';
 import 'modules/game_over/honor/view.dart';
@@ -80,7 +81,8 @@ class AppRoutes {
     ),
     GetPage(
       name: landingPage,
-      page: () => LandingPage(),
+      // page: () => LandingPage(),
+      page: () => LandingCheckIn(),
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
     ),

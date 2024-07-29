@@ -16,6 +16,8 @@ class AddPlayerLogic extends GetxController {
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  String get emailInput => Get.arguments["emailInput"];
+
   // 查重
   Future<Map> checkingPlayer(String email) async {
     print("通过邮箱进行玩家查重");
@@ -118,4 +120,11 @@ class AddPlayerLogic extends GetxController {
   //   // };
   //   return result;
   // }
+
+  @override
+  void onInit() {
+    super.onInit();
+    emailController.text = emailInput;
+    update();
+  }
 }

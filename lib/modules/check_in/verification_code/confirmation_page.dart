@@ -12,15 +12,18 @@ import '../../../../mirra_style.dart';
 import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
 import '../../../widgets/common_icon_button.dart';
+import '../../term_of_use/view.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
+import '../home_page/booking_state.dart';
+import '../player_page/player_squad.dart';
 import '../terms_page/view.dart';
 import 'logic.dart';
 
 class ConfirmationPage extends StatelessWidget {
   ConfirmationPage({Key? key}) : super(key: key);
-  BookingInfo get bookingInfo => Get.arguments["bookingInfo"];
-  String get code => Get.arguments["code"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  // String get code => Get.arguments["code"];
   final logic = Get.put(VerificationCodeLogic());
 
   @override
@@ -31,7 +34,13 @@ class ConfirmationPage extends StatelessWidget {
             Container(
               width: 1.0.sw,
               height: 1.0.sh,
-              color: Color(0xFF233342),
+              // color: Color(0xFF233342),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Column(
                 children: [
                   Container(
@@ -68,13 +77,13 @@ class ConfirmationPage extends StatelessWidget {
                             width: 0.8.sw,
                             child: Text(
                               // "Game Show Time : " + DateFormat("dd/MM/yyyy, kka").format(
-                              //   bookingInfo.bookingTime.add(8.hours),
+                              //   bookingState.bookingTime.add(8.hours),
                               // ),
                               // "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(
-                              //   bookingInfo.bookingTime.add(8.hours),
+                              //   bookingState.bookingTime.add(8.hours),
                               // ),
                               "Game Show Time : " + DateFormat("dd/MM/yyyy, hh:mm a").format(
-                                  DateTime.parse(bookingInfo.bookingDate + " " + bookingInfo.bookingTime),
+                                  DateTime.parse(bookingState.bookingDate + " " + bookingState.bookingTime),
                               ),
                               style: CustomTextStyles.title(color: Color(0xFF13EFEF), fontSize: 36.sp, level: 2),
                             ),
@@ -112,7 +121,7 @@ class ConfirmationPage extends StatelessWidget {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
-                                    bookingInfo.customer.firstName,
+                                    bookingState.customer.firstName,
                                     style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
@@ -145,7 +154,7 @@ class ConfirmationPage extends StatelessWidget {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
-                                    bookingInfo.customer.lastName,
+                                    bookingState.customer.lastName,
                                     style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
@@ -188,14 +197,14 @@ class ConfirmationPage extends StatelessWidget {
                               Align(
                                 // alignment: const Alignment(-0.8, 0.0),
                                 // child: Text(
-                                //   bookingInfo.customer.email,
+                                //   bookingState.customer.email,
                                 //   style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 4),
                                 // ),
                                 alignment: Alignment.centerLeft,
                                 child: Container(
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
-                                    bookingInfo.customer.email,
+                                    bookingState.customer.email,
                                     style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
@@ -228,7 +237,7 @@ class ConfirmationPage extends StatelessWidget {
                                 child: Container(
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
-                                    bookingInfo.customer.phone,
+                                    bookingState.customer.phone,
                                     style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
@@ -268,7 +277,7 @@ class ConfirmationPage extends StatelessWidget {
                   //                 margin: EdgeInsets.only(left: 30.0, top: 0.0),
                   //                 child: Text(
                   //                   DateFormat("dd/MM/yyyy - kka").format(
-                  //                     bookingInfo.bookingTime.add(8.hours),
+                  //                     bookingState.bookingTime.add(8.hours),
                   //                   ),
                   //                   style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 4),
                   //                 ),
@@ -303,7 +312,7 @@ class ConfirmationPage extends StatelessWidget {
                   //                 margin: EdgeInsets.only(left: 30.0, top: 0.0),
                   //                 child: Text(
                   //                   DateFormat("dd/MM/yyyy - kka").format(
-                  //                     bookingInfo.bookingTime.add(8.hours),
+                  //                     bookingState.bookingTime.add(8.hours),
                   //                   ),
                   //                   style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 4),
                   //                 ),
@@ -316,7 +325,7 @@ class ConfirmationPage extends StatelessWidget {
                   //   ),
                   // ),
                   SizedBox(height: 0.1.sh,),
-                  // _NoProblemButton(width: 600.w, bookingInfo: bookingInfo, code: code),
+                  // _NoProblemButton(width: 600.w, bookingState: bookingState, code: code),
                   CommonButton(
                     width: 600.w,
                     height: 100.h,
@@ -326,13 +335,31 @@ class ConfirmationPage extends StatelessWidget {
                     onPress: () async {
                       EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                       try {
-                        print("bookingInfo.bookingTime ${bookingInfo.bookingTime}");
-                        print("bookingInfo.bookingDate ${bookingInfo.bookingDate}");
-                        final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime, bookingInfo.bookingDate);
+                        print("bookingState.bookingTime ${bookingState.bookingTime}");
+                        print("bookingState.bookingDate ${bookingState.bookingDate}");
+                        final showInfo = await logic.bookingTimeChecked(bookingState.bookingTime, bookingState.bookingDate);
                         EasyLoading.dismiss(animation: false);
-                        await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfo, "customer": bookingInfo.customer, "code": code});
+                        // await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfo, "customer": bookingState.customer, "code": code, "bookingState": bookingState});
+                        print("showInfo ${showInfo}");
+                        if(bookingState.status == "pending") {
+                          await Get.to(() => TermsOfUse(),
+                              arguments: {
+                                "isAddPlayerClick": false,
+                                "showInfo": showInfo,
+                                "bookingState": bookingState,
+                                "isFlow": "checkIn"});
+                        }
+                        else {
+                          Get.offAll(() => PlayerSquadPage(),
+                              arguments: {
+                                'showInfo': showInfo,
+                                "bookingState": bookingState,
+                                "isAddPlayerClick": true,
+                                "tableId": int.parse(bookingState.tableId.toString()),
+                              });
+                        }
                         // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
-                        logic.codeController.clear();
+                        // logic.codeController.clear();
                       } on DioException catch (e) {
                         EasyLoading.dismiss();
                         if (e.response == null) EasyLoading.showError("Network Error!");

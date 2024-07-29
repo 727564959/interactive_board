@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/modules/check_in/data/show.dart';
 import '../../../common.dart';
-import '../data/booking.dart';
 import '../data/user_info.dart';
+import '../home_page/booking_state.dart';
 
 class HeadgearAcquisitionLogic extends GetxController {
   final _dio = Dio();
 
   Map argumentsMap = Get.arguments;
   late ShowInfo showInfo;
-  late Customer customer;
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   late List headgearObj;
   late int userId;
   int? clickSelectId;
@@ -46,7 +47,6 @@ class HeadgearAcquisitionLogic extends GetxController {
     print("Get arguments: ${argumentsMap}");
     print("Get arguments.userId: ${argumentsMap['userId']}");
     showInfo = argumentsMap['showInfo'];
-    customer = argumentsMap['customer'];
     headgearObj = argumentsMap['headgearObj'];
     userId = argumentsMap['userId'];
 

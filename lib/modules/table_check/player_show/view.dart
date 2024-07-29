@@ -11,6 +11,7 @@ import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../data/model/show_state.dart';
 import '../../../widgets/check_in_title.dart';
+import '../../add_player/view.dart';
 import '../terms_use/view.dart';
 import 'logic.dart';
 import '../../mirra_look/player_look.dart';
@@ -203,7 +204,13 @@ class _SquadCard extends StatelessWidget {
                         // 点击非用户卡片时的逻辑
                         print("新增用户");
                         logic.refreshFun();
-                        await Get.to(() => TermsOfUseInfo(), arguments: {"showState": showState});
+                        // await Get.to(() => TermsOfUseInfo(), arguments: {"showState": showState});
+                        await Get.to(() => UserAuthenticator(),
+                            arguments: {
+                              "isAddPlayerClick": true,
+                              "showState": showState,
+                              "isFlow": "tableCheck",
+                            });
                       }
                       else {
                         try {

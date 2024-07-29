@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 
 import '../../../../mirra_style.dart';
 import '../../../widgets/common_button.dart';
-import '../data/booking.dart';
+import '../../add_player/view.dart';
+import '../add_player/view.dart';
 import '../data/show.dart';
+import '../home_page/booking_state.dart';
 import '../terms_page/view.dart';
 
 class AddDialog extends StatelessWidget {
@@ -61,7 +63,8 @@ class _BottomBtns extends StatelessWidget {
     Key? key,
   }) : super(key: key);
   ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   int get tableId => Get.arguments["tableId"];
 
   @override
@@ -103,12 +106,28 @@ class _BottomBtns extends StatelessWidget {
                       btnBgColor: Color(0xff13EFEF),
                       textColor: Colors.black,
                       onPress: () async {
-                        await Get.to(() => TermsOfUsePage(),
+                        // await Get.to(() => TermsOfUsePage(),
+                        //     arguments: {
+                        //       "isAddPlayerClick": true,
+                        //       "showInfo": showInfo,
+                        //       "customer": customer,
+                        //       "tableId": tableId,
+                        //     });
+                        // await Get.to(() => AddPlayerPage(),
+                        //     arguments: {
+                        //       "showInfo": showInfo,
+                        //       "bookingState": bookingState,
+                        //       "isAddPlayerClick": true,
+                        //       "tableId": tableId,
+                        //       "isFlow": "checkIn",
+                        //     });
+                        await Get.to(() => UserAuthenticator(),
                             arguments: {
                               "isAddPlayerClick": true,
                               "showInfo": showInfo,
-                              "customer": customer,
+                              "bookingState": bookingState,
                               "tableId": tableId,
+                              "isFlow": "checkIn",
                             });
                       },
                       changedBgColor: Color(0xffA4EDF1),
@@ -153,49 +172,6 @@ class _NoThatAllBtn extends StatelessWidget {
             "NO, THAT'S ALL",
             textAlign: TextAlign.center,
             style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AddNowBtn extends StatelessWidget {
-  _AddNowBtn({
-    Key? key,
-    required this.width,
-  }) : super(key: key);
-  final double width;
-  ShowInfo get showInfo => Get.arguments["showInfo"];
-  Customer get customer => Get.arguments["customer"];
-  int get tableId => Get.arguments["tableId"];
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        await Get.to(() => TermsOfUsePage(),
-            arguments: {
-              "isAddPlayerClick": true,
-              "showInfo": showInfo,
-              "customer": customer,
-              "tableId": tableId,
-            });
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          //设置边框
-          color: Color(0xFF13EFEF),
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-        ),
-        margin: EdgeInsets.only(top: 0.0, left: 0.0),
-        constraints: BoxConstraints.tightFor(width: width, height: 70.h), //卡片大小
-        child: Center(
-          child: Text(
-            "ADD NOW",
-            textAlign: TextAlign.center,
-            style: CustomTextStyles.button(color: Color(0xff000000), fontSize: 28.sp),
           ),
         ),
       ),

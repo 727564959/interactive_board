@@ -70,17 +70,34 @@ class ChooseTableLogic extends GetxController {
     return userId;
   }
 
+  // Future<void> customerCheckIn({
+  //   required int showId,
+  //   required int userId,
+  //   required String code,
+  // }) async {
+  //   await _dio.post(
+  //     "$baseApiUrl/shows/$showId/customer-checked",
+  //     data: {
+  //       "userId": userId,
+  //       "showId": showId,
+  //       "code": code,
+  //       "tableId": selectedTableId!,
+  //     },
+  //   );
+  // }
   Future<void> customerCheckIn({
     required int showId,
     required int userId,
-    required String code,
+    required int transactionId,
+    required int bookingId,
   }) async {
     await _dio.post(
       "$baseApiUrl/shows/$showId/customer-checked",
       data: {
         "userId": userId,
         "showId": showId,
-        "code": code,
+        "transactionId": transactionId,
+        "bookingId": bookingId,
         "tableId": selectedTableId!,
       },
     );

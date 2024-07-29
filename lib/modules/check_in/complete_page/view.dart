@@ -5,16 +5,18 @@ import 'package:get/get.dart';
 import 'package:interactive_board/app_routes.dart';
 
 import 'package:intl/intl.dart';
-import 'package:interactive_board/modules/check_in/data/booking.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/custom_countdown.dart';
 
 import 'package:audioplayers/audioplayers.dart';
 
+import '../home_page/booking_state.dart';
+
 class CompletePage extends StatelessWidget {
   const CompletePage({Key? key}) : super(key: key);
   int get tableId => Get.arguments["tableId"];
-  Customer get customer => Get.arguments["customer"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
   DateTime get startTime => Get.arguments["startTime"];
   Color get color {
     if (tableId == 1) {
