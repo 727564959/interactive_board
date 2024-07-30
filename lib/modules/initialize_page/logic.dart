@@ -30,7 +30,7 @@ class InitializeLogic extends GetxController {
       Global.setTableId(board.tableId!);
       processController.listeningEvents();
     } else if (board.type == "check_in") {
-      Get.offAllNamed(AppRoutes.verificationCode);
+      Get.offAllNamed(AppRoutes.landingPage);
     }
   }
 }
