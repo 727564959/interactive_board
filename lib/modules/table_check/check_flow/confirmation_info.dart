@@ -11,6 +11,7 @@ import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../data/model/show_state.dart';
 import '../../../widgets/common_button.dart';
+import '../../../widgets/common_icon_button.dart';
 import '../player_show/view.dart';
 import 'group_set.dart';
 
@@ -28,7 +29,12 @@ class ConfirmationInfo extends StatelessWidget {
             Container(
               width: 1.0.sw,
               height: 1.0.sh,
-              color: Color(0xFF233342),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Column(
                 children: [
                   SizedBox(
@@ -37,12 +43,31 @@ class ConfirmationInfo extends StatelessWidget {
                       children: [
                         Container(
                           margin: EdgeInsets.only(top: 20.0, left: 40.0),
-                          child: SizedBox(
-                            width: 0.24.sw,
-                            child: Text(
-                              "Confirmation",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
-                            ),
+                          // child: SizedBox(
+                          //   width: 0.24.sw,
+                          //   child: Text(
+                          //     "Confirmation",
+                          //     style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                          //   ),
+                          // ),
+                          child: Row(
+                            children: [
+                              CommonIconButton(
+                                onPress: () {
+                                  Get.back();
+                                },
+                              ),
+                              SizedBox(width: 0.1.sw - 48 - 40,),
+                              Container(
+                                child: SizedBox(
+                                  // width: 0.24.sw,
+                                  child: Text(
+                                    "Confirmation",
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -59,8 +84,8 @@ class ConfirmationInfo extends StatelessWidget {
                             child: Text(
                               // singlePlayer['name'],
                               // "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(startTime.add(8.hours)),
-                              "Game Show Time : " + DateFormat("dd/MM/yyyy, hh:mm a").format(startTime),
-                              style: CustomTextStyles.title(color: Color(0xFF13EFEF), fontSize: 36.sp, level: 2),
+                              "Game Show Time : " + DateFormat("dd/MM/yyyy, h a").format(startTime),
+                              style: CustomTextStyles.title(color: Color(0xFFA4EDF1), fontSize: 28.sp, level: 6),
                             ),
                           ),
                         ),
@@ -73,7 +98,7 @@ class ConfirmationInfo extends StatelessWidget {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E3),
+                            color: const Color(0xFFffffff).withOpacity(0.08),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           margin: EdgeInsets.only(top: 10.0, left: 0.1.sw),
@@ -87,7 +112,7 @@ class ConfirmationInfo extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 40.0),
                                   child: Text(
                                     "First Name",
-                                    style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                                   ),
                                 ),
                               ),
@@ -97,7 +122,7 @@ class ConfirmationInfo extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
                                     singlePlayer['firstName'],
-                                    style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
                               ),
@@ -106,7 +131,7 @@ class ConfirmationInfo extends StatelessWidget {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E3),
+                            color: const Color(0xFFffffff).withOpacity(0.08),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           margin: EdgeInsets.only(top: 10.0, left: 10.0),
@@ -120,7 +145,7 @@ class ConfirmationInfo extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 40.0),
                                   child: Text(
                                     "Last Name",
-                                    style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                                   ),
                                 ),
                               ),
@@ -130,7 +155,7 @@ class ConfirmationInfo extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
                                     singlePlayer['lastName'],
-                                    style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
                               ),
@@ -145,7 +170,7 @@ class ConfirmationInfo extends StatelessWidget {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E3),
+                            color: const Color(0xFFffffff).withOpacity(0.08),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           margin: EdgeInsets.only(top: 15.0, left: 0.1.sw),
@@ -165,7 +190,7 @@ class ConfirmationInfo extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 40.0),
                                   child: Text(
                                     "Email",
-                                    style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                                   ),
                                 ),
                               ),
@@ -175,7 +200,7 @@ class ConfirmationInfo extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
                                     singlePlayer['email'],
-                                    style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
                               ),
@@ -184,7 +209,7 @@ class ConfirmationInfo extends StatelessWidget {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E3),
+                            color: const Color(0xFFffffff).withOpacity(0.08),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           margin: EdgeInsets.only(top: 15.0, left: 10.0),
@@ -198,7 +223,7 @@ class ConfirmationInfo extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 40.0),
                                   child: Text(
                                     "Phone Number",
-                                    style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                                   ),
                                 ),
                               ),
@@ -208,7 +233,7 @@ class ConfirmationInfo extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
                                     singlePlayer['phone'],
-                                    style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
                               ),
