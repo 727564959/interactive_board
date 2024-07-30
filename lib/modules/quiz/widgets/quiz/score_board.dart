@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:interactive_board/mirra_style.dart';
+import 'package:interactive_board/modules/quiz/text_style.dart';
 import '../../../../common.dart';
 
 class ScoreBoard extends StatelessWidget {
-  const ScoreBoard({Key? key, required this.score, required this.width}) : super(key: key);
+  const ScoreBoard({super.key, required this.score, required this.width});
   final int score;
   final double width;
 
@@ -14,13 +15,7 @@ class ScoreBoard extends StatelessWidget {
       width: width * 0.27,
       child: AnimatedFlipCounter(
         value: num,
-        textStyle: TextStyle(
-          fontWeight: FontWeight.normal,
-          fontSize: width * 0.35,
-          decoration: TextDecoration.none,
-          fontFamily: 'BurbankBold',
-          color: Colors.white,
-        ),
+        textStyle: TriviaTextStyles.title(color: Colors.white, fontSize: width * 0.30),
       ),
     );
   }

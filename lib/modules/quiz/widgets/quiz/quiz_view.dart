@@ -5,7 +5,7 @@ import 'question_view.dart';
 import '../../logic.dart';
 
 class QuizView extends StatefulWidget {
-  const QuizView({Key? key}) : super(key: key);
+  const QuizView({super.key});
 
   @override
   State<QuizView> createState() => _QuizViewState();
@@ -31,7 +31,7 @@ class _QuizViewState extends State<QuizView> {
   @override
   Widget build(BuildContext context) {
     if (bQuestion) {
-      return QuestionView();
+      return const QuestionView();
     } else {
       return CategoryShowView();
     }

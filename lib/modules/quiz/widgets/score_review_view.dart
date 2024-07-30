@@ -3,10 +3,11 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide AnimationExtension;
 import 'package:flutter/material.dart';
+import 'package:interactive_board/modules/quiz/text_style.dart';
 import '../logic.dart';
 
 class ScoreReviewView extends StatelessWidget {
-  ScoreReviewView({Key? key}) : super(key: key);
+  ScoreReviewView({super.key});
   final logic = Get.find<QuizLogic>();
   final upperHeight = 0.5.sh;
   final baseHeight = 0.3.sh;
@@ -28,19 +29,9 @@ class ScoreReviewView extends StatelessWidget {
         SizedBox(height: 0.05.sh),
         Text(
           "Table Score Review",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+          style: TriviaTextStyles.title(
             fontSize: 90.sp,
-            decoration: TextDecoration.none,
-            fontFamily: 'Burbank',
-            color: const Color(0xFFFFE350),
-            shadows: const [
-              Shadow(
-                offset: Offset(5.0, 2.0),
-                blurRadius: 0,
-                color: Color(0xFFF47416),
-              ),
-            ],
+            color: const Color(0xff13EFEF),
           ),
         ),
         Expanded(
@@ -149,11 +140,8 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
                   children: [
                     Text(
                       (scoreAnimation.value * score ~/ 1).toString(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                      style: TriviaTextStyles.title(
                         fontSize: 100.sp,
-                        decoration: TextDecoration.none,
-                        fontFamily: 'Burbank',
                         color: Colors.white,
                       ),
                     ),
@@ -177,12 +165,7 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
                       child: AutoSizeText(
                         "Table $tableId",
                         maxLines: 1,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.none,
-                          fontFamily: 'Burbank',
-                          color: Colors.white,
-                        ),
+                        style: TriviaTextStyles.title(color: Colors.white),
                       ),
                     ),
                   ],
@@ -242,12 +225,7 @@ class _Circle extends StatelessWidget {
             ),
             child: Text(
               rank.toString(),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.none,
-                fontFamily: 'Burbank',
-                color: Colors.white,
-              ),
+              style: TriviaTextStyles.title(color: Colors.white),
             ),
           ),
         ],

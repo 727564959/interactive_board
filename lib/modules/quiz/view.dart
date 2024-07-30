@@ -3,15 +3,13 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide AnimationExtension;
 import '../../mirra_style.dart';
-
-import '../../common.dart';
 import 'logic.dart';
 import 'widgets/waiting_start/cover_view.dart';
 import 'widgets/quiz/quiz_view.dart';
 import 'widgets/score_review_view.dart';
 
 class QuizCoverPage extends StatelessWidget {
-  QuizCoverPage({Key? key}) : super(key: key);
+  QuizCoverPage({super.key});
   final logic = Get.find<QuizLogic>();
   @override
   Widget build(BuildContext context) {
@@ -48,20 +46,6 @@ class QuizCoverPage extends StatelessWidget {
                   return ScoreReviewView(key: UniqueKey());
                 }
               },
-            ),
-          ),
-          Positioned(
-            left: 20,
-            top: 20,
-            child: Text(
-              "Table ${Global.tableId}",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 80.sp,
-                decoration: TextDecoration.none,
-                fontFamily: 'Burbank',
-                color: Colors.white,
-              ),
             ),
           ),
         ],

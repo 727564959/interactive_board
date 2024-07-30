@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/mirra_style.dart';
+import 'package:interactive_board/modules/quiz/text_style.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
@@ -15,7 +16,7 @@ import 'score_board.dart';
 import 'answer_list.dart';
 
 class QuestionView extends StatefulWidget {
-  const QuestionView({Key? key}) : super(key: key);
+  const QuestionView({super.key});
 
   @override
   State<QuestionView> createState() => _QuestionViewState();
@@ -50,13 +51,7 @@ class _QuestionViewState extends State<QuestionView> {
               child: Center(
                 child: Text(
                   "${question.round} / ${logic.questionCount}",
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 60.sp,
-                    decoration: TextDecoration.none,
-                    fontFamily: 'Burbank',
-                    color: Colors.white,
-                  ),
+                  style: TriviaTextStyles.title(color: const Color(0xffC1D3D4), fontSize: 50.sp),
                 ),
               ),
             ),
@@ -66,13 +61,7 @@ class _QuestionViewState extends State<QuestionView> {
               child: Text(
                 question.title,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 80.sp,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'BurbankBold',
-                  color: const Color(0xFFFFE350),
-                ),
+                style: TriviaTextStyles.title(color: const Color(0xffA4EDF1), fontSize: 67.sp),
               ),
             ),
             SizedBox(height: 0.08.sh),

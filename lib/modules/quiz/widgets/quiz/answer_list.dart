@@ -3,15 +3,16 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide AnimationExtension;
+import 'package:interactive_board/modules/quiz/text_style.dart';
 
 import '../../logic.dart';
 import 'answer_cell.dart';
 
 class AnswerList extends StatelessWidget {
   AnswerList({
-    Key? key,
+    super.key,
     required this.width,
-  }) : super(key: key);
+  });
   final logic = Get.find<QuizLogic>();
   final double width;
   QuizState get state => logic.quizState!;
@@ -61,12 +62,9 @@ class AnswerList extends StatelessWidget {
         if (state.bShowAnswer && state.selected == null)
           Text(
             "Miss",
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 120.sp,
-              decoration: TextDecoration.none,
-              fontFamily: 'Burbank',
+            style: TriviaTextStyles.title(
               color: const Color(0xFF8B8282),
+              fontSize: 120.sp,
             ),
           ).animate().scale(duration: 200.ms).fadeOut(delay: 2.seconds, duration: 300.ms),
       ],

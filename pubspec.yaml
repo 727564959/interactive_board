@@ -105,3 +105,6 @@ flutter:
     - family: RobotoFlex
       fonts:
         - asset:  assets/fonts/RobotoFlex-Variable.ttf
+    - family: Anton
+      fonts:
+        - asset: assets/fonts/Anton-Regular.ttf

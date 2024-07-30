@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class BorderTitle extends StatelessWidget {
-  const BorderTitle({Key? key, required this.fontSize, required this.title}) : super(key: key);
+  const BorderTitle({super.key, required this.fontSize, required this.title});
   final double fontSize;
   final String title;
   @override

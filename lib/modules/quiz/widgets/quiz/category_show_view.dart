@@ -4,12 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide AnimationExtension;
 import 'package:interactive_board/mirra_style.dart';
 import 'package:interactive_board/3rd_libs/gif_view-0.4.3/gif_view.dart';
+import 'package:interactive_board/modules/quiz/text_style.dart';
 
 import '../border_title.dart';
 import '../../logic.dart';
 
 class CategoryShowView extends StatelessWidget {
-  CategoryShowView({Key? key}) : super(key: key);
+  CategoryShowView({super.key});
   final logic = Get.find<QuizLogic>();
   @override
   Widget build(BuildContext context) {
@@ -17,9 +18,9 @@ class CategoryShowView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          BorderTitle(
-            fontSize: 180.sp,
-            title: "QUESTION ${logic.quizState!.question.round}",
+          Text(
+            "QUESTION ${logic.quizState!.question.round}",
+            style: TriviaTextStyles.title(fontSize: 180.sp, color: const Color(0xff13EFEF)),
           ),
           _TypeContent(
             width: 550.w,
@@ -87,12 +88,7 @@ class _TypeContentState extends State<_TypeContent> {
                 width: 0.6 * width,
                 child: Text(
                   type,
-                  style: TextStyle(
-                    fontSize: width * 0.1,
-                    color: const Color(0xFF50E9C4),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Burbank',
-                  ),
+                  style: TriviaTextStyles.title(color: const Color(0xff8ee8bd), fontSize: width * 0.1),
                 ).animate().scale(
                       delay: 700.ms,
                       duration: 300.ms,

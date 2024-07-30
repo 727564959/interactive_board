@@ -9,7 +9,7 @@ import '../../logic.dart';
 import 'tips_view.dart';
 
 class CoverView extends StatefulWidget {
-  const CoverView({Key? key}) : super(key: key);
+  const CoverView({super.key});
 
   @override
   State<CoverView> createState() => _CoverViewState();

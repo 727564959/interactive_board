@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/mirra_style.dart';
+import 'package:interactive_board/modules/quiz/text_style.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 import '../../logic.dart';
@@ -22,13 +23,22 @@ class JoinedButton extends StatelessWidget {
       textBaseline: TextBaseline.ideographic,
     );
     if (!logic.joinedQuiz) {
-      return Text("JOIN", style: style);
+      return Text(
+        "JOIN",
+        style: TriviaTextStyles.title(
+          fontSize: width * 0.15,
+          color: Colors.white,
+        ),
+      );
     } else {
       return Countdown(
         seconds: logic.countdown,
         build: (context, time) => Text(
           "${time.toInt()}s",
-          style: style,
+          style: TriviaTextStyles.title(
+            fontSize: width * 0.15,
+            color: Colors.white,
+          ),
         ),
       );
     }

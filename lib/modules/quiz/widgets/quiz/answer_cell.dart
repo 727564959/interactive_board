@@ -6,16 +6,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:interactive_board/mirra_style.dart';
 import 'package:interactive_board/3rd_libs/gif_view-0.4.3/gif_view.dart';
+import 'package:interactive_board/modules/quiz/text_style.dart';
 
 class AnswerCell extends StatefulWidget {
   const AnswerCell({
-    Key? key,
+    super.key,
     required this.width,
     required this.bSelected,
     this.bRight,
     required this.title,
     required this.index,
-  }) : super(key: key);
+  });
   final double width;
   final bool bSelected;
   final bool? bRight;
@@ -54,6 +55,7 @@ class _AnswerCellState extends State<AnswerCell> {
       width: width,
       height: height,
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
           GifView.asset(
             MirraIcons.getGifPath("answer_cell_expand.gif"),
@@ -78,13 +80,7 @@ class _AnswerCellState extends State<AnswerCell> {
             alignment: const Alignment(-0.85, 0.5),
             child: Text(
               ascii.decode([0x41 + index]),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: width * 0.08,
-                decoration: TextDecoration.none,
-                fontFamily: 'BurbankBold',
-                color: Colors.black,
-              ),
+              style: TriviaTextStyles.title(color: Colors.black, fontSize: width * 0.06),
             ),
           ),
           Align(
@@ -94,13 +90,7 @@ class _AnswerCellState extends State<AnswerCell> {
               child: AutoSizeText(
                 title,
                 maxLines: 1,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: width * 0.08,
-                  decoration: TextDecoration.none,
-                  fontFamily: 'BurbankBold',
-                  color: Colors.black,
-                ),
+                style: TriviaTextStyles.title(color: Colors.black, fontSize: width * 0.06),
               ),
             ),
           ),
@@ -117,17 +107,17 @@ class _AnswerCellState extends State<AnswerCell> {
             Align(
               alignment: const Alignment(1.0, 0.0),
               child: Transform.translate(
-                offset: Offset(200.w, 0),
-                child: Text(
+                offset: Offset(150.w, 0),
+                child: AutoSizeText(
                   "+10",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 100.sp,
-                    decoration: TextDecoration.none,
-                    fontFamily: 'Burbank',
+                  style: TriviaTextStyles.title(
                     color: const Color(0xFF3ADD8F),
+                    fontSize: 80.sp,
                   ),
-                ).animate().scale(duration: 200.ms).fadeOut(delay: 700.ms, duration: 300.ms),
+                )
+                    .animate()
+                    .scale(duration: 200.ms, end: const Offset(1.8, 1.8))
+                    .fadeOut(delay: 700.ms, duration: 300.ms),
               ),
             ),
         ],
@@ -138,11 +128,10 @@ class _AnswerCellState extends State<AnswerCell> {
 
 class _ExpandingBackground extends StatefulWidget {
   const _ExpandingBackground({
-    Key? key,
     required this.uri,
     required this.height,
     required this.width,
-  }) : super(key: key);
+  });
   final double height;
   final double width;
   final String uri;
