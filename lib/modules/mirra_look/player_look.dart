@@ -106,7 +106,7 @@ class PlayerLookPage extends StatelessWidget {
                                                       arguments: {
                                                         "showInfo": showInfo,
                                                         "bookingState": bookingState,
-                                                        "isAddPlayerClick": isAddPlayerClick,
+                                                        "isAddPlayerClick": false,
                                                         "isCountdownStart": true,
                                                         "tableId": tableId,
                                                       });
@@ -697,97 +697,6 @@ class _NicknamePageState extends State<_NicknamePage> {
         logic.currentName = v;
       },
       style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 36.sp, level: 4),
-    );
-  }
-}
-
-class _SaveButton extends StatelessWidget {
-  _SaveButton({
-    Key? key,
-    required this.width,
-  }) : super(key: key);
-  final double width;
-  ShowInfo get showInfo => Get.arguments?["showInfo"];
-  Customer get customer => Get.arguments?["customer"];
-  bool get isAddPlayerClick => Get.arguments?["isAddPlayerClick"];
-  PlayerCardInfo get card => Get.arguments?["card"];
-  ShowState get showState => Get.arguments?["showState"];
-  int get tableId => Get.arguments["tableId"];
-  final logic = Get.put(MirraLookLogic());
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      // 点击事件
-      onTap: () async {
-        try {
-          logic.updateUserPreference(card.userId??0, logic.currentName, Get.arguments["gameItemInfo"][logic.clickedCard??0].id, logic.selectedGender.label??"", logic.selectedSkin.label??"");
-          // logic.isCountdownStart = true;
-          // logic.testFun();
-          EasyLoading.dismiss(animation: false);
-          if(Get.arguments["showInfo"] != null) {
-            Future.delayed(0.5.seconds).then((value) async {
-              Get.offAll(() => PlayerSquadPage(),
-                  arguments: {
-                    "showInfo": showInfo,
-                    "customer": customer,
-                    "isAddPlayerClick": isAddPlayerClick,
-                    "isCountdownStart": true,
-                    "tableId": tableId,
-                  });
-            });
-            print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowLogic>()}");
-            if(Get.isRegistered<PlayerShowLogic>()) {
-              Get.find<PlayerShowLogic>().isCountdownStart = true;
-              // Get.find<PlayerShowLogic>().testFun();
-              Get.find<PlayerShowLogic>().getPlayerCardInfo(showInfo.showId);
-            }
-          }
-          else {
-            Future.delayed(0.5.seconds).then((value) async {
-              Get.offAll(() => PlayerShowPage(),
-                  arguments: {
-                    'showState': showState,
-                  });
-            });
-            print("嘿嘿嘿嘿 ${Get.isRegistered<PlayerShowPageLogic>()}");
-            if(Get.isRegistered<PlayerShowPageLogic>()) {
-              Get.find<PlayerShowPageLogic>().getPlayerCardInfo(showState.showId);
-            }
-
-            // Get.offAll(() => PlayerShowPage(),
-            //     arguments: {
-            //       'showState': showState,
-            //     });
-            // await Future.delayed(500.ms);
-            // final playerShowPageLogic = Get.put(PlayerShowPageLogic());
-            // print("哈哈哈哈哈 $playerShowPageLogic");
-            // print("哈哈哈哈哈 ${Get.isRegistered<PlayerShowPageLogic>()}");
-            // playerShowPageLogic.getCurrentTeam();
-            // playerShowPageLogic.refreshFun();
-          }
-        } on DioException catch (e) {
-          EasyLoading.dismiss();
-          if (e.response == null) EasyLoading.showError("Network Error!");
-          EasyLoading.showError(e.response?.data["error"]["message"]);
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          border: new Border.all(color: Color(0xff13EFEF), width: 1),
-          // color: Color(0xff13EFEF),
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-        ),
-        margin: EdgeInsets.only(top: 0.0, left: 0.0),
-        constraints: BoxConstraints.tightFor(width: width, height: 100.h),
-        child: Center(
-          child: Text(
-            "Save",
-            textAlign: TextAlign.center,
-            style: CustomTextStyles.button(color: Color(0xff13EFEF), fontSize: 28.sp),
-          ),
-        ),
-      ),
     );
   }
 }

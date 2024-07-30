@@ -8,6 +8,7 @@ import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../data/model/show_state.dart';
 import '../../../widgets/common_button.dart';
+import '../../add_player/input_nickname.dart';
 import '../data/skin_gender_option.dart';
 import '../data/user_info.dart';
 import 'logic.dart';
@@ -94,9 +95,15 @@ class NewPlayerInfoPage extends StatelessWidget {
                             logic.updateUserPreference(player.id, player.nickname, headgearId, logic.selectedGender.label??"", logic.selectedSkin.label??"");
                             logic.refreshFun();
                             EasyLoading.dismiss(animation: false);
-                            Get.offAll(() => PlayerShowPage(),
+                            // Get.offAll(() => PlayerShowPage(),
+                            //     arguments: {
+                            //       'showState': showState,
+                            //     });
+                            Get.offAll(() => InputNicknamePage(),
                                 arguments: {
-                                  'showState': showState,
+                                  "showState": showState,
+                                  "isFlow": "tableCheck",
+                                  "userId": userId
                                 });
                           } on DioException catch (e) {
                             EasyLoading.dismiss();

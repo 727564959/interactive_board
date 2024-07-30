@@ -14,7 +14,7 @@ import 'booking_state.dart';
 
 class ConfirmationSquadPage extends StatelessWidget {
   ConfirmationSquadPage({Key? key}) : super(key: key);
-  ShowInfo get showInfo => Get.arguments?["showInfo"];
+  ShowInfo get showInfo => Get.arguments["showInfo"];
   BookingState get bookingState => Get.arguments["bookingState"];
   Customer get customer => bookingState.customer;
 
@@ -49,18 +49,26 @@ class ConfirmationSquadPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 0.2.sh,),
-                    child: Text(
-                      "Are you part of Emily soup's squad?",
-                      style: CustomTextStyles.title(
-                          color: Color(0xFFFFFFFF),
-                          fontSize: 48.sp,
-                          level: 2
+                    margin: EdgeInsets.only(top: 0.25.sh,),
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Are you part of ",
+                        style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: customer.firstName + " " + customer.lastName.substring(0, 1),
+                            style: CustomTextStyles.title(color: Color(0xFF00F5FF), fontSize: 48.sp, level: 2),
+                          ),
+                          TextSpan(
+                            text: "'s squad?",
+                            style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 0.42.sh),
+                    margin: EdgeInsets.only(top: 0.4.sh),
                     alignment: Alignment.center,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -79,7 +87,7 @@ class ConfirmationSquadPage extends StatelessWidget {
                           changedTextColor: Color(0xffA4EDF1),
                           changedBgColor: Color(0xFF272727),
                         ),
-                        SizedBox(width: 20,),
+                        const SizedBox(width: 20,),
                         CommonButton(
                           width: 600.w,
                           height: 100.h,
@@ -91,7 +99,7 @@ class ConfirmationSquadPage extends StatelessWidget {
                                 arguments: {
                                   'showInfo': showInfo,
                                   "bookingState": bookingState,
-                                  "isAddPlayerClick": true,
+                                  "isAddPlayerClick": false,
                                   "tableId": int.parse(bookingState.tableId.toString()),
                                 });
                           },

@@ -38,14 +38,17 @@ class PlayerSquadPage extends StatelessWidget {
     //     logic.testFun();
     //   });
     // });
-    Future.delayed(Duration.zero, () {
+    if(isAddPlayerClick) Future.delayed(Duration.zero, () {
       Get.dialog(Dialog(child: AddDialog()), arguments: {"tableId": tableId, "showInfo": showInfo, "bookingState": bookingState,}).then((value) {
         logic.isCountdownStart = true;
         logic.testFun();
       });
     });
     print("isCountdownStart ${logic.isCountdownStart}");
-    if(isAddPlayerClick && !logic.isCountdownStart) {
+    // if(isAddPlayerClick && !logic.isCountdownStart) {
+    //   logic.isCountdownStart = true;
+    // }
+    if(!isAddPlayerClick && !logic.isCountdownStart) {
       logic.isCountdownStart = true;
     }
 

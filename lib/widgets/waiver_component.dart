@@ -75,7 +75,7 @@ class _WaiverComponentState extends State<WaiverComponent> {
   Widget build(BuildContext context) {
     return Container(
       width: 1600.w,
-      height: 750.w,
+      height: 650.w,
       clipBehavior: Clip.antiAlias,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -120,7 +120,7 @@ class _WaiverComponentState extends State<WaiverComponent> {
                           ),
                         ),
                         Container(
-                          height: 550.w,
+                          height: 500.w,
                           margin: EdgeInsets.only(top: 20.w, bottom: 30.w, left: 50.w, right: 50.w),
                           decoration: BoxDecoration(
                             color: Colors.white,

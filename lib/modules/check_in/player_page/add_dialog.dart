@@ -90,7 +90,8 @@ class _BottomBtns extends StatelessWidget {
                       btnBgColor: Color(0xFF272727),
                       textColor: Color(0xff13EFEF),
                       onPress: () async {
-                        Get.back();
+                        // Get.back();
+                        Navigator.of(context).pop();
                       },
                       borderColor: Color(0xff13EFEF),
                       changedBorderColor: Color(0xffA4EDF1),

@@ -55,14 +55,11 @@ class OldUserPage extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: Container(
-                      margin: EdgeInsets.only(top: 0.05.sh),
-                      child: SizedBox(
-                        height: 0.25.sh,
-                        child: Image.asset(
-                          Global.getGifUrl('Welcome.gif'),
-                          fit: BoxFit.fitHeight,
-                        ),
+                    child: SizedBox(
+                      height: 0.25.sh,
+                      child: Image.asset(
+                        Global.getGifUrl('Welcome.gif'),
+                        fit: BoxFit.fitHeight,
                       ),
                     ),
                   ),
@@ -78,7 +75,7 @@ class OldUserPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 0.1.sh,),
+                  SizedBox(height: 0.15.sh,),
                   CommonButton(
                     width: 600.w,
                     height: 100.h,

@@ -138,8 +138,10 @@ class _CommonButtonState extends State<CommonButton> {
       child: Container(
         decoration: BoxDecoration(
           // color: disable ? Color(0xFF9B9B9B) : Color(0xFF13EFEF),
-          color: disable! ? Color(0xFF9B9B9B)
-                  : (btnBgColor != null ? (!isChangeBgColor! ? btnBgColor! : changedBgColor!) : null),
+          // color: disable! ? Color(0xFF9B9B9B)
+          //         : (btnBgColor != null ? (!isChangeBgColor! ? btnBgColor! : changedBgColor!) : null),
+          color: disable! ? (borderColor == null ? Color(0xFF9B9B9B) : btnBgColor)
+              : (btnBgColor != null ? (!isChangeBgColor! ? btnBgColor! : changedBgColor!) : null),
           border: borderColor != null ? new Border.all(color: !isChangeBgColor! ? borderColor! : changedBorderColor!, width: 1) : null,
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
@@ -148,7 +150,10 @@ class _CommonButtonState extends State<CommonButton> {
           child: Text(
             btnText,
             textAlign: TextAlign.center,
-            style: CustomTextStyles.button(color: !isChangeBgColor! ? textColor : (changedTextColor == null ? textColor : changedTextColor!), fontSize: 28.sp),),
+            // style: CustomTextStyles.button(color: !isChangeBgColor! ? textColor : (changedTextColor == null ? textColor : changedTextColor!), fontSize: 28.sp),),
+            style: CustomTextStyles.button(
+                color: disable! ? (borderColor == null ? textColor : textColor.withOpacity(0.5)) : (!isChangeBgColor! ? textColor : (changedTextColor == null ? textColor : changedTextColor!)),
+                fontSize: 28.sp),),
         ),
       ),
     );

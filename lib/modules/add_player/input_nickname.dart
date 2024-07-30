@@ -12,7 +12,9 @@ import '../../widgets/common_icon_button.dart';
 import '../check_in/add_player/view.dart';
 import '../check_in/data/show.dart';
 import '../check_in/home_page/booking_state.dart';
+import '../check_in/player_page/player_squad.dart';
 import '../table_check/add_player/view.dart';
+import '../table_check/player_show/view.dart';
 import 'logic.dart';
 import 'old_user.dart';
 
@@ -95,6 +97,7 @@ class _CheckInInputState extends State<_CheckInInput> {
   Customer get customer => bookingState.customer;
   int get tableId => Get.arguments["tableId"];
   String get isFlow => Get.arguments["isFlow"];
+  int get userId => Get.arguments["userId"];
   ShowState get showState => Get.arguments?["showState"];
 
   String? get title => widget.title;
@@ -127,7 +130,22 @@ class _CheckInInputState extends State<_CheckInInput> {
       EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
       try {
         EasyLoading.dismiss(animation: false);
-
+        logic.updateUserPreference(userId, logic.nicknameController.text);
+        if(isFlow == "checkIn") {
+          Get.offAll(() => PlayerSquadPage(),
+              arguments: {
+                'showInfo': showInfo,
+                "bookingState": bookingState,
+                "isAddPlayerClick": true,
+                "tableId": tableId,
+              });
+        }
+        else if(isFlow == "tableCheck") {
+          Get.offAll(() => PlayerShowPage(),
+              arguments: {
+                'showState': showState,
+              });
+        }
       } on DioException catch (e) {
         EasyLoading.dismiss();
         if (e.response == null) EasyLoading.showError("Network Error!");
@@ -147,7 +165,7 @@ class _CheckInInputState extends State<_CheckInInput> {
         cursorRadius: Radius.circular(3.0), // 使用Radius.circular设置圆形半径
         cursorColor: Colors.black,   // 光标颜色
         cursorHeight: 48.0, // 设置光标的高度，与文字的字体大小一致
-        textAlign: TextAlign.center, // 设置文本居中
+        textAlign: TextAlign.left, // 设置文本居中
         inputFormatters: [
           // LengthLimitingTextInputFormatter(6), // 设置最大长度为6
         ],
@@ -155,6 +173,7 @@ class _CheckInInputState extends State<_CheckInInput> {
         decoration: InputDecoration(
           fillColor: Color(0xFFDBE2E3),
           filled: true,
+          contentPadding: EdgeInsets.symmetric(vertical: 25.w, horizontal: 30.w),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(

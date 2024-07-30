@@ -46,13 +46,12 @@ class CompletePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: AssetImage(Global.getAssetImageUrl("background.png")),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
-        color: Color(0xFF233342),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Center(
           child: Column(
             children: [
@@ -277,7 +276,7 @@ class _BackButtonState extends State<_BackButton> {
         decoration: BoxDecoration(
           //设置边框
           border: isChangeBgColor ? new Border.all(color: Color(0xffA4EDF1), width: 1) : new Border.all(color: Color(0xff13EFEF), width: 1),
-          color: Color(0xFF233342),
+          color: Colors.transparent,
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
         margin: EdgeInsets.only(top: 0.0, left: 0.0),

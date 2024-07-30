@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import '../../../../common.dart';
 import '../../../../mirra_style.dart';
 import '../../../widgets/common_button.dart';
+import '../../add_player/input_nickname.dart';
 import '../data/show.dart';
 import '../data/skin_gender_option.dart';
 import '../data/user_info.dart';
@@ -118,12 +119,21 @@ class NewPlayerPage extends StatelessWidget {
                             logic.updateUserPreference(player.id, player.nickname, headgearId, logic.selectedGender.label??"", logic.selectedSkin.label??"");
                             logic.testFun();
                             EasyLoading.dismiss(animation: false);
-                            Get.to(() => PlayerSquadPage(),
+                            // Get.to(() => PlayerSquadPage(),
+                            //     arguments: {
+                            //       "showInfo": showInfo,
+                            //       "bookingState": bookingState,
+                            //       "isAddPlayerClick": isAddPlayerClick,
+                            //       "tableId": tableId,
+                            //     });
+                            Get.to(() => InputNicknamePage(),
                                 arguments: {
                                   "showInfo": showInfo,
                                   "bookingState": bookingState,
                                   "isAddPlayerClick": isAddPlayerClick,
                                   "tableId": tableId,
+                                  "isFlow": "checkIn",
+                                  "userId": userId
                                 });
                           } on DioException catch (e) {
                             EasyLoading.dismiss();

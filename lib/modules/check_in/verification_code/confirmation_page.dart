@@ -34,7 +34,6 @@ class ConfirmationPage extends StatelessWidget {
             Container(
               width: 1.0.sw,
               height: 1.0.sh,
-              // color: Color(0xFF233342),
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
@@ -72,7 +71,7 @@ class ConfirmationPage extends StatelessWidget {
                     child: Row(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 50.0, left: 0.1.sw),
+                          margin: EdgeInsets.only(top: 0.1.sh, left: 0.1.sw),
                           child: SizedBox(
                             width: 0.8.sw,
                             child: Text(
@@ -82,23 +81,26 @@ class ConfirmationPage extends StatelessWidget {
                               // "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(
                               //   bookingState.bookingTime.add(8.hours),
                               // ),
-                              "Game Show Time : " + DateFormat("dd/MM/yyyy, hh:mm a").format(
-                                  DateTime.parse(bookingState.bookingDate + " " + bookingState.bookingTime),
+                              // "Game Show Time : " + DateFormat("dd/MM/yyyy, hh:mm a").format(
+                              //     DateTime.parse(bookingState.bookingDate + " " + bookingState.bookingTime),
+                              // ),
+                              "Game Show Time : " + DateFormat("dd/MM/yyyy, h a").format(
+                                DateTime.parse(bookingState.bookingDate + " " + bookingState.bookingTime),
                               ),
-                              style: CustomTextStyles.title(color: Color(0xFF13EFEF), fontSize: 36.sp, level: 2),
+                              style: CustomTextStyles.title(color: Color(0xFFA4EDF1), fontSize: 28.sp, level: 6),
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.0,),
+                  const SizedBox(height: 10.0,),
                   SizedBox(
                     child: Row(
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E3),
+                            color: const Color(0xFFffffff).withOpacity(0.08),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           margin: EdgeInsets.only(top: 10.0, left: 0.1.sw),
@@ -112,7 +114,7 @@ class ConfirmationPage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 40.0),
                                   child: Text(
                                     "First Name",
-                                    style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                                   ),
                                 ),
                               ),
@@ -122,7 +124,7 @@ class ConfirmationPage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
                                     bookingState.customer.firstName,
-                                    style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
                               ),
@@ -131,7 +133,7 @@ class ConfirmationPage extends StatelessWidget {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E3),
+                            color: const Color(0xFFffffff).withOpacity(0.08),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           margin: EdgeInsets.only(top: 10.0, left: 10.0),
@@ -145,7 +147,7 @@ class ConfirmationPage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 40.0),
                                   child: Text(
                                     "Last Name",
-                                    style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                                   ),
                                 ),
                               ),
@@ -155,7 +157,7 @@ class ConfirmationPage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
                                     bookingState.customer.lastName,
-                                    style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
                               ),
@@ -170,7 +172,7 @@ class ConfirmationPage extends StatelessWidget {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E3),
+                            color: const Color(0xFFffffff).withOpacity(0.08),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           margin: EdgeInsets.only(top: 15.0, left: 0.1.sw),
@@ -190,7 +192,7 @@ class ConfirmationPage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 40.0),
                                   child: Text(
                                     "Email",
-                                    style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                                   ),
                                 ),
                               ),
@@ -205,7 +207,7 @@ class ConfirmationPage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
                                     bookingState.customer.email,
-                                    style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
                               ),
@@ -214,7 +216,7 @@ class ConfirmationPage extends StatelessWidget {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFFDBE2E3),
+                            color: const Color(0xFFffffff).withOpacity(0.08),
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           margin: EdgeInsets.only(top: 15.0, left: 10.0),
@@ -228,7 +230,7 @@ class ConfirmationPage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 40.0),
                                   child: Text(
                                     "Phone Number",
-                                    style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 28.sp, level: 6),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 28.sp, level: 6),
                                   ),
                                 ),
                               ),
@@ -238,7 +240,7 @@ class ConfirmationPage extends StatelessWidget {
                                   margin: EdgeInsets.only(left: 30.0, top: 0.0),
                                   child: Text(
                                     bookingState.customer.phone,
-                                    style: CustomTextStyles.title(color: Colors.black, fontSize: 36.sp, level: 5),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 5),
                                   ),
                                 ),
                               ),
@@ -324,7 +326,7 @@ class ConfirmationPage extends StatelessWidget {
                   //     ],
                   //   ),
                   // ),
-                  SizedBox(height: 0.1.sh,),
+                  SizedBox(height: 0.12.sh,),
                   // _NoProblemButton(width: 600.w, bookingState: bookingState, code: code),
                   CommonButton(
                     width: 600.w,
@@ -341,23 +343,12 @@ class ConfirmationPage extends StatelessWidget {
                         EasyLoading.dismiss(animation: false);
                         // await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfo, "customer": bookingState.customer, "code": code, "bookingState": bookingState});
                         print("showInfo ${showInfo}");
-                        if(bookingState.status == "pending") {
-                          await Get.to(() => TermsOfUse(),
-                              arguments: {
-                                "isAddPlayerClick": false,
-                                "showInfo": showInfo,
-                                "bookingState": bookingState,
-                                "isFlow": "checkIn"});
-                        }
-                        else {
-                          Get.offAll(() => PlayerSquadPage(),
-                              arguments: {
-                                'showInfo': showInfo,
-                                "bookingState": bookingState,
-                                "isAddPlayerClick": true,
-                                "tableId": int.parse(bookingState.tableId.toString()),
-                              });
-                        }
+                        await Get.to(() => TermsOfUse(),
+                            arguments: {
+                              "isAddPlayerClick": false,
+                              "showInfo": showInfo,
+                              "bookingState": bookingState,
+                              "isFlow": "checkIn"});
                         // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
                         // logic.codeController.clear();
                       } on DioException catch (e) {
@@ -368,16 +359,6 @@ class ConfirmationPage extends StatelessWidget {
                     },
                     changedBgColor: Color(0xffA4EDF1),
                   ),
-                  SizedBox(height: 30.0,),
-                  // _BackButton(),
-                  // CommonTextButton(
-                  //   btnText: "BACK",
-                  //   textColor: Color(0xff13EFEF),
-                  //   onPress: () {
-                  //     Get.back();
-                  //   },
-                  //   changedTextColor: Color(0xffA4EDF1),
-                  // ),
                 ],
               ),
             ),

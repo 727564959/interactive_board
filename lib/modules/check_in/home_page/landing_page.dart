@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +110,7 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                     Container(
                       margin: const EdgeInsets.only(top: 40.0),
                       child: Text(
-                        'Welcome On board Mirra Land',
+                        'Welcome On board',
                         style: CustomTextStyles.title(
                             color: Colors.white, fontSize: 48.sp, level: 2
                         ),
@@ -121,8 +122,8 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                         children: [
                           Text(
                             'Choose Your Name to Check in',
-                            style: CustomTextStyles.textNormal(
-                                color: Colors.white, fontSize: 30.sp
+                            style: CustomTextStyles.textSmall(
+                                color: Colors.white, fontSize: 26.sp
                             ),
                           ),
                           Container(
@@ -152,24 +153,31 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                         ? Column(
                                       mainAxisAlignment: MainAxisAlignment.center, // 设置垂直方向上的对齐方式为居中
                                       children: [
-                                        Text(
-                                          logic.bookingState[index].customer.firstName,
-                                          style: CustomTextStyles.title(
-                                              color: Colors.black, fontSize: 40.sp, level: 3
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            left: 0.02.sw,
+                                            right: 0.02.sw,
+                                          ),
+                                          child: Text(
+                                            textAlign: TextAlign.center,
+                                            logic.bookingState[index].customer.firstName + " " + logic.bookingState[index].customer.lastName.substring(0, 1),
+                                            style: CustomTextStyles.title(
+                                                color: Colors.black, fontSize: 40.sp, level: 3
+                                            ),
                                           ),
                                         ),
-                                        Text(
-                                          logic.bookingState[index].customer.lastName,
-                                          style: CustomTextStyles.title(
-                                              color: Colors.black, fontSize: 40.sp, level: 3
-                                          ),
-                                        ),
+                                        // Text(
+                                        //   logic.bookingState[index].customer.lastName,
+                                        //   style: CustomTextStyles.title(
+                                        //       color: Colors.black, fontSize: 40.sp, level: 3
+                                        //   ),
+                                        // ),
                                         const SizedBox(height: 20,),
                                         if(logic.bookingState[index].status == "pending") CommonButton(
-                                          width: 200.w,
-                                          height: 72.h,
+                                          width: 210.w,
+                                          height: 63.h,
                                           btnText: "CHECK IN",
-                                          btnBgColor: Color(0xffA4EDF1),
+                                          btnBgColor: Colors.transparent,
                                           textColor: Color(0xff000000),
                                           onPress: () async {
                                             await Get.to(() => ConfirmationPage(), arguments: {"bookingState": logic.bookingState[index]},);
@@ -179,15 +187,32 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                           changedTextColor: Color(0xff000000),
                                           changedBgColor: Color(0xFF13EFEF),
                                         ),
-                                        if(logic.bookingState[index].status == "pending") CommonButton(
-                                          width: 200.w,
-                                          height: 72.h,
+                                        if(logic.bookingState[index].status != "pending") CommonButton(
+                                          width: 260.w,
+                                          height: 63.h,
                                           btnText: "ADD PLAYER",
-                                          btnBgColor: Color(0xffA4EDF1),
+                                          btnBgColor: Colors.transparent,
                                           textColor: Color(0xff000000),
                                           onPress: () async {
                                             final showInfo = await logic.bookingTimeChecked(logic.bookingState[index].bookingTime, logic.bookingState[index].bookingDate);
                                             print("showInfo ${showInfo}");
+                                            //  String jsonString2 = '''
+                                            //      {
+                                            //        "showId": 81,
+                                            //        "startDate": "2024-07-25",
+                                            //        "startTime": "17:00:00",
+                                            //        "associatedUsers": [
+                                            //            {
+                                            //                "tableId": 3,
+                                            //                "userIds": [
+                                            //                    398
+                                            //                ],
+                                            //                "consumerId": 398
+                                            //            }
+                                            //        ]
+                                            //    }
+                                            // ''';
+                                            //  Map<String, dynamic> jsonData2 = json.decode(jsonString2);
                                             await Get.to(() => ConfirmationSquadPage(), arguments: {
                                               "bookingState": logic.bookingState[index],
                                               "showInfo": showInfo,
