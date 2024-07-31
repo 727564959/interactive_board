@@ -118,6 +118,7 @@ class HomeLogic extends GetxController {
     if(bookingStateList.length > 0) {
       // 不足4个需要补足，避免重新排序赋值时越界
       if(bookingStateList.length < 4) {
+        List<BookingState> newList = [];
         for(int m = 0; m < (4 - bookingStateList.length); m++) {
           Customer customer = Customer(
               userId: -1,
@@ -127,7 +128,7 @@ class HomeLogic extends GetxController {
               phone: "",
               email: ""
           );
-          bookingStateList.add(BookingState(
+          newList.add(BookingState(
             bookingId: -1,
             transactionId: -1,
             bookingDate: "",
@@ -137,7 +138,9 @@ class HomeLogic extends GetxController {
             customer: customer,
           ));
         }
+        bookingStateList = [...bookingStateList, ...newList];
       }
+
       List<BookingState> sortedBookings = bookingStateList.where((element) => element.tableId != null).toList();
       sortedBookings.sort((a, b) => a.tableId!.compareTo(b.tableId!));
       print("sortedBookings ${sortedBookings}");
@@ -145,14 +148,30 @@ class HomeLogic extends GetxController {
       nullTableIdBookings.sort((a, b) => a.customer.firstName[0].compareTo(b.customer.firstName[0]));
       print("nullTableIdBookings ${nullTableIdBookings}");
       for (int i = 0, j = 0, k = 0; i < bookingStateList.length; i++) {
-        if((i + 1) == sortedBookings[j].tableId) {
-          bookingStateList[i] = sortedBookings[j];
-          j++;
+        if(sortedBookings.length > 0 && nullTableIdBookings.length > 0) {
+          if((i + 1) == sortedBookings[j].tableId) {
+            bookingStateList[i] = sortedBookings[j];
+            j++;
+          }
+          else {
+            bookingStateList[i] = nullTableIdBookings[k];
+            k++;
+          }
         }
-        else {
-          bookingStateList[i] = nullTableIdBookings[k];
-          k++;
+        else if(sortedBookings.length <= 0) {
+          bookingStateList = nullTableIdBookings;
         }
+        else if(nullTableIdBookings.length <= 0) {
+          bookingStateList = sortedBookings;
+        }
+        // if((i + 1) == sortedBookings[j].tableId) {
+        //   bookingStateList[i] = sortedBookings[j];
+        //   j++;
+        // }
+        // else {
+        //   bookingStateList[i] = nullTableIdBookings[k];
+        //   k++;
+        // }
       }
       print("bookingStateList ${bookingStateList}");
       bookingState = bookingStateList;
