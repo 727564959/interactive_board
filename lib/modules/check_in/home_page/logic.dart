@@ -37,28 +37,7 @@ class HomeLogic extends GetxController {
                         "updateTime": "2024-07-25T07:33:47.947Z"
                     }
                 },
-                {
-                    "id": 59,
-                    "transactionId": 59,
-                    "bookingDate": "2024-07-25",
-                    "bookingTime": "15:00:00",
-                    "during": 60,
-                    "quantity": 1,
-                    "status": "pending",
-                    "tableId": null,
-                    "customerId": 26,
-                    "createTime": "2024-07-25T07:33:47.947Z",
-                    "updateTime": "2024-07-25T07:33:47.947Z",
-                    "customer": {
-                        "id": 26,
-                        "firstName": "Zzzzzzzzzz",
-                        "lastName": "Kkkkkk",
-                        "telephone": "1235564654",
-                        "email": "danny.luo@miraverse.net",
-                        "createTime": "2024-07-25T07:33:47.947Z",
-                        "updateTime": "2024-07-25T07:33:47.947Z"
-                    }
-                },
+                
                 {
                     "id": 60,
                     "transactionId": 60,
@@ -131,31 +110,66 @@ class HomeLogic extends GetxController {
     update(["landingCheckInPage"]);
   }
 
+  Future<void> getBookingStateFun() async {
+    // List<BookingState> bookingStateList = await getBookingStatus();
+    Map<String, dynamic> jsonData = json.decode(jsonString1);
+    List<dynamic> bookingsList = jsonData["bookings"];
+    List<BookingState> bookingStateList = bookingsList.map((booking) => BookingState.fromJson(booking)).toList();
+    if(bookingStateList.length > 0) {
+      // 不足4个需要补足，避免重新排序赋值时越界
+      if(bookingStateList.length < 4) {
+        for(int m = 0; m < (4 - bookingStateList.length); m++) {
+          Customer customer = Customer(
+              userId: -1,
+              firstName: "Z",
+              lastName: "Z",
+              name: "",
+              phone: "",
+              email: ""
+          );
+          bookingStateList.add(BookingState(
+            bookingId: -1,
+            transactionId: -1,
+            bookingDate: "",
+            bookingTime: "",
+            status: "",
+            tableId: null,
+            customer: customer,
+          ));
+        }
+      }
+      List<BookingState> sortedBookings = bookingStateList.where((element) => element.tableId != null).toList();
+      sortedBookings.sort((a, b) => a.tableId!.compareTo(b.tableId!));
+      print("sortedBookings ${sortedBookings}");
+      List<BookingState> nullTableIdBookings = bookingStateList.where((element) => element.tableId == null).toList();
+      nullTableIdBookings.sort((a, b) => a.customer.firstName[0].compareTo(b.customer.firstName[0]));
+      print("nullTableIdBookings ${nullTableIdBookings}");
+      for (int i = 0, j = 0, k = 0; i < bookingStateList.length; i++) {
+        if((i + 1) == sortedBookings[j].tableId) {
+          bookingStateList[i] = sortedBookings[j];
+          j++;
+        }
+        else {
+          bookingStateList[i] = nullTableIdBookings[k];
+          k++;
+        }
+      }
+      print("bookingStateList ${bookingStateList[0]}");
+      print("bookingStateList ${bookingStateList[1]}");
+      print("bookingStateList ${bookingStateList[2]}");
+      print("bookingStateList ${bookingStateList}");
+      bookingState = bookingStateList;
+      refreshFun();
+    }
+    else {
+      bookingState = [];
+    }
+  }
+
   @override
   void onInit() async {
     super.onInit();
-    bookingState = await getBookingStatus();
-    // Map<String, dynamic> jsonData = json.decode(jsonString1);
-    // List<dynamic> bookingsList = jsonData["bookings"];
-    // bookingState = bookingsList.map((booking) => BookingState.fromJson(booking)).toList();
-    print("原始 ${bookingState}");
-    // 对 data 数组进行排序
-    bookingState.sort((a, b) => a.customer.firstName[0].compareTo(b.customer.firstName[0]));
-    // bookingState.sort(
-    //       (a, b) {
-    //     if (a.tableId == null && b.tableId == null) {
-    //       return 0;
-    //     } else if (a.tableId == null) {
-    //       return -1;
-    //     } else if (b.tableId == null) {
-    //       return 1;
-    //     } else {
-    //       return a.tableId!.compareTo(b.tableId!);
-    //     }
-    //   },
-    // );
-    print("排序 ${bookingState}");
-
-    update(["landingCheckInPage"]);
+    getBookingStateFun();
+    update();
   }
 }

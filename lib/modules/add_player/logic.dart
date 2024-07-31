@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../common.dart';
 import '../check_in/data/casual_user.dart';
 import '../check_in/data/show.dart';
+import '../game_over/statistics/data/team_info.dart';
 
 class UserRegistrationLogic extends GetxController {
   final _dio = Dio();
@@ -12,6 +13,7 @@ class UserRegistrationLogic extends GetxController {
   int get tableId => Get.arguments["tableId"];
   final emailController = TextEditingController();
   final focusNode = FocusNode();
+  String errorText = "";
   final nicknameController = TextEditingController();
   final focusNode1 = FocusNode();
   List<CasualUser> casualUser = [];
@@ -73,12 +75,36 @@ class UserRegistrationLogic extends GetxController {
     );
   }
 
+  // 查询队伍信息
+  Future<List<TeamInfo>> fetchTeamInfo(showId) async {
+    print("是否进入了查询队伍信息方法");
+    final response = await _dio.get(
+        "$baseApiUrl/shows/$showId/team-info"
+    );
+    List teamList = response.data;
+    return teamList.map((team) => TeamInfo.fromJson(team)).toList();
+  }
+
+  Future<void> defaultNicknameFun() async {
+    casualUser = await fetchCasualUser(showInfo.showId, tableId);
+    int num = casualUser.length;
+    // nicknameController.text = getBayString(tableId) + num.toString();
+    String suffixNum = num > 9 ? num.toString() : ("0" + num.toString());
+    List<TeamInfo> teamList = await fetchTeamInfo(showInfo.showId);
+    for(int i = 0; i < teamList.length; i++) {
+      if(teamList[i].teamId == tableId) {
+        nicknameController.text = teamList[i].name + "_" + suffixNum;
+      }
+    }
+  }
+
+  void refreshUserAuthenticatorPage() {
+    update(['UserAuthenticatorPage']);
+  }
+
   @override
   void onInit() async {
     super.onInit();
-    casualUser = await fetchCasualUser(showInfo.showId, tableId);
-    int num = casualUser.length;
-    nicknameController.text = getBayString(tableId) + num.toString();
     update();
   }
 }

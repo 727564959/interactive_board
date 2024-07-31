@@ -1,15 +1,25 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
+import 'package:intl/intl.dart';
+import 'package:signature/signature.dart';
+import 'package:widgets_to_image/widgets_to_image.dart';
+
 
 import '../../../common.dart';
 import '../check_in/data/avatar_info.dart';
 
 class TermsOfUseLogic extends GetxController {
   final _dio = Dio();
-  bool isSelectedOne = true;
+  bool isSelectedOne = false;
   bool isSelectedTwo = false;
   bool isDisable = true;
+
+  SignatureController signatureController = SignatureController();
+  WidgetsToImageController widgetsToImageController = WidgetsToImageController();
+  bool get isSignatureNotEmpty => signatureController.isNotEmpty;
 
   // 查询并清理头套
   Future<List<GameItemInfo>> fetchHeadgearInfo(userId) async {
@@ -34,6 +44,41 @@ class TermsOfUseLogic extends GetxController {
 
   void refreshFun() {
     update(['TermsOfUsePage']);
+  }
+
+  void clearSignatureBar() {
+    signatureController.clear();
+  }
+
+  Future<void> uploadSignature(String name) async {
+    final date = DateFormat("yyyyMMdd").format(DateTime.now());
+    final dio = Dio();
+    final captureFuture = widgetsToImageController.capture(pixelRatio: 0.5);
+    final presignedFuture = dio.get(
+      "https://inb27b1nma.execute-api.us-east-1.amazonaws.com/put_signature_pic_to_s3",
+      queryParameters: {"object_name": "$date/$name-${_generateRandomString(6)}"},
+    );
+    final [data, response as Response] = await Future.wait([captureFuture, presignedFuture]);
+    if (data == null) throw Exception("Signature data is Null!");
+    String presignedUrl = jsonDecode(response.data)["presigned_url"];
+    await dio.put(
+      presignedUrl,
+      data: data,
+      options: Options(contentType: "image/png"),
+    );
+  }
+
+  String _generateRandomString(int length) {
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final random = Random();
+    String result = '';
+
+    for (int i = 0; i < length; i++) {
+      int randomIndex = random.nextInt(charset.length);
+      result += charset[randomIndex];
+    }
+
+    return result;
   }
 
   @override

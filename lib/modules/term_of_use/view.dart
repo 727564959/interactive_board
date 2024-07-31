@@ -1,15 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:signature/signature.dart';
+import 'package:widgets_to_image/widgets_to_image.dart';
 
 import '../../../../common.dart';
 import '../../../data/model/show_state.dart';
 import '../../../mirra_style.dart';
 import '../../../widgets/common_button.dart';
 import '../../../widgets/common_icon_button.dart';
-import '../../widgets/waiver_component.dart';
 import '../add_player/view.dart';
 import '../check_in/choose_table/view.dart';
 import '../check_in/data/avatar_info.dart';
@@ -34,13 +37,10 @@ class TermsOfUse extends StatelessWidget {
   String get isFlow => Get.arguments["isFlow"];
   ShowState get showState => Get.arguments?["showState"];
 
-  final controller = WaiverController();
   final logic = Get.put(TermsOfUseLogic());
 
   @override
   Widget build(BuildContext context) {
-    print("controller ${controller.isSignatureNotEmpty}");
-    print("signatureController ${controller.signatureController}");
     return GetBuilder<TermsOfUseLogic>(
         id: "TermsOfUsePage",
         builder: (logic) {
@@ -121,19 +121,9 @@ class TermsOfUse extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20.0,),
-                        WaiverComponent(controller: controller),
-                        const SizedBox(height: 15),
-                        Container(
-                          margin: EdgeInsets.only(left: 0.1.sw - 20),
-                          child: _SelectedArea(clauseContent: "I have  read and agree to the agreement listed above", isSelected: logic.isSelectedOne, sign: 1),
-                        ),
-                        const SizedBox(height: 10,),
-                        Container(
-                          margin: EdgeInsets.only(left: 0.1.sw - 20),
-                          child: _SelectedArea(clauseContent: "I agree to ESIGN Consent", isSelected: logic.isSelectedTwo, sign: 2),
-                        ),
+                        WaiverComponent(),
                         const SizedBox(height: 20,),
-                        _BottomBtns(controller: controller),
+                        _BottomBtns(),
                       ],
                     ),
                   ),
@@ -148,9 +138,7 @@ class TermsOfUse extends StatelessWidget {
 class _BottomBtns extends StatefulWidget {
   const _BottomBtns({
     Key? key,
-    required this.controller
   }) : super(key: key);
-  final WaiverController controller;
 
   @override
   State<_BottomBtns> createState() => _BottomBtnsState();
@@ -186,14 +174,9 @@ class _BottomBtnsState extends State<_BottomBtns> {
                 btnBgColor: Colors.transparent,
                 // textColor: logic.isDisable ? Color(0xffFFFFFF).withOpacity(0.5) : Color(0xffFFFFFF),
                 textColor:Color(0xffFFFFFF),
-                disable: logic.isDisable,
+                disable: !logic.isSignatureNotEmpty,
                 onPress: () async {
-                  // print("isSignatureNotEmpty ${widget.controller.isSignatureNotEmpty}");
-                  // print("isBottom ${widget.controller.isBottom}");
-                  // print("signatureController ${widget.controller.signatureController}");
-                  widget.controller.clearSignatureBar();
-                  print("logic.isSelectedOne ${logic.isSelectedOne}");
-                  print("logic.isSelectedTwo ${logic.isSelectedTwo}");
+                  logic.clearSignatureBar();
                 },
                 borderColor: Color(0xff13EFEF),
                 changedBorderColor: Color(0xffA4EDF1),
@@ -207,7 +190,7 @@ class _BottomBtnsState extends State<_BottomBtns> {
                 btnText: 'NEXT',
                 btnBgColor: Color(0xff13EFEF),
                 textColor: Colors.black,
-                disable: logic.isDisable,
+                disable: logic.isDisable || !logic.isSignatureNotEmpty,
                 onPress: () async {
                   print("接受了协议");
                   EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
@@ -223,7 +206,7 @@ class _BottomBtnsState extends State<_BottomBtns> {
                       nameStr = customer.firstName + " " + customer.lastName;
                     }
                     print("nameStr ${nameStr}");
-                    widget.controller.uploadSignature(nameStr);
+                    await logic.uploadSignature(nameStr);
                     // 是新增点击则去新增页面，反之去选桌
                     if (isAddPlayerClick) {
                       List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
@@ -305,6 +288,116 @@ class _BottomBtnsState extends State<_BottomBtns> {
   }
 }
 
+class WaiverComponent extends StatefulWidget {
+  const WaiverComponent({super.key});
+
+  @override
+  State<WaiverComponent> createState() => _WaiverComponentState();
+}
+
+class _WaiverComponentState extends State<WaiverComponent> {
+  String? content;
+  final logic = Get.put(TermsOfUseLogic());
+
+  @override
+  void initState() {
+    rootBundle.loadString("assets/terms/RISK_INDEMNITY_ARBITRATION.md").then((value) {
+      content = value.replaceAll("<br>", ' \n');
+      setState(() {
+        // 添加一个监听器，当isSignatureNotEmpty值变化时触发
+        logic.signatureController.addListener(() {
+          // print('isSignatureNotEmpty changed: ${logic.isSignatureNotEmpty}');
+          // 这里可以执行一些逻辑操作
+          logic.refreshFun();
+        });
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 1600.w,
+      height: 750.w,
+      clipBehavior: Clip.antiAlias,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Colors.cyan,
+      ),
+      child: content == null
+          ? Container()
+          : RawScrollbar(
+        mainAxisMargin: 20.w,
+        padding: EdgeInsets.only(right: 10.w),
+        thumbColor: const Color(0xff7b7b7b),
+        thickness: 20.w,
+        radius: Radius.circular(10.w),
+        child: SingleChildScrollView(
+          child: WidgetsToImage(
+            controller: logic.widgetsToImageController,
+            child: Container(
+              padding: EdgeInsets.only(top: 20.w, bottom: 50.w),
+              color: const Color(0xFFDBE2E3),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 100.w, right: 100.w, top: 50.w, bottom: 50.w),
+                    child: MarkdownBody(
+                      data: content!,
+                      styleSheet: MarkdownStyleSheet(
+                        listBullet: CustomTextStyles.notice(color: const Color(0XFF9B9B9B), fontSize: 24.sp),
+                        h1: CustomTextStyles.textSmall(color: Colors.black, fontSize: 26.sp),
+                        h2: CustomTextStyles.title6(color: Colors.black, fontSize: 28.sp),
+                        h2Padding: EdgeInsets.only(top: 20.w),
+                        p: CustomTextStyles.notice(color: const Color(0XFF9B9B9B), fontSize: 24.sp),
+                        pPadding: EdgeInsets.only(top: 5.w),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "Signature",
+                    style: CustomTextStyles.textNormal(
+                      color: Colors.black,
+                      fontSize: 30.sp,
+                    ),
+                  ),
+                  Container(
+                    height: 480.w,
+                    margin: EdgeInsets.only(top: 20.w, bottom: 30.w, left: 50.w, right: 50.w),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(color: const Color(0xff4D797F), width: 1.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(1),
+                      child: Signature(
+                        controller: logic.signatureController,
+                        backgroundColor: Colors.transparent,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 50.w,),
+                    child: _SelectedArea(clauseContent: "I have  read and agree to the agreement listed above", isSelected: logic.isSelectedOne, sign: 1),
+                  ),
+                  const SizedBox(height: 10,),
+                  Container(
+                    margin: EdgeInsets.only(left: 50.w,),
+                    child: _SelectedArea(clauseContent: "I agree to ESIGN Consent", isSelected: logic.isSelectedTwo, sign: 2),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // 勾选协议
 class _SelectedArea extends StatefulWidget {
   _SelectedArea({
@@ -381,15 +474,16 @@ class _SelectedAreaState extends State<_SelectedArea> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.0),
+              color: widget.isSelected ? Colors.black : Colors.transparent,
               border: Border.all(
-                color: widget.isSelected ? Color(0xff13EFEF) : Colors.white, // 勾选后的边框颜色
+                color: widget.isSelected ? Colors.black : Colors.black, // 勾选后的边框颜色
                 width: 2.0,
               ),
             ),
             child: Padding(
               padding: EdgeInsets.all(2.0),
               child: widget.isSelected
-                  ? Icon(Icons.check, color: Color(0xff13EFEF), size: 16.0)
+                  ? Icon(Icons.check, color: Colors.white, size: 16.0)
                   : Icon(null, color: Colors.transparent, size: 16.0),
             ),
           ),
@@ -418,7 +512,7 @@ class _SelectedAreaState extends State<_SelectedArea> {
           child: Text(
             widget.clauseContent,
             style: CustomTextStyles.textSmall(
-                color: Colors.white, fontSize: 26.sp
+                color: Colors.black, fontSize: 26.sp
             ),
           ),
         ),

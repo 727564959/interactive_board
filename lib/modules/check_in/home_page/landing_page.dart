@@ -48,7 +48,8 @@ class _LandingCheckInState extends State<LandingCheckIn> {
   void getBookingStatus() async {
     EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
     try {
-      logic.bookingState = await logic.getBookingStatus();
+      // logic.bookingState = await logic.getBookingStatus();
+      logic.getBookingStateFun();
       print("getBookingStatus ${logic.bookingState}");
       logic.refreshFun();
       EasyLoading.dismiss(animation: false);
@@ -132,7 +133,7 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                             height: 0.55.sh,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: logic.bookingState.length < 4 ? 4 : logic.bookingState.length,
+                              itemCount: logic.bookingState.length,
                               itemBuilder: (context, index) {
                                 print("index ${index}");
                                 print("length ${logic.bookingState.length}");
@@ -147,9 +148,9 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                     height: 0.43.sh,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.all(Radius.circular(20)),
-                                      color: index < logic.bookingState.length ? getBgColor(logic.bookingState[index].tableId) : Color(0xffA4EDF1),
+                                      color: logic.bookingState[index].tableId != null ? getBgColor(logic.bookingState[index].tableId) : Color(0xffA4EDF1),
                                     ),
-                                    child: (index + 1) <= logic.bookingState.length
+                                    child: logic.bookingState[index].bookingId != -1
                                         ? Column(
                                       mainAxisAlignment: MainAxisAlignment.center, // 设置垂直方向上的对齐方式为居中
                                       children: [
@@ -162,7 +163,7 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                             textAlign: TextAlign.center,
                                             logic.bookingState[index].customer.firstName + " " + logic.bookingState[index].customer.lastName.substring(0, 1),
                                             style: CustomTextStyles.title(
-                                                color: Colors.black, fontSize: 40.sp, level: 3
+                                                color: Colors.black, fontSize: 48.sp, level: 2
                                             ),
                                           ),
                                         ),

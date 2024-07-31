@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 import '../../data/model/show_state.dart';
 import '../../mirra_style.dart';
+import '../../widgets/common_button.dart';
 import '../../widgets/common_icon_button.dart';
 import '../check_in/add_player/view.dart';
 import '../check_in/data/show.dart';
@@ -22,6 +23,14 @@ class InputNicknamePage extends StatelessWidget {
   InputNicknamePage({Key? key}) : super(key: key);
   final logic = Get.put(UserRegistrationLogic());
 
+  ShowInfo get showInfo => Get.arguments?["showInfo"];
+  BookingState get bookingState => Get.arguments["bookingState"];
+  Customer get customer => bookingState.customer;
+  int get tableId => Get.arguments["tableId"];
+  String get isFlow => Get.arguments["isFlow"];
+  int get userId => Get.arguments["userId"];
+  ShowState get showState => Get.arguments?["showState"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,42 +42,94 @@ class InputNicknamePage extends StatelessWidget {
               return Container(
                 width: 1.0.sw,
                 height: 1.0.sh,
-                color: Color(0xFF233342),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 20.0, left: 40.0),
-                      constraints: BoxConstraints.tightFor(width: (1.0.sw - 40)), //卡片大小
-                      child: Row(
-                        children: [
-                          SizedBox(width: 0.1.sw - 48 - 40,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Text(
-                                  "Let's Get You a Name!",
-                                  style: CustomTextStyles.title(
-                                      color: Colors.white, fontSize: 48.sp, level: 2),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                        constraints: BoxConstraints.tightFor(width: (1.0.sw - 40)), //卡片大小
+                        child: Row(
+                          children: [
+                            SizedBox(width: 0.1.sw - 48 - 40,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: Text(
+                                    "Let's Get You a Name!",
+                                    style: CustomTextStyles.title(
+                                        color: Colors.white, fontSize: 48.sp, level: 2),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 10.0),
-                                child: Text(
-                                  "Pick a name that stands out from the crowd.",
-                                  style: CustomTextStyles.textSmall(
-                                    color: Color(0xFFFFFFFF),
-                                    fontSize: 26.sp,),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                // Container(
+                                //   margin: EdgeInsets.only(top: 10.0),
+                                //   child: Text(
+                                //     "Pick a name that stands out from the crowd.",
+                                //     style: CustomTextStyles.textSmall(
+                                //       color: Color(0xFFFFFFFF),
+                                //       fontSize: 26.sp,),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 60),
-                    _CheckInInput(title: "", controller: logic.nicknameController),
-                  ],
+                      const SizedBox(height: 40),
+                      Container(
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          "Pick a Nickname to be shown on screen",
+                          style: CustomTextStyles.display(
+                              color: Color(0xFFFFFFFF),
+                              fontSize: 48.sp, level: 5),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      _CheckInInput(title: "", controller: logic.nicknameController),
+                      SizedBox(height: 0.4.sh),
+                      CommonButton(
+                        width: 600.w,
+                        height: 100.h,
+                        btnText: 'NEXT',
+                        btnBgColor: Color(0xff13EFEF),
+                        textColor: Colors.black,
+                        onPress: () async {
+                          EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+                          try {
+                            EasyLoading.dismiss(animation: false);
+                            logic.updateUserPreference(userId, logic.nicknameController.text);
+                            if(isFlow == "checkIn") {
+                              Get.offAll(() => PlayerSquadPage(),
+                                  arguments: {
+                                    'showInfo': showInfo,
+                                    "bookingState": bookingState,
+                                    "isAddPlayerClick": true,
+                                    "tableId": tableId,
+                                  });
+                            }
+                            else if(isFlow == "tableCheck") {
+                              Get.offAll(() => PlayerShowPage(),
+                                  arguments: {
+                                    'showState': showState,
+                                  });
+                            }
+                          } on DioException catch (e) {
+                            EasyLoading.dismiss();
+                            if (e.response == null) EasyLoading.showError("Network Error!");
+                            EasyLoading.showError(e.response?.data["error"]["message"]);
+                          }
+                        },
+                        changedBgColor: Color(0xffA4EDF1),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -108,6 +169,7 @@ class _CheckInInputState extends State<_CheckInInput> {
   void initState() {
     super.initState();
     logic.focusNode1.addListener(_onFocusChange);
+    logic.defaultNicknameFun();
   }
 
   @override
