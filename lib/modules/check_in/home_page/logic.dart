@@ -12,79 +12,79 @@ import 'booking_state.dart';
 class HomeLogic extends GetxController {
   final _dio = Dio();
 
-  String jsonString1 = '''
-          {
-            "bookings": [
-                    {
-                    "id": 58,
-                    "transactionId": 58,
-                    "bookingDate": "2024-07-25",
-                    "bookingTime": "15:00:00",
-                    "during": 60,
-                    "quantity": 1,
-                    "status": "pending",
-                    "tableId": null,
-                    "customerId": 25,
-                    "createTime": "2024-07-25T07:33:47.947Z",
-                    "updateTime": "2024-07-25T07:33:47.947Z",
-                    "customer": {
-                        "id": 25,
-                        "firstName": "Gggggfgh",
-                        "lastName": "Ddddd",
-                        "telephone": "1235564654",
-                        "email": "danny.luo@miraverse.net",
-                        "createTime": "2024-07-25T07:33:47.947Z",
-                        "updateTime": "2024-07-25T07:33:47.947Z"
-                    }
-                },
-                
-                {
-                    "id": 60,
-                    "transactionId": 60,
-                    "bookingDate": "2024-07-25",
-                    "bookingTime": "15:00:00",
-                    "during": 60,
-                    "quantity": 1,
-                    "status": "onGaming",
-                    "tableId": 4,
-                    "customerId": 27,
-                    "createTime": "2024-07-25T07:33:47.947Z",
-                    "updateTime": "2024-07-25T07:33:47.947Z",
-                    "customer": {
-                        "id": 27,
-                        "firstName": "Aaaaaaaaaaaaaaa",
-                        "lastName": "Bffffff",
-                        "telephone": "1235564654",
-                        "email": "danny.luo@miraverse.net",
-                        "createTime": "2024-07-25T07:33:47.947Z",
-                        "updateTime": "2024-07-25T07:33:47.947Z"
-                    }
-                },
-                {
-                    "id": 67,
-                    "transactionId": 67,
-                    "bookingDate": "2024-07-27",
-                    "bookingTime": "20:00:00",
-                    "during": 60,
-                    "quantity": 1,
-                    "status": "onGaming",
-                    "tableId": 2,
-                    "customerId": 34,
-                    "createTime": "2024-07-27T11:22:51.544Z",
-                    "updateTime": "2024-07-27T11:22:51.544Z",
-                    "customer": {
-                        "id": 34,
-                        "firstName": "M",
-                        "lastName": "Zq",
-                        "telephone": "6561615616",
-                        "email": "mu15215217793@gmail.com",
-                        "createTime": "2024-07-27T11:22:51.544Z",
-                        "updateTime": "2024-07-27T11:22:51.544Z"
-                    }
-                }
-            ]
-        }
-   ''';
+  // String jsonString1 = '''
+  //         {
+  //           "bookings": [
+  //                   {
+  //                   "id": 58,
+  //                   "transactionId": 58,
+  //                   "bookingDate": "2024-07-25",
+  //                   "bookingTime": "15:00:00",
+  //                   "during": 60,
+  //                   "quantity": 1,
+  //                   "status": "pending",
+  //                   "tableId": null,
+  //                   "customerId": 25,
+  //                   "createTime": "2024-07-25T07:33:47.947Z",
+  //                   "updateTime": "2024-07-25T07:33:47.947Z",
+  //                   "customer": {
+  //                       "id": 25,
+  //                       "firstName": "Gggggfgh",
+  //                       "lastName": "Ddddd",
+  //                       "telephone": "1235564654",
+  //                       "email": "danny.luo@miraverse.net",
+  //                       "createTime": "2024-07-25T07:33:47.947Z",
+  //                       "updateTime": "2024-07-25T07:33:47.947Z"
+  //                   }
+  //               },
+  //
+  //               {
+  //                   "id": 60,
+  //                   "transactionId": 60,
+  //                   "bookingDate": "2024-07-25",
+  //                   "bookingTime": "15:00:00",
+  //                   "during": 60,
+  //                   "quantity": 1,
+  //                   "status": "onGaming",
+  //                   "tableId": 4,
+  //                   "customerId": 27,
+  //                   "createTime": "2024-07-25T07:33:47.947Z",
+  //                   "updateTime": "2024-07-25T07:33:47.947Z",
+  //                   "customer": {
+  //                       "id": 27,
+  //                       "firstName": "Aaaaaaaaaaaaaaa",
+  //                       "lastName": "Bffffff",
+  //                       "telephone": "1235564654",
+  //                       "email": "danny.luo@miraverse.net",
+  //                       "createTime": "2024-07-25T07:33:47.947Z",
+  //                       "updateTime": "2024-07-25T07:33:47.947Z"
+  //                   }
+  //               },
+  //               {
+  //                   "id": 67,
+  //                   "transactionId": 67,
+  //                   "bookingDate": "2024-07-27",
+  //                   "bookingTime": "20:00:00",
+  //                   "during": 60,
+  //                   "quantity": 1,
+  //                   "status": "onGaming",
+  //                   "tableId": 2,
+  //                   "customerId": 34,
+  //                   "createTime": "2024-07-27T11:22:51.544Z",
+  //                   "updateTime": "2024-07-27T11:22:51.544Z",
+  //                   "customer": {
+  //                       "id": 34,
+  //                       "firstName": "M",
+  //                       "lastName": "Zq",
+  //                       "telephone": "6561615616",
+  //                       "email": "mu15215217793@gmail.com",
+  //                       "createTime": "2024-07-27T11:22:51.544Z",
+  //                       "updateTime": "2024-07-27T11:22:51.544Z"
+  //                   }
+  //               }
+  //           ]
+  //       }
+  //  ''';
   List<BookingState> bookingState = [];
 
   Future<List<BookingState>> getBookingStatus() async {
@@ -111,10 +111,10 @@ class HomeLogic extends GetxController {
   }
 
   Future<void> getBookingStateFun() async {
-    // List<BookingState> bookingStateList = await getBookingStatus();
-    Map<String, dynamic> jsonData = json.decode(jsonString1);
-    List<dynamic> bookingsList = jsonData["bookings"];
-    List<BookingState> bookingStateList = bookingsList.map((booking) => BookingState.fromJson(booking)).toList();
+    List<BookingState> bookingStateList = await getBookingStatus();
+    // Map<String, dynamic> jsonData = json.decode(jsonString1);
+    // List<dynamic> bookingsList = jsonData["bookings"];
+    // List<BookingState> bookingStateList = bookingsList.map((booking) => BookingState.fromJson(booking)).toList();
     if(bookingStateList.length > 0) {
       // 不足4个需要补足，避免重新排序赋值时越界
       if(bookingStateList.length < 4) {
@@ -154,15 +154,33 @@ class HomeLogic extends GetxController {
           k++;
         }
       }
-      print("bookingStateList ${bookingStateList[0]}");
-      print("bookingStateList ${bookingStateList[1]}");
-      print("bookingStateList ${bookingStateList[2]}");
       print("bookingStateList ${bookingStateList}");
       bookingState = bookingStateList;
       refreshFun();
     }
     else {
-      bookingState = [];
+      // bookingState = [];
+      for(int m = 0; m < 4; m++) {
+        Customer customer = Customer(
+            userId: -1,
+            firstName: "Z",
+            lastName: "Z",
+            name: "",
+            phone: "",
+            email: ""
+        );
+        bookingStateList.add(BookingState(
+          bookingId: -1,
+          transactionId: -1,
+          bookingDate: "",
+          bookingTime: "",
+          status: "",
+          tableId: null,
+          customer: customer,
+        ));
+      }
+      bookingState = bookingStateList;
+      refreshFun();
     }
   }
 
