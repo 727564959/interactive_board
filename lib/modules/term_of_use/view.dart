@@ -206,10 +206,10 @@ class _BottomBtnsState extends State<_BottomBtns> {
                     }
                     print("nameStr ${nameStr}");
                     await logic.uploadSignature(nameStr);
+                    List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
                     EasyLoading.dismiss(animation: false);
                     // 是新增点击则去新增页面，反之去选桌
                     if (isAddPlayerClick) {
-                      List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
                       if(isFlow == "checkIn") {
                         if(headgearObj.isEmpty) {
                           Get.offAll(() => PlayerSquadPage(),
@@ -252,20 +252,11 @@ class _BottomBtnsState extends State<_BottomBtns> {
                       }
                     } else {
                       if(isFlow == "checkIn") {
-                        EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-                        try {
-                          EasyLoading.dismiss(animation: false);
-                          await Get.to(() => ChooseTablePage(),
-                              arguments: {
-                                "showInfo": showInfo,
-                                "isAddPlayerClick": isAddPlayerClick,
-                                "bookingState": bookingState});
-                          // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
-                        } on DioException catch (e) {
-                          EasyLoading.dismiss();
-                          if (e.response == null) EasyLoading.showError("Network Error!");
-                          EasyLoading.showError(e.response?.data["error"]["message"]);
-                        }
+                        await Get.to(() => ChooseTablePage(),
+                            arguments: {
+                              "showInfo": showInfo,
+                              "isAddPlayerClick": isAddPlayerClick,
+                              "bookingState": bookingState});
                       }
                       else if(isFlow == "tableCheck") {
 

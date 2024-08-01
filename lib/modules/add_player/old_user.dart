@@ -90,7 +90,8 @@ class OldUserPage extends StatelessWidget {
                           "showInfo": showInfo,
                           "bookingState": bookingState,
                           "isFlow": "checkIn",
-                          "userId": singlePlayer['id']
+                          "userId": singlePlayer['id'],
+                          "tableId": bookingState.tableId,
                         });
                       }
                       else if(isFlow == "tableCheck") {
@@ -99,7 +100,7 @@ class OldUserPage extends StatelessWidget {
                           "showState": showState,
                           "bookingState": bookingState,
                           "isFlow": "tableCheck",
-                          "userId": singlePlayer['id']
+                          "userId": singlePlayer['id'],
                         });
                       }
                     },

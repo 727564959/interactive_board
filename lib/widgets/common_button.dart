@@ -153,7 +153,7 @@ class _CommonButtonState extends State<CommonButton> {
             // style: CustomTextStyles.button(color: !isChangeBgColor! ? textColor : (changedTextColor == null ? textColor : changedTextColor!), fontSize: 28.sp),),
             style: CustomTextStyles.button(
                 color: disable! ? (borderColor == null ? textColor : textColor.withOpacity(0.5)) : (!isChangeBgColor! ? textColor : (changedTextColor == null ? textColor : changedTextColor!)),
-                fontSize: 28.sp),),
+                fontSize: 26.sp),),
         ),
       ),
     );
