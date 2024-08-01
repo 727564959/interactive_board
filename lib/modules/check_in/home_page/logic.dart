@@ -151,11 +151,15 @@ class HomeLogic extends GetxController {
         if(sortedBookings.length > 0 && nullTableIdBookings.length > 0) {
           if((i + 1) == sortedBookings[j].tableId) {
             bookingStateList[i] = sortedBookings[j];
-            j++;
+            if((j + 1) < sortedBookings.length) {
+              j++;
+            }
           }
           else {
             bookingStateList[i] = nullTableIdBookings[k];
-            k++;
+            if((k + 1) < nullTableIdBookings.length) {
+              k++;
+            }
           }
         }
         else if(sortedBookings.length <= 0) {

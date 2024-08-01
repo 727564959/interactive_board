@@ -195,7 +195,6 @@ class _BottomBtnsState extends State<_BottomBtns> {
                   print("接受了协议");
                   EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                   try {
-                    EasyLoading.dismiss(animation: false);
                     Map singlePlayer = {};
                     String nameStr = "";
                     if(userId != -1) {
@@ -207,6 +206,7 @@ class _BottomBtnsState extends State<_BottomBtns> {
                     }
                     print("nameStr ${nameStr}");
                     await logic.uploadSignature(nameStr);
+                    EasyLoading.dismiss(animation: false);
                     // 是新增点击则去新增页面，反之去选桌
                     if (isAddPlayerClick) {
                       List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
