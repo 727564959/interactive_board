@@ -192,8 +192,8 @@ class _SquadCard extends StatelessWidget {
               height: 0.65.sh,
               child: GridView.count(
                 crossAxisCount: 4,
-                crossAxisSpacing: 3.0, // 设置列之间的间距
-                mainAxisSpacing: 10.0, // 行之间的间距
+                crossAxisSpacing: 5.0, // 设置列之间的间距
+                mainAxisSpacing: 5.0, // 行之间的间距
                 childAspectRatio: 0.714, // 设置卡片宽高比
                 children: logic.playerCardInfo.map((card) {
                   return GestureDetector(

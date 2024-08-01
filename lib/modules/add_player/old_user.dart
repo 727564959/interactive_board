@@ -70,7 +70,7 @@ class OldUserPage extends StatelessWidget {
                         style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 2),
                       ),
                       Text(
-                        singlePlayer['firstName'] + " !",
+                        singlePlayer['firstName'] + singlePlayer['lastName'].substring(0, 1) + " !",
                         style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
                       ),
                     ],

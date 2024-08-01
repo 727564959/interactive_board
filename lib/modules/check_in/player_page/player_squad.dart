@@ -93,6 +93,18 @@ class PlayerSquadPage extends StatelessWidget {
               );
             },
           ),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 30.0,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Please Add Other Members',
+                style: CustomTextStyles.textBig(color: Colors.white, fontSize: 30.sp),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -206,9 +218,9 @@ class _SquadCard extends StatelessWidget {
               height: 0.65.sh,
               child: GridView.count(
                 crossAxisCount: 4,
-                crossAxisSpacing: 10.0, // 设置列之间的间距
-                mainAxisSpacing: 10.0, // 行之间的间距
-                childAspectRatio: 0.7, // 设置卡片宽高比
+                crossAxisSpacing: 5.0, // 设置列之间的间距
+                mainAxisSpacing: 5.0, // 行之间的间距
+                childAspectRatio: 0.714, // 设置卡片宽高比
                 children: logic.playerCardInfo.map((card) {
                   return GestureDetector(
                     onTap: () async {
