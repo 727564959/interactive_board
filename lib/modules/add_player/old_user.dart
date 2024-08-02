@@ -22,6 +22,7 @@ class OldUserPage extends StatelessWidget {
   Customer get customer => bookingState.customer;
   String get isFlow => Get.arguments["isFlow"];
   ShowState get showState => Get.arguments?["showState"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +92,8 @@ class OldUserPage extends StatelessWidget {
                           "bookingState": bookingState,
                           "isFlow": "checkIn",
                           "userId": singlePlayer['id'],
-                          "tableId": bookingState.tableId,
+                          // "tableId": bookingState.tableId,
+                          "tableId": tableId,
                         });
                       }
                       else if(isFlow == "tableCheck") {
