@@ -189,7 +189,7 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                           changedBgColor: Color(0xFF13EFEF),
                                         ),
                                         if(logic.bookingState[index].status != "pending") CommonButton(
-                                          width: 260.w,
+                                          width: 270.w,
                                           height: 63.h,
                                           btnText: "ADD PLAYER",
                                           btnBgColor: Colors.transparent,

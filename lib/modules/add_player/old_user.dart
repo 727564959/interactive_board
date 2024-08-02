@@ -22,6 +22,7 @@ class OldUserPage extends StatelessWidget {
   Customer get customer => bookingState.customer;
   String get isFlow => Get.arguments["isFlow"];
   ShowState get showState => Get.arguments?["showState"];
+  int get tableId => Get.arguments["tableId"];
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class OldUserPage extends StatelessWidget {
                         style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 2),
                       ),
                       Text(
-                        singlePlayer['firstName'] + " !",
+                        singlePlayer['firstName'] + singlePlayer['lastName'].substring(0, 1) + " !",
                         style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
                       ),
                     ],
@@ -91,7 +92,8 @@ class OldUserPage extends StatelessWidget {
                           "bookingState": bookingState,
                           "isFlow": "checkIn",
                           "userId": singlePlayer['id'],
-                          "tableId": bookingState.tableId,
+                          // "tableId": bookingState.tableId,
+                          "tableId": tableId,
                         });
                       }
                       else if(isFlow == "tableCheck") {

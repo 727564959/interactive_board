@@ -206,10 +206,11 @@ class _BottomBtnsState extends State<_BottomBtns> {
                     }
                     print("nameStr ${nameStr}");
                     await logic.uploadSignature(nameStr);
-                    List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
-                    EasyLoading.dismiss(animation: false);
+                    // EasyLoading.dismiss(animation: false);
                     // 是新增点击则去新增页面，反之去选桌
                     if (isAddPlayerClick) {
+                      List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
+                      EasyLoading.dismiss(animation: false);
                       if(isFlow == "checkIn") {
                         if(headgearObj.isEmpty) {
                           Get.offAll(() => PlayerSquadPage(),
@@ -251,6 +252,7 @@ class _BottomBtnsState extends State<_BottomBtns> {
                         }
                       }
                     } else {
+                      EasyLoading.dismiss(animation: false);
                       if(isFlow == "checkIn") {
                         await Get.to(() => ChooseTablePage(),
                             arguments: {

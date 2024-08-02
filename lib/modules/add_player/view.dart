@@ -115,10 +115,10 @@ class UserAuthenticator extends StatelessWidget {
                                 logic.errorText = '';
                                 EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                                 try {
-                                  EasyLoading.dismiss(animation: false);
                                   // 校验邮箱
                                   Map checkingUser = await logic.checkingPlayer(logic.emailController.text);
                                   print("是否存在用户 ${checkingUser.isEmpty}");
+                                  EasyLoading.dismiss(animation: false);
                                   // 为空不存在及新增，反之去old user页面
                                   if(checkingUser.isEmpty) {
                                     if(isFlow == "checkIn") {
