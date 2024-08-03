@@ -85,6 +85,18 @@ class UserRegistrationLogic extends GetxController {
     return teamList.map((team) => TeamInfo.fromJson(team)).toList();
   }
 
+  // 玩家加入show
+  Future<void> addPlayerToShow(int showId, int tableId, int userId) async {
+    final firstMap = tableId != null ? {"tableId": tableId} : {};
+    final secondMap = userId != null ? {"userId": userId} : {};
+    final result = {
+      ...firstMap,
+      ...secondMap,
+    };
+    await _dio.post("$baseApiUrl/shows/$showId/player-joined", data: result);
+    print("哈哈哈哈哈 $result");
+  }
+
   Future<void> defaultNicknameFun() async {
     casualUser = await fetchCasualUser(showInfo.showId, tableId);
     int num = casualUser.length;

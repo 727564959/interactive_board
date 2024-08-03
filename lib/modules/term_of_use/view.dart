@@ -205,6 +205,7 @@ class _BottomBtnsState extends State<_BottomBtns> {
                       nameStr = customer.firstName + " " + customer.lastName;
                     }
                     print("nameStr ${nameStr}");
+                    print("userId ${userId}");
                     await logic.uploadSignature(nameStr);
                     // EasyLoading.dismiss(animation: false);
                     // 是新增点击则去新增页面，反之去选桌

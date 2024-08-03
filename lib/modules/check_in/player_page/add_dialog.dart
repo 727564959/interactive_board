@@ -9,11 +9,16 @@ import '../add_player/view.dart';
 import '../data/show.dart';
 import '../home_page/booking_state.dart';
 import '../terms_page/view.dart';
+import 'logic.dart';
 
 class AddDialog extends StatelessWidget {
+  BookingState get bookingState => Get.arguments["bookingState"];
+  final logic = Get.put(PlayerShowLogic());
 
   @override
   Widget build(BuildContext context) {
+    print("logic.casualUser.length ${logic.casualUser.length}");
+    print("bookingState.quantity ${bookingState.quantity}");
     return Container(
       width: 0.4.sw,
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -31,20 +36,35 @@ class AddDialog extends StatelessWidget {
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 30,),
-          Text(
+          if(logic.casualUser.length < bookingState.quantity) Text(
             'Add Other Members',
             textAlign: TextAlign.center,
             style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
           ),
+          if(logic.casualUser.length >= bookingState.quantity) Text(
+            'Guests Over Limit',
+            textAlign: TextAlign.center,
+            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+          ),
           SizedBox(height: 20,),
-          Text(
+          if(logic.casualUser.length < bookingState.quantity) Text(
             'Assemble the Squad.',
             textAlign: TextAlign.center,
             style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
           ),
+          if(logic.casualUser.length >= bookingState.quantity) Text(
+            'Your reservation is for 4 people.',
+            textAlign: TextAlign.center,
+            style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
+          ),
           SizedBox(height: 10,),
-          Text(
+          if(logic.casualUser.length < bookingState.quantity) Text(
             'Anyone Else Needing to Join?',
+            textAlign: TextAlign.center,
+            style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
+          ),
+          if(logic.casualUser.length >= bookingState.quantity) Text(
+            'Please buy extra tickets if you have more guests.',
             textAlign: TextAlign.center,
             style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
           ),
@@ -59,13 +79,14 @@ class AddDialog extends StatelessWidget {
 
 // 底部的功能按钮区域
 class _BottomBtns extends StatelessWidget {
-  const _BottomBtns({
+  _BottomBtns({
     Key? key,
   }) : super(key: key);
   ShowInfo get showInfo => Get.arguments["showInfo"];
   BookingState get bookingState => Get.arguments["bookingState"];
   Customer get customer => bookingState.customer;
   int get tableId => Get.arguments["tableId"];
+  final logic = Get.put(PlayerShowLogic());
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +107,7 @@ class _BottomBtns extends StatelessWidget {
                     CommonButton(
                       width: 340.w,
                       height: 70.h,
-                      btnText: "NO, THAT'S ALL",
+                      btnText: logic.casualUser.length < bookingState.quantity ? "NO, THAT'S ALL" : "CANCEL",
                       btnBgColor: Color(0xFF272727),
                       textColor: Color(0xff13EFEF),
                       onPress: () async {
