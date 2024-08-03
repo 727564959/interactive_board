@@ -21,7 +21,6 @@ class QuizLogic extends GetxController {
   late final int quizRoundStartTimestamp;
   late final int questionCount;
   int get countdown => max(0, (quizRoundStartTimestamp - DateTime.now().millisecondsSinceEpoch) ~/ 1000);
-  bool joinedQuiz = false;
   QuizState? quizState;
   List<SettlementInfo> records = [];
   final soundEffect = SoundEffect();
@@ -29,13 +28,6 @@ class QuizLogic extends GetxController {
   PageState pageState = PageState.loading;
   late final QuizRepository quizRepository;
   int score = 0;
-
-  void join() async {
-    if (joinedQuiz) return;
-    await quizRepository.join();
-    joinedQuiz = true;
-    update(["joined"]);
-  }
 
   void select(int idx) async {
     if (quizState!.selected != null || quizState!.bShowAnswer) return;
@@ -83,6 +75,7 @@ class QuizLogic extends GetxController {
         }
       },
     );
+    await quizRepository.join();
     pageState = PageState.waiting;
     update(['page']);
   }

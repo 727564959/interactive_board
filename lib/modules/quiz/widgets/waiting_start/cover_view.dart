@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:interactive_board/3rd_libs/gif_view-0.4.3/gif_view.dart';
 import 'package:get/get.dart';
+import 'package:interactive_board/modules/quiz/widgets/waiting_start/countdown_view.dart';
 
 import '../../../../mirra_style.dart';
 import '../../logic.dart';
-import 'tips_view.dart';
 
 class CoverView extends StatefulWidget {
   const CoverView({super.key});
@@ -25,8 +25,6 @@ class _CoverViewState extends State<CoverView> {
     super.initState();
     titleController = GifController(autoPlay: true, loop: false, reserved: true);
     iconsController = GifController(autoPlay: true, loop: false, reserved: true);
-    // Future.delayed(1.seconds).then((value) => titleController.play());
-    // Future.delayed(1733.ms).then((value) => iconsController.play());
     logic.soundEffect.coverLogoPlay();
     Future.delayed(10.seconds).then((value) {
       logic.soundEffect.joinPagePlay();
@@ -48,7 +46,7 @@ class _CoverViewState extends State<CoverView> {
   @override
   Widget build(BuildContext context) {
     return bTipsView
-        ? const TipsView()
+        ? CountdownView()
         : Column(
             children: [
               SizedBox(height: 80.h),
