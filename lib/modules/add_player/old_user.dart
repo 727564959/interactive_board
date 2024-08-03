@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +15,7 @@ import '../../widgets/common_icon_button.dart';
 import '../check_in/data/show.dart';
 import '../check_in/home_page/booking_state.dart';
 import '../term_of_use/view.dart';
+import 'logic.dart';
 
 class OldUserPage extends StatelessWidget {
   OldUserPage({Key? key}) : super(key: key);
@@ -23,6 +26,7 @@ class OldUserPage extends StatelessWidget {
   String get isFlow => Get.arguments["isFlow"];
   ShowState get showState => Get.arguments?["showState"];
   int get tableId => Get.arguments["tableId"];
+  final logic = Get.put(UserRegistrationLogic());
 
   @override
   Widget build(BuildContext context) {
@@ -85,25 +89,35 @@ class OldUserPage extends StatelessWidget {
                     textColor: Colors.black,
                     onPress: () async {
                       print("bookingState ${bookingState}");
-                      if(isFlow == "checkIn") {
-                        await Get.to(() => TermsOfUse(), arguments: {
-                          "isAddPlayerClick": true,
-                          "showInfo": showInfo,
-                          "bookingState": bookingState,
-                          "isFlow": "checkIn",
-                          "userId": singlePlayer['id'],
-                          // "tableId": bookingState.tableId,
-                          "tableId": tableId,
-                        });
-                      }
-                      else if(isFlow == "tableCheck") {
-                        await Get.to(() => TermsOfUse(), arguments: {
-                          "isAddPlayerClick": true,
-                          "showState": showState,
-                          "bookingState": bookingState,
-                          "isFlow": "tableCheck",
-                          "userId": singlePlayer['id'],
-                        });
+                      EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+                      try {
+                        // 加入到show
+                        await logic.addPlayerToShow(showInfo.showId, tableId, singlePlayer['id']);
+                        EasyLoading.dismiss(animation: false);
+                        if(isFlow == "checkIn") {
+                          await Get.to(() => TermsOfUse(), arguments: {
+                            "isAddPlayerClick": true,
+                            "showInfo": showInfo,
+                            "bookingState": bookingState,
+                            "isFlow": "checkIn",
+                            "userId": singlePlayer['id'],
+                            // "tableId": bookingState.tableId,
+                            "tableId": tableId,
+                          });
+                        }
+                        else if(isFlow == "tableCheck") {
+                          await Get.to(() => TermsOfUse(), arguments: {
+                            "isAddPlayerClick": true,
+                            "showState": showState,
+                            "bookingState": bookingState,
+                            "isFlow": "tableCheck",
+                            "userId": singlePlayer['id'],
+                          });
+                        }
+                      } on DioException catch (e) {
+                        EasyLoading.dismiss();
+                        if (e.response == null) EasyLoading.showError("Network Error!");
+                        EasyLoading.showError(e.response?.data["error"]["message"]);
                       }
                     },
                     changedBgColor: Color(0xffA4EDF1),

@@ -32,6 +32,7 @@ class BookingState {
     required this.bookingId,
     required this.bookingDate,
     required this.bookingTime,
+    required this.quantity,
     required this.status,
     this.tableId,
     required this.customer,
@@ -40,6 +41,7 @@ class BookingState {
   final int bookingId;
   final String bookingDate;
   final String bookingTime;
+  final int quantity;
   final String status;
   final int? tableId;
   Customer customer;
@@ -50,6 +52,7 @@ class BookingState {
       transactionId: json['transactionId'],
       bookingDate: json['bookingDate'],
       bookingTime: json['bookingTime'],
+      quantity: json['quantity'],
       status: json['status'],
       tableId: json['tableId'],
       customer: Customer.fromJson(json['customer']),

@@ -198,7 +198,7 @@ class _CheckInInputState extends State<_CheckInInput> {
               arguments: {
                 'showInfo': showInfo,
                 "bookingState": bookingState,
-                "isAddPlayerClick": true,
+                "isAddPlayerClick": logic.casualUser.length < bookingState.quantity ? true : false,
                 "tableId": tableId,
               });
         }

@@ -171,6 +171,14 @@ class _SquadCard extends StatelessWidget {
   Customer get customer => bookingState.customer;
   bool get isAddPlayerClick => Get.arguments["isAddPlayerClick"];
 
+  // 定义一个函数来打开弹窗
+  void openDialog() {
+    Get.dialog(Dialog(child: AddDialog()), arguments: {"tableId": tableId, "showInfo": showInfo, "bookingState": bookingState}).then((value) {
+      logic.isCountdownStart = true;
+      logic.testFun();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     for(int m = 0; m < logic.playerCardInfo.length; m++){
@@ -230,6 +238,7 @@ class _SquadCard extends StatelessWidget {
                       if (!card.isUserCard) {
                         // 点击非用户卡片时的逻辑
                         print("新增用户");
+                        openDialog();
                         logic.testFun();
                         // await Get.to(() => TermsOfUsePage(),
                         //     arguments: {
@@ -238,14 +247,14 @@ class _SquadCard extends StatelessWidget {
                         //       "customer": customer,
                         //       "tableId": tableId,
                         //     });
-                        await Get.to(() => UserAuthenticator(),
-                            arguments: {
-                              "isAddPlayerClick": true,
-                              "showInfo": showInfo,
-                              "bookingState": bookingState,
-                              "tableId": tableId,
-                              "isFlow": "checkIn",
-                            });
+                        // await Get.to(() => UserAuthenticator(),
+                        //     arguments: {
+                        //       "isAddPlayerClick": true,
+                        //       "showInfo": showInfo,
+                        //       "bookingState": bookingState,
+                        //       "tableId": tableId,
+                        //       "isFlow": "checkIn",
+                        //     });
                       }
                       else {
                         print("设计形象");
