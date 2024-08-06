@@ -57,12 +57,11 @@ class _AnswerCellState extends State<AnswerCell> {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          GifView.asset(
-            MirraIcons.getGifPath("answer_cell_expand.gif"),
+          Image.asset(
+            MirraIcons.getQuizIconPath("answer_cell.png"),
             width: width,
             height: height,
-            controller: controller,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
           if (bSelected)
             _ExpandingBackground(

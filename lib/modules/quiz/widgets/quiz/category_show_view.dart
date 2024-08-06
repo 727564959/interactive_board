@@ -6,7 +6,6 @@ import 'package:interactive_board/mirra_style.dart';
 import 'package:interactive_board/3rd_libs/gif_view-0.4.3/gif_view.dart';
 import 'package:interactive_board/modules/quiz/text_style.dart';
 
-import '../border_title.dart';
 import '../../logic.dart';
 
 class CategoryShowView extends StatelessWidget {
@@ -21,11 +20,11 @@ class CategoryShowView extends StatelessWidget {
           Text(
             "QUESTION ${logic.quizState!.question.round}",
             style: TriviaTextStyles.title(fontSize: 180.sp, color: const Color(0xff13EFEF)),
-          ),
+          ).animate().moveX(delay: 1600.ms, duration: 300.ms, end: 1.0.sw),
           _TypeContent(
             width: 550.w,
             type: logic.quizState!.question.type,
-          ),
+          ).animate().moveX(delay: 1600.ms, duration: 300.ms, end: -1.0.sw),
         ],
       ),
     );
@@ -33,7 +32,7 @@ class CategoryShowView extends StatelessWidget {
 }
 
 class _TypeContent extends StatefulWidget {
-  const _TypeContent({Key? key, required this.width, required this.type}) : super(key: key);
+  const _TypeContent({super.key, required this.width, required this.type});
   final double width;
   final String type;
   @override

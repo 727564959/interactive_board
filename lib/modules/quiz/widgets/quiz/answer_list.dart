@@ -41,7 +41,15 @@ class AnswerList extends StatelessWidget {
             width: width,
             bSelected: state.selected == i,
             bRight: bRight,
-          ),
+          )
+              .animate()
+              .moveX(
+                curve: Curves.easeInOut,
+                begin: -1.0.sw,
+                delay: (i * 30 + 90).ms,
+              )
+              .animate()
+              .scale(end: Offset.zero, delay: 17500.ms, duration: 200.ms),
         ),
       );
     }

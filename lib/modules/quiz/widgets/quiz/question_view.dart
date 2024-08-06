@@ -25,10 +25,8 @@ class QuestionView extends StatefulWidget {
 class _QuestionViewState extends State<QuestionView> {
   final logic = Get.find<QuizLogic>();
   QuestionInfo get question => logic.quizState!.question;
-  bool bShowAnswer = false;
   @override
   void initState() {
-    Future.delayed(2.seconds).then((value) => setState(() => bShowAnswer = true));
     super.initState();
   }
 
@@ -54,7 +52,15 @@ class _QuestionViewState extends State<QuestionView> {
                   style: TriviaTextStyles.title(color: const Color(0xffC1D3D4), fontSize: 50.sp),
                 ),
               ),
-            ),
+            )
+                .animate()
+                .moveX(
+                  curve: Curves.easeInOut,
+                  begin: -0.7.sw,
+                )
+                .animate()
+                .scale(end: Offset.zero, delay: 17500.ms, duration: 200.ms),
+
             SizedBox(height: 0.1.sh),
             SizedBox(
               width: 0.7.sw,
@@ -63,40 +69,47 @@ class _QuestionViewState extends State<QuestionView> {
                 textAlign: TextAlign.center,
                 style: TriviaTextStyles.title(color: const Color(0xffA4EDF1), fontSize: 67.sp),
               ),
-            ),
+            )
+                .animate()
+                .moveX(curve: Curves.easeInOut, begin: -1.0.sw, delay: 30.ms)
+                .animate()
+                .scale(end: Offset.zero, delay: 17500.ms, duration: 200.ms),
             SizedBox(height: 0.08.sh),
-            if (bShowAnswer)
-              SizedBox(
-                width: 900.w,
-                child: Countdown(
-                  seconds: 11,
-                  interval: const Duration(milliseconds: 33),
-                  onFinished: () {},
-                  build: (context, time) {
-                    const totalSteps = 500;
-                    final int currentStep = min(((11 - time) / 11 * totalSteps).toInt(), 495);
-                    return StepProgressIndicator(
-                      totalSteps: totalSteps,
-                      currentStep: currentStep,
-                      size: 12,
-                      padding: 0,
-                      selectedColor: const Color(0xFF344337),
-                      unselectedColor: currentStep > 308 ? Colors.red : const Color(0xFF4FBF64),
-                      roundedEdges: const Radius.circular(6),
-                    );
-                  },
-                ),
-              ).animate().scaleX(duration: 400.ms),
-            SizedBox(height: 0.08.sh),
-            if (bShowAnswer)
-              GetBuilder<QuizLogic>(
-                id: 'answer',
-                builder: (_) {
-                  return AnswerList(
-                    width: 700.w,
+            // if (bShowAnswer)
+            SizedBox(
+              width: 900.w,
+              child: Countdown(
+                seconds: 11,
+                interval: const Duration(milliseconds: 33),
+                onFinished: () {},
+                build: (context, time) {
+                  const totalSteps = 500;
+                  final int currentStep = min(((11 - time) / 11 * totalSteps).toInt(), 495);
+                  return StepProgressIndicator(
+                    totalSteps: totalSteps,
+                    currentStep: currentStep,
+                    size: 12,
+                    padding: 0,
+                    selectedColor: const Color(0xFF344337),
+                    unselectedColor: currentStep > 308 ? Colors.red : const Color(0xFF4FBF64),
+                    roundedEdges: const Radius.circular(6),
                   );
                 },
               ),
+            )
+                .animate()
+                .moveX(curve: Curves.easeInOut, begin: -1.0.sw, delay: 60.ms)
+                .animate()
+                .scale(end: Offset.zero, delay: 17500.ms, duration: 200.ms),
+            SizedBox(height: 0.08.sh),
+            GetBuilder<QuizLogic>(
+              id: 'answer',
+              builder: (_) {
+                return AnswerList(
+                  width: 700.w,
+                );
+              },
+            ),
           ],
         ),
         Align(
@@ -109,7 +122,7 @@ class _QuestionViewState extends State<QuestionView> {
                 score: logic.score,
               );
             },
-          ),
+          ).animate().scale(end: Offset.zero, delay: 17500.ms, duration: 200.ms),
         ),
       ],
     );

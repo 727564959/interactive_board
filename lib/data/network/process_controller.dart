@@ -115,7 +115,7 @@ class ProcessController {
   }
 
   void disposeSocketIO() {
-    // _quizSocket.close();
+    _quizSocket.close();
     _showSocket.close();
   }
 

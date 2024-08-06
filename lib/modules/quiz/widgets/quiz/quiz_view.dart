@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'category_show_view.dart';
 import 'question_view.dart';
@@ -33,7 +34,7 @@ class _QuizViewState extends State<QuizView> {
     if (bQuestion) {
       return const QuestionView();
     } else {
-      return CategoryShowView();
+      return CategoryShowView().animate().scale();
     }
   }
 }

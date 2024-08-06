@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:interactive_board/mirra_style.dart';
 import 'package:interactive_board/modules/quiz/text_style.dart';
-import '../../../../common.dart';
 
 class ScoreBoard extends StatelessWidget {
   const ScoreBoard({super.key, required this.score, required this.width});
