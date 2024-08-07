@@ -18,6 +18,7 @@ class CompletePage extends StatelessWidget {
   BookingState get bookingState => Get.arguments["bookingState"];
   Customer get customer => bookingState.customer;
   DateTime get startTime => Get.arguments["startTime"];
+  int get checkCount => Get.arguments["checkCount"];
   Color get color {
     if (tableId == 1) {
       return const Color(0xFFEF7E00);
@@ -172,7 +173,7 @@ class CompletePage extends StatelessWidget {
                         style: CustomTextStyles.display(color: Colors.black, fontSize: 106.sp, level: 1),
                       ),
                       Text(
-                        "5 Guests",
+                        checkCount.toString() +" Guests",
                         style: CustomTextStyles.title(color: Colors.black, fontSize: 48.sp, level: 2),
                       ),
                     ],
