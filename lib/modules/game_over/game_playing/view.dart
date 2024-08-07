@@ -63,11 +63,12 @@ class GamePlayingPage extends StatelessWidget {
                                     // top: 0.42.sh,
                                     top: 20.0,
                                     right: 261.w,
-                                    child: Image.asset(
-                                      MirraIcons.getGifPath('High_Five.gif'),
-                                      fit: BoxFit.fitHeight,
-                                      height: (0.5.sw - 522.w),
-                                    ),
+                                    // child: Image.asset(
+                                    //   MirraIcons.getGifPath('High_Five.gif'),
+                                    //   fit: BoxFit.fitHeight,
+                                    //   height: (0.5.sw - 522.w),
+                                    // ),
+                                    child: GifViewWidgets(gifName: 'High_Five.gif', height: 0.5.sw - 522.w, frameRate: 35),
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右对齐

@@ -8,6 +8,7 @@ import '../../../../mirra_style.dart';
 import '../../../../widgets/check_in_title.dart';
 import '../../../common.dart';
 import '../../../widgets/player_card.dart';
+import '../widgets/gif_view_widgets.dart';
 import 'logic.dart';
 
 class GameShowEndPage extends StatelessWidget {
@@ -103,10 +104,11 @@ class GameShowEndPage extends StatelessWidget {
               top: 60.0,
               child: SizedBox(
                 height: 0.55.sh,
-                child: Image.asset(
-                  MirraIcons.getGifPath('show_end_fireworks.gif'),
-                  fit: BoxFit.fitHeight,
-                ),
+                // child: Image.asset(
+                //   MirraIcons.getGifPath('show_end_fireworks.gif'),
+                //   fit: BoxFit.fitHeight,
+                // ),
+                child: GifViewWidgets(gifName: 'show_end_fireworks.gif', height: 0.55.sh, frameRate: 60),
               ),
             ),
           ],
