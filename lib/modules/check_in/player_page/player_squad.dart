@@ -458,6 +458,7 @@ class _DoneButton extends StatefulWidget {
   _DoneButtonState createState() => _DoneButtonState();
 }
 class _DoneButtonState extends State<_DoneButton> {
+  final logic = Get.put(PlayerShowLogic());
   double get width => widget.width;
   bool get isCountdownStart => widget.isCountdownStart;
   ShowInfo get showInfo => Get.arguments["showInfo"];
@@ -480,7 +481,7 @@ class _DoneButtonState extends State<_DoneButton> {
         });
         await Get.to(
               () => const CompletePage(),
-          arguments: {"tableId": tableId, "startTime": showInfo.startTime, "bookingState": bookingState},
+          arguments: {"tableId": tableId, "startTime": showInfo.startTime, "bookingState": bookingState, "checkCount": logic.casualUser.length},
           preventDuplicates: false,
         );
       },
@@ -522,7 +523,7 @@ class _DoneButtonState extends State<_DoneButton> {
                 onCountdownComplete: () async {
                   await Get.to(
                         () => const CompletePage(),
-                    arguments: {"tableId": tableId, "startTime": showInfo.startTime, "bookingState": bookingState},
+                    arguments: {"tableId": tableId, "startTime": showInfo.startTime, "bookingState": bookingState, "checkCount": logic.casualUser.length},
                     preventDuplicates: false,
                   );
                 },

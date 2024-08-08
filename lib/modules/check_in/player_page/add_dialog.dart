@@ -53,7 +53,7 @@ class AddDialog extends StatelessWidget {
             style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
           ),
           if(logic.casualUser.length >= bookingState.quantity) Text(
-            'Your reservation is for 4 people.',
+            'Your reservation is for ' + bookingState.quantity.toString() + ' people.',
             textAlign: TextAlign.center,
             style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
           ),
