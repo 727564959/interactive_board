@@ -202,7 +202,7 @@ class _SquadCard extends StatelessWidget {
                     height: 232,
                     padding: EdgeInsets.symmetric(vertical: 10.0), // 调整上下间距为10
                     child: CachedNetworkImage(
-                      imageUrl: logic.teamlogo,
+                      imageUrl: logic.teamlogo ?? "",
                       fit: BoxFit.fitHeight,
                     ),
                   ),
@@ -238,8 +238,23 @@ class _SquadCard extends StatelessWidget {
                       if (!card.isUserCard) {
                         // 点击非用户卡片时的逻辑
                         print("新增用户");
-                        openDialog();
-                        logic.testFun();
+                        // 如果人数超出，就弹窗提示；反之正常添加
+                        if(logic.casualUser.length >= bookingState.quantity) {
+                          openDialog();
+                          logic.testFun();
+                        }
+                        else {
+                          await Get.to(() => UserAuthenticator(),
+                              arguments: {
+                                "isAddPlayerClick": true,
+                                "showInfo": showInfo,
+                                "bookingState": bookingState,
+                                "tableId": tableId,
+                                "isFlow": "checkIn",
+                              });
+                        }
+                        // openDialog();
+                        // logic.testFun();
                         // await Get.to(() => TermsOfUsePage(),
                         //     arguments: {
                         //       "isAddPlayerClick": true,

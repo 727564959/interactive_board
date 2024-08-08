@@ -105,7 +105,8 @@ class ChooseTablePage extends StatelessWidget {
                                 (e) => _TableItem(
                                   tableId: e,
                                   bSelected: logic.selectedTableId == e,
-                                  bAvailable: !showInfo.fullTables.contains(e),
+                                  // bAvailable: !showInfo.fullTables.contains(e),
+                                  bAvailable: e == Global.tableId,
                                 ),
                               )
                               .toList(),
@@ -363,7 +364,7 @@ class ChooseTablePage extends StatelessWidget {
                       children: [
                         Container(
                           child: Text(
-                            "Choose Bay",
+                            "Please confirom your Bay",
                             style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                           ),
                         ),
