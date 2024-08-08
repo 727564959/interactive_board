@@ -29,7 +29,8 @@ class InitializeLogic extends GetxController {
     if (board.type == "interact" && board.tableId != null) {
       Global.setTableId(board.tableId!);
       processController.listeningEvents();
-    } else if (board.type == "check_in") {
+    } else if (board.type == "check_in" && board.tableId != null) {
+      Global.setTableId(board.tableId!);
       Get.offAllNamed(AppRoutes.landingPage);
     }
   }
