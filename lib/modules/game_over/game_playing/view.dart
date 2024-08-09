@@ -68,7 +68,7 @@ class GamePlayingPage extends StatelessWidget {
                                     //   fit: BoxFit.fitHeight,
                                     //   height: (0.5.sw - 522.w),
                                     // ),
-                                    child: GifViewWidgets(gifName: 'High_Five.gif', height: 0.5.sw - 522.w, frameRate: 35),
+                                    child: GifViewWidgets(gifName: 'High_Five.gif', height: 0.5.sw - 522.w, frameRate: 25),
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween, // 左右对齐

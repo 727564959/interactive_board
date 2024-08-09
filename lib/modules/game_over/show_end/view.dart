@@ -137,7 +137,7 @@ class _FloatingTextAnimationState extends State<FloatingTextAnimation> with Sing
 
     _animation = Tween<double>(
       begin: 0.0,
-      end: 20.0,
+      end: 30.0,
     ).animate(_controller);
   }
 
