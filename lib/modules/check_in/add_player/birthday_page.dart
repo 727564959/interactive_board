@@ -213,24 +213,39 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
             print("是新增!!!!!");
             String testPhone = "+(1)" + logic.phoneController.text;
             try {
-              Map addUserInfo = await logic.addPlayerFun(
-                  tableId,
-                  logic.emailController.text,
-                  testPhone,
-                  logic.firstNameController.text,
-                  logic.lastNameController.text,
-                  birthDay);
-              EasyLoading.dismiss(animation: false);
-              // 加入到show
-              await logic.addPlayerToShow(showInfo.showId, tableId, addUserInfo['userId']);
-
+              // Map addUserInfo = await logic.addPlayerFun(
+              //     tableId,
+              //     logic.emailController.text,
+              //     testPhone,
+              //     logic.firstNameController.text,
+              //     logic.lastNameController.text,
+              //     birthDay);
+              // EasyLoading.dismiss(animation: false);
+              // // 加入到show
+              // await logic.addPlayerToShow(showInfo.showId, tableId, addUserInfo['userId']);
+              //
+              // await Get.to(() => TermsOfUse(), arguments: {
+              //   "isAddPlayerClick": true,
+              //   "showInfo": showInfo,
+              //   "bookingState": bookingState,
+              //   "isFlow": "checkIn",
+              //   "tableId": tableId,
+              //   'userId': addUserInfo['userId'],
+              // });
+              Map<String, dynamic> addInfoObj = {
+                'email': logic.emailController.text,
+                'phone': testPhone,
+                'firstName': logic.firstNameController.text,
+                'lastName': logic.lastNameController.text,
+                'birthday': birthDay,
+              };
               await Get.to(() => TermsOfUse(), arguments: {
                 "isAddPlayerClick": true,
                 "showInfo": showInfo,
                 "bookingState": bookingState,
                 "isFlow": "checkIn",
                 "tableId": tableId,
-                'userId': addUserInfo['userId'],
+                "addInfoObj": addInfoObj,
               });
 
               // print("参数 ${addUserInfo['userId']}");

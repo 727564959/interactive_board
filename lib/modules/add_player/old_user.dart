@@ -91,8 +91,15 @@ class OldUserPage extends StatelessWidget {
                       print("bookingState ${bookingState}");
                       EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                       try {
-                        // 加入到show
-                        await logic.addPlayerToShow(showInfo.showId, tableId, singlePlayer['id']);
+                        // // 加入到show
+                        // await logic.addPlayerToShow(showInfo.showId, tableId, singlePlayer['id']);
+                        Map<String, dynamic> addInfoObj = {
+                          'email': singlePlayer['email'],
+                          'phone': singlePlayer['phone'],
+                          'firstName': singlePlayer['firstName'],
+                          'lastName': singlePlayer['lastName'],
+                          'birthday': "",
+                        };
                         EasyLoading.dismiss(animation: false);
                         if(isFlow == "checkIn") {
                           await Get.to(() => TermsOfUse(), arguments: {
@@ -100,7 +107,8 @@ class OldUserPage extends StatelessWidget {
                             "showInfo": showInfo,
                             "bookingState": bookingState,
                             "isFlow": "checkIn",
-                            "userId": singlePlayer['id'],
+                            // "userId": singlePlayer['id'],
+                            "addInfoObj": addInfoObj,
                             // "tableId": bookingState.tableId,
                             "tableId": tableId,
                           });
@@ -112,6 +120,7 @@ class OldUserPage extends StatelessWidget {
                             "bookingState": bookingState,
                             "isFlow": "tableCheck",
                             "userId": singlePlayer['id'],
+                            "tableId": tableId,
                           });
                         }
                       } on DioException catch (e) {

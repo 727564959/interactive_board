@@ -151,8 +151,9 @@ class _BottomBtnsState extends State<_BottomBtns> {
   BookingState get bookingState => Get.arguments?["bookingState"];
   Customer get customer => bookingState.customer;
   String get isFlow => Get.arguments["isFlow"];
-  int get userId => Get.arguments?["userId"] ?? -1;
+  // int get userId => Get.arguments?["userId"] ?? -1;
   ShowState get showState => Get.arguments?["showState"];
+  Map<String, dynamic> get addInfoObj => Get.arguments?["addInfoObj"];
 
   final logic = Get.put(TermsOfUseLogic());
 
@@ -195,21 +196,52 @@ class _BottomBtnsState extends State<_BottomBtns> {
                   print("接受了协议");
                   EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                   try {
-                    Map singlePlayer = {};
+                    // Map singlePlayer = {};
                     String nameStr = "";
-                    if(userId != -1) {
-                      singlePlayer = await logic.fetchSingleUsers(userId);
-                      nameStr = singlePlayer['firstName'] + " " + singlePlayer['lastName'];
-                    }
-                    else {
-                      nameStr = customer.firstName + " " + customer.lastName;
-                    }
-                    print("nameStr ${nameStr}");
-                    print("userId ${userId}");
-                    await logic.uploadSignature(nameStr);
+                    // if(userId != -1) {
+                    //   singlePlayer = await logic.fetchSingleUsers(userId);
+                    //   nameStr = singlePlayer['firstName'] + " " + singlePlayer['lastName'];
+                    // }
+                    // else {
+                    //   nameStr = customer.firstName + " " + customer.lastName;
+                    // }
+                    // print("nameStr ${nameStr}");
+                    // print("userId ${userId}");
+                    // await logic.uploadSignature(nameStr);
                     // EasyLoading.dismiss(animation: false);
                     // 是新增点击则去新增页面，反之去选桌
                     if (isAddPlayerClick) {
+                      Map singlePlayer = {};
+                      // 用户查重
+                      Map checkingUser = await logic.checkingPlayer(addInfoObj['email']);
+                      print("查重返回 ${checkingUser.isEmpty}");
+                      int userId;
+                      if (checkingUser.isEmpty) {
+                        // 新增用户
+                        Map addUserInfo = await logic.addPlayerFun(
+                          tableId,
+                          addInfoObj['email'],
+                          addInfoObj['phone'],
+                          addInfoObj['firstName'],
+                          addInfoObj['lastName'],
+                          addInfoObj['birthday'],
+                        );
+                        // 加入到show
+                        await logic.addPlayerToShow(isFlow == "checkIn" ? showInfo.showId : showState.showId??1, tableId, addUserInfo['userId']);
+                        userId = addUserInfo['userId'];
+                      }
+                      else {
+                        // 加入到show
+                        await logic.addPlayerToShow(isFlow == "checkIn" ? showInfo.showId : showState.showId??1, tableId, checkingUser['userId']);
+                        userId = checkingUser['userId'];
+                      }
+                      singlePlayer = await logic.fetchSingleUsers(userId);
+                      nameStr = singlePlayer['firstName'] + " " + singlePlayer['lastName'];
+                      print("nameStr ${nameStr}");
+                      print("userId ${userId}");
+                      // 签名提交
+                      await logic.uploadSignature(nameStr);
+                      // 是否需要爆头套
                       List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
                       EasyLoading.dismiss(animation: false);
                       if(isFlow == "checkIn") {
@@ -252,7 +284,12 @@ class _BottomBtnsState extends State<_BottomBtns> {
                           );
                         }
                       }
-                    } else {
+                    }
+                    else {
+                      nameStr = customer.firstName + " " + customer.lastName;
+                      print("nameStr ${nameStr}");
+                      // 签名提交
+                      await logic.uploadSignature(nameStr);
                       EasyLoading.dismiss(animation: false);
                       if(isFlow == "checkIn") {
                         await Get.to(() => ChooseTablePage(),

@@ -210,6 +210,7 @@ class _SquadCard extends StatelessWidget {
                               "isAddPlayerClick": true,
                               "showState": showState,
                               "isFlow": "tableCheck",
+                              "tableId": Global.tableId,
                             });
                       }
                       else {

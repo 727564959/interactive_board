@@ -328,64 +328,71 @@ class _CheckInInputState extends State<_CheckInInput> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 0.4.sw,
-      child: TextField(
-        autofocus: true,
-        controller: controller,
-        cursorWidth: 5.0,          // 光标粗细
-        cursorRadius: Radius.circular(3.0), // 使用Radius.circular设置圆形半径
-        cursorColor: Colors.black,   // 光标颜色
-        cursorHeight: 48.0, // 设置光标的高度，与文字的字体大小一致
-        textAlign: TextAlign.left, // 设置文本居中
-        inputFormatters: [
-          // LengthLimitingTextInputFormatter(6), // 设置最大长度为6
-        ],
-        focusNode: logic.focusNode,
-        // onChanged: (value) async {
-        //   EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-        //   print("value ${value}");
-        //   try {
-        //     if(!isHasFocus) {
-        //       // 校验邮箱
-        //       Map checkingUser = await logic.checkingPlayer(logic.emailController.text);
-        //       print("是否存在用户 ${checkingUser.isEmpty}");
-        //     }
-        //   } on DioException catch (e) {
-        //     EasyLoading.dismiss();
-        //     if (e.response == null) EasyLoading.showError("Network Error!");
-        //     EasyLoading.showError(e.response?.data["error"]["message"]);
-        //   }
-        // },
-        decoration: InputDecoration(
-          fillColor: Color(0xFFDBE2E3),
-          filled: true,
-          contentPadding: EdgeInsets.symmetric(vertical: 25.w, horizontal: 30.w),
-          errorText: logic.errorText.isNotEmpty ? logic.errorText : null, // 只有在有错误时显示错误文本
-          errorStyle: CustomTextStyles.textNormal(color: Color(0xFFFF4848), fontSize: 30.sp), // 设置错误文本样式
-          errorMaxLines: 1,
-          errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.red,
-              width: 1,
+    return GestureDetector(
+      onTap: () {
+        // 获取当前焦点的 FocusNode
+        // FocusScope.of(context).unfocus();
+        logic.focusNode.unfocus();
+      },
+      child: SizedBox(
+        width: 0.4.sw,
+        child: TextField(
+          autofocus: true,
+          controller: controller,
+          cursorWidth: 5.0,          // 光标粗细
+          cursorRadius: Radius.circular(3.0), // 使用Radius.circular设置圆形半径
+          cursorColor: Colors.black,   // 光标颜色
+          cursorHeight: 48.0, // 设置光标的高度，与文字的字体大小一致
+          textAlign: TextAlign.left, // 设置文本居中
+          inputFormatters: [
+            // LengthLimitingTextInputFormatter(6), // 设置最大长度为6
+          ],
+          focusNode: logic.focusNode,
+          // onChanged: (value) async {
+          //   EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+          //   print("value ${value}");
+          //   try {
+          //     if(!isHasFocus) {
+          //       // 校验邮箱
+          //       Map checkingUser = await logic.checkingPlayer(logic.emailController.text);
+          //       print("是否存在用户 ${checkingUser.isEmpty}");
+          //     }
+          //   } on DioException catch (e) {
+          //     EasyLoading.dismiss();
+          //     if (e.response == null) EasyLoading.showError("Network Error!");
+          //     EasyLoading.showError(e.response?.data["error"]["message"]);
+          //   }
+          // },
+          decoration: InputDecoration(
+            fillColor: Color(0xFFDBE2E3),
+            filled: true,
+            contentPadding: EdgeInsets.symmetric(vertical: 25.w, horizontal: 30.w),
+            errorText: logic.errorText.isNotEmpty ? logic.errorText : null, // 只有在有错误时显示错误文本
+            errorStyle: CustomTextStyles.textNormal(color: Color(0xFFFF4848), fontSize: 30.sp), // 设置错误文本样式
+            errorMaxLines: 1,
+            errorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.red,
+                width: 1,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                width: 2,
+                color: Colors.white,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                width: 2,
+                color: Colors.white,
+              ),
             ),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-              width: 2,
-              color: Colors.white,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-              width: 2,
-              color: Colors.white,
-            ),
-          ),
+          style: CustomTextStyles.verificationText(color: Color(0xFF000000), fontSize: 48.sp),
         ),
-        style: CustomTextStyles.verificationText(color: Color(0xFF000000), fontSize: 48.sp),
       ),
     );
   }

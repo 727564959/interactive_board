@@ -209,23 +209,37 @@ class _AddBirthdayButtonState extends State<_AddBirthdayButton> {
             print("是新增!!!!!");
             String testPhone = "+(1)" + logic.phoneController.text;
             try {
-              Map addUserInfo = await logic.addPlayerFun(
-                  Global.tableId,
-                  logic.emailController.text,
-                  testPhone,
-                  logic.firstNameController.text,
-                  logic.lastNameController.text,
-                  birthDay);
-              EasyLoading.dismiss(animation: false);
-              // 加入到show
-              await logic.addPlayerToShow(showState.showId??1, Global.tableId, addUserInfo['userId']);
-
+              // Map addUserInfo = await logic.addPlayerFun(
+              //     Global.tableId,
+              //     logic.emailController.text,
+              //     testPhone,
+              //     logic.firstNameController.text,
+              //     logic.lastNameController.text,
+              //     birthDay);
+              // EasyLoading.dismiss(animation: false);
+              // // 加入到show
+              // await logic.addPlayerToShow(showState.showId??1, Global.tableId, addUserInfo['userId']);
+              //
+              // await Get.to(() => TermsOfUse(), arguments: {
+              //   "isAddPlayerClick": true,
+              //   "showState": showState,
+              //   "isFlow": "tableCheck",
+              //   "tableId": Global.tableId,
+              //   'userId': addUserInfo['userId'],
+              // });
+              Map<String, dynamic> addInfoObj = {
+                'email': logic.emailController.text,
+                'phone': testPhone,
+                'firstName': logic.firstNameController.text,
+                'lastName': logic.lastNameController.text,
+                'birthday': birthDay,
+              };
               await Get.to(() => TermsOfUse(), arguments: {
                 "isAddPlayerClick": true,
                 "showState": showState,
                 "isFlow": "tableCheck",
                 "tableId": Global.tableId,
-                'userId': addUserInfo['userId'],
+                'addInfoObj': addInfoObj,
               });
 
               // print("参数 ${addUserInfo['userId']}");
