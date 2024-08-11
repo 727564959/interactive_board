@@ -201,7 +201,6 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                               child: Text(
                                                 textAlign: TextAlign.center,
                                                 // logic.bookingState[index].customer.firstName + " " + logic.bookingState[index].customer.lastName.substring(0, 1),
-                                                // logic.bookingState[index].customer.firstName + " " + obscureEmailLastThreeChars(logic.bookingState[index].customer.email),
                                                 logic.bookingState[index].customer.firstName,
                                                 style: CustomTextStyles.title(
                                                     color: Colors.black, fontSize: 48.sp, level: 2
@@ -293,7 +292,8 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                           mainAxisAlignment: MainAxisAlignment.center, // 设置垂直方向上的对齐方式为居中
                                           children: [
                                             Text(
-                                              "OPEN",
+                                              textAlign: TextAlign.center,
+                                              "Awaiting Onboarding",
                                               style: CustomTextStyles.title(
                                                   color: Colors.black, fontSize: 40.sp, level: 3
                                               ),
