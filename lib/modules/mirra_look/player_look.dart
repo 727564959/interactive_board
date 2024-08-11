@@ -696,6 +696,8 @@ class _NicknamePageState extends State<_NicknamePage> {
   bool isFocused = false;
   final FocusNode focusNode = FocusNode();
 
+  late FToast fToast;
+
   @override
   void initState() {
     super.initState();
@@ -711,6 +713,8 @@ class _NicknamePageState extends State<_NicknamePage> {
         );
       }
     });
+    fToast = FToast();
+    fToast.init(context);
   }
 
   @override
