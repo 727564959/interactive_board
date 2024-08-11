@@ -368,7 +368,7 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                         //   ),
                                         // ),
                                       ),
-                                      if(logic.bookingState[index].status != "pending") Container(
+                                      if(logic.bookingState[index].bookingId != -1 && logic.bookingState[index].status != "pending") Container(
                                         margin: EdgeInsets.only(top: 10.0),
                                         width: 0.19.sw,
                                         child: Text(
