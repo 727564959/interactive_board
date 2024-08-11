@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../data/model/show_state.dart';
@@ -30,6 +31,48 @@ class InputNicknamePage extends StatelessWidget {
   String get isFlow => Get.arguments["isFlow"];
   int get userId => Get.arguments["userId"];
   ShowState get showState => Get.arguments?["showState"];
+
+  late FToast fToast = FToast();
+  void showCustomToast() {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Color(0xFF7B7B7B),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.error, color: Colors.black, size: 24,),
+          SizedBox(
+            width: 12.0,
+          ),
+          RichText(
+            text: TextSpan(
+              text: "Oops! That nickname doesn't seem quite right.\n",
+              style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+              children: <TextSpan>[
+                TextSpan(
+                  text: "Let's try another one.",
+                  style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      // child: toast,
+      child: Transform.translate(
+        offset: Offset(0, 36.0), // 调整垂直方向上的偏移量
+        child: toast,
+      ),
+      gravity: ToastGravity.CENTER,
+      toastDuration: Duration(seconds: 2),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +146,17 @@ class InputNicknamePage extends StatelessWidget {
                         onPress: () async {
                           EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                           try {
+                            // logic.updateUserPreference(userId, logic.nicknameController.text);
+                            Map sensitiveWordDetector = await logic.sensitiveWordDetector(logic.nicknameController.text);
+                            if(sensitiveWordDetector['pass']) {
+                              logic.updateUserPreference(userId, logic.nicknameController.text);
+                            }
+                            else {
+                              showCustomToast();
+                              EasyLoading.dismiss(animation: false);
+                              return;
+                            }
                             EasyLoading.dismiss(animation: false);
-                            logic.updateUserPreference(userId, logic.nicknameController.text);
                             if(isFlow == "checkIn") {
                               Get.offAll(() => PlayerSquadPage(),
                                   arguments: {
@@ -165,11 +217,56 @@ class _CheckInInputState extends State<_CheckInInput> {
   TextEditingController get controller => widget.controller;
   final logic = Get.put(UserRegistrationLogic());
 
+  late FToast fToast;
+
   @override
   void initState() {
     super.initState();
     logic.focusNode1.addListener(_onFocusChange);
     logic.defaultNicknameFun();
+    fToast = FToast();
+    fToast.init(context);
+  }
+
+  void showCustomToast() {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Color(0xFF7B7B7B),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.error, color: Colors.black, size: 24,),
+          SizedBox(
+            width: 12.0,
+          ),
+          RichText(
+            text: TextSpan(
+              text: "Oops! That nickname doesn't seem quite right.\n",
+              style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+              children: <TextSpan>[
+                TextSpan(
+                  text: "Let's try another one.",
+                  style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      // child: toast,
+      child: Transform.translate(
+        offset: Offset(0, 36.0), // 调整垂直方向上的偏移量
+        child: toast,
+      ),
+      gravity: ToastGravity.CENTER,
+      toastDuration: Duration(seconds: 2),
+    );
   }
 
   @override
@@ -191,8 +288,16 @@ class _CheckInInputState extends State<_CheckInInput> {
       });
       EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
       try {
+        Map sensitiveWordDetector = await logic.sensitiveWordDetector(logic.nicknameController.text);
+        if(sensitiveWordDetector['pass']) {
+          logic.updateUserPreference(userId, logic.nicknameController.text);
+        }
+        else {
+          showCustomToast();
+          EasyLoading.dismiss(animation: false);
+          return;
+        }
         EasyLoading.dismiss(animation: false);
-        logic.updateUserPreference(userId, logic.nicknameController.text);
         if(isFlow == "checkIn") {
           Get.offAll(() => PlayerSquadPage(),
               arguments: {
@@ -229,7 +334,10 @@ class _CheckInInputState extends State<_CheckInInput> {
         cursorHeight: 48.0, // 设置光标的高度，与文字的字体大小一致
         textAlign: TextAlign.left, // 设置文本居中
         inputFormatters: [
-          // LengthLimitingTextInputFormatter(6), // 设置最大长度为6
+          LengthLimitingTextInputFormatter(15),
+          FilteringTextInputFormatter.allow(
+            RegExp(r'[A-Za-z0-9]+'),
+          )
         ],
         focusNode: logic.focusNode1,
         decoration: InputDecoration(

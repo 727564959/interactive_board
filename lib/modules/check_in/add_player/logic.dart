@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
@@ -17,6 +19,19 @@ class AddPlayerLogic extends GetxController {
   final phoneController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   String get emailInput => Get.arguments["emailInput"];
+
+  // 敏感字判断
+  Future<Map> sensitiveWordDetector(text) async {
+    print("敏感字判断");
+    print(text);
+    final response = await _dio.get(
+        "https://inb27b1nma.execute-api.us-east-1.amazonaws.com/bad-words-checked",
+        queryParameters: {"text": text}
+    );
+    print(response.data);
+    Map<String, dynamic> result = json.decode(response.data);
+    return result;
+  }
 
   // 查重
   Future<Map> checkingPlayer(String email) async {

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../../mirra_style.dart';
@@ -33,6 +34,48 @@ class PlayerLookPage extends StatelessWidget {
   bool get isAddPlayerClick => Get.arguments?["isAddPlayerClick"];
   PlayerCardInfo get card => Get.arguments?["card"];
   ShowState get showState => Get.arguments?["showState"];
+
+  late FToast fToast = FToast();
+  void showCustomToast() {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Color(0xFF7B7B7B),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.error, color: Colors.black, size: 24,),
+          SizedBox(
+            width: 12.0,
+          ),
+          RichText(
+            text: TextSpan(
+              text: "Oops! That nickname doesn't seem quite right.\n",
+              style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+              children: <TextSpan>[
+                TextSpan(
+                  text: "Let's try another one.",
+                  style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      // child: toast,
+      child: Transform.translate(
+        offset: Offset(0, 36.0), // 调整垂直方向上的偏移量
+        child: toast,
+      ),
+      gravity: ToastGravity.CENTER,
+      toastDuration: Duration(seconds: 2),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +140,18 @@ class PlayerLookPage extends StatelessWidget {
                                           // btnBgColor: Color(0xFF272727),
                                           textColor: Color(0xff13EFEF),
                                           onPress: () async {
+                                            EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                                             try {
-                                              logic.updateUserPreference(card.userId??0, logic.currentName, Get.arguments["gameItemInfo"][logic.clickedCard??0].id, logic.selectedGender.label??"", logic.selectedSkin.label??"");
+                                              Map sensitiveWordDetector = await logic.sensitiveWordDetector(logic.currentName);
+                                              if(sensitiveWordDetector['pass']) {
+                                                logic.updateUserPreference(card.userId??0, logic.currentName, Get.arguments["gameItemInfo"][logic.clickedCard??0].id, logic.selectedGender.label??"", logic.selectedSkin.label??"");
+                                              }
+                                              else {
+                                                showCustomToast();
+                                                EasyLoading.dismiss(animation: false);
+                                                return;
+                                              }
+                                              // logic.updateUserPreference(card.userId??0, logic.currentName, Get.arguments["gameItemInfo"][logic.clickedCard??0].id, logic.selectedGender.label??"", logic.selectedSkin.label??"");
                                               EasyLoading.dismiss(animation: false);
                                               if(Get.arguments["showInfo"] != null) {
                                                 Future.delayed(0.5.seconds).then((value) async {

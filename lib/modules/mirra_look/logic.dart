@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
@@ -24,6 +26,19 @@ class MirraLookLogic extends GetxController {
         "skinColor": skinColor,
       },
     );
+  }
+
+  // 敏感字判断
+  Future<Map> sensitiveWordDetector(text) async {
+    print("敏感字判断");
+    print(text);
+    final response = await _dio.get(
+        "https://inb27b1nma.execute-api.us-east-1.amazonaws.com/bad-words-checked",
+        queryParameters: {"text": text}
+    );
+    print(response.data);
+    Map<String, dynamic> result = json.decode(response.data);
+    return result;
   }
 
   @override

@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:interactive_board/modules/check_in/add_player/player_info_text_field.dart';
@@ -212,6 +215,48 @@ class _BottomBtns extends StatelessWidget {
   int get tableId => Get.arguments["tableId"];
   String get isFlow => Get.arguments["isFlow"];
 
+  late FToast fToast = FToast();
+  void showCustomToast() {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Color(0xFF7B7B7B),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.error, color: Colors.black, size: 24,),
+          SizedBox(
+            width: 12.0,
+          ),
+          RichText(
+            text: TextSpan(
+              text: "Oops! That nickname doesn't seem quite right.\n",
+              style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+              children: <TextSpan>[
+                TextSpan(
+                  text: "Let's try another one.",
+                  style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      // child: toast,
+      child: Transform.translate(
+        offset: Offset(0, 36.0), // 调整垂直方向上的偏移量
+        child: toast,
+      ),
+      gravity: ToastGravity.CENTER,
+      toastDuration: Duration(seconds: 2),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final content = Container(
@@ -231,17 +276,36 @@ class _BottomBtns extends StatelessWidget {
                   btnBgColor: Color(0xff13EFEF),
                   textColor: Colors.black,
                   onPress: () async {
-                    if (logic.formKey.currentState!.validate()) {
-                      Get.to(() => BirthdayPage(),
-                        arguments: {
-                          'showInfo': showInfo,
-                          "bookingState": bookingState,
-                          "isAddPlayerClick": isAddPlayerClick,
-                          "tableId": tableId,
-                          "isFlow": "checkIn"
-                        },
-                      );
+                    EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+                    try {
+                      Map sensitiveWordDetector1 = await logic.sensitiveWordDetector(logic.firstNameController.text);
+                      Map sensitiveWordDetector2 = await logic.sensitiveWordDetector(logic.lastNameController.text);
+                      Map sensitiveWordDetector3 = await logic.sensitiveWordDetector(logic.phoneController.text);
+                      // firstname lastname phone都必须通过敏感字校验
+                      if(sensitiveWordDetector1['pass'] && sensitiveWordDetector2['pass'] && sensitiveWordDetector3['pass']) {
+                        EasyLoading.dismiss(animation: false);
+                        if (logic.formKey.currentState!.validate()) {
+                          Get.to(() => BirthdayPage(),
+                            arguments: {
+                              'showInfo': showInfo,
+                              "bookingState": bookingState,
+                              "isAddPlayerClick": isAddPlayerClick,
+                              "tableId": tableId,
+                              "isFlow": "checkIn"
+                            },
+                          );
+                        }
+                      }
+                      else {
+                        showCustomToast();
+                        EasyLoading.dismiss(animation: false);
+                      }
+                    } on DioException catch (e) {
+                      EasyLoading.dismiss();
+                      if (e.response == null) EasyLoading.showError("Network Error!");
+                      EasyLoading.showError(e.response?.data["error"]["message"]);
                     }
+
                     // logic.formKey.currentState!.validate();
                     // if (logic.firstNameController.text.isNotEmpty &&
                     //     logic.lastNameController.text.isNotEmpty &&

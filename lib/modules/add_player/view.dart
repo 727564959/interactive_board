@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../data/model/show_state.dart';
@@ -26,6 +27,52 @@ class UserAuthenticator extends StatelessWidget {
   int get tableId => Get.arguments["tableId"];
   String get isFlow => Get.arguments["isFlow"];
   ShowState get showState => Get.arguments?["showState"];
+
+  late FToast fToast = FToast();
+  void showCustomToast() {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Color(0xFF7B7B7B),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.error, color: Colors.black, size: 24,),
+          SizedBox(
+            width: 12.0,
+          ),
+          // Text(
+          //   "Oops! That nickname doesn't seem quite right. Let's try another one.",
+          //   style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+          // ),
+          RichText(
+            text: TextSpan(
+              text: "Oops! That nickname doesn't seem quite right.\n",
+              style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+              children: <TextSpan>[
+                TextSpan(
+                  text: "Let's try another one.",
+                  style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      // child: toast,
+      child: Transform.translate(
+        offset: Offset(0, 36.0), // 调整垂直方向上的偏移量
+        child: toast,
+      ),
+      gravity: ToastGravity.CENTER,
+      toastDuration: Duration(seconds: 2),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,60 +162,68 @@ class UserAuthenticator extends StatelessWidget {
                                 logic.errorText = '';
                                 EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                                 try {
-                                  // 校验邮箱
-                                  Map checkingUser = await logic.checkingPlayer(logic.emailController.text);
-                                  print("是否存在用户 ${checkingUser.isEmpty}");
-                                  EasyLoading.dismiss(animation: false);
-                                  // 为空不存在及新增，反之去old user页面
-                                  if(checkingUser.isEmpty) {
-                                    if(isFlow == "checkIn") {
-                                      await Get.to(() => AddPlayerPage(),
-                                          arguments: {
+                                  Map sensitiveWordDetector = await logic.sensitiveWordDetector(logic.emailController.text);
+                                  if(sensitiveWordDetector['pass']) {
+                                    // 校验邮箱
+                                    Map checkingUser = await logic.checkingPlayer(logic.emailController.text);
+                                    print("是否存在用户 ${checkingUser.isEmpty}");
+                                    EasyLoading.dismiss(animation: false);
+                                    // 为空不存在及新增，反之去old user页面
+                                    if(checkingUser.isEmpty) {
+                                      if(isFlow == "checkIn") {
+                                        await Get.to(() => AddPlayerPage(),
+                                            arguments: {
+                                              "showInfo": showInfo,
+                                              "bookingState": bookingState,
+                                              "isAddPlayerClick": true,
+                                              "tableId": tableId,
+                                              "isFlow": "checkIn",
+                                              "emailInput": logic.emailController.text,
+                                            });
+                                      }
+                                      else if(isFlow == "tableCheck") {
+                                        await Get.to(() => AddPlayerDataPage(),
+                                            arguments: {"showState": showState, "isFlow": "tableCheck", "emailInput": logic.emailController.text,});
+                                      }
+                                    }
+                                    else {
+                                      print("参数 ${checkingUser['userId']}");
+                                      try {
+                                        EasyLoading.dismiss(animation: false);
+                                        Map singlePlayer = await logic.fetchSingleUsers(checkingUser['userId']);
+                                        print("singlePlayer ${singlePlayer}");
+                                        // old user展示页面
+                                        if(isFlow == "checkIn") {
+                                          await Get.to(() => OldUserPage(), arguments: {
                                             "showInfo": showInfo,
                                             "bookingState": bookingState,
                                             "isAddPlayerClick": true,
                                             "tableId": tableId,
-                                            "isFlow": "checkIn",
-                                            "emailInput": logic.emailController.text,
+                                            "singlePlayer": singlePlayer,
+                                            "isFlow": isFlow,
                                           });
-                                    }
-                                    else if(isFlow == "tableCheck") {
-                                      await Get.to(() => AddPlayerDataPage(),
-                                          arguments: {"showState": showState, "isFlow": "tableCheck", "emailInput": logic.emailController.text,});
+                                        }
+                                        else if(isFlow == "tableCheck") {
+                                          await Get.to(() => OldUserPage(), arguments: {
+                                            "bookingState": bookingState,
+                                            "isAddPlayerClick": true,
+                                            "tableId": tableId,
+                                            "singlePlayer": singlePlayer,
+                                            "showState": showState,
+                                            "isFlow": isFlow,
+                                          });
+                                        }
+                                      } on DioException catch (e) {
+                                        EasyLoading.dismiss();
+                                        if (e.response == null) EasyLoading.showError("Network Error!");
+                                        EasyLoading.showError(e.response?.data["error"]["message"]);
+                                      }
                                     }
                                   }
                                   else {
-                                    print("参数 ${checkingUser['userId']}");
-                                    try {
-                                      EasyLoading.dismiss(animation: false);
-                                      Map singlePlayer = await logic.fetchSingleUsers(checkingUser['userId']);
-                                      print("singlePlayer ${singlePlayer}");
-                                      // old user展示页面
-                                      if(isFlow == "checkIn") {
-                                        await Get.to(() => OldUserPage(), arguments: {
-                                          "showInfo": showInfo,
-                                          "bookingState": bookingState,
-                                          "isAddPlayerClick": true,
-                                          "tableId": tableId,
-                                          "singlePlayer": singlePlayer,
-                                          "isFlow": isFlow,
-                                        });
-                                      }
-                                      else if(isFlow == "tableCheck") {
-                                        await Get.to(() => OldUserPage(), arguments: {
-                                          "bookingState": bookingState,
-                                          "isAddPlayerClick": true,
-                                          "tableId": tableId,
-                                          "singlePlayer": singlePlayer,
-                                          "showState": showState,
-                                          "isFlow": isFlow,
-                                        });
-                                      }
-                                    } on DioException catch (e) {
-                                      EasyLoading.dismiss();
-                                      if (e.response == null) EasyLoading.showError("Network Error!");
-                                      EasyLoading.showError(e.response?.data["error"]["message"]);
-                                    }
+                                    showCustomToast();
+                                    EasyLoading.dismiss(animation: false);
+                                    return;
                                   }
                                 } on DioException catch (e) {
                                   EasyLoading.dismiss();
@@ -227,10 +282,55 @@ class _CheckInInputState extends State<_CheckInInput> {
   bool _isValidEmail = true;
   final logic = Get.put(UserRegistrationLogic());
 
+  late FToast fToast;
+
   @override
   void initState() {
     super.initState();
     logic.focusNode.addListener(_onFocusChange);
+    fToast = FToast();
+    fToast.init(context);
+  }
+
+  void showCustomToast() {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Color(0xFF7B7B7B),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.error, color: Colors.black, size: 24,),
+          SizedBox(
+            width: 12.0,
+          ),
+          RichText(
+            text: TextSpan(
+              text: "Oops! That nickname doesn't seem quite right.\n",
+              style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+              children: <TextSpan>[
+                TextSpan(
+                  text: "Let's try another one.",
+                  style: CustomTextStyles.title(color: Color(0xffFFFFFF), fontSize: 26.sp, level: 4),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      // child: toast,
+      child: Transform.translate(
+        offset: Offset(0, 36.0), // 调整垂直方向上的偏移量
+        child: toast,
+      ),
+      gravity: ToastGravity.CENTER,
+      toastDuration: Duration(seconds: 2),
+    );
   }
 
   @override
@@ -256,60 +356,68 @@ class _CheckInInputState extends State<_CheckInInput> {
         logic.errorText = '';
         EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
         try {
-          EasyLoading.dismiss(animation: false);
-          // 校验邮箱
-          Map checkingUser = await logic.checkingPlayer(logic.emailController.text);
-          print("是否存在用户 ${checkingUser.isEmpty}");
-          // 为空不存在及新增，反之去old user页面
-          if(checkingUser.isEmpty) {
-            if(isFlow == "checkIn") {
-              await Get.to(() => AddPlayerPage(),
-                  arguments: {
+          Map sensitiveWordDetector = await logic.sensitiveWordDetector(logic.emailController.text);
+          if(sensitiveWordDetector['pass']) {
+            // 校验邮箱
+            Map checkingUser = await logic.checkingPlayer(logic.emailController.text);
+            print("是否存在用户 ${checkingUser.isEmpty}");
+            EasyLoading.dismiss(animation: false);
+            // 为空不存在及新增，反之去old user页面
+            if(checkingUser.isEmpty) {
+              if(isFlow == "checkIn") {
+                await Get.to(() => AddPlayerPage(),
+                    arguments: {
+                      "showInfo": showInfo,
+                      "bookingState": bookingState,
+                      "isAddPlayerClick": true,
+                      "tableId": tableId,
+                      "isFlow": "checkIn",
+                      "emailInput": logic.emailController.text,
+                    });
+              }
+              else if(isFlow == "tableCheck") {
+                await Get.to(() => AddPlayerDataPage(),
+                    arguments: {"showState": showState, "isFlow": "tableCheck", "emailInput": logic.emailController.text,});
+              }
+            }
+            else {
+              print("参数 ${checkingUser['userId']}");
+              try {
+                EasyLoading.dismiss(animation: false);
+                Map singlePlayer = await logic.fetchSingleUsers(checkingUser['userId']);
+                print("singlePlayer ${singlePlayer}");
+                // old user展示页面
+                if(isFlow == "checkIn") {
+                  await Get.to(() => OldUserPage(), arguments: {
                     "showInfo": showInfo,
                     "bookingState": bookingState,
                     "isAddPlayerClick": true,
                     "tableId": tableId,
-                    "isFlow": "checkIn",
-                    "emailInput": logic.emailController.text,
+                    "singlePlayer": singlePlayer,
+                    "isFlow": isFlow,
                   });
-            }
-            else if(isFlow == "tableCheck") {
-              await Get.to(() => AddPlayerDataPage(),
-                  arguments: {"showState": showState, "isFlow": "tableCheck", "emailInput": logic.emailController.text,});
+                }
+                else if(isFlow == "tableCheck") {
+                  await Get.to(() => OldUserPage(), arguments: {
+                    "bookingState": bookingState,
+                    "isAddPlayerClick": true,
+                    "tableId": tableId,
+                    "singlePlayer": singlePlayer,
+                    "showState": showState,
+                    "isFlow": isFlow,
+                  });
+                }
+              } on DioException catch (e) {
+                EasyLoading.dismiss();
+                if (e.response == null) EasyLoading.showError("Network Error!");
+                EasyLoading.showError(e.response?.data["error"]["message"]);
+              }
             }
           }
           else {
-            print("参数 ${checkingUser['userId']}");
-            try {
-              EasyLoading.dismiss(animation: false);
-              Map singlePlayer = await logic.fetchSingleUsers(checkingUser['userId']);
-              print("singlePlayer ${singlePlayer}");
-              // old user展示页面
-              if(isFlow == "checkIn") {
-                await Get.to(() => OldUserPage(), arguments: {
-                  "showInfo": showInfo,
-                  "bookingState": bookingState,
-                  "isAddPlayerClick": true,
-                  "tableId": tableId,
-                  "singlePlayer": singlePlayer,
-                  "isFlow": isFlow,
-                });
-              }
-              else if(isFlow == "tableCheck") {
-                await Get.to(() => OldUserPage(), arguments: {
-                  "bookingState": bookingState,
-                  "isAddPlayerClick": true,
-                  "tableId": tableId,
-                  "singlePlayer": singlePlayer,
-                  "showState": showState,
-                  "isFlow": isFlow,
-                });
-              }
-            } on DioException catch (e) {
-              EasyLoading.dismiss();
-              if (e.response == null) EasyLoading.showError("Network Error!");
-              EasyLoading.showError(e.response?.data["error"]["message"]);
-            }
+            showCustomToast();
+            EasyLoading.dismiss(animation: false);
+            return;
           }
         } on DioException catch (e) {
           EasyLoading.dismiss();
