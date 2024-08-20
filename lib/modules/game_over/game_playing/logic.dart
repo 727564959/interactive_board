@@ -138,7 +138,7 @@ class GamePlayingLogic extends GetxController {
       // Get.offAllNamed(AppRoutes.gamePlayingPage, arguments: {"showState": Get.arguments['showState'], "isWellDone": true});
       Get.arguments['isWellDone'] = true;
       isWellDone = Get.arguments['isWellDone'];
-      update(["gamePlayingPage"]);
+      update(["gamePlayingPage", "freeGamePlayingPage"]);
     });
     gameServerSocket.connect();
     print("Socket connected: ${gameServerSocket.connected}");
@@ -148,7 +148,7 @@ class GamePlayingLogic extends GetxController {
     print("positionList ${positionList}");
     allPositionList = await fetchAllPositions((showState.details as GamingDetails).roundId);
     print("allPositionList ${allPositionList}");
-    update(["gamePlayingPage"]);
+    update(["gamePlayingPage", "freeGamePlayingPage"]);
   }
 
   @override
