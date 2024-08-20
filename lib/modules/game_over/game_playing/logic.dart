@@ -67,6 +67,7 @@ class GamePlayingLogic extends GetxController {
 
   List<UserInfo> userList = [];
   List<PositionInfo> positionList = [];
+  List<PositionInfo> allPositionList = [];
 
   // 获取用户信息
   Future<List<UserInfo>> fetchUserList(int showId) async {
@@ -83,7 +84,7 @@ class GamePlayingLogic extends GetxController {
     List userList = response.data;
     return userList.map((user) => UserInfo.fromJson(user, Global.tableId)).toList();
   }
-  // 获取当前轮次的位置信息
+  // 获取当前轮次的位置信息(当前桌的)
   Future<List<PositionInfo>> fetchPositions(int roundId) async {
     print("roundId ${roundId}");
     final response = await _dio.get("$baseApiUrl/rounds/$roundId/positions");
@@ -96,10 +97,30 @@ class GamePlayingLogic extends GetxController {
       final int tableId = item['tableId'];
       final UserInfo player = UserInfo.fromJson(item['player'], tableId);
       final int position = item['position'];
+      print("tableId == Global.tableId ${tableId == Global.tableId}");
       if(tableId == Global.tableId) {
         result.add(PositionInfo(player: player, position: position));
       }
+      print("result ${result}");
       // result.add(PositionInfo(player: player, position: position));
+    }
+    return result;
+  }
+  // 获取当前轮次的位置信息(所有位置的)
+  Future<List<PositionInfo>> fetchAllPositions(int roundId) async {
+    print("roundId ${roundId}");
+    final response = await _dio.get("$baseApiUrl/rounds/$roundId/positions");
+    print("response ${response}");
+    final result = <PositionInfo>[];
+    for (final item in response.data) {
+      print("item ${item}");
+      print("item bool ${(item as Map).containsKey('tableId')}");
+      if (!(item as Map).containsKey('tableId')) continue;
+      final int tableId = item['tableId'];
+      final UserInfo player = UserInfo.fromJson(item['player'], tableId);
+      final int position = item['position'];
+      result.add(PositionInfo(player: player, position: position));
+      print("result ${result}");
     }
     return result;
   }
@@ -125,6 +146,8 @@ class GamePlayingLogic extends GetxController {
     print("gameName ${gameName}");
     positionList = await fetchPositions((showState.details as GamingDetails).roundId);
     print("positionList ${positionList}");
+    allPositionList = await fetchAllPositions((showState.details as GamingDetails).roundId);
+    print("allPositionList ${allPositionList}");
     update(["gamePlayingPage"]);
   }
 

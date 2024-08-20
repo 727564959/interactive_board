@@ -81,7 +81,12 @@ class ProcessController {
       if (!isChecked) return;
       // Get.offAllNamed(AppRoutes.gamingRank, arguments: state);
       print("跳转到gamePlayingPage");
-      Get.offAllNamed(AppRoutes.gamePlayingPage, arguments: {"showState": state, "isWellDone": false});
+      if(state.details.mode == "free-8") {
+        Get.offAllNamed(AppRoutes.freeGamePlayingPage, arguments: {"showState": state, "isWellDone": false});
+      }
+      else {
+        Get.offAllNamed(AppRoutes.gamePlayingPage, arguments: {"showState": state, "isWellDone": false});
+      }
     });
 
     _showSocket.on("customer_checked", (data) async {
@@ -107,7 +112,12 @@ class ProcessController {
     }
     if (state.status == ShowStatus.gaming) {
       // Get.offAllNamed(AppRoutes.gamingRank, arguments: state);
-      Get.offAllNamed(AppRoutes.gamePlayingPage, arguments: {"showState": state, "isWellDone": false});
+      if(state.details.mode == "free-8") {
+        Get.offAllNamed(AppRoutes.freeGamePlayingPage, arguments: {"showState": state, "isWellDone": false});
+      }
+      else {
+        Get.offAllNamed(AppRoutes.gamePlayingPage, arguments: {"showState": state, "isWellDone": false});
+      }
     }
     if (state.status == ShowStatus.complete) {
       Get.offAllNamed(AppRoutes.showEndPage, arguments: state);

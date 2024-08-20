@@ -3,6 +3,7 @@ import 'package:interactive_board/modules/before_game/confirm_selection/view.dar
 import 'package:interactive_board/modules/game_over/honor/binding.dart';
 import 'modules/check_in/home_page/landing_page.dart';
 import 'modules/check_in/home_page/view.dart';
+import 'modules/game_over/game_playing/free_game_playing.dart';
 import 'modules/game_over/game_playing/view.dart';
 import 'modules/game_over/honor/view.dart';
 import 'modules/game_over/show_end/view.dart';
@@ -33,6 +34,7 @@ class AppRoutes {
   static const String verificationCode = "/verification_code";
   static const String landingPage = "/landingPage";
   static const String gamePlayingPage = "/gamePlayingPage";
+  static const String freeGamePlayingPage = "/freeGamePlayingPage";
   static const String showEndPage = "/showEndPage";
   // 桌屏等待页面
   static const String takeARest = "/take_a_rest";
@@ -89,6 +91,12 @@ class AppRoutes {
     GetPage(
       name: gamePlayingPage,
       page: () => GamePlayingPage(),
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ),
+    GetPage(
+      name: freeGamePlayingPage,
+      page: () => FreeGamePlayingPage(),
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
     ),
