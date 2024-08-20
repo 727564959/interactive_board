@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutes.main,
           getPages: AppRoutes.getPages,
-          builder: EasyLoading.init(),
+          builder: EasyLoading.init(builder: FToastBuilder()),
         );
       },
     );

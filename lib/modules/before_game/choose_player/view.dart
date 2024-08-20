@@ -44,7 +44,7 @@ class ChoosePlayerPage extends StatelessWidget {
                     } else {
                       return Padding(
                         padding: EdgeInsets.only(top: 150.w),
-                        child: Free4ModeContent(),
+                        child: FreeModeContent(),
                       );
                     }
                   },

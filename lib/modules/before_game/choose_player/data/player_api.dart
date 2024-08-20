@@ -39,6 +39,7 @@ class PlayerApi {
     await dio.post(
       "$baseApiUrl/rounds/$roundId/update-positions",
       data: {
+        "tableId": Global.tableId,
         "playerId": playerId,
         "position": position,
       },

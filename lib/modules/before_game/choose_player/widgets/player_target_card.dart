@@ -34,6 +34,7 @@ class _PlayerTargetCardState extends State<PlayerTargetCard> with TickerProvider
   PlayerInfo? get player => logic.optionalPositions[position];
   Duration get delay => widget.delay ?? 0.ms;
   Duration get periodicTime => 1200.ms;
+  bool bSwipeOver = false;
 
   @override
   void initState() {
@@ -53,6 +54,7 @@ class _PlayerTargetCardState extends State<PlayerTargetCard> with TickerProvider
   @override
   void dispose() {
     timer.cancel();
+    tapController.dispose();
     gifController.dispose();
     controller.dispose();
     super.dispose();
@@ -69,15 +71,19 @@ class _PlayerTargetCardState extends State<PlayerTargetCard> with TickerProvider
         logic.showBottomBar(position);
       },
       onPanStart: (detail) {
+        bSwipeOver = false;
         duration = detail.sourceTimeStamp;
       },
       onPanUpdate: (detail) {
+        if (player == null) return;
+        if (bSwipeOver) return;
         if (duration != null && detail.sourceTimeStamp != null) {
           final tapSpace = detail.sourceTimeStamp! - duration!;
           if (tapSpace > 300.ms) return;
         }
         if (detail.delta.dy < -10 && detail.delta.dx.abs() < 5) {
           logic.removePlayer(position);
+          bSwipeOver = true;
         }
       },
       child: AvatarCard(

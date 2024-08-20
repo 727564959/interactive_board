@@ -7,12 +7,12 @@ import 'package:interactive_board/mirra_style.dart';
 
 class PlayerCard extends StatelessWidget {
   const PlayerCard({
-    Key? key,
+    super.key,
     required this.avatarUrl,
     required this.nickname,
     required this.width,
     this.position,
-  }) : super(key: key);
+  });
   final String avatarUrl;
   final String nickname;
   final double width;
@@ -38,15 +38,16 @@ class PlayerCard extends StatelessWidget {
 }
 
 class AvatarCard extends StatelessWidget {
-  const AvatarCard({Key? key, required this.child, required this.title, this.subTitle, required this.width})
-      : super(key: key);
+  const AvatarCard(
+      {super.key, required this.child, required this.title, this.subTitle, required this.width, this.tableId});
   final Widget child;
   Color get labelColor {
-    if (Global.tableId == 1) {
+    int tableId = this.tableId ?? Global.tableId;
+    if (tableId == 1) {
       return const Color(0xFFFFBD80);
-    } else if (Global.tableId == 2) {
+    } else if (tableId == 2) {
       return const Color(0xFFEFB5FD);
-    } else if (Global.tableId == 3) {
+    } else if (tableId == 3) {
       return const Color(0xFF8EE8BD);
     } else {
       return const Color(0xFF9ED7F7);
@@ -56,6 +57,7 @@ class AvatarCard extends StatelessWidget {
   final String title;
   final String? subTitle;
   final double width;
+  final int? tableId;
   @override
   Widget build(BuildContext context) {
     late final Widget bottomLabel;
@@ -121,7 +123,7 @@ class AvatarCard extends StatelessWidget {
                     width: width,
                     height: width,
                     child: Image.asset(
-                      MirraIcons.getGameShowIconPath("avatar_placeholder${Global.tableId}.png"),
+                      MirraIcons.getGameShowIconPath("avatar_placeholder${tableId ?? Global.tableId}.png"),
                       fit: BoxFit.fill,
                     ),
                   ),

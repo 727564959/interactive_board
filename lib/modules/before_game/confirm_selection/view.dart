@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:interactive_board/widgets/player_card.dart';
+import 'package:interactive_board/common.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 import '../../../mirra_style.dart';
@@ -11,7 +11,7 @@ import '../choose_player/logic.dart';
 import 'mask_player_card.dart';
 
 class ConfirmSelectionPage extends StatefulWidget {
-  const ConfirmSelectionPage({Key? key}) : super(key: key);
+  const ConfirmSelectionPage({super.key});
 
   @override
   State<ConfirmSelectionPage> createState() => _ConfirmSelectionPageState();
@@ -25,7 +25,7 @@ class _ConfirmSelectionPageState extends State<ConfirmSelectionPage> {
     final playerCards = <Widget>[];
     for (final position in logic.optionalPositions.keys) {
       final player = logic.optionalPositions[position];
-      if (player == null) continue;
+      if (player == null || player.tableId != Global.tableId) continue;
       playerCards.add(
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
@@ -65,9 +65,12 @@ class _ConfirmSelectionPageState extends State<ConfirmSelectionPage> {
                 },
               ),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: playerCards,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: playerCards,
+              ),
             ),
             SizedBox(height: 150.w),
             if (!bFinish)
@@ -76,7 +79,7 @@ class _ConfirmSelectionPageState extends State<ConfirmSelectionPage> {
                   Get.back();
                 },
                 style: ButtonStyle(
-                  side: MaterialStateProperty.all(
+                  side: WidgetStateProperty.all(
                     const BorderSide(
                       color: Color(0xff13efef),
                       width: 1,
@@ -102,7 +105,7 @@ class _ConfirmSelectionPageState extends State<ConfirmSelectionPage> {
 }
 
 class _CountDownTitle extends StatelessWidget {
-  const _CountDownTitle({Key? key, required this.bFinish, required this.onFinished}) : super(key: key);
+  const _CountDownTitle({required this.bFinish, required this.onFinished});
   final bool bFinish;
   final Function onFinished;
   @override

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:interactive_board/mirra_style.dart';
+import 'package:interactive_board/modules/before_game/choose_player/widgets/free_mode_target_card.dart';
 import '../logic.dart';
 import 'player_target_card.dart';
 
@@ -43,7 +44,7 @@ class EventModeContent extends StatelessWidget {
 }
 
 class NormalModeContent extends StatelessWidget {
-  NormalModeContent({Key? key}) : super(key: key);
+  NormalModeContent({super.key});
   final logic = Get.find<ChoosePlayerLogic>();
   @override
   Widget build(BuildContext context) {
@@ -60,24 +61,30 @@ class NormalModeContent extends StatelessWidget {
   }
 }
 
-class Free4ModeContent extends StatelessWidget {
-  Free4ModeContent({Key? key}) : super(key: key);
+class FreeModeContent extends StatelessWidget {
+  FreeModeContent({super.key});
   final logic = Get.find<ChoosePlayerLogic>();
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          "4 players in This Round",
-          style: CustomTextStyles.title1(
-            color: Colors.white,
-            fontSize: 70.sp,
-          ),
-        ),
-        SizedBox(height: 40.w),
         Row(
           mainAxisSize: MainAxisSize.min,
-          children: logic.optionalPositions.keys.map((e) => PlayerTargetCard(position: e)).toList(),
+          children: [1, 2, 3, 4]
+              .map((e) => FreeModeTargetCard(
+                    position: e,
+                    bShowError: logic.bShowPlayerSelectException && e == logic.selectedPosition,
+                  ))
+              .toList(),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [5, 6, 7, 8]
+              .map((e) => FreeModeTargetCard(
+                    position: e,
+                    bShowError: logic.bShowPlayerSelectException && e == logic.selectedPosition,
+                  ))
+              .toList(),
         )
       ],
     );
