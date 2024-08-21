@@ -121,27 +121,27 @@ class FreeGamePlayingPage extends StatelessWidget {
                   ),
                   // 第二个烟花
                   if(!logic.isWellDone) Positioned(
-                    left: (1.0.sw - 612.w) / 2 - 0.15.sh,
+                    left: 0.08.sw,
                     top: 120,
                     child: GifViewWidgets(gifName: 'Firework_Purple_3_2.gif', height: 0.15.sh, frameRate: 42, delay: 240.ms, periodicTime: 910.ms),
                   ),
                   // 第四个烟花
                   if(!logic.isWellDone) Positioned(
-                    right: (1.0.sw - 612.w) / 2 - 0.32.sh,
+                    right: 0.03.sw,
                     top: 120,
-                    child: GifViewWidgets(gifName: 'Firework_Purple_3_2.gif', height: 0.27.sh, frameRate: 53, delay: 0.ms, periodicTime: 1150.ms),
+                    child: GifViewWidgets(gifName: 'Firework_Purple_3_2.gif', height: 0.21.sh, frameRate: 53, delay: 0.ms, periodicTime: 1150.ms),
                   ),
                   // 第一个烟花
                   if(!logic.isWellDone) Positioned(
-                    left: ((1.0.sw - 612.w) / 2) / 2 - 0.1.sh,
+                    left: 0.05.sw,
                     bottom: 120,
-                    child: GifViewWidgets(gifName: 'Firework_Purple_3_2.gif', height: 0.21.sh, frameRate: 48, delay: 110.ms, periodicTime: 1040.ms),
+                    child: GifViewWidgets(gifName: 'Firework_Purple_3_2.gif', height: 0.19.sh, frameRate: 48, delay: 110.ms, periodicTime: 1040.ms),
                   ),
                   // 第三个烟花
                   if(!logic.isWellDone) Positioned(
-                    right: (1.0.sw - 612.w) / 2 - 0.3.sh,
+                    right: 0.07.sw,
                     bottom: 80,
-                    child: GifViewWidgets(gifName: 'Firework_Purple_3_2.gif', height: 0.21.sh, frameRate: 38, delay: 330.ms, periodicTime: 820.ms),
+                    child: GifViewWidgets(gifName: 'Firework_Purple_3_2.gif', height: 0.14.sh, frameRate: 38, delay: 330.ms, periodicTime: 820.ms),
                   ),
                   // well done的烟花动图
                   if(logic.isWellDone) Positioned(
@@ -175,7 +175,12 @@ class FreeGamePlayingPage extends StatelessWidget {
                   if(logic.isWellDone) Positioned(
                     right: 1.0.sw / 2 - 0.1.sw,
                     top: 170,
-                    child: GifViewWidgets(gifName: 'High_Five.gif', height: 0.21.sw, frameRate: 25),
+                    child: Image.asset(
+                      MirraIcons.getGifPath('High_Five.gif'),
+                      fit: BoxFit.fitHeight,
+                      height: 0.21.sw,
+                    ),
+                    // child: GifViewWidgets(gifName: 'High_Five.gif', height: 0.21.sw, frameRate: 23, periodicTime: 100.ms),
                   ),
                 ],
               ));
