@@ -143,7 +143,7 @@ class _BottomBtns extends StatelessWidget {
                         //       "tableId": tableId,
                         //       "isFlow": "checkIn",
                         //     });
-                        await Get.to(() => UserAuthenticator(),
+                        await Get.offAll(() => UserAuthenticator(),
                             arguments: {
                               "isAddPlayerClick": true,
                               "showInfo": showInfo,

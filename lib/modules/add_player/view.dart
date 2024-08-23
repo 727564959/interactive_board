@@ -14,7 +14,9 @@ import '../../widgets/common_icon_button.dart';
 import '../check_in/add_player/view.dart';
 import '../check_in/data/show.dart';
 import '../check_in/home_page/booking_state.dart';
+import '../check_in/player_page/player_squad.dart';
 import '../table_check/add_player/view.dart';
+import '../table_check/player_show/view.dart';
 import 'logic.dart';
 import 'old_user.dart';
 
@@ -103,7 +105,22 @@ class UserAuthenticator extends StatelessWidget {
                                   onPress: () {
                                     logic.focusNode.unfocus();
                                     Future.delayed(0.3.seconds).then((value) async {
-                                      Get.back();
+                                      // Get.back();
+                                      if(isFlow == "checkIn") {
+                                        Get.offAll(() => PlayerSquadPage(),
+                                            arguments: {
+                                              'showInfo': showInfo,
+                                              "bookingState": bookingState,
+                                              "isAddPlayerClick": false,
+                                              "tableId": tableId,
+                                            });
+                                      }
+                                      else if(isFlow == "tableCheck") {
+                                        Get.offAll(() => PlayerShowPage(),
+                                            arguments: {
+                                              'showState': showState,
+                                            });
+                                      }
                                     });
                                   },
                                 ),

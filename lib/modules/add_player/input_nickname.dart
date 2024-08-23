@@ -162,7 +162,7 @@ class InputNicknamePage extends StatelessWidget {
                                   arguments: {
                                     'showInfo': showInfo,
                                     "bookingState": bookingState,
-                                    "isAddPlayerClick": true,
+                                    "isAddPlayerClick": logic.casualUser.length < bookingState.quantity ? true : false,
                                     "tableId": tableId,
                                   });
                             }

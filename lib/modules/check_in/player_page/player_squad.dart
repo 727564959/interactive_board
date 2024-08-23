@@ -244,7 +244,15 @@ class _SquadCard extends StatelessWidget {
                           logic.testFun();
                         }
                         else {
-                          await Get.to(() => UserAuthenticator(),
+                          // await Get.to(() => UserAuthenticator(),
+                          //     arguments: {
+                          //       "isAddPlayerClick": true,
+                          //       "showInfo": showInfo,
+                          //       "bookingState": bookingState,
+                          //       "tableId": tableId,
+                          //       "isFlow": "checkIn",
+                          //     });
+                          await Get.offAll(() => UserAuthenticator(),
                               arguments: {
                                 "isAddPlayerClick": true,
                                 "showInfo": showInfo,
