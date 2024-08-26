@@ -99,11 +99,15 @@ class NewPlayerInfoPage extends StatelessWidget {
                             //     arguments: {
                             //       'showState': showState,
                             //     });
-                            Get.offAll(() => InputNicknamePage(),
+                            // Get.offAll(() => InputNicknamePage(),
+                            //     arguments: {
+                            //       "showState": showState,
+                            //       "isFlow": "tableCheck",
+                            //       "userId": userId
+                            //     });
+                            Get.offAll(() => PlayerShowPage(),
                                 arguments: {
-                                  "showState": showState,
-                                  "isFlow": "tableCheck",
-                                  "userId": userId
+                                  'showState': showState,
                                 });
                           } on DioException catch (e) {
                             EasyLoading.dismiss();

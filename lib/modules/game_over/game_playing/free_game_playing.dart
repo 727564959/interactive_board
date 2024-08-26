@@ -274,6 +274,18 @@ class _FloatingPlayerAnimationState extends State<FloatingPlayerAnimation> with 
     super.dispose();
   }
 
+  int positionToTableId(positionNum) {
+    if (positionNum == 1 || positionNum == 2) {
+      return 1;
+    } else if (positionNum == 3 || positionNum == 4) {
+      return 2;
+    } else if (positionNum == 5 || positionNum == 6) {
+      return 3;
+    } else {
+      return 4;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print("_animation.value ${_animation.value}");
@@ -295,7 +307,8 @@ class _FloatingPlayerAnimationState extends State<FloatingPlayerAnimation> with 
                   width: 275.w,
                   nickname: card.player.nickname,
                   position: card.position,
-                  bayNum: card.player.tableId,
+                  // bayNum: card.player.tableId,
+                  bayNum: positionToTableId(card.position),
                 ),
               );
             },
@@ -355,6 +368,18 @@ class _FloatingPlayerListAnimationState extends State<FloatingPlayerListAnimatio
     super.dispose();
   }
 
+  int positionToTableId(positionNum) {
+    if (positionNum == 1 || positionNum == 2) {
+      return 1;
+    } else if (positionNum == 3 || positionNum == 4) {
+      return 2;
+    } else if (positionNum == 5 || positionNum == 6) {
+      return 3;
+    } else {
+      return 4;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print("_animation.value ${_animation.value}");
@@ -375,7 +400,8 @@ class _FloatingPlayerListAnimationState extends State<FloatingPlayerListAnimatio
                 width: 275.w,
                 nickname: logic.allPositionList[index].player.nickname,
                 position: logic.allPositionList[index].position,
-                bayNum: logic.allPositionList[index].player.tableId,
+                // bayNum: logic.allPositionList[index].player.tableId,
+                bayNum: positionToTableId(logic.allPositionList[index].position),
                 // labelColor: selectedColor,
               ),
               // child: Transform.translate(

@@ -126,14 +126,21 @@ class NewPlayerPage extends StatelessWidget {
                             //       "isAddPlayerClick": isAddPlayerClick,
                             //       "tableId": tableId,
                             //     });
-                            Get.to(() => InputNicknamePage(),
+                            // Get.to(() => InputNicknamePage(),
+                            //     arguments: {
+                            //       "showInfo": showInfo,
+                            //       "bookingState": bookingState,
+                            //       "isAddPlayerClick": isAddPlayerClick,
+                            //       "tableId": tableId,
+                            //       "isFlow": "checkIn",
+                            //       "userId": userId
+                            //     });
+                            Get.offAll(() => PlayerSquadPage(),
                                 arguments: {
-                                  "showInfo": showInfo,
+                                  'showInfo': showInfo,
                                   "bookingState": bookingState,
-                                  "isAddPlayerClick": isAddPlayerClick,
+                                  "isAddPlayerClick": logic.casualUser.length < bookingState.quantity ? true : false,
                                   "tableId": tableId,
-                                  "isFlow": "checkIn",
-                                  "userId": userId
                                 });
                           } on DioException catch (e) {
                             EasyLoading.dismiss();
