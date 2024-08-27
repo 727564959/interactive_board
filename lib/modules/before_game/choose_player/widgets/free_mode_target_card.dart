@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../common.dart';
 import '../data/player.dart';
 import '../logic.dart';
 import '../../../../widgets/player_card.dart';
@@ -77,9 +80,9 @@ class _FreeModeTargetCardState extends State<FreeModeTargetCard> with TickerProv
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 7.w),
         child: AvatarCard(
-          title: player?.nickname ?? "Player $position",
+          title: player?.nickname ?? "Squad  ${ascii.decode([0x40 + (position + 1) ~/ 2])}",
           width: width,
-          tableId: player?.tableId,
+          tableId: (position + 1) ~/ 2,
           child: Stack(
             children: [
               if (player == null)

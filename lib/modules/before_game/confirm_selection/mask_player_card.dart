@@ -16,18 +16,19 @@ String getDeviceId(int position) {
 
 class MaskPlayerCard extends StatelessWidget {
   const MaskPlayerCard({
-    Key? key,
+    super.key,
     required this.avatarUrl,
     required this.nickname,
     required this.width,
     required this.position,
     required this.bFinish,
-  }) : super(key: key);
+  });
   final String avatarUrl;
   final String nickname;
   final double width;
   final int position;
   final bool bFinish;
+  int get tableId => (position + 1) ~/ 2;
   @override
   Widget build(BuildContext context) {
     return bFinish
@@ -35,11 +36,10 @@ class MaskPlayerCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             child: Container(
               width: width,
-              // height: width * 1.6,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    MirraIcons.getGameShowIconPath("avatar_placeholder${Global.tableId}.png"),
+                    MirraIcons.getGameShowIconPath("avatar_placeholder$tableId.png"),
                   ),
                   fit: BoxFit.fill,
                 ),
@@ -82,6 +82,7 @@ class MaskPlayerCard extends StatelessWidget {
             title: nickname,
             subTitle: Global.getDeviceName(position),
             width: width,
+            tableId: tableId,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: CachedNetworkImage(

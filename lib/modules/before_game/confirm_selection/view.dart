@@ -28,7 +28,7 @@ class _ConfirmSelectionPageState extends State<ConfirmSelectionPage> {
       if (player == null || player.tableId != Global.tableId) continue;
       playerCards.add(
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          padding: EdgeInsets.symmetric(horizontal: 7.w),
           child: MaskPlayerCard(
             avatarUrl: player.avatarUrl,
             nickname: player.nickname,
