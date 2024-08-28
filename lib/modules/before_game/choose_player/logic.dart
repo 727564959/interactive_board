@@ -21,30 +21,6 @@ class ChoosePlayerLogic extends GetxController with GetTickerProviderStateMixin 
   final playerApi = PlayerApi();
   List<PlayerInfo> players = [];
   FToast fToast = FToast();
-  // ShowState get showState => ShowState.fromJson({
-  //       "showId": 22,
-  //       "status": "game_preparing",
-  //       "details": {
-  //         "showId": 22,
-  //         "roundId": 47,
-  //         "roundNumber": 1,
-  //         "mode": "normal",
-  //         "game": "Treasure Dash",
-  //         "customers": [
-  //           {"tableId": 2, "consumerId": 274},
-  //           {"tableId": 3, "consumerId": 274},
-  //           {"tableId": 4, "consumerId": 302}
-  //         ],
-  //         "teams": [
-  //           {
-  //             "name": "RABBIT",
-  //             "teamId": 4,
-  //             "iconPath": "/uploads/small_4_1_60b4f861f0.png",
-  //             "blackBorderIconPath": "/uploads/small_4_d_98061c3869.png"
-  //           }
-  //         ]
-  //       }
-  //     });
   final ShowState showState = Get.arguments;
   String get game => (showState.details as GamingDetails).game;
   Timer? _timer;
@@ -67,10 +43,18 @@ class ChoosePlayerLogic extends GetxController with GetTickerProviderStateMixin 
     return result;
   }
 
+  bool get bAlreadyJoinedPlayer {
+    for (final player in players) {
+      if (optionalPositions.values.any((element) => player.id == element?.id)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   List<PlayerInfo> bottomBarPlayers = [];
 
   int? selectedPosition;
-  // int? errorSelectedPosition;
 
   bool bShowPlayerSelectException = false;
 

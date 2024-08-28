@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,7 @@ import 'widgets/player_bottom_bar.dart';
 import 'logic.dart';
 
 class ChoosePlayerPage extends StatelessWidget {
-  ChoosePlayerPage({Key? key}) : super(key: key);
+  ChoosePlayerPage({super.key});
   final logic = Get.find<ChoosePlayerLogic>();
   @override
   Widget build(BuildContext context) {
@@ -42,9 +43,23 @@ class ChoosePlayerPage extends StatelessWidget {
                         child: EventModeContent(),
                       );
                     } else {
-                      return Padding(
-                        padding: EdgeInsets.only(top: 150.w),
-                        child: FreeModeContent(),
+                      return Column(
+                        children: [
+                          Container(
+                            height: 150.w,
+                            alignment: Alignment.center,
+                            child: logic.bAlreadyJoinedPlayer
+                                ? Text(
+                                    "Please go to the arena after selecting your players",
+                                    style: CustomTextStyles.notice(color: Colors.white, fontSize: 37.sp),
+                                  ).animate(onPlay: (controller) => controller.repeat(reverse: false)).shimmer(
+                                      duration: 1400.ms,
+                                      color: const Color(0xFF80DDFF),
+                                    )
+                                : Container(),
+                          ),
+                          FreeModeContent(),
+                        ],
                       );
                     }
                   },

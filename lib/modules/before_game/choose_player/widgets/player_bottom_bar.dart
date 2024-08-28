@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -126,7 +125,7 @@ class _PlayerBottomBarState extends State<PlayerBottomBar> with TickerProviderSt
                               try {
                                 await logic.updatePosition(player.id);
                                 await dismiss();
-                                cooldown = DateTime.now().add(10.seconds);
+                                if (logic.mode == "free-8") cooldown = DateTime.now().add(5.seconds);
                               } on DioException {
                                 logic.showPlayerSelectException();
                                 dismiss();
