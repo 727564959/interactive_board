@@ -84,7 +84,7 @@ class WelcomePlayerPage extends StatelessWidget {
                                         children: <TextSpan>[
                                           TextSpan(
                                             // text: "${DateFormat('kk:mm').format(logic.startTime.add(8.hours))}",
-                                            text: "${DateFormat('kk:mm').format(logic.startTime)}",
+                                            text: "${DateFormat('hh:mm a').format(logic.startTime)}",
                                             style: CustomTextStyles.display(color: Color(0xFF00F5FF), fontSize: 48.sp, level: 5),
                                           ),
                                         ],
