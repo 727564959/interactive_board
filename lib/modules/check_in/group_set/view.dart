@@ -208,32 +208,40 @@ class GroupIconSetPage extends StatelessWidget {
                           print("showId ${showInfo.showId}");
                           print("哈哈哈哈哈");
                           EasyLoading.dismiss(animation: false);
-                          List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
-                          print("headgearObj ${headgearObj}");
-                          print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
-                          // 如果爆过头套就直接去展示用户，反之就走爆头套、选肤色和性别
-                          if (headgearObj.isEmpty) {
-                            Get.offAll(
-                                    () => PlayerSquadPage(),
-                                arguments: {
-                                  'showInfo': showInfo,
-                                  "bookingState": bookingState,
-                                  "isAddPlayerClick": isAddPlayerClick,
-                                  "tableId": tableId,
-                                });
-                          } else {
-                            Get.offAll(
-                                  () => HeadgearAcquisitionPage(),
+                          Get.offAll(
+                                  () => PlayerSquadPage(),
                               arguments: {
                                 'showInfo': showInfo,
                                 "bookingState": bookingState,
-                                'headgearObj': headgearObj,
-                                'userId': userId,
                                 "isAddPlayerClick": isAddPlayerClick,
                                 "tableId": tableId,
-                              },
-                            );
-                          }
+                              });
+                          // List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(userId);
+                          // print("headgearObj ${headgearObj}");
+                          // print("嘿嘿嘿嘿 ${headgearObj.isEmpty}");
+                          // // 如果爆过头套就直接去展示用户，反之就走爆头套、选肤色和性别
+                          // if (headgearObj.isEmpty) {
+                          //   Get.offAll(
+                          //           () => PlayerSquadPage(),
+                          //       arguments: {
+                          //         'showInfo': showInfo,
+                          //         "bookingState": bookingState,
+                          //         "isAddPlayerClick": isAddPlayerClick,
+                          //         "tableId": tableId,
+                          //       });
+                          // } else {
+                          //   Get.offAll(
+                          //         () => HeadgearAcquisitionPage(),
+                          //     arguments: {
+                          //       'showInfo': showInfo,
+                          //       "bookingState": bookingState,
+                          //       'headgearObj': headgearObj,
+                          //       'userId': userId,
+                          //       "isAddPlayerClick": isAddPlayerClick,
+                          //       "tableId": tableId,
+                          //     },
+                          //   );
+                          // }
                         } on DioException catch (e) {
                           print("hahah ${e}");
                           EasyLoading.dismiss();
