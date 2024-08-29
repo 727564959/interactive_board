@@ -13,6 +13,7 @@ import '../../../widgets/common_Text_button.dart';
 import '../../../widgets/common_button.dart';
 import '../../../widgets/common_icon_button.dart';
 import '../../term_of_use/view.dart';
+import '../choose_table/view.dart';
 import '../data/booking.dart';
 import '../data/show.dart';
 import '../home_page/booking_state.dart';
@@ -343,12 +344,17 @@ class ConfirmationPage extends StatelessWidget {
                         EasyLoading.dismiss(animation: false);
                         // await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfo, "customer": bookingState.customer, "code": code, "bookingState": bookingState});
                         print("showInfo ${showInfo}");
-                        await Get.to(() => TermsOfUse(),
+                        // await Get.to(() => TermsOfUse(),
+                        //     arguments: {
+                        //       "isAddPlayerClick": false,
+                        //       "showInfo": showInfo,
+                        //       "bookingState": bookingState,
+                        //       "isFlow": "checkIn"});
+                        await Get.to(() => ChooseTablePage(),
                             arguments: {
-                              "isAddPlayerClick": false,
                               "showInfo": showInfo,
-                              "bookingState": bookingState,
-                              "isFlow": "checkIn"});
+                              "isAddPlayerClick": false,
+                              "bookingState": bookingState});
                         // WidgetsBinding.instance.addPostFrameCallback((d) => Get.back());
                         // logic.codeController.clear();
                       } on DioException catch (e) {

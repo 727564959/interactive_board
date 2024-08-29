@@ -18,8 +18,8 @@ class HomeLogic extends GetxController {
   //                   {
   //                   "id": 58,
   //                   "transactionId": 58,
-  //                   "bookingDate": "2024-07-25",
-  //                   "bookingTime": "15:00:00",
+  //                   "bookingDate": "2024-08-28",
+  //                   "bookingTime": "18:00:00",
   //                   "during": 60,
   //                   "quantity": 1,
   //                   "status": "pending",
@@ -41,8 +41,8 @@ class HomeLogic extends GetxController {
   //               {
   //                   "id": 60,
   //                   "transactionId": 60,
-  //                   "bookingDate": "2024-07-25",
-  //                   "bookingTime": "15:00:00",
+  //                   "bookingDate": "2024-08-28",
+  //                   "bookingTime": "18:00:00",
   //                   "during": 60,
   //                   "quantity": 1,
   //                   "status": "onGaming",
@@ -63,8 +63,8 @@ class HomeLogic extends GetxController {
   //               {
   //                   "id": 67,
   //                   "transactionId": 67,
-  //                   "bookingDate": "2024-07-27",
-  //                   "bookingTime": "20:00:00",
+  //                   "bookingDate": "2024-08-28",
+  //                   "bookingTime": "18:00:00",
   //                   "during": 60,
   //                   "quantity": 1,
   //                   "status": "onGaming",
