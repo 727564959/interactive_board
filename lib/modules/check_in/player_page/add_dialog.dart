@@ -36,38 +36,53 @@ class AddDialog extends StatelessWidget {
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 30,),
-          if(logic.casualUser.length < bookingState.quantity) Text(
+          Text(
             'Add Other Members',
             textAlign: TextAlign.center,
             style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
           ),
-          if(logic.casualUser.length >= bookingState.quantity) Text(
-            'Guests Over Limit',
-            textAlign: TextAlign.center,
-            style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
-          ),
+          // if(logic.casualUser.length < bookingState.quantity) Text(
+          //   'Add Other Members',
+          //   textAlign: TextAlign.center,
+          //   style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+          // ),
+          // if(logic.casualUser.length >= bookingState.quantity) Text(
+          //   'Guests Over Limit',
+          //   textAlign: TextAlign.center,
+          //   style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
+          // ),
           SizedBox(height: 20,),
-          if(logic.casualUser.length < bookingState.quantity) Text(
+          Text(
             'Assemble the Squad.',
             textAlign: TextAlign.center,
             style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
           ),
-          if(logic.casualUser.length >= bookingState.quantity) Text(
-            'Your reservation is for ' + bookingState.quantity.toString() + ' people.',
-            textAlign: TextAlign.center,
-            style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
-          ),
+          // if(logic.casualUser.length < bookingState.quantity) Text(
+          //   'Assemble the Squad.',
+          //   textAlign: TextAlign.center,
+          //   style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
+          // ),
+          // if(logic.casualUser.length >= bookingState.quantity) Text(
+          //   'Your reservation is for ' + bookingState.quantity.toString() + ' people.',
+          //   textAlign: TextAlign.center,
+          //   style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
+          // ),
           SizedBox(height: 10,),
-          if(logic.casualUser.length < bookingState.quantity) Text(
+          Text(
             'Anyone Else Needing to Join?',
             textAlign: TextAlign.center,
             style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
           ),
-          if(logic.casualUser.length >= bookingState.quantity) Text(
-            'Please buy extra tickets if you have more guests.',
-            textAlign: TextAlign.center,
-            style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
-          ),
+          // if(logic.casualUser.length < bookingState.quantity) Text(
+          //   'Anyone Else Needing to Join?',
+          //   textAlign: TextAlign.center,
+          //   style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
+          // ),
+          // if(logic.casualUser.length >= bookingState.quantity) Text(
+          //   'Please buy extra tickets if you have more guests.',
+          //   textAlign: TextAlign.center,
+          //   style: CustomTextStyles.notice(color: Colors.white, fontSize: 24.sp),
+          // ),
           SizedBox(height: 30,),
           _BottomBtns(),
           SizedBox(height: 30,),
@@ -107,7 +122,8 @@ class _BottomBtns extends StatelessWidget {
                     CommonButton(
                       width: 340.w,
                       height: 70.h,
-                      btnText: logic.casualUser.length < bookingState.quantity ? "NO, THAT'S ALL" : "CANCEL",
+                      // btnText: logic.casualUser.length < bookingState.quantity ? "NO, THAT'S ALL" : "CANCEL",
+                      btnText: "NO, THAT'S ALL",
                       btnBgColor: Color(0xFF272727),
                       textColor: Color(0xff13EFEF),
                       onPress: () async {

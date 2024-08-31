@@ -139,7 +139,8 @@ class NewPlayerPage extends StatelessWidget {
                                 arguments: {
                                   'showInfo': showInfo,
                                   "bookingState": bookingState,
-                                  "isAddPlayerClick": logic.casualUser.length < bookingState.quantity ? true : false,
+                                  // "isAddPlayerClick": logic.casualUser.length < bookingState.quantity ? true : false,
+                                  "isAddPlayerClick": true,
                                   "tableId": tableId,
                                 });
                           } on DioException catch (e) {
