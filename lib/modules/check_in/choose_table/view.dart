@@ -135,7 +135,8 @@ class ChooseTablePage extends StatelessWidget {
                             print("logic.selectedTableId ${logic.selectedTableId}");
                             // 验票
                             // await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
-                            await logic.customerCheckIn(showId: showInfo.showId, userId: userId, transactionId: bookingState.transactionId, bookingId: bookingState.bookingId);
+                            // await logic.customerCheckIn(showId: showInfo.showId, userId: userId, transactionId: bookingState.transactionId, bookingId: bookingState.bookingId);
+                            await logic.customerCheckIn(showId: showInfo.showId, userId: userId, bookingNumber: bookingState.bookingNumber);
                             print("哈哈哈哈哈");
                             EasyLoading.dismiss(animation: false);
                             await Get.offAll(() => GroupIconSetPage(), arguments: {

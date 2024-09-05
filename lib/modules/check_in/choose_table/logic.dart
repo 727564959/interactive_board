@@ -88,16 +88,13 @@ class ChooseTableLogic extends GetxController {
   Future<void> customerCheckIn({
     required int showId,
     required int userId,
-    required int transactionId,
-    required int bookingId,
+    required String bookingNumber
   }) async {
     await _dio.post(
       "$baseApiUrl/shows/$showId/customer-checked",
       data: {
         "userId": userId,
-        "showId": showId,
-        "transactionId": transactionId,
-        "bookingId": bookingId,
+        "bookingNumber": bookingNumber,
         "tableId": selectedTableId!,
       },
     );

@@ -85,6 +85,29 @@ class HomeLogic extends GetxController {
   //           ]
   //       }
   //  ''';
+//   String jsonString1 = '''
+//           [
+//     {
+//         "bookingNumber": "34409058193719",
+//         "startTime": "2024-09-05T06:30:00.000Z",
+//         "endTime": "2024-09-05T07:30:00.000Z",
+//         "quantity": 8,
+//         "status": "pending",
+//         "tableId": null,
+//         "showId": null,
+//         "customerId": 9,
+//         "createTime": "2024-09-05T06:30:13.316Z",
+//         "updateTime": "2024-09-05T06:30:13.316Z",
+//         "customer": {
+//             "id": 9,
+//             "firstName": "M",
+//             "lastName": "Zq",
+//             "telephone": "123617231632",
+//             "email": "15215217793@163.com"
+//         }
+//     }
+// ]
+//    ''';
   List<BookingState> bookingState = [];
 
   Future<List<BookingState>> getBookingStatus() async {
@@ -93,14 +116,22 @@ class HomeLogic extends GetxController {
       "$baseApiUrl/shows/booking-status",
     );
     print("response.data ${response.data}");
-    List bookingsList = response.data['bookings'];
+    List bookingsList = response.data;
     return bookingsList.map((bookings) => BookingState.fromJson(bookings)).toList();
   }
 
-  Future<ShowInfo> bookingTimeChecked(String bookingTime, String bookingDate) async {
+  // Future<ShowInfo> bookingTimeChecked(String bookingTime, String bookingDate) async {
+  //   final response = await _dio.get(
+  //     "$baseApiUrl/shows/booking-time-checked",
+  //     queryParameters: {"bookingTime": bookingTime, "bookingDate": bookingDate},
+  //   );
+  //   final showInfo = ShowInfo.fromJson(response.data);
+  //   return showInfo;
+  // }
+  Future<ShowInfo> bookingTimeChecked(String startTime) async {
     final response = await _dio.get(
       "$baseApiUrl/shows/booking-time-checked",
-      queryParameters: {"bookingTime": bookingTime, "bookingDate": bookingDate},
+      queryParameters: {"bookingTime": startTime},
     );
     final showInfo = ShowInfo.fromJson(response.data);
     return showInfo;
@@ -129,10 +160,13 @@ class HomeLogic extends GetxController {
               email: ""
           );
           newList.add(BookingState(
-            bookingId: -1,
-            transactionId: -1,
-            bookingDate: "",
-            bookingTime: "",
+            // bookingId: -1,
+            // transactionId: -1,
+            // bookingDate: "",
+            // bookingTime: "",
+            bookingNumber: "",
+            startTime: "",
+            endTime: "",
             quantity: 0,
             status: "",
             tableId: null,
@@ -194,10 +228,13 @@ class HomeLogic extends GetxController {
             email: ""
         );
         bookingStateList.add(BookingState(
-          bookingId: -1,
-          transactionId: -1,
-          bookingDate: "",
-          bookingTime: "",
+          // bookingId: -1,
+          // transactionId: -1,
+          // bookingDate: "",
+          // bookingTime: "",
+          bookingNumber: "",
+          startTime: "",
+          endTime: "",
           quantity: 0,
           status: "",
           tableId: null,

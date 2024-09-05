@@ -28,19 +28,25 @@ class Customer {
 
 class BookingState {
   BookingState({
-    required this.transactionId,
-    required this.bookingId,
-    required this.bookingDate,
-    required this.bookingTime,
+    // required this.transactionId,
+    // required this.bookingId,
+    // required this.bookingDate,
+    // required this.bookingTime,
+    required this.bookingNumber,
+    required this.startTime,
+    required this.endTime,
     required this.quantity,
     required this.status,
     this.tableId,
     required this.customer,
   });
-  final int transactionId;
-  final int bookingId;
-  final String bookingDate;
-  final String bookingTime;
+  // final int transactionId;
+  // final int bookingId;
+  // final String bookingDate;
+  // final String bookingTime;
+  final String bookingNumber;
+  final String startTime;
+  final String endTime;
   final int quantity;
   final String status;
   final int? tableId;
@@ -48,10 +54,13 @@ class BookingState {
 
   factory BookingState.fromJson(Map<String, dynamic> json) {
     return BookingState(
-      bookingId: json['id'],
-      transactionId: json['transactionId'],
-      bookingDate: json['bookingDate'],
-      bookingTime: json['bookingTime'],
+      // bookingId: json['id'],
+      // transactionId: json['transactionId'],
+      // bookingDate: json['bookingDate'],
+      // bookingTime: json['bookingTime'],
+      bookingNumber: json['bookingNumber'],
+      startTime: json['startTime'],
+      endTime: json['endTime'],
       quantity: json['quantity'],
       status: json['status'],
       tableId: json['tableId'],

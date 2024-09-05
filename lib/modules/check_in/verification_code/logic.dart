@@ -52,10 +52,10 @@ class VerificationCodeLogic extends GetxController {
   //   final showInfo = ShowInfo.fromJson(response.data);
   //   return showInfo;
   // }
-  Future<ShowInfo> bookingTimeChecked(String bookingTime, String bookingDate) async {
+  Future<ShowInfo> bookingTimeChecked(String startTime) async {
     final response = await _dio.get(
       "$baseApiUrl/shows/booking-time-checked",
-      queryParameters: {"bookingTime": bookingTime, "bookingDate": bookingDate},
+      queryParameters: {"bookingTime": startTime},
     );
     final showInfo = ShowInfo.fromJson(response.data);
     return showInfo;

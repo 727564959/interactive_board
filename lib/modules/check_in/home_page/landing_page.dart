@@ -232,7 +232,8 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                       borderRadius: BorderRadius.all(Radius.circular(20)),
                                       color: logic.bookingState[index].tableId != null ? getBgColor(logic.bookingState[index].tableId) : Color(0xffA4EDF1),
                                     ),
-                                    child: logic.bookingState[index].bookingId != -1
+                                    // child: logic.bookingState[index].bookingId != -1
+                                    child: logic.bookingState[index].bookingNumber != ""
                                         ? Column(
                                       mainAxisAlignment: MainAxisAlignment.center, // 设置垂直方向上的对齐方式为居中
                                       children: [
@@ -306,7 +307,8 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                                 btnBgColor: logic.bookingState[index].tableId != null ? getBtnBgColor(logic.bookingState[index].tableId) : Color(0xff08969E),
                                                 textColor: Color(0xffffffff),
                                                 onPress: () async {
-                                                  final showInfo = await logic.bookingTimeChecked(logic.bookingState[index].bookingTime, logic.bookingState[index].bookingDate);
+                                                  // final showInfo = await logic.bookingTimeChecked(logic.bookingState[index].bookingTime, logic.bookingState[index].bookingDate);
+                                                  final showInfo = await logic.bookingTimeChecked(logic.bookingState[index].startTime);
                                                   print("showInfo ${showInfo}");
                                                   await Get.to(() => ConfirmationSquadPage(), arguments: {
                                                     "bookingState": logic.bookingState[index],

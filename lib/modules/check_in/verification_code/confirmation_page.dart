@@ -85,8 +85,8 @@ class ConfirmationPage extends StatelessWidget {
                               // "Game Show Time : " + DateFormat("dd/MM/yyyy, hh:mm a").format(
                               //     DateTime.parse(bookingState.bookingDate + " " + bookingState.bookingTime),
                               // ),
-                              "Game Show Time : " + DateFormat("dd/MM/yyyy, h a").format(
-                                DateTime.parse(bookingState.bookingDate + " " + bookingState.bookingTime),
+                              "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(
+                                DateTime.parse(bookingState.startTime),
                               ),
                               style: CustomTextStyles.title(color: Color(0xFFA4EDF1), fontSize: 28.sp, level: 6),
                             ),
@@ -338,9 +338,7 @@ class ConfirmationPage extends StatelessWidget {
                     onPress: () async {
                       EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                       try {
-                        print("bookingState.bookingTime ${bookingState.bookingTime}");
-                        print("bookingState.bookingDate ${bookingState.bookingDate}");
-                        final showInfo = await logic.bookingTimeChecked(bookingState.bookingTime, bookingState.bookingDate);
+                        final showInfo = await logic.bookingTimeChecked(bookingState.startTime);
                         EasyLoading.dismiss(animation: false);
                         // await Get.to(() => TermsOfUsePage(), arguments: {"isAddPlayerClick": false, "showInfo": showInfo, "customer": bookingState.customer, "code": code, "bookingState": bookingState});
                         print("showInfo ${showInfo}");
