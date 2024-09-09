@@ -170,8 +170,11 @@ class UserAuthenticator extends StatelessWidget {
                             textColor: Colors.black,
                             onPress: () async {
                               print("咔咔咔咔");
+                              // final RegExp _emailRegex = RegExp(
+                              //   r'^[\w-]+(\.[\w-]+)*@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z]{2,}$',
+                              // );
                               final RegExp _emailRegex = RegExp(
-                                r'^[\w-]+(\.[\w-]+)*@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z]{2,}$',
+                                r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                               );
                               bool _isValidEmail = _emailRegex.hasMatch(logic.emailController.text);
                               print("_isValidEmail ${_isValidEmail}");
@@ -294,8 +297,11 @@ class _CheckInInputState extends State<_CheckInInput> {
   String? get title => widget.title;
   TextEditingController get controller => widget.controller;
   // bool isHasFocus = true;
+  // final RegExp _emailRegex = RegExp(
+  //   r'^[\w-]+(\.[\w-]+)*@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z]{2,}$',
+  // );
   final RegExp _emailRegex = RegExp(
-    r'^[\w-]+(\.[\w-]+)*@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*\.[a-zA-Z]{2,}$',
+    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
   );
   bool _isValidEmail = true;
   final logic = Get.put(UserRegistrationLogic());
