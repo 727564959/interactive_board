@@ -170,9 +170,9 @@ class _PlayerInfoForm extends StatelessWidget {
                       controller: logic.emailController,
                       isFormFieldEnabled: false,
                       validator: (v) {
-                        String regexEmail =
-                            "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}\$";
-                        return RegExp(regexEmail).hasMatch(v.toString()) ? null : "The Email format is incorrect";
+                        // String regexEmail =
+                        //     "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}\$";
+                        return RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(v.toString()) ? null : "The Email format is incorrect";
                       },
                     ),
                     SizedBox(
