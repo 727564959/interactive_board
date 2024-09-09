@@ -86,7 +86,7 @@ class ConfirmationPage extends StatelessWidget {
                               //     DateTime.parse(bookingState.bookingDate + " " + bookingState.bookingTime),
                               // ),
                               "Game Show Time : " + DateFormat("dd/MM/yyyy, hh a").format(
-                                DateTime.parse(bookingState.startTime),
+                                DateTime.parse(bookingState.startTime).toLocal(),
                               ),
                               style: CustomTextStyles.title(color: Color(0xFFA4EDF1), fontSize: 28.sp, level: 6),
                             ),
