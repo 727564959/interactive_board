@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../common.dart';
+import '../check_in/data/avatar_info.dart';
 import '../check_in/data/casual_user.dart';
 import '../check_in/data/show.dart';
 import '../game_over/statistics/data/team_info.dart';
+import 'data/search_user.dart';
 
 class UserRegistrationLogic extends GetxController {
   final _dio = Dio();
@@ -19,6 +21,12 @@ class UserRegistrationLogic extends GetxController {
   final nicknameController = TextEditingController();
   final focusNode1 = FocusNode();
   List<CasualUser> casualUser = [];
+  var isExist = false.obs;
+  int? selectedId;
+
+  void updateState(judge) {
+    isExist.value = judge;
+  }
 
   String getBayString(tableId) {
     if (tableId == 1) {
@@ -45,23 +53,62 @@ class UserRegistrationLogic extends GetxController {
     return result;
   }
 
+  // 同步邮箱信息
+  Future<void> syncRemote({
+    required String email
+  }) async {
+    await _dio.post(
+      "$baseApiUrl/players/sync-remote",
+      data: {
+        "email": email,
+      },
+    );
+  }
+
+  // 查询并清理头套
+  Future<List<GameItemInfo>> fetchHeadgearInfo(userId) async {
+    final response = await _dio.get(
+      "$baseApiUrl/players/$userId/game-items",
+    );
+    final result = <GameItemInfo>[];
+    for (final item in response.data) {
+      result.add(GameItemInfo.fromJson(item['gameItem']));
+    }
+    return result;
+  }
+
   // 根据邮箱查用户
-  Future<Map> checkingPlayer(String email) async {
+  Future<List<SearchUser>> checkingPlayer(String email) async {
     print("通过邮箱进行玩家查重");
     print("object $email");
     try {
       final response = await _dio.get(
-        "$baseApiUrl/players/query-id",
+        "$baseApiUrl/players/search",
         queryParameters: {"email": email},
       );
-      print("object $response");
-      Map<String, dynamic> result = response.data;
-      return result;
-    } on DioException {
-      Map<String, dynamic> result = {};
-      return result;
+      List result = response.data;
+      return result.map((data) => SearchUser.fromJson(data)).toList();
+    } on DioException catch (e) {
+      print("object $e");
+      return [];
     }
   }
+  // Future<Map> checkingPlayer(String email) async {
+  //   print("通过邮箱进行玩家查重");
+  //   print("object $email");
+  //   try {
+  //     final response = await _dio.get(
+  //       "$baseApiUrl/players/query-id",
+  //       queryParameters: {"email": email},
+  //     );
+  //     print("object $response");
+  //     Map<String, dynamic> result = response.data;
+  //     return result;
+  //   } on DioException {
+  //     Map<String, dynamic> result = {};
+  //     return result;
+  //   }
+  // }
 
   // 查询单个玩家
   Future<Map> fetchSingleUsers(id) async {

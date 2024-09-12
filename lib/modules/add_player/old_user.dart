@@ -12,8 +12,13 @@ import '../../mirra_style.dart';
 import '../../widgets/check_in_title.dart';
 import '../../widgets/common_button.dart';
 import '../../widgets/common_icon_button.dart';
+import '../check_in/data/avatar_info.dart';
 import '../check_in/data/show.dart';
+import '../check_in/headgear_acquisition/view.dart';
 import '../check_in/home_page/booking_state.dart';
+import '../check_in/player_page/player_squad.dart';
+import '../table_check/headgear/view.dart';
+import '../table_check/player_show/view.dart';
 import '../term_of_use/view.dart';
 import 'logic.dart';
 
@@ -71,7 +76,7 @@ class OldUserPage extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        "Welcome back",
+                        "Welcome",
                         style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 2),
                       ),
                       Text(
@@ -91,38 +96,84 @@ class OldUserPage extends StatelessWidget {
                       print("bookingState ${bookingState}");
                       EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                       try {
-                        // // 加入到show
-                        // await logic.addPlayerToShow(showInfo.showId, tableId, singlePlayer['id']);
-                        Map<String, dynamic> addInfoObj = {
-                          'email': singlePlayer['email'],
-                          'phone': singlePlayer['phone'],
-                          'firstName': singlePlayer['firstName'],
-                          'lastName': singlePlayer['lastName'],
-                          'birthday': "",
-                        };
+                        // 加入到show
+                        await logic.addPlayerToShow(isFlow == "checkIn" ? showInfo.showId : showState.showId??1, tableId, singlePlayer['id']);
+                        // 是否需要爆头套
+                        List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(singlePlayer['id']);
                         EasyLoading.dismiss(animation: false);
                         if(isFlow == "checkIn") {
-                          await Get.to(() => TermsOfUse(), arguments: {
-                            "isAddPlayerClick": true,
-                            "showInfo": showInfo,
-                            "bookingState": bookingState,
-                            "isFlow": "checkIn",
-                            // "userId": singlePlayer['id'],
-                            "addInfoObj": addInfoObj,
-                            // "tableId": bookingState.tableId,
-                            "tableId": tableId,
-                          });
+                          if(headgearObj.isEmpty) {
+                            Get.offAll(() => PlayerSquadPage(),
+                                arguments: {
+                                  'showInfo': showInfo,
+                                  "bookingState": bookingState,
+                                  "isAddPlayerClick": true,
+                                  "tableId": tableId,
+                                });
+                          }
+                          else {
+                            Get.offAll(() => HeadgearAcquisitionPage(),
+                              arguments: {
+                                'showInfo': showInfo,
+                                "bookingState": bookingState,
+                                'headgearObj': headgearObj,
+                                'userId': singlePlayer['id'],
+                                "isAddPlayerClick": true,
+                                "tableId": tableId,
+                              },
+                            );
+                          }
                         }
                         else if(isFlow == "tableCheck") {
-                          await Get.to(() => TermsOfUse(), arguments: {
-                            "isAddPlayerClick": true,
-                            "showState": showState,
-                            "bookingState": bookingState,
-                            "isFlow": "tableCheck",
-                            "userId": singlePlayer['id'],
-                            "tableId": tableId,
-                          });
+                          if(headgearObj.isEmpty) {
+                            Get.offAll(() => PlayerShowPage(),
+                                arguments: {
+                                  'showState': showState,
+                                });
+                          }
+                          else {
+                            Get.offAll(() => HeadgearPage(),
+                              arguments: {
+                                'showState': showState,
+                                'headgearObj': headgearObj,
+                                'userId': singlePlayer['id'],
+                              },
+                            );
+                          }
                         }
+
+                        // // // 加入到show
+                        // // await logic.addPlayerToShow(showInfo.showId, tableId, singlePlayer['id']);
+                        // Map<String, dynamic> addInfoObj = {
+                        //   'email': singlePlayer['email'],
+                        //   'phone': singlePlayer['phone'],
+                        //   'firstName': singlePlayer['firstName'],
+                        //   'lastName': singlePlayer['lastName'],
+                        //   'birthday': "",
+                        // };
+                        // EasyLoading.dismiss(animation: false);
+                        // if(isFlow == "checkIn") {
+                        //   await Get.to(() => TermsOfUse(), arguments: {
+                        //     "isAddPlayerClick": true,
+                        //     "showInfo": showInfo,
+                        //     "bookingState": bookingState,
+                        //     "isFlow": "checkIn",
+                        //     // "userId": singlePlayer['id'],
+                        //     "addInfoObj": addInfoObj,
+                        //     // "tableId": bookingState.tableId,
+                        //     "tableId": tableId,
+                        //   });
+                        // }
+                        // else if(isFlow == "tableCheck") {
+                        //   await Get.to(() => TermsOfUse(), arguments: {
+                        //     "isAddPlayerClick": true,
+                        //     "showState": showState,
+                        //     "bookingState": bookingState,
+                        //     "isFlow": "tableCheck",
+                        //     "userId": singlePlayer['id'],
+                        //     "tableId": tableId,
+                        //   });
+                        // }
                       } on DioException catch (e) {
                         EasyLoading.dismiss();
                         if (e.response == null) EasyLoading.showError("Network Error!");

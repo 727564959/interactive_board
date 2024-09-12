@@ -17,14 +17,17 @@ import '../check_in/home_page/booking_state.dart';
 import '../check_in/player_page/player_squad.dart';
 import '../table_check/add_player/view.dart';
 import '../table_check/player_show/view.dart';
+import 'data/search_user.dart';
 import 'logic.dart';
 import 'old_user.dart';
+import 'user_selection.dart';
+import 'waiver_dialog.dart';
 
 class UserAuthenticator extends StatelessWidget {
   UserAuthenticator({Key? key}) : super(key: key);
   final logic = Get.put(UserRegistrationLogic());
   ShowInfo get showInfo => Get.arguments?["showInfo"];
-  BookingState get bookingState => Get.arguments["bookingState"];
+  BookingState get bookingState => Get.arguments?["bookingState"];
   Customer get customer => bookingState.customer;
   int get tableId => Get.arguments["tableId"];
   String get isFlow => Get.arguments["isFlow"];
@@ -75,6 +78,28 @@ class UserAuthenticator extends StatelessWidget {
   //     toastDuration: Duration(seconds: 2),
   //   );
   // }
+  // 定义一个函数来打开弹窗
+  void openDialog() {
+    if(isFlow == "checkIn") {
+      Get.dialog(Dialog(child: WaiverDialog()),
+          arguments: {
+            "showInfo": showInfo,
+            "bookingState": bookingState,
+            "tableId": tableId,
+            "isFlow": isFlow}).then((value) {
+        // logic.isCountdownStart = true;
+        // logic.testFun();
+      });
+    }
+    else if(isFlow == "tableCheck") {
+      Get.dialog(Dialog(child: WaiverDialog()),
+          arguments: {
+            "tableId": tableId,
+            "isFlow": isFlow,
+            "showState": showState}).then((value) {
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,60 +207,85 @@ class UserAuthenticator extends StatelessWidget {
                                 logic.errorText = '';
                                 EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                                 try {
+                                  // 同步邮箱信息
+                                  await logic.syncRemote(email: logic.emailController.text);
                                   // 校验邮箱
-                                  Map checkingUser = await logic.checkingPlayer(logic.emailController.text);
-                                  print("是否存在用户 ${checkingUser.isEmpty}");
+                                  List<SearchUser> checkingUser = await logic.checkingPlayer(logic.emailController.text);
+                                  // print("是否存在用户 ${checkingUser.isEmpty}");
+                                  print("是否存在用户 ${checkingUser.length}");
                                   EasyLoading.dismiss(animation: false);
                                   // 为空不存在及新增，反之去old user页面
-                                  if(checkingUser.isEmpty) {
-                                    if(isFlow == "checkIn") {
-                                      await Get.to(() => AddPlayerPage(),
-                                          arguments: {
-                                            "showInfo": showInfo,
-                                            "bookingState": bookingState,
-                                            "isAddPlayerClick": true,
-                                            "tableId": tableId,
-                                            "isFlow": "checkIn",
-                                            "emailInput": logic.emailController.text,
-                                          });
-                                    }
-                                    else if(isFlow == "tableCheck") {
-                                      await Get.to(() => AddPlayerDataPage(),
-                                          arguments: {"showState": showState, "isFlow": "tableCheck", "emailInput": logic.emailController.text,});
-                                    }
+                                  if(checkingUser.length <= 0) {
+                                    openDialog();
+                                    // if(isFlow == "checkIn") {
+                                    //   await Get.to(() => AddPlayerPage(),
+                                    //       arguments: {
+                                    //         "showInfo": showInfo,
+                                    //         "bookingState": bookingState,
+                                    //         "isAddPlayerClick": true,
+                                    //         "tableId": tableId,
+                                    //         "isFlow": "checkIn",
+                                    //         "emailInput": logic.emailController.text,
+                                    //       });
+                                    // }
+                                    // else if(isFlow == "tableCheck") {
+                                    //   await Get.to(() => AddPlayerDataPage(),
+                                    //       arguments: {"showState": showState, "isFlow": "tableCheck", "emailInput": logic.emailController.text,});
+                                    // }
                                   }
                                   else {
-                                    print("参数 ${checkingUser['userId']}");
-                                    try {
-                                      EasyLoading.dismiss(animation: false);
-                                      Map singlePlayer = await logic.fetchSingleUsers(checkingUser['userId']);
-                                      print("singlePlayer ${singlePlayer}");
-                                      // old user展示页面
-                                      if(isFlow == "checkIn") {
-                                        await Get.to(() => OldUserPage(), arguments: {
-                                          "showInfo": showInfo,
-                                          "bookingState": bookingState,
-                                          "isAddPlayerClick": true,
-                                          "tableId": tableId,
-                                          "singlePlayer": singlePlayer,
-                                          "isFlow": isFlow,
-                                        });
-                                      }
-                                      else if(isFlow == "tableCheck") {
-                                        await Get.to(() => OldUserPage(), arguments: {
-                                          "bookingState": bookingState,
-                                          "isAddPlayerClick": true,
-                                          "tableId": tableId,
-                                          "singlePlayer": singlePlayer,
-                                          "showState": showState,
-                                          "isFlow": isFlow,
-                                        });
-                                      }
-                                    } on DioException catch (e) {
-                                      EasyLoading.dismiss();
-                                      if (e.response == null) EasyLoading.showError("Network Error!");
-                                      EasyLoading.showError(e.response?.data["error"]["message"]);
+                                    // user selection展示页面
+                                    if(isFlow == "checkIn") {
+                                      await Get.to(() => UserSelectionPage(), arguments: {
+                                        "showInfo": showInfo,
+                                        "bookingState": bookingState,
+                                        "isAddPlayerClick": true,
+                                        "tableId": tableId,
+                                        "checkingUser": checkingUser,
+                                        "isFlow": isFlow,
+                                      });
                                     }
+                                    else if(isFlow == "tableCheck") {
+                                      await Get.to(() => UserSelectionPage(), arguments: {
+                                        "bookingState": bookingState,
+                                        "isAddPlayerClick": true,
+                                        "tableId": tableId,
+                                        "checkingUser": checkingUser,
+                                        "showState": showState,
+                                        "isFlow": isFlow,
+                                      });
+                                    }
+                                    // print("参数 ${checkingUser['userId']}");
+                                    // try {
+                                    //   EasyLoading.dismiss(animation: false);
+                                    //   Map singlePlayer = await logic.fetchSingleUsers(checkingUser['userId']);
+                                    //   print("singlePlayer ${singlePlayer}");
+                                    //   // old user展示页面
+                                    //   if(isFlow == "checkIn") {
+                                    //     await Get.to(() => OldUserPage(), arguments: {
+                                    //       "showInfo": showInfo,
+                                    //       "bookingState": bookingState,
+                                    //       "isAddPlayerClick": true,
+                                    //       "tableId": tableId,
+                                    //       "singlePlayer": singlePlayer,
+                                    //       "isFlow": isFlow,
+                                    //     });
+                                    //   }
+                                    //   else if(isFlow == "tableCheck") {
+                                    //     await Get.to(() => OldUserPage(), arguments: {
+                                    //       "bookingState": bookingState,
+                                    //       "isAddPlayerClick": true,
+                                    //       "tableId": tableId,
+                                    //       "singlePlayer": singlePlayer,
+                                    //       "showState": showState,
+                                    //       "isFlow": isFlow,
+                                    //     });
+                                    //   }
+                                    // } on DioException catch (e) {
+                                    //   EasyLoading.dismiss();
+                                    //   if (e.response == null) EasyLoading.showError("Network Error!");
+                                    //   EasyLoading.showError(e.response?.data["error"]["message"]);
+                                    // }
                                   }
                                   // Map sensitiveWordDetector = await logic.sensitiveWordDetector(logic.emailController.text);
                                   // if(sensitiveWordDetector['pass']) {
@@ -288,7 +338,7 @@ class _CheckInInput extends StatefulWidget {
 
 class _CheckInInputState extends State<_CheckInInput> {
   ShowInfo get showInfo => Get.arguments?["showInfo"];
-  BookingState get bookingState => Get.arguments["bookingState"];
+  BookingState get bookingState => Get.arguments?["bookingState"];
   Customer get customer => bookingState.customer;
   int get tableId => Get.arguments["tableId"];
   String get isFlow => Get.arguments["isFlow"];
@@ -357,6 +407,29 @@ class _CheckInInputState extends State<_CheckInInput> {
   //   );
   // }
 
+  // 定义一个函数来打开弹窗
+  void openDialog() {
+    if(isFlow == "checkIn") {
+      Get.dialog(Dialog(child: WaiverDialog()),
+          arguments: {
+            "showInfo": showInfo,
+            "bookingState": bookingState,
+            "tableId": tableId,
+            "isFlow": isFlow}).then((value) {
+      });
+    }
+    else if(isFlow == "tableCheck") {
+      Get.dialog(Dialog(child: WaiverDialog()),
+          arguments: {
+            "tableId": tableId,
+            "isFlow": isFlow,
+            "showState": showState}).then((value) {
+        // logic.isCountdownStart = true;
+        // logic.testFun();
+      });
+    }
+  }
+
   @override
   void dispose() {
     logic.focusNode.removeListener(_onFocusChange);
@@ -380,60 +453,84 @@ class _CheckInInputState extends State<_CheckInInput> {
         logic.errorText = '';
         EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
         try {
+          // 同步邮箱信息
+          await logic.syncRemote(email: logic.emailController.text);
           // 校验邮箱
-          Map checkingUser = await logic.checkingPlayer(logic.emailController.text);
-          print("是否存在用户 ${checkingUser.isEmpty}");
+          List<SearchUser> checkingUser = await logic.checkingPlayer(logic.emailController.text);
+          // print("是否存在用户 ${checkingUser.isEmpty}");
           EasyLoading.dismiss(animation: false);
           // 为空不存在及新增，反之去old user页面
-          if(checkingUser.isEmpty) {
-            if(isFlow == "checkIn") {
-              await Get.to(() => AddPlayerPage(),
-                  arguments: {
-                    "showInfo": showInfo,
-                    "bookingState": bookingState,
-                    "isAddPlayerClick": true,
-                    "tableId": tableId,
-                    "isFlow": "checkIn",
-                    "emailInput": logic.emailController.text,
-                  });
-            }
-            else if(isFlow == "tableCheck") {
-              await Get.to(() => AddPlayerDataPage(),
-                  arguments: {"showState": showState, "isFlow": "tableCheck", "emailInput": logic.emailController.text,});
-            }
+          if(checkingUser.length <= 0) {
+            openDialog();
+            // if(isFlow == "checkIn") {
+            //   await Get.to(() => AddPlayerPage(),
+            //       arguments: {
+            //         "showInfo": showInfo,
+            //         "bookingState": bookingState,
+            //         "isAddPlayerClick": true,
+            //         "tableId": tableId,
+            //         "isFlow": "checkIn",
+            //         "emailInput": logic.emailController.text,
+            //       });
+            // }
+            // else if(isFlow == "tableCheck") {
+            //   await Get.to(() => AddPlayerDataPage(),
+            //       arguments: {"showState": showState, "isFlow": "tableCheck", "emailInput": logic.emailController.text,});
+            // }
           }
           else {
-            print("参数 ${checkingUser['userId']}");
-            try {
-              EasyLoading.dismiss(animation: false);
-              Map singlePlayer = await logic.fetchSingleUsers(checkingUser['userId']);
-              print("singlePlayer ${singlePlayer}");
-              // old user展示页面
-              if(isFlow == "checkIn") {
-                await Get.to(() => OldUserPage(), arguments: {
-                  "showInfo": showInfo,
-                  "bookingState": bookingState,
-                  "isAddPlayerClick": true,
-                  "tableId": tableId,
-                  "singlePlayer": singlePlayer,
-                  "isFlow": isFlow,
-                });
-              }
-              else if(isFlow == "tableCheck") {
-                await Get.to(() => OldUserPage(), arguments: {
-                  "bookingState": bookingState,
-                  "isAddPlayerClick": true,
-                  "tableId": tableId,
-                  "singlePlayer": singlePlayer,
-                  "showState": showState,
-                  "isFlow": isFlow,
-                });
-              }
-            } on DioException catch (e) {
-              EasyLoading.dismiss();
-              if (e.response == null) EasyLoading.showError("Network Error!");
-              EasyLoading.showError(e.response?.data["error"]["message"]);
+            // user selection展示页面
+            if(isFlow == "checkIn") {
+              await Get.to(() => UserSelectionPage(), arguments: {
+                "showInfo": showInfo,
+                "bookingState": bookingState,
+                "isAddPlayerClick": true,
+                "tableId": tableId,
+                "checkingUser": checkingUser,
+                "isFlow": isFlow,
+              });
             }
+            else if(isFlow == "tableCheck") {
+              await Get.to(() => UserSelectionPage(), arguments: {
+                "bookingState": bookingState,
+                "isAddPlayerClick": true,
+                "tableId": tableId,
+                "checkingUser": checkingUser,
+                "showState": showState,
+                "isFlow": isFlow,
+              });
+            }
+            // print("参数 ${checkingUser['userId']}");
+            // try {
+            //   EasyLoading.dismiss(animation: false);
+            //   Map singlePlayer = await logic.fetchSingleUsers(checkingUser['userId']);
+            //   print("singlePlayer ${singlePlayer}");
+            //   // old user展示页面
+            //   if(isFlow == "checkIn") {
+            //     await Get.to(() => OldUserPage(), arguments: {
+            //       "showInfo": showInfo,
+            //       "bookingState": bookingState,
+            //       "isAddPlayerClick": true,
+            //       "tableId": tableId,
+            //       "singlePlayer": singlePlayer,
+            //       "isFlow": isFlow,
+            //     });
+            //   }
+            //   else if(isFlow == "tableCheck") {
+            //     await Get.to(() => OldUserPage(), arguments: {
+            //       "bookingState": bookingState,
+            //       "isAddPlayerClick": true,
+            //       "tableId": tableId,
+            //       "singlePlayer": singlePlayer,
+            //       "showState": showState,
+            //       "isFlow": isFlow,
+            //     });
+            //   }
+            // } on DioException catch (e) {
+            //   EasyLoading.dismiss();
+            //   if (e.response == null) EasyLoading.showError("Network Error!");
+            //   EasyLoading.showError(e.response?.data["error"]["message"]);
+            // }
           }
           // Map sensitiveWordDetector = await logic.sensitiveWordDetector(logic.emailController.text);
           // if(sensitiveWordDetector['pass']) {

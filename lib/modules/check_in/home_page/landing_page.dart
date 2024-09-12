@@ -777,6 +777,26 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                   imagePath: MirraIcons.getSetAvatarIconPath('red_star.png'),
                 ),
               ),
+              // 红色星星
+              Positioned(
+                right: 0.04.sw,
+                bottom: 0.04.sh,
+                child: Column(
+                  children: [
+                    Text(
+                      "Sign waiver",
+                      style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 26.sp),
+                    ),
+                    SizedBox(height: 5,),
+                    Image.asset(
+                      MirraIcons.getSetAvatarIconPath('waiver_QRcode.png'),
+                      width: 0.11.sw,
+                      height: 0.11.sw,
+                      fit: BoxFit.cover,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         );
