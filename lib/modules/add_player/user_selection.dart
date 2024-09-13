@@ -147,52 +147,105 @@ class _UserGridViewState extends State<_UserGridView> {
     return Container(
       height: 0.5.sh,
       width: 0.6.sw,
-      child: GridView.count(
-        crossAxisCount: 4,
-        crossAxisSpacing: 10.0, // 设置列之间的间距
-        mainAxisSpacing: 10.0, // 行之间的间距
-        childAspectRatio: 1.0, // 设置卡片宽高比
-        children: checkingUser.map((user) {
-          return GestureDetector(
-            onTap: () async {
-              // 处理点击事件
-              print("Tapped on ${user.firstName} ${user.lastName} ${user.id}");
-              setState(() {
-                logic.selectedId = user.id;
-              });
-            },
-            child: Container(
-              padding: EdgeInsets.all(8),
-              color: Colors.blue,
-              // alignment: Alignment.center,
-              child: Stack(
-                children: [
-                  Container(
+      child: checkingUser.length < 4
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center, // 水平居中
+              mainAxisSize: MainAxisSize.min, // 仅占用内容所需的最小空间
+              children: checkingUser.map((user) {
+                return GestureDetector(
+                  onTap: () {
+                    // 处理点击事件
+                    print("Tapped on ${user.firstName} ${user.lastName} ${user.id}");
+                    setState(() {
+                      logic.selectedId = user.id;
+                    });
+                  },
+                  child: Container(
+                    width: (0.6.sw - 30) / 4,
+                    height: (0.6.sw - 30) / 4,
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: Color(0xffA4EDF1),
+                    ),
+                    margin: EdgeInsets.all(5), // 卡片之间的间距
                     alignment: Alignment.center,
-                    child: Text(
-                      user.firstName + " " + user.lastName.substring(0, 1),
-                      style: TextStyle(
-                        fontFamily: 'RobotoFlex',
-                        fontSize: 34.0,
-                        color: Colors.black,
-                      ),
+                    child: Stack(
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            user.firstName + " " + user.lastName.substring(0, 1),
+                            style: TextStyle(
+                              fontFamily: 'RobotoFlex',
+                              fontSize: 34.0,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        if(user.id == logic.selectedId) Positioned(
+                          top: 5,
+                          right: 5,
+                          child: Image.asset(
+                            MirraIcons.getSetAvatarIconPath('choose_icon.png'),
+                            fit: BoxFit.fitWidth,
+                            width: 32,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  if(user.id == logic.selectedId) Positioned(
-                    top: 5,
-                    right: 5,
-                    child: Image.asset(
-                      MirraIcons.getSetAvatarIconPath('choose_icon.png'),
-                      fit: BoxFit.fitWidth,
-                      width: 32,
+                );
+              }).toList(),
+            )
+          : GridView.count(
+              crossAxisCount: 4,
+              crossAxisSpacing: 10.0, // 设置列之间的间距
+              mainAxisSpacing: 10.0, // 行之间的间距
+              childAspectRatio: 1.0, // 设置卡片宽高比
+              children: checkingUser.map((user) {
+                return GestureDetector(
+                  onTap: () async {
+                    // 处理点击事件
+                    print("Tapped on ${user.firstName} ${user.lastName} ${user.id}");
+                    setState(() {
+                      logic.selectedId = user.id;
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: Color(0xffA4EDF1),
+                    ),
+                    child: Stack(
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            user.firstName + " " + user.lastName.substring(0, 1),
+                            style: TextStyle(
+                              fontFamily: 'RobotoFlex',
+                              fontSize: 34.0,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        if(user.id == logic.selectedId) Positioned(
+                          top: 5,
+                          right: 5,
+                          child: Image.asset(
+                            MirraIcons.getSetAvatarIconPath('choose_icon.png'),
+                            fit: BoxFit.fitWidth,
+                            width: 32,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                );
+              }).toList(),
             ),
-          );
-        }).toList(),
-      ),
     );
   }
 }
