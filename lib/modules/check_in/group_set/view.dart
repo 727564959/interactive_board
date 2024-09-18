@@ -199,12 +199,12 @@ class GroupIconSetPage extends StatelessWidget {
                         await logic.updateTeamInfo(showInfo.showId, logic.teamInfo[int.parse(logic.teamInfoIndex.toString())]);
                         EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
                         try {
-                          final userId = await logic.loginInOrRegister(
-                            name: customer.name,
-                            email: customer.email,
-                            phone: customer.phone,
-                          );
-                          print("userId ${userId}");
+                          // final userId = await logic.loginInOrRegister(
+                          //   name: customer.name,
+                          //   email: customer.email,
+                          //   phone: customer.phone,
+                          // );
+                          // print("userId ${userId}");
                           print("showId ${showInfo.showId}");
                           print("哈哈哈哈哈");
                           EasyLoading.dismiss(animation: false);

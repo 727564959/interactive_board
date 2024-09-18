@@ -125,18 +125,19 @@ class ChooseTablePage extends StatelessWidget {
                         onPress: () async {
                           EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
                           try {
-                            final userId = await logic.loginInOrRegister(
-                              name: customer.name,
-                              email: customer.email,
-                              phone: customer.phone,
-                            );
-                            print("userId ${userId}");
+                            // final userId = await logic.loginInOrRegister(
+                            //   name: customer.name,
+                            //   email: customer.email,
+                            //   phone: customer.phone,
+                            // );
+                            // print("userId ${userId}");
                             print("showId ${showInfo.showId}");
                             print("logic.selectedTableId ${logic.selectedTableId}");
                             // 验票
                             // await logic.customerCheckIn(showId: showInfo.showId, userId: userId, code: code);
                             // await logic.customerCheckIn(showId: showInfo.showId, userId: userId, transactionId: bookingState.transactionId, bookingId: bookingState.bookingId);
-                            await logic.customerCheckIn(showId: showInfo.showId, userId: userId, bookingNumber: bookingState.bookingNumber);
+                            await logic.customerCheckIn(showId: showInfo.showId, firstName: customer.firstName, lastName: customer.lastName, email: customer.email, phone: customer.phone, bookingNumber: bookingState.bookingNumber);
+                            // await logic.customerCheckIn(showId: showInfo.showId, userId: userId, bookingNumber: bookingState.bookingNumber);
                             print("哈哈哈哈哈");
                             EasyLoading.dismiss(animation: false);
                             await Get.offAll(() => GroupIconSetPage(), arguments: {
