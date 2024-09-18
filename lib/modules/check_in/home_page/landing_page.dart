@@ -771,28 +771,41 @@ class _LandingCheckInState extends State<LandingCheckIn> {
               ),
               // 红色星星
               Positioned(
-                left: 0.42.sw,
-                bottom: 0.16.sh,
+                left: 0.22.sw,
+                top: 0.16.sh,
                 child: BreathingScaleImage(
                   imagePath: MirraIcons.getSetAvatarIconPath('red_star.png'),
                 ),
               ),
-              // 红色星星
+              // waiver二维码
               Positioned(
-                right: 0.04.sw,
+                left: 0.08.sw,
                 bottom: 0.04.sh,
                 child: Column(
                   children: [
-                    Text(
-                      "Sign waiver",
-                      style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 26.sp),
-                    ),
-                    SizedBox(height: 5,),
                     Image.asset(
                       MirraIcons.getSetAvatarIconPath('waiver_QRcode.png'),
                       width: 0.11.sw,
                       height: 0.11.sw,
                       fit: BoxFit.cover,
+                    ),
+                  ],
+                ),
+              ),
+              // 提示文本
+              Positioned(
+                left: 0.2.sw,
+                bottom: 0.07.sh,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start, // 设置列中所有子项的对齐方式为左对齐
+                  children: [
+                    Text(
+                      "Please sign the waiver before check-in.",
+                      style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 42.sp),
+                    ),
+                    Text(
+                      "No repeat needed if you’ve already signed.",
+                      style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 42.sp),
                     ),
                   ],
                 ),
