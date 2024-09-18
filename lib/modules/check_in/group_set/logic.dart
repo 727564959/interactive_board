@@ -69,18 +69,27 @@ class GroupIconSetLogic extends GetxController {
     required String phone,
   }) async {
     late final int userId;
+    // try {
+    //   final response1 = await _dio.get(
+    //     "$baseApiUrl/players/query-id",
+    //     queryParameters: {"email": email},
+    //   );
+    //   userId = response1.data['userId'];
+    // } on DioException {
+    //   final response2 = await _dio.post(
+    //     "$baseApiUrl/players/register",
+    //     data: {"name": name, "email": email, "phone": phone},
+    //   );
+    //   userId = response2.data["userId"];
+    // }
     try {
-      final response1 = await _dio.get(
-        "$baseApiUrl/players/query-id",
-        queryParameters: {"email": email},
-      );
-      userId = response1.data['userId'];
-    } on DioException {
       final response2 = await _dio.post(
         "$baseApiUrl/players/register",
         data: {"name": name, "email": email, "phone": phone},
       );
       userId = response2.data["userId"];
+    } on DioException catch (e) {
+      print("object $e");
     }
     return userId;
   }
