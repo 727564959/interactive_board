@@ -75,15 +75,16 @@ class VerificationPage extends StatelessWidget {
                                 });
                               },
                             ),
-                            SizedBox(width: 0.1.sw - 48 - 40,),
+                            SizedBox(
+                              width: 0.1.sw - 48 - 40,
+                            ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   child: Text(
                                     'Hey there, let’s get you in!',
-                                    style: CustomTextStyles.title(
-                                        color: Colors.white, fontSize: 48.sp, level: 2),
+                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
                                   ),
                                 ),
                                 Container(
@@ -92,7 +93,8 @@ class VerificationPage extends StatelessWidget {
                                     'Enter your code to check in 30 minutes before your game.',
                                     style: CustomTextStyles.textSmall(
                                       color: Color(0xFFFFFFFF),
-                                      fontSize: 26.sp,),
+                                      fontSize: 26.sp,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -179,182 +181,195 @@ class VerificationPage extends StatelessWidget {
                       //                               },
                       //                               changedTextColor: Color(0xffA4EDF1),
                       //                             ),
-                      if(logic.isStateShow == -1) Container(
-                        margin: EdgeInsets.only(left: 0.1.sw),
-                        width: 0.9.sw,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Code check in failed, Please review your information.',
-                              style: CustomTextStyles.title(
-                                  color: Color(0xFFFF4848),
-                                  fontSize: 74.sp,
-                                  level: 1),
-                            ),
-                            SizedBox(height: 180.0,),
-                            Container(
-                              margin: EdgeInsets.only(left: (1.0.sw - 600)/2),
-                              // child: _ConfirmButton(width: 600.w, btnText: "OK"),
-                              child: CommonButton(
-                                width: 600.w,
-                                height: 100.h,
-                                btnText: 'OK',
-                                btnBgColor: Color(0xff13EFEF),
-                                textColor: Colors.black,
-                                onPress: () {
-                                  // 如果是早到、晚到这两种状态，直接回到首页
-                                  if(logic.isStateShow == 1 || logic.isStateShow == 2) {
-                                    logic.updateStateShowFun(0);
-                                    logic.codeController.clear();
-                                    // 跳转回首页
-                                    Get.offAllNamed(AppRoutes.landingPage);
-                                  }
-                                  else {
-                                    logic.updateStateShowFun(0);
-                                    logic.codeController.clear();
-                                    // 获取焦点到 focusNode
-                                    FocusScope.of(context).requestFocus(logic.focusNode);
-                                  }
-                                },
-                                changedBgColor: Color(0xffA4EDF1),
+                      if (logic.isStateShow == -1)
+                        Container(
+                          margin: EdgeInsets.only(left: 0.1.sw),
+                          width: 0.9.sw,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Code check in failed, Please review your information.',
+                                style: CustomTextStyles.title(color: Color(0xFFFF4848), fontSize: 74.sp, level: 1),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if(logic.isStateShow == 1) Container(
-                        margin: EdgeInsets.only(left: 0.1.sw),
-                        width: 0.9.sw,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Uh oh, your booking for",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                text: "game show " + DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime)) + " ",
-                                // style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                                style: TextStyle(
-                                  fontSize: 74.sp,
-                                  decoration: TextDecoration.underline,
-                                  fontFamily: 'RobotoFlex',
-                                  color: Colors.white,
-                                  fontVariations: fontVariations_TitleH1,
+                              SizedBox(
+                                height: 180.0,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: (1.0.sw - 600) / 2),
+                                // child: _ConfirmButton(width: 600.w, btnText: "OK"),
+                                child: CommonButton(
+                                  width: 600.w,
+                                  height: 100.h,
+                                  btnText: 'OK',
+                                  btnBgColor: Color(0xff13EFEF),
+                                  textColor: Colors.black,
+                                  onPress: () {
+                                    // 如果是早到、晚到这两种状态，直接回到首页
+                                    if (logic.isStateShow == 1 || logic.isStateShow == 2) {
+                                      logic.updateStateShowFun(0);
+                                      logic.codeController.clear();
+                                      // 跳转回首页
+                                      Get.offAllNamed(AppRoutes.landingPage);
+                                    } else {
+                                      logic.updateStateShowFun(0);
+                                      logic.codeController.clear();
+                                      // 获取焦点到 focusNode
+                                      FocusScope.of(context).requestFocus(logic.focusNode);
+                                    }
+                                  },
+                                  changedBgColor: Color(0xffA4EDF1),
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: "isn't valid",
-                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                                  ),
-                                ],
                               ),
-                            ),
-                            Text(
-                              "anymore.",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                            ),
-                            SizedBox(height: 30,),
-                            Text(
-                              "Don't miss out! Browse similar events or contact us for assistance!",
-                              style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 30.sp, level: 1),
-                            ),
-                            SizedBox(height: 60.0,),
-                            Container(
-                              margin: EdgeInsets.only(left: (1.0.sw - 600)/2),
-                              child: CommonButton(
-                                width: 600.w,
-                                height: 100.h,
-                                btnText: 'CLOSE',
-                                btnBgColor: Color(0xff13EFEF),
-                                textColor: Colors.black,
-                                onPress: () {
-                                  // 如果是早到、晚到这两种状态，直接回到首页
-                                  if(logic.isStateShow == 1 || logic.isStateShow == 2) {
-                                    logic.updateStateShowFun(0);
-                                    logic.codeController.clear();
-                                    // 跳转回首页
-                                    Get.offAllNamed(AppRoutes.landingPage);
-                                  }
-                                  else {
-                                    logic.updateStateShowFun(0);
-                                    logic.codeController.clear();
-                                    // 获取焦点到 focusNode
-                                    FocusScope.of(context).requestFocus(logic.focusNode);
-                                  }
-                                },
-                                changedBgColor: Color(0xffA4EDF1),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      if(logic.isStateShow == 2) Container(
-                        margin: EdgeInsets.only(left: 0.1.sw),
-                        width: 0.9.sw,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Check-in for the",
-                              style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                text: "game show " + DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime)) + " ",
-                                // style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                                style: TextStyle(
-                                  fontSize: 74.sp,
-                                  decoration: TextDecoration.underline,
-                                  fontFamily: 'RobotoFlex',
-                                  color: Colors.white,
-                                  fontVariations: fontVariations_TitleH1,
+                      if (logic.isStateShow == 1)
+                        Container(
+                          margin: EdgeInsets.only(left: 0.1.sw),
+                          width: 0.9.sw,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Uh oh, your booking for",
+                                style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: "game show " +
+                                      DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime)) +
+                                      " ",
+                                  // style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                                  style: TextStyle(
+                                    fontSize: 74.sp,
+                                    decoration: TextDecoration.underline,
+                                    fontFamily: 'RobotoFlex',
+                                    color: Colors.white,
+                                    fontVariations: fontVariations_TitleH1,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: "isn't valid",
+                                      style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                                    ),
+                                  ],
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: "will start at",
-                                    style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
-                                  ),
-                                ],
                               ),
-                            ),
-                            SizedBox(height: 30,),
-                            Text(
-                              DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime).subtract(Duration(hours: 1))),
-                              style: CustomTextStyles.title(color: const Color(0xffEF7E00), fontSize: 74.sp, level: 1),
-                            ),
-                            SizedBox(height: 90.0,),
-                            Container(
-                              margin: EdgeInsets.only(left: (1.0.sw - 600)/2),
-                              child: CommonButton(
-                                width: 600.w,
-                                height: 100.h,
-                                btnText: 'CLOSE',
-                                btnBgColor: Color(0xff13EFEF),
-                                textColor: Colors.black,
-                                onPress: () {
-                                  // 如果是早到、晚到这两种状态，直接回到首页
-                                  if(logic.isStateShow == 1 || logic.isStateShow == 2) {
-                                    logic.updateStateShowFun(0);
-                                    logic.codeController.clear();
-                                    // 跳转回首页
-                                    Get.offAllNamed(AppRoutes.landingPage);
-                                  }
-                                  else {
-                                    logic.updateStateShowFun(0);
-                                    logic.codeController.clear();
-                                    // 获取焦点到 focusNode
-                                    FocusScope.of(context).requestFocus(logic.focusNode);
-                                  }
-                                },
-                                changedBgColor: Color(0xffA4EDF1),
+                              Text(
+                                "anymore.",
+                                style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                "Don't miss out! Browse similar events or contact us for assistance!",
+                                style: CustomTextStyles.title(color: Color(0xFF9B9B9B), fontSize: 30.sp, level: 1),
+                              ),
+                              SizedBox(
+                                height: 60.0,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: (1.0.sw - 600) / 2),
+                                child: CommonButton(
+                                  width: 600.w,
+                                  height: 100.h,
+                                  btnText: 'CLOSE',
+                                  btnBgColor: Color(0xff13EFEF),
+                                  textColor: Colors.black,
+                                  onPress: () {
+                                    // 如果是早到、晚到这两种状态，直接回到首页
+                                    if (logic.isStateShow == 1 || logic.isStateShow == 2) {
+                                      logic.updateStateShowFun(0);
+                                      logic.codeController.clear();
+                                      // 跳转回首页
+                                      Get.offAllNamed(AppRoutes.landingPage);
+                                    } else {
+                                      logic.updateStateShowFun(0);
+                                      logic.codeController.clear();
+                                      // 获取焦点到 focusNode
+                                      FocusScope.of(context).requestFocus(logic.focusNode);
+                                    }
+                                  },
+                                  changedBgColor: Color(0xffA4EDF1),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
+                      if (logic.isStateShow == 2)
+                        Container(
+                          margin: EdgeInsets.only(left: 0.1.sw),
+                          width: 0.9.sw,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Check-in for the",
+                                style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  text: "game show " +
+                                      DateFormat("hh:mm a").format(DateFormat("HH:mm:ss").parse(logic.bookingTime)) +
+                                      " ",
+                                  // style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                                  style: TextStyle(
+                                    fontSize: 74.sp,
+                                    decoration: TextDecoration.underline,
+                                    fontFamily: 'RobotoFlex',
+                                    color: Colors.white,
+                                    fontVariations: fontVariations_TitleH1,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: "will start at",
+                                      style: CustomTextStyles.title(color: Colors.white, fontSize: 74.sp, level: 1),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                DateFormat("hh:mm a").format(
+                                    DateFormat("HH:mm:ss").parse(logic.bookingTime).subtract(Duration(hours: 1))),
+                                style:
+                                    CustomTextStyles.title(color: const Color(0xffEF7E00), fontSize: 74.sp, level: 1),
+                              ),
+                              SizedBox(
+                                height: 90.0,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: (1.0.sw - 600) / 2),
+                                child: CommonButton(
+                                  width: 600.w,
+                                  height: 100.h,
+                                  btnText: 'CLOSE',
+                                  btnBgColor: Color(0xff13EFEF),
+                                  textColor: Colors.black,
+                                  onPress: () {
+                                    // 如果是早到、晚到这两种状态，直接回到首页
+                                    if (logic.isStateShow == 1 || logic.isStateShow == 2) {
+                                      logic.updateStateShowFun(0);
+                                      logic.codeController.clear();
+                                      // 跳转回首页
+                                      Get.offAllNamed(AppRoutes.landingPage);
+                                    } else {
+                                      logic.updateStateShowFun(0);
+                                      logic.codeController.clear();
+                                      // 获取焦点到 focusNode
+                                      FocusScope.of(context).requestFocus(logic.focusNode);
+                                    }
+                                  },
+                                  changedBgColor: Color(0xffA4EDF1),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       // const SizedBox(height: 100),
                       // if(logic.isButtonShow) CheckInButton(
                       //   title: "NEXT",
@@ -553,9 +568,9 @@ class _CheckInInput extends StatelessWidget {
           child: TextField(
             autofocus: true,
             controller: controller,
-            cursorWidth: 5.0,          // 光标粗细
+            cursorWidth: 5.0, // 光标粗细
             cursorRadius: Radius.circular(3.0), // 使用Radius.circular设置圆形半径
-            cursorColor: Colors.black,   // 光标颜色
+            cursorColor: Colors.black, // 光标颜色
             cursorHeight: 48.0, // 设置光标的高度，与文字的字体大小一致
             textAlign: TextAlign.center, // 设置文本居中
             inputFormatters: [
@@ -625,25 +640,27 @@ class _CheckInInput extends StatelessWidget {
                     print('当前时间比目标时间小于等于一个小时');
                     print('开始走正常流程');
                     // 如果签过到，直接去形象设计
-                    if(bookingInfo.status == "completed") {
+                    if (bookingInfo.status == "completed") {
                       // final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime);
-                      final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime, bookingInfo.bookingDate);
-                      print("showInfo ${showInfo}");
-                      Get.offAll(() => PlayerSquadPage(),
-                          arguments: {
-                            'showInfo': showInfo,
-                            'customer': bookingInfo.customer,
-                            "isAddPlayerClick": true,
-                            "tableId": int.parse(bookingInfo.tableId.toString()),
-                          });
-                      // await Get.to(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
-                    }
-                    else {
-                      await Get.to(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
+                      // final showInfo = await logic.bookingTimeChecked(bookingInfo.bookingTime, bookingInfo.bookingDate);
+                      // print("showInfo ${showInfo}");
+                      // Get.offAll(() => PlayerSquadPage(),
+                      //     arguments: {
+                      //       'showInfo': showInfo,
+                      //       'customer': bookingInfo.customer,
+                      //       "isAddPlayerClick": true,
+                      //       "tableId": int.parse(bookingInfo.tableId.toString()),
+                      //     });
+                      // // await Get.to(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
+                    } else {
+                      await Get.to(
+                        () => ConfirmationPage(),
+                        arguments: {"bookingInfo": bookingInfo, "code": code},
+                      );
                       // await Get.offAll(() => ConfirmationPage(), arguments: {"bookingInfo": bookingInfo, "code": code},);
                     }
                   } else {
-                    if(currentDateTime.isAfter(targetDateTime1)) {
+                    if (currentDateTime.isAfter(targetDateTime1)) {
                       print('当前时间大于目标时间');
                       logic.updateStateShowFun(1);
                       // logic.updatePageFun(1);
@@ -654,8 +671,7 @@ class _CheckInInput extends StatelessWidget {
                       //   // 获取焦点到 focusNode
                       //   FocusScope.of(context).requestFocus(logic.focusNode);
                       // });
-                    }
-                    else {
+                    } else {
                       print('当前时间与目标时间的时间差大于一个小时');
                       logic.updateStateShowFun(2);
                       // logic.updatePageFun(2);
@@ -677,12 +693,10 @@ class _CheckInInput extends StatelessWidget {
                   // logic.updateStateFun(true);
                   logic.updateStateShowFun(-1);
                 }
-              }
-              else if (value.length < 6 && value.length >= 1) {
+              } else if (value.length < 6 && value.length >= 1) {
                 print("1-6之间");
                 // logic.updateStateFun(true);
-              }
-              else {
+              } else {
                 print("为空");
                 // logic.updateStateFun(false);
                 logic.updateStateShowFun(0);
@@ -706,7 +720,8 @@ class _CheckInInput extends StatelessWidget {
                 ),
               ),
             ),
-            style: CustomTextStyles.verificationText(color: Color(0xFF000000), fontSize: 48.sp, letterSpacingVal: 40.sp),
+            style:
+                CustomTextStyles.verificationText(color: Color(0xFF000000), fontSize: 48.sp, letterSpacingVal: 40.sp),
           ),
         ),
       ],

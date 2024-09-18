@@ -7,32 +7,16 @@ import '../../../data/model/show_state.dart';
 class TableLogicLogic extends GetxController {
   final _dio = Dio();
 
-  Map singlePlayer = {};
-  // 当前桌的消费者id
-  int? consumerId;
-  ShowState get showState => Get.arguments;
-  DateTime get startTime =>
-      (showState.details as ShowPreparingDetails).startTime;
-
-  Future<Map> fetchSingleUsers(id) async {
-    print("是否进入了查询单个玩家方法");
-    final response = await _dio.get("$baseApiUrl/players/$id/base");
-    print("测试接口 $response");
-
-    Map<String, dynamic> result = response.data;
-    return result;
-  }
-
-  @override
-  void onInit() async {
-    ShowPreparingDetails showPreparingDetails = showState.details;
-    List<CustomerItem> customerItem = showPreparingDetails.customers;
-    for (int i = 0; i < customerItem.length; i++) {
-      if (Global.tableId == customerItem[i].tableId) {
-        consumerId = customerItem[i].userId;
+  CustomerItem get customer {
+    final customers = (showState.details as ShowPreparingDetails).customers;
+    for (final item in customers) {
+      if (item.tableId == Global.tableId) {
+        return item;
       }
     }
-    singlePlayer = await fetchSingleUsers(consumerId.toString());
-    update();
+    throw StateError("");
   }
+
+  ShowState get showState => Get.arguments;
+  DateTime get startTime => (showState.details as ShowPreparingDetails).startTime;
 }

@@ -18,116 +18,117 @@ class WelcomePlayerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-          children: [
-            Container(
-              width: 1.0.sw,
-              height: 1.0.sh,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
-                  fit: BoxFit.cover,
+      children: [
+        Container(
+          width: 1.0.sw,
+          height: 1.0.sh,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            children: [
+              // 顶部文本信息
+              CheckInTitlePage(titleText: ""),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  margin: EdgeInsets.only(left: 0.08.sw),
+                  child: SizedBox(
+                    height: 0.25.sh,
+                    child: Image.asset(
+                      Global.getGifUrl('Welcome.gif'),
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
                 ),
               ),
-              child: Column(
-                children: [
-                  // 顶部文本信息
-                  CheckInTitlePage(titleText: ""),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      margin: EdgeInsets.only(left: 0.08.sw),
-                      child: SizedBox(
-                        height: 0.25.sh,
-                        child: Image.asset(
-                          Global.getGifUrl('Welcome.gif'),
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      margin: EdgeInsets.only(left: 0.1.sw),
-                      child: SizedBox(
-                        height: 0.35.sh,
-                        child: GetBuilder<TableLogicLogic>(
-                          builder: (logic) {
-                            return Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0, left: 0.0),
-                                  child: SizedBox(
-                                    width: 0.8.sw,
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: 'Welcome, ',
-                                        style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 2),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            text: logic.singlePlayer.length > 0 ? (logic.singlePlayer['firstName'] + " !") : "",
-                                            style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
-                                          ),
-                                        ],
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  margin: EdgeInsets.only(left: 0.1.sw),
+                  child: SizedBox(
+                    height: 0.35.sh,
+                    child: GetBuilder<TableLogicLogic>(
+                      builder: (logic) {
+                        return Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 10.0, left: 0.0),
+                              child: SizedBox(
+                                width: 0.8.sw,
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: 'Welcome, ',
+                                    style: CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 2),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: "${logic.customer.firstName}!",
+                                        style:
+                                            CustomTextStyles.display(color: Colors.white, fontSize: 106.sp, level: 1),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0, left: 0.0),
-                                  child: SizedBox(
-                                    width: 0.8.sw,
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: 'Your Games will start at ',
-                                        style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 5),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            // text: "${DateFormat('kk:mm').format(logic.startTime.add(8.hours))}",
-                                            text: "${DateFormat('hh:mm a').format(logic.startTime)}",
-                                            style: CustomTextStyles.display(color: Color(0xFF00F5FF), fontSize: 48.sp, level: 5),
-                                          ),
-                                        ],
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 10.0, left: 0.0),
+                              child: SizedBox(
+                                width: 0.8.sw,
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: 'Your Games will start at ',
+                                    style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 5),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        // text: "${DateFormat('kk:mm').format(logic.startTime.add(8.hours))}",
+                                        text: "${DateFormat('hh:mm a').format(logic.startTime)}",
+                                        style: CustomTextStyles.display(
+                                            color: Color(0xFF00F5FF), fontSize: 48.sp, level: 5),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      margin: EdgeInsets.only(left: 0.1.sw),
-                      child: SizedBox(
-                        // child: _EnterButton(width: 300.w),
-                        child: CommonButton(
-                          width: 300.w,
-                          height: 100.h,
-                          btnText: 'On board',
-                          btnBgColor: Color(0xff13EFEF),
-                          textColor: Colors.black,
-                          onPress: () async {
-                            Get.to(() => ConfirmationInfo(), arguments: {
-                              "singlePlayer": logic.singlePlayer,
-                              "showState": Get.arguments});
-                          },
-                          changedBgColor: Color(0xffA4EDF1),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-            GetBuilder<TableLogicLogic>(builder: (logic) {
-              return Container();
-            }),
-          ],
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  margin: EdgeInsets.only(left: 0.1.sw),
+                  child: SizedBox(
+                    // child: _EnterButton(width: 300.w),
+                    child: CommonButton(
+                      width: 300.w,
+                      height: 100.h,
+                      btnText: 'On board',
+                      btnBgColor: Color(0xff13EFEF),
+                      textColor: Colors.black,
+                      onPress: () async {
+                        Get.to(() => ConfirmationInfo(),
+                            arguments: {"singlePlayer": logic.customer, "showState": Get.arguments});
+                      },
+                      changedBgColor: Color(0xffA4EDF1),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        GetBuilder<TableLogicLogic>(builder: (logic) {
+          return Container();
+        }),
+      ],
     ));
   }
 }
@@ -147,9 +148,7 @@ class _EnterButton extends StatelessWidget {
     return GestureDetector(
       // 点击事件
       onTap: () {
-        Get.to(() => ConfirmationInfo(), arguments: {
-          "singlePlayer": logic.singlePlayer,
-          "showState": Get.arguments});
+        Get.to(() => ConfirmationInfo(), arguments: {"singlePlayer": logic.customer, "showState": Get.arguments});
       },
       child: GetBuilder<TableLogicLogic>(
         id: "enetrBtn",

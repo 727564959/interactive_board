@@ -41,7 +41,15 @@ class ShowState {
       final startTime = DateTime.parse(detailsData["startDate"] + " " + detailsData["startTime"]);
       final customers = <CustomerItem>[];
       for (final item in detailsData["customers"]) {
-        customers.add(CustomerItem(userId: item["consumerId"], tableId: item["tableId"]));
+        customers.add(
+          CustomerItem(
+            firstName: item["customer"]["firstName"],
+            tableId: item["tableId"],
+            lastName: item["customer"]["lastName"],
+            email: item["customer"]["email"],
+            phone: item["customer"]["phone"],
+          ),
+        );
       }
       final teams = <TeamItem>[];
       for (final item in detailsData["teams"]) {
@@ -64,7 +72,15 @@ class ShowState {
       final detailsData = json['details'];
       final customers = <CustomerItem>[];
       for (final item in detailsData["customers"]) {
-        customers.add(CustomerItem(userId: item["consumerId"], tableId: item["tableId"]));
+        customers.add(
+          CustomerItem(
+            firstName: item["customer"]["firstName"],
+            tableId: item["tableId"],
+            lastName: item["customer"]["lastName"],
+            email: item["customer"]["email"],
+            phone: item["customer"]["phone"],
+          ),
+        );
       }
       final teams = <TeamItem>[];
       for (final item in detailsData["teams"]) {
@@ -117,8 +133,8 @@ class GamingDetails {
     required this.roundNumber,
     required this.mode,
     required this.game,
-    required this.customers,
     required this.teams,
+    required this.customers,
   });
   final int showId;
   final int roundId;
@@ -130,9 +146,18 @@ class GamingDetails {
 }
 
 class CustomerItem {
-  int userId;
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String phone;
   int tableId;
-  CustomerItem({required this.userId, required this.tableId});
+  CustomerItem({
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.phone,
+    required this.tableId,
+  });
 }
 
 class TeamItem {
