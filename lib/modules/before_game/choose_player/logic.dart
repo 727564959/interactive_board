@@ -33,6 +33,16 @@ class ChoosePlayerLogic extends GetxController with GetTickerProviderStateMixin 
   bool get bSelectComplete => optionalPositions.values.every((element) => element != null);
   late final Socket positionSocket;
 
+  int get selectedCount {
+    int result = 0;
+    for (final player in players) {
+      if (optionalPositions.values.any((element) => player.id == element?.id)) {
+        result++;
+      }
+    }
+    return result;
+  }
+
   List<PlayerInfo> get unselectedPlayers {
     final result = <PlayerInfo>[];
     for (final player in players) {
@@ -43,7 +53,7 @@ class ChoosePlayerLogic extends GetxController with GetTickerProviderStateMixin 
     return result;
   }
 
-  bool get bAlreadyJoinedPlayer {
+  bool get bAlreadyJoined {
     for (final player in players) {
       if (optionalPositions.values.any((element) => player.id == element?.id)) {
         return true;

@@ -48,7 +48,7 @@ class ChoosePlayerPage extends StatelessWidget {
                           Container(
                             height: 150.w,
                             alignment: Alignment.center,
-                            child: logic.bAlreadyJoinedPlayer
+                            child: logic.bAlreadyJoined
                                 ? Text(
                                     "Please go to the arena after selecting your players",
                                     style: CustomTextStyles.notice(color: Colors.white, fontSize: 37.sp),

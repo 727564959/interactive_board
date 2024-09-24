@@ -125,7 +125,9 @@ class _PlayerBottomBarState extends State<PlayerBottomBar> with TickerProviderSt
                               try {
                                 await logic.updatePosition(player.id);
                                 await dismiss();
-                                if (logic.mode == "free-8") cooldown = DateTime.now().add(5.seconds);
+                                if (logic.mode == "free-8" && logic.selectedCount > 2) {
+                                  cooldown = DateTime.now().add(5.seconds);
+                                }
                               } on DioException {
                                 logic.showPlayerSelectException();
                                 dismiss();
