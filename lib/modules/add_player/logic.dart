@@ -175,6 +175,9 @@ class UserRegistrationLogic extends GetxController {
   void refreshUserAuthenticatorPage() {
     update(['UserAuthenticatorPage']);
   }
+  void refreshUserSelectionPage() {
+    update(['UserSelectionPage']);
+  }
 
   @override
   void onInit() async {

@@ -35,93 +35,97 @@ class UserSelectionPage extends StatelessWidget {
     return Scaffold(
         body: Stack(
           children: [
-            Container(
-              width: 1.0.sw,
-              height: 1.0.sh,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    width: 1.0.sw,
-                    margin: EdgeInsets.only(top: 20.0, left: 40.0),
-                    child: Row(
-                      children: [
-                        CommonIconButton(
-                          onPress: () {
-                            Get.back();
-                          },
-                        ),
-                        SizedBox(width: 0.1.sw - 48 - 40,),
-                      ],
+            GetBuilder<UserRegistrationLogic>(
+              id: "UserSelectionPage",
+              builder: (logic) {
+                return Container(
+                  width: 1.0.sw,
+                  height: 1.0.sh,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(MirraIcons.getSetAvatarIconPath("interactive_board_bg.png")),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  Column(
+                  child: Column(
                     children: [
-                      Text(
-                        "Select Your Name to Log In",
-                        style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 1),
+                      Container(
+                        width: 1.0.sw,
+                        margin: EdgeInsets.only(top: 20.0, left: 40.0),
+                        child: Row(
+                          children: [
+                            CommonIconButton(
+                              onPress: () {
+                                Get.back();
+                              },
+                            ),
+                            SizedBox(width: 0.1.sw - 48 - 40,),
+                          ],
+                        ),
                       ),
+                      Column(
+                        children: [
+                          Text(
+                            "Select Your Name to Log In",
+                            style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 1),
+                          ),
+                          SizedBox(height: 30,),
+                          Text(
+                            "Hey there, let’s get you in!",
+                            style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 2),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 0.05.sh,),
+                      _UserGridView(),
                       SizedBox(height: 30,),
-                      Text(
-                        "Hey there, let’s get you in!",
-                        style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 2),
+                      CommonButton(
+                        width: 600.w,
+                        height: 100.h,
+                        btnText: 'NEXT',
+                        btnBgColor: Color(0xff13EFEF),
+                        textColor: Colors.black,
+                        onPress: () async {
+                          print("参数 ${logic.selectedId}");
+                          EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
+                          try {
+                            Map singlePlayer = await logic.fetchSingleUsers(logic.selectedId);
+                            print("singlePlayer ${singlePlayer}");
+                            EasyLoading.dismiss(animation: false);
+                            // old user展示页面
+                            if(isFlow == "checkIn") {
+                              await Get.to(() => OldUserPage(), arguments: {
+                                "showInfo": showInfo,
+                                "bookingState": bookingState,
+                                "isAddPlayerClick": true,
+                                "tableId": tableId,
+                                "singlePlayer": singlePlayer,
+                                "isFlow": isFlow,
+                              });
+                            }
+                            else if(isFlow == "tableCheck") {
+                              await Get.to(() => OldUserPage(), arguments: {
+                                // "bookingState": bookingState,
+                                "isAddPlayerClick": true,
+                                "tableId": tableId,
+                                "singlePlayer": singlePlayer,
+                                "showState": showState,
+                                "isFlow": isFlow,
+                              });
+                            }
+                          } on DioException catch (e) {
+                            EasyLoading.dismiss();
+                            if (e.response == null) EasyLoading.showError("Network Error!");
+                            EasyLoading.showError(e.response?.data["error"]["message"]);
+                          }
+                        },
+                        disable: logic.selectedId == null,
+                        changedBgColor: Color(0xffA4EDF1),
                       ),
                     ],
                   ),
-                  SizedBox(height: 0.05.sh,),
-                  _UserGridView(),
-                  SizedBox(height: 30,),
-                  CommonButton(
-                    width: 600.w,
-                    height: 100.h,
-                    btnText: 'NEXT',
-                    btnBgColor: Color(0xff13EFEF),
-                    textColor: Colors.black,
-                    onPress: () async {
-                      print("参数 ${logic.selectedId}");
-                      EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
-                      try {
-                        Map singlePlayer = await logic.fetchSingleUsers(logic.selectedId);
-                        print("singlePlayer ${singlePlayer}");
-                        // // 加入到show
-                        // await logic.addPlayerToShow(isFlow == "checkIn" ? showInfo.showId : showState.showId??1, tableId, singlePlayer['id']);
-                        EasyLoading.dismiss(animation: false);
-                        // old user展示页面
-                        if(isFlow == "checkIn") {
-                          await Get.to(() => OldUserPage(), arguments: {
-                            "showInfo": showInfo,
-                            "bookingState": bookingState,
-                            "isAddPlayerClick": true,
-                            "tableId": tableId,
-                            "singlePlayer": singlePlayer,
-                            "isFlow": isFlow,
-                          });
-                        }
-                        else if(isFlow == "tableCheck") {
-                          await Get.to(() => OldUserPage(), arguments: {
-                            // "bookingState": bookingState,
-                            "isAddPlayerClick": true,
-                            "tableId": tableId,
-                            "singlePlayer": singlePlayer,
-                            "showState": showState,
-                            "isFlow": isFlow,
-                          });
-                        }
-                      } on DioException catch (e) {
-                        EasyLoading.dismiss();
-                        if (e.response == null) EasyLoading.showError("Network Error!");
-                        EasyLoading.showError(e.response?.data["error"]["message"]);
-                      }
-                    },
-                    changedBgColor: Color(0xffA4EDF1),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           ],
         ));
@@ -158,6 +162,7 @@ class _UserGridViewState extends State<_UserGridView> {
                     print("Tapped on ${user.firstName} ${user.lastName} ${user.id}");
                     setState(() {
                       logic.selectedId = user.id;
+                      logic.refreshUserSelectionPage();
                     });
                   },
                   child: Container(
@@ -210,6 +215,7 @@ class _UserGridViewState extends State<_UserGridView> {
                     print("Tapped on ${user.firstName} ${user.lastName} ${user.id}");
                     setState(() {
                       logic.selectedId = user.id;
+                      logic.refreshUserSelectionPage();
                     });
                   },
                   child: Container(
