@@ -140,6 +140,11 @@ class _BottomBtns extends StatelessWidget {
                             logic.updateState(true);
                           }
                           else {
+                            if(checkingUser.length == 1) {
+                              logic.selectedId = checkingUser[0].id;
+                            } else {
+                              logic.selectedId = null;
+                            }
                             // user selection展示页面
                             if(isFlow == "checkIn") {
                               await Get.to(() => UserSelectionPage(), arguments: {

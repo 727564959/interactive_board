@@ -60,23 +60,37 @@ class UserSelectionPage extends StatelessWidget {
                               },
                             ),
                             SizedBox(width: 0.1.sw - 48 - 40,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Select Your Name to Log In",
+                                  style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                                ),
+                                // SizedBox(height: 30,),
+                                Text(
+                                  "Hey there, let’s get you in!",
+                                  style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 34.sp),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
-                      Column(
-                        children: [
-                          Text(
-                            "Select Your Name to Log In",
-                            style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 1),
-                          ),
-                          SizedBox(height: 30,),
-                          Text(
-                            "Hey there, let’s get you in!",
-                            style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 2),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 0.05.sh,),
+                      // Column(
+                      //   children: [
+                      //     // Text(
+                      //     //   "Select Your Name to Log In",
+                      //     //   style: CustomTextStyles.title(color: Colors.white, fontSize: 48.sp, level: 2),
+                      //     // ),
+                      //     // SizedBox(height: 30,),
+                      //     Text(
+                      //       "Hey there, let’s get you in!",
+                      //       style: CustomTextStyles.display(color: Colors.white, fontSize: 48.sp, level: 5),
+                      //     ),
+                      //   ],
+                      // ),
+                      const SizedBox(height: 20),
                       _UserGridView(),
                       SizedBox(height: 30,),
                       CommonButton(
