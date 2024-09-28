@@ -513,7 +513,6 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
                           scrollDirection: Axis.horizontal,
                           itemCount: Get.arguments["gameItemInfo"].length,
                           itemBuilder: (context, index) {
-                            print("object ${0.35.sh - 60}");
                             return GestureDetector(
                               onTap: () {
                                 print("点击了卡牌");
@@ -572,7 +571,15 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
                                             height: 2.0,
                                             color: Colors.white,
                                           ),
-                                          Padding(
+                                          if(Get.arguments["gameItemInfo"].length > 5) Text(
+                                            "LIMITED",
+                                            style: TextStyle(
+                                              fontFamily: 'Anton',
+                                              fontSize: 20.0,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          if(Get.arguments["gameItemInfo"].length <= 5) Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
