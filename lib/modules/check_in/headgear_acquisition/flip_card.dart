@@ -156,7 +156,7 @@ class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
               "LIMITED",
               style: TextStyle(
                 fontFamily: 'Anton',
-                fontSize: 34.0,
+                fontSize: 30.0,
                 color: Colors.white,
               ),
             ),

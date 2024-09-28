@@ -9,7 +9,7 @@ class PlayerCardInfo {
     this.avatarId,
     this.avatarIcon,
     this.avatarName,
-    this.avatarLevel,
+    // this.avatarLevel,
     // this.bodyId,
     // this.bodyIcon,
     // this.bodyName,
@@ -30,7 +30,7 @@ class PlayerCardInfo {
       avatarId: json["avatarId"],
       avatarIcon: json["avatarIcon"],
       avatarName: json["avatarName"],
-      avatarLevel: json["avatarLevel"],
+      // avatarLevel: json["avatarLevel"],
       // bodyId: json["bodyId"],
       // bodyIcon: json["bodyIcon"],
       // bodyName: json["bodyName"],
@@ -47,7 +47,7 @@ class PlayerCardInfo {
   final int? avatarId;
   final String? avatarIcon;
   final String? avatarName;
-  final int? avatarLevel;
+  // final int? avatarLevel;
   // final int? bodyId;
   // final String? bodyIcon;
   // final String? bodyName;

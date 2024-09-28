@@ -87,6 +87,13 @@ class PlayerPageApi {
     return result;
   }
 
+  Future<UserInfo> fetchUserResource(userId) async {
+    final response = await dio.get(
+      "$baseApiUrl/players/$userId/resource",
+    );
+    return UserInfo.fromJson(response.data);
+  }
+
   // 查询队伍信息
   Future<List<TeamInfo>> fetchTeamInfo(int showId) async {
     print("是否进入了查询队伍信息方法");
@@ -103,6 +110,18 @@ class PlayerPageApi {
   Future<List<GameItemInfo>> fetchHeadgearInfo(userId) async {
     final response = await dio.get(
       "$baseApiUrl/players/$userId/game-items",
+    );
+    final result = <GameItemInfo>[];
+    for (final item in response.data) {
+      result.add(GameItemInfo.fromJson(item['gameItem']));
+    }
+    return result;
+  }
+
+  // 查询万圣节头套
+  Future<List<GameItemInfo>> fetchHallowmas() async {
+    final response = await dio.get(
+      "$baseApiUrl/headgears/hallowmas",
     );
     final result = <GameItemInfo>[];
     for (final item in response.data) {

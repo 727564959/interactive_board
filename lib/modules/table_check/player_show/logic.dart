@@ -73,6 +73,25 @@ class PlayerShowPageLogic extends GetxController {
     return result;
   }
 
+  // 查询万圣节头套
+  Future<List<GameItemInfo>> fetchHallowmas() async {
+    final response = await _dio.get(
+      "$baseApiUrl/headgears/hallowmas",
+    );
+    final result = <GameItemInfo>[];
+    for (final item in response.data) {
+      result.add(GameItemInfo.fromJson(item['gameItem']));
+    }
+    return result;
+  }
+
+  Future<UserInfo> fetchUserResource(userId) async {
+    final response = await _dio.get(
+      "$baseApiUrl/players/$userId/resource",
+    );
+    return UserInfo.fromJson(response.data);
+  }
+
   // 查询队伍信息
   Future<List<TeamList>> fetchTeamInfo(int showId) async {
     print("是否进入了查询队伍信息方法");
@@ -114,44 +133,58 @@ class PlayerShowPageLogic extends GetxController {
     for(int j = 0; j < casualUser.length; j++) {
       print("遍历开始 ${casualUser[j].userId}");
       print("userList ${userList}");
-      final gameItem = await fetchUserGameItems(casualUser[j].userId);
+      // final gameItem = await fetchUserGameItems(casualUser[j].userId);
+      final userResource = await fetchUserResource(casualUser[j].userId);
       final userData = userList.firstWhere((element) => element.id == casualUser[j].userId);
-      print("icon信息 ${gameItem}");
+      // print("icon信息 ${gameItem}");
       print("用户 ${userData}");
-      int avatarId = 1;
-      String avatarIcon = '';
-      String avatarName = '';
-      int avatarLevel = 1;
-      bool foundAvatar = false; // 布尔标志，用于跟踪是否找到符合条件的 avatar
-      for(int m = 0; m < gameItem.length; m++){
-        print("找相同 ${gameItem[m].id.toString() == userData.headgearId}");
-        if(gameItem[m].id.toString() == userData.headgearId) {
-          avatarId = gameItem[m].id;
-          avatarIcon = gameItem[m].icon;
-          avatarName = gameItem[m].name;
-          avatarLevel = gameItem[m].level;
-          foundAvatar = true; // 找到符合条件的 avatar
-        }
-        if (foundAvatar) {
-          break; // 当同时找到 avatar 和 body 时跳出内层循环
-        }
-      }
-      if (foundAvatar) {
-        print("向玩家卡片加入数据");
-        cards.add(PlayerCardInfo(
-            userId: casualUser[j].userId,
-            nickname: casualUser[j].nickname,
-            bTemped: casualUser[j].bTemped,
-            bShowRegisterDialog: casualUser[j].bShowRegisterDialog,
-            avatarId: avatarId,
-            avatarIcon: avatarIcon,
-            avatarName: avatarName,
-            avatarLevel: avatarLevel,
-            isUserCard: true,
-            skinColor: userData.skinColor,
-            sex: userData.sex
-        ));
-      }
+      int avatarId = int.parse(userResource.headgearId);
+      String avatarIcon = userResource.avatarUrl;
+      String avatarName = userResource.headgearName;
+      print("向玩家卡片加入数据");
+      cards.add(PlayerCardInfo(
+          userId: casualUser[j].userId,
+          nickname: casualUser[j].nickname,
+          bTemped: casualUser[j].bTemped,
+          bShowRegisterDialog: casualUser[j].bShowRegisterDialog,
+          avatarId: avatarId,
+          avatarIcon: avatarIcon,
+          avatarName: avatarName,
+          isUserCard: true,
+          skinColor: userData.skinColor,
+          sex: userData.sex
+      ));
+      // int avatarLevel = 1;
+      // bool foundAvatar = false; // 布尔标志，用于跟踪是否找到符合条件的 avatar
+      // for(int m = 0; m < gameItem.length; m++){
+      //   print("找相同 ${gameItem[m].id.toString() == userData.headgearId}");
+      //   if(gameItem[m].id.toString() == userData.headgearId) {
+      //     avatarId = gameItem[m].id;
+      //     avatarIcon = gameItem[m].icon;
+      //     avatarName = gameItem[m].name;
+      //     avatarLevel = gameItem[m].level;
+      //     foundAvatar = true; // 找到符合条件的 avatar
+      //   }
+      //   if (foundAvatar) {
+      //     break; // 当同时找到 avatar 和 body 时跳出内层循环
+      //   }
+      // }
+      // if (foundAvatar) {
+      //   print("向玩家卡片加入数据");
+      //   cards.add(PlayerCardInfo(
+      //       userId: casualUser[j].userId,
+      //       nickname: casualUser[j].nickname,
+      //       bTemped: casualUser[j].bTemped,
+      //       bShowRegisterDialog: casualUser[j].bShowRegisterDialog,
+      //       avatarId: avatarId,
+      //       avatarIcon: avatarIcon,
+      //       avatarName: avatarName,
+      //       // avatarLevel: avatarLevel,
+      //       isUserCard: true,
+      //       skinColor: userData.skinColor,
+      //       sex: userData.sex
+      //   ));
+      // }
     }
 
     print("cards ${cards}");
@@ -184,7 +217,13 @@ class PlayerShowPageLogic extends GetxController {
   }
 
   Future<void> getGameItems(userId, avatarId) async {
-    gameItemInfo = await fetchUserGameItems(userId);
+    // gameItemInfo = await fetchUserGameItems(userId);
+    // 是否需要爆头套
+    List<GameItemInfo> headgearObj = await fetchUserGameItems(userId);
+    // 爆万圣节头套
+    List<GameItemInfo> hallowmasHead = await fetchHallowmas();
+    // 连接这两个头套list数据
+    gameItemInfo = []..addAll(headgearObj)..addAll(hallowmasHead);
     for(int i = 0; i < gameItemInfo.length; i++) {
       if(gameItemInfo[i].id == avatarId) {
         clickedCard = i;

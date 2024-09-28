@@ -216,7 +216,7 @@ class _SquadCard extends StatelessWidget {
                       else {
                         try {
                           print("设计形象");
-                          logic.getGameItems(card.userId, card.avatarId);
+                          await logic.getGameItems(card.userId, card.avatarId);
                           await Future.delayed(300.ms);
                           logic.refreshFun();
                           await Future.delayed(100.ms);

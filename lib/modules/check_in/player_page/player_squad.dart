@@ -284,14 +284,15 @@ class _SquadCard extends StatelessWidget {
                         print("设计形象");
                         EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                         try {
-                          EasyLoading.dismiss(animation: false);
-                          logic.getGameItems(card.userId, card.avatarId);
+                          // EasyLoading.dismiss(animation: false);
+                          await logic.getGameItems(card.userId, card.avatarId);
                           // logic.currentName = card.nickname??"";
                           // logic.currentUserId = card.userId??null;
                           logic.testFun();
                           // logic.refreshPlayerLook(card.userId, card.avatarId);
-                          await Future.delayed(100.ms);
-                          print("logic.gameItemInfo ${logic.gameItemInfo}");
+                          // await Future.delayed(100.ms);
+                          EasyLoading.dismiss(animation: false);
+                          print("logic.gameItemInfo 哈哈啊哈哈 ${logic.gameItemInfo}");
                           Get.offAll(() => PlayerLookPage(),
                               arguments: {
                                 "gameItemInfo": logic.gameItemInfo,
