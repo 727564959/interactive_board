@@ -227,7 +227,7 @@ class _CardFlipState extends State<_CardFlip> {
                                     url: widget.headgearObj[itemIndex].icon,
                                     level: widget.headgearObj[itemIndex].level + 2,
                                     bSelected: selectIndex == itemIndex ? true : false,
-                                    delay: Duration(milliseconds: 500 * itemIndex),
+                                    delay: Duration(milliseconds: 200 * itemIndex),
                                     isLimited: rowIndex == 0 ? false : true),
                               ),
                             );
