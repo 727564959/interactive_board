@@ -100,6 +100,10 @@ class OldUserPage extends StatelessWidget {
                         await logic.addPlayerToShow(isFlow == "checkIn" ? showInfo.showId : showState.showId??1, tableId, singlePlayer['id']);
                         // 是否需要爆头套
                         List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(singlePlayer['id']);
+                        // 爆万圣节头套
+                        List<GameItemInfo> hallowmasHead = await logic.fetchHallowmas();
+                        // 连接这两个头套list数据
+                        List<GameItemInfo> combinedList = []..addAll(headgearObj)..addAll(hallowmasHead);
                         EasyLoading.dismiss(animation: false);
                         if(isFlow == "checkIn") {
                           if(headgearObj.isEmpty) {
@@ -116,7 +120,7 @@ class OldUserPage extends StatelessWidget {
                               arguments: {
                                 'showInfo': showInfo,
                                 "bookingState": bookingState,
-                                'headgearObj': headgearObj,
+                                'headgearObj': combinedList,
                                 'userId': singlePlayer['id'],
                                 "isAddPlayerClick": true,
                                 "tableId": tableId,
@@ -135,7 +139,7 @@ class OldUserPage extends StatelessWidget {
                             Get.offAll(() => HeadgearPage(),
                               arguments: {
                                 'showState': showState,
-                                'headgearObj': headgearObj,
+                                'headgearObj': combinedList,
                                 'userId': singlePlayer['id'],
                               },
                             );

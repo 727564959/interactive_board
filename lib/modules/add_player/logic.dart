@@ -77,6 +77,18 @@ class UserRegistrationLogic extends GetxController {
     return result;
   }
 
+  // 查询万圣节头套
+  Future<List<GameItemInfo>> fetchHallowmas() async {
+    final response = await _dio.get(
+      "$baseApiUrl/headgears/hallowmas",
+    );
+    final result = <GameItemInfo>[];
+    for (final item in response.data) {
+      result.add(GameItemInfo.fromJson(item['gameItem']));
+    }
+    return result;
+  }
+
   // 根据邮箱查用户
   Future<List<SearchUser>> checkingPlayer(String email) async {
     print("通过邮箱进行玩家查重");

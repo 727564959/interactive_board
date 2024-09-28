@@ -17,7 +17,8 @@ class HeadgearFlipCard extends StatefulWidget {
       required this.url,
       required this.level,
       this.bSelected,
-      this.delay})
+      this.delay,
+      this.isLimited = false,})
       : super(key: key);
   final double width;
   final int tableId;
@@ -25,6 +26,7 @@ class HeadgearFlipCard extends StatefulWidget {
   final int level;
   final bool? bSelected;
   final Duration? delay;
+  final bool? isLimited;
   @override
   State<HeadgearFlipCard> createState() => _HeadgearFlipCardState();
 }
@@ -150,8 +152,16 @@ class _HeadgearFlipCardState extends State<HeadgearFlipCard> {
               height: 3,
               color: Colors.white,
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 20.w, bottom: 20.w),
+            if(widget.isLimited ?? false) Text(
+              "LIMITED",
+              style: TextStyle(
+                fontFamily: 'Anton',
+                fontSize: 34.0,
+                color: Colors.white,
+              ),
+            ),
+            if(!(widget.isLimited ?? false)) Padding(
+              padding: EdgeInsets.only(top: width * 0.065, bottom: width * 0.065),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: stars,

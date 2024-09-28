@@ -164,55 +164,106 @@ class _CardFlipState extends State<_CardFlip> {
           ),
         ),
         Container(
-          width: 0.84.sw,
-          margin: EdgeInsets.only(top: 0.1.sh, left: 0.08.sw, right: 0.08.sw),
-          child: Row(
-            children: List.generate(widget.headgearObj.length, (index) {
-              return GestureDetector(
-                onTapUp: (details) async {
-                  await audioPlayer.release;
-                  logic.clickSelectId = widget.headgearObj[index].id;
-                  UserInfo userData = await logic.getCurrentUser(showInfo.showId, tableId, userId);
-                  setState(() {
-                    selectIndex = index;
-                    logic.playerName = userData.nickname;
-                    logic.isClickCard = true;
-                  });
-                  print("logic.clickSelectId ${logic.clickSelectId}");
-                  // Future.delayed(0.5.seconds).then((value) async {
-                  //   Get.offAll(() => NewPlayerPage(),
-                  //       arguments: {
-                  //         "userId": userId,
-                  //         "headgearId": logic.clickSelectId,
-                  //         "showInfo": showInfo,
-                  //         "customer": customer,
-                  //         "isAddPlayerClick": isAddPlayerClick,
-                  //         "tableId": tableId,
-                  //       });
-                  // });
-                },
-                onTapDown: (details) async {
-                  await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("card.wav")));
-                },
-                onTapCancel: () async {
-                  await audioPlayer.release;
-                },
-                child: Container(
-                  margin: EdgeInsets.only(right: index != widget.headgearObj.length - 1 ? 10 : 0),
-                  child: HeadgearFlipCard(
-                      width: (0.84.sw / 5) - ((10 * 4) / 5),
-                      tableId: tableId,
-                      url: widget.headgearObj[index].icon,
-                      level: widget.headgearObj[index].level + 2,
-                      bSelected: selectIndex == index ? true : false,
-                      delay: Duration(milliseconds: 500 * index)),
-                ),
-              );
-            }),
-          ),
+          width: widget.headgearObj.length <= 5 ? 0.84.sw : 0.7.sw,
+          margin: EdgeInsets.only(
+              top: widget.headgearObj.length <= 5 ? 0.15.sh : 0.08.sh,
+              left: widget.headgearObj.length <= 5 ? 0.08.sw : 0.14.sw,
+              right: widget.headgearObj.length <= 5 ? 0.08.sw : 0.14.sw),
+          child: widget.headgearObj.length <= 5
+              ? Row(
+                  children: List.generate(widget.headgearObj.length, (index) {
+                    return GestureDetector(
+                      onTapUp: (details) async {
+                        await audioPlayer.release;
+                        logic.clickSelectId = widget.headgearObj[index].id;
+                        UserInfo userData = await logic.getCurrentUser(showInfo.showId, tableId, userId);
+                        setState(() {
+                          selectIndex = index;
+                          logic.playerName = userData.nickname;
+                          logic.isClickCard = true;
+                        });
+                        print("logic.clickSelectId ${logic.clickSelectId}");
+                        // Future.delayed(0.5.seconds).then((value) async {
+                        //   Get.offAll(() => NewPlayerPage(),
+                        //       arguments: {
+                        //         "userId": userId,
+                        //         "headgearId": logic.clickSelectId,
+                        //         "showInfo": showInfo,
+                        //         "customer": customer,
+                        //         "isAddPlayerClick": isAddPlayerClick,
+                        //         "tableId": tableId,
+                        //       });
+                        // });
+                      },
+                      onTapDown: (details) async {
+                        await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("card.wav")));
+                      },
+                      onTapCancel: () async {
+                        await audioPlayer.release;
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: index != widget.headgearObj.length - 1 ? 10 : 0),
+                        child: HeadgearFlipCard(
+                            width: (0.84.sw / 5) - ((10 * 4) / 5),
+                            tableId: tableId,
+                            url: widget.headgearObj[index].icon,
+                            level: widget.headgearObj[index].level + 2,
+                            bSelected: selectIndex == index ? true : false,
+                            delay: Duration(milliseconds: 500 * index),),
+                      ),
+                    );
+                  }),
+                )
+              : Column(
+                  children: List.generate(2, (rowIndex) {
+                    return Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center, // 水平居中
+                          children: List.generate(5, (colIndex) {
+                            int itemIndex = rowIndex * 5 + colIndex; // 计算每个元素的索引
+                            return GestureDetector(
+                              onTapUp: (details) async {
+                                await audioPlayer.release;
+                                logic.clickSelectId = widget.headgearObj[itemIndex].id;
+                                UserInfo userData = await logic.getCurrentUser(showInfo.showId, tableId, userId);
+                                setState(() {
+                                  selectIndex = itemIndex;
+                                  logic.playerName = userData.nickname;
+                                  logic.isClickCard = true;
+                                });
+                                print("logic.clickSelectId ${logic.clickSelectId}");
+                              },
+                              onTapDown: (details) async {
+                                await audioPlayer.play(AssetSource(MirraIcons.getSoundEffectsCheckPath("card.wav")));
+                              },
+                              onTapCancel: () async {
+                                await audioPlayer.release;
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: (itemIndex != widget.headgearObj.length - 1 || itemIndex != widget.headgearObj.length - 6) ? 10 : 0),
+                                child: HeadgearFlipCard(
+                                  width: (0.68.sw / 5) - ((10 * 4) / 5),
+                                  tableId: tableId,
+                                  url: widget.headgearObj[itemIndex].icon,
+                                  level: widget.headgearObj[itemIndex].level + 2,
+                                  bSelected: selectIndex == itemIndex ? true : false,
+                                  delay: Duration(milliseconds: 500 * itemIndex),
+                                  isLimited: rowIndex == 0 ? false : true,
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                        // 如果是第一行，则添加间隔
+                        if (rowIndex == 0) SizedBox(height: 20.0), // 行间隔
+                      ],
+                    );
+                  }), // 生成两行
+              ),
         ),
         SizedBox(
-          height: 50,
+          height: widget.headgearObj.length <= 5 ? 60 : 30,
         ),
         // if (logic.isClickCard) _NextButton(width: 600.w),
         if (logic.isClickCard) CommonButton(
