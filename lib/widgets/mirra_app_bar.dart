@@ -48,9 +48,13 @@ class _MirraAppBarState extends State<MirraAppBar> {
             style: CustomTextStyles.title2(color: Colors.white, fontSize: 45.sp),
           ),
           if (widget.middleString != null)
+            // Text(
+            //   widget.middleString!,
+            //   style: CustomTextStyles.title2(color: Colors.white, fontSize: 45.sp),
+            // ),
             Text(
               widget.middleString!,
-              style: CustomTextStyles.title2(color: Colors.white, fontSize: 45.sp),
+              style: CustomTextStyles.title2(color: const Color(0xffef7e00), fontSize: 56.sp),
             ),
           Row(
             mainAxisSize: MainAxisSize.min,

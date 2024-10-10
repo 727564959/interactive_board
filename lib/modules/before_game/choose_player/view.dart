@@ -69,6 +69,82 @@ class ChoosePlayerPage extends StatelessWidget {
             GetBuilder<ChoosePlayerLogic>(
               builder: (logic) => PlayerBottomBar(),
             ),
+            Positioned(
+              top: 120, // 距离顶部的距离
+              left: ((1.0.sw - 830.w) / 2), // 距离左侧的距离
+              right: ((1.0.sw - 830.w) / 2), // 可选，确保有左右间距
+              child: Container(
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.center, // 水平居中
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (logic.game == "Hyper Rythm" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
+                      SizedBox(
+                        width: 400.w,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end, // 将内容靠右对齐
+                          children: [
+                            Image.asset(
+                              MirraIcons.getSetAvatarIconPath('active.png'),
+                              width: 60, // 设置宽度
+                              height: 60, // 设置高度
+                              fit: BoxFit.cover, // 根据需要选择其他 fit 值
+                            ),
+                            SizedBox(width: 5,),
+                            Text(
+                              "ACTIVE",
+                              style: CustomTextStyles.title2(color: Colors.white, fontSize: 36.sp),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (logic.game == "Hyper Rythm" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
+                      SizedBox(width: 30.w), // 添加间隔
+                    if (logic.game == "Jackpot in pairs" || logic.game == "Hockey Smash" || logic.game == "Bubble boom" || logic.game == "Laser Room")
+                      SizedBox(
+                        width: 400.w,
+                        child: Row(
+                          mainAxisAlignment: (logic.game == "Jackpot in pairs" || logic.game == "Bubble boom") ? MainAxisAlignment.end : MainAxisAlignment.start, // 将内容靠右对齐
+                          children: [
+                            Image.asset(
+                              MirraIcons.getSetAvatarIconPath('teamwork.png'),
+                              width: 60, // 设置宽度
+                              height: 60, // 设置高度
+                              fit: BoxFit.cover, // 根据需要选择其他 fit 值
+                            ),
+                            SizedBox(width: 5,),
+                            Text(
+                              "TEAMWORK",
+                              style: CustomTextStyles.title2(color: Colors.white, fontSize: 36.sp),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (logic.game == "Jackpot in pairs" || logic.game == "Hockey Smash" || logic.game == "Bubble boom" || logic.game == "Laser Room")
+                      SizedBox(width: 30.w), // 添加间隔
+                    if (logic.game == "Hyper Rythm" || logic.game == "Treasure Dash" || logic.game == "Jackpot in pairs" || logic.game == "Bubble boom")
+                      SizedBox(
+                        width: 400.w,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              MirraIcons.getSetAvatarIconPath('strategy.png'),
+                              width: 60, // 设置宽度
+                              height: 60, // 设置高度
+                              fit: BoxFit.cover, // 根据需要选择其他 fit 值
+                            ),
+                            SizedBox(width: 5,),
+                            Text(
+                              "STRATEGY",
+                              style: CustomTextStyles.title2(color: Colors.white, fontSize: 36.sp),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

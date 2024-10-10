@@ -256,6 +256,16 @@ class _SelectedAreaState extends State<_SelectedArea> {
   // 性别
   Widget buildGenderOption(GenderOption option) {
     bool isSelected = option == logic.selectedGender;
+    // 根据 option 中的参数选择不同的图片
+    String imagePath;
+    switch (option.label) {
+      case 'male':
+        imagePath = MirraIcons.getSetAvatarIconPath("male.png");
+        break;
+      default:
+        imagePath = MirraIcons.getSetAvatarIconPath("female.png");
+    }
+
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -266,49 +276,80 @@ class _SelectedAreaState extends State<_SelectedArea> {
         width: 125,
         height: 125,
         decoration: BoxDecoration(
-          // shape: BoxShape.circle,
-          borderRadius: BorderRadius.all(Radius.circular(15)),
           color: option.color,
-          // color: isSelected ? Color(0xffFFFFFF).withOpacity(0.08) : Color(0xffFFFFFF).withOpacity(0.0),
-          // border: Border.all(
-          //   color: isSelected ? Color(0xFFD0D0D0) : Colors.transparent,
-          //   width: isSelected ? 4.0 : 0.0,
-          // ),
-        ),
-        child: Align(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, // 子项垂直居中对齐
-            children: [
-              isSelected ? Image.asset(
-                MirraIcons.getSetAvatarIconPath('choose_icon.png'),
-                fit: BoxFit.fitWidth,
-                width: 48,
-              ) : SizedBox(height: 48,),
-              Text(
-                option.label??"",
-                textAlign: TextAlign.center,
-                style: CustomTextStyles.title(color: Colors.black, fontSize: 26.sp, level: 5),
-              ),
-            ],
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+          image: DecorationImage(
+            image: AssetImage(imagePath), // 根据 option 选择的图片
+            fit: BoxFit.cover,
           ),
         ),
-        // padding: EdgeInsets.all(5.0), // 调整内部圆形与外边界之间的距离
-        // child: Container(
-        //   decoration: BoxDecoration(
-        //     // shape: BoxShape.circle,
-        //     borderRadius: BorderRadius.all(Radius.circular(10)),
-        //     color: option.color,
-        //   ),
-        //   child: Center(
-        //     child: Text(
-        //       option.label,
-        //       textAlign: TextAlign.center,
-        //       style: CustomTextStyles.title(color: Colors.black, fontSize: 26.sp, level: 5),
-        //     ),
-        //   ),
-        // ),
+        child: Stack(
+          children: [
+            // 如果未选择时显示其他内容（可选）
+            // 你也可以在这里添加其他组件
+            if (isSelected)
+              Positioned(
+                right: 5, // 右侧距离
+                bottom: 5, // 底部距离
+                child: Container(
+                  width: 36, // 设置宽度
+                  height: 36, // 设置高度
+                  child: Image.asset(
+                    MirraIcons.getSetAvatarIconPath('choose_icon.png'),
+                    fit: BoxFit.cover, // 根据需要选择其他 fit 值
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
+      // child: Container(
+      //   width: 125,
+      //   height: 125,
+      //   decoration: BoxDecoration(
+      //     // shape: BoxShape.circle,
+      //     borderRadius: BorderRadius.all(Radius.circular(15)),
+      //     color: option.color,
+      //     // color: isSelected ? Color(0xffFFFFFF).withOpacity(0.08) : Color(0xffFFFFFF).withOpacity(0.0),
+      //     // border: Border.all(
+      //     //   color: isSelected ? Color(0xFFD0D0D0) : Colors.transparent,
+      //     //   width: isSelected ? 4.0 : 0.0,
+      //     // ),
+      //   ),
+      //   child: Align(
+      //     alignment: Alignment.center,
+      //     child: Column(
+      //       mainAxisAlignment: MainAxisAlignment.center, // 子项垂直居中对齐
+      //       children: [
+      //         isSelected ? Image.asset(
+      //           MirraIcons.getSetAvatarIconPath('choose_icon.png'),
+      //           fit: BoxFit.fitWidth,
+      //           width: 48,
+      //         ) : SizedBox(height: 48,),
+      //         // Text(
+      //         //   option.label??"",
+      //         //   textAlign: TextAlign.center,
+      //         //   style: CustomTextStyles.title(color: Colors.black, fontSize: 26.sp, level: 5),
+      //         // ),
+      //       ],
+      //     ),
+      //   ),
+      //   // padding: EdgeInsets.all(5.0), // 调整内部圆形与外边界之间的距离
+      //   // child: Container(
+      //   //   decoration: BoxDecoration(
+      //   //     // shape: BoxShape.circle,
+      //   //     borderRadius: BorderRadius.all(Radius.circular(10)),
+      //   //     color: option.color,
+      //   //   ),
+      //   //   child: Center(
+      //   //     child: Text(
+      //   //       option.label,
+      //   //       textAlign: TextAlign.center,
+      //   //       style: CustomTextStyles.title(color: Colors.black, fontSize: 26.sp, level: 5),
+      //   //     ),
+      //   //   ),
+      //   // ),
+      // ),
     );
   }
 
@@ -353,6 +394,7 @@ class _SelectedAreaState extends State<_SelectedArea> {
           Container(
             width: 0.24.sw,
             height: 240,
+            // height: 290,
             decoration: BoxDecoration(
               color: Color(0xffFFFFFF).withOpacity(0.08),
               borderRadius: BorderRadius.all(Radius.circular(10)),
