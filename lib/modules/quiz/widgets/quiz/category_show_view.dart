@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -85,8 +86,9 @@ class _TypeContentState extends State<_TypeContent> {
               angle: -0.05,
               child: SizedBox(
                 width: 0.6 * width,
-                child: Text(
+                child: AutoSizeText(
                   type,
+                  maxLines: 1,
                   style: TriviaTextStyles.title(color: const Color(0xff8ee8bd), fontSize: width * 0.1),
                 ).animate().scale(
                       delay: 700.ms,

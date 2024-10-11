@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -163,7 +165,7 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
                         borderRadius: BorderRadius.circular(27.5.w),
                       ),
                       child: AutoSizeText(
-                        "Table $tableId",
+                        "Bay ${ascii.decode([0x40 + tableId])}",
                         maxLines: 1,
                         style: TriviaTextStyles.title(color: Colors.white),
                       ),

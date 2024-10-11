@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -64,9 +65,10 @@ class _QuestionViewState extends State<QuestionView> {
             SizedBox(height: 0.1.sh),
             SizedBox(
               width: 0.7.sw,
-              child: Text(
+              child: AutoSizeText(
                 question.title,
                 textAlign: TextAlign.center,
+                maxLines: 3,
                 style: TriviaTextStyles.title(color: const Color(0xffA4EDF1), fontSize: 67.sp),
               ),
             )
