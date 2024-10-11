@@ -408,7 +408,7 @@ class _SelectedAreaState extends State<_SelectedArea> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Gender",
+                      "Body",
                       textAlign: TextAlign.left,
                       style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                     ),

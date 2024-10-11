@@ -708,7 +708,7 @@ class _PlayerInfoAreaState extends State<_PlayerInfoArea> {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Gender",
+                                  "Body",
                                   textAlign: TextAlign.left,
                                   style: CustomTextStyles.title(color: Colors.white, fontSize: 36.sp, level: 4),
                                 ),
