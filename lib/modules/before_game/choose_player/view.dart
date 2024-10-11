@@ -78,7 +78,7 @@ class ChoosePlayerPage extends StatelessWidget {
                   // mainAxisAlignment: MainAxisAlignment.center, // 水平居中
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (logic.game == "Hyper Rythm" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
+                    if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol2" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
                       SizedBox(
                         width: 400.w,
                         child: Row(
@@ -93,12 +93,16 @@ class ChoosePlayerPage extends StatelessWidget {
                             SizedBox(width: 5,),
                             Text(
                               "ACTIVE",
-                              style: CustomTextStyles.title2(color: Colors.white, fontSize: 36.sp),
+                              style: TextStyle(
+                                fontFamily: 'Anton',
+                                fontSize: 32.0,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    if (logic.game == "Hyper Rythm" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
+                    if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol2" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
                       SizedBox(width: 30.w), // 添加间隔
                     if (logic.game == "Jackpot in pairs" || logic.game == "Hockey Smash" || logic.game == "Bubble boom" || logic.game == "Laser Room")
                       SizedBox(
@@ -115,14 +119,18 @@ class ChoosePlayerPage extends StatelessWidget {
                             SizedBox(width: 5,),
                             Text(
                               "TEAMWORK",
-                              style: CustomTextStyles.title2(color: Colors.white, fontSize: 36.sp),
+                              style: TextStyle(
+                                fontFamily: 'Anton',
+                                fontSize: 32.0,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
                       ),
                     if (logic.game == "Jackpot in pairs" || logic.game == "Hockey Smash" || logic.game == "Bubble boom" || logic.game == "Laser Room")
                       SizedBox(width: 30.w), // 添加间隔
-                    if (logic.game == "Hyper Rythm" || logic.game == "Treasure Dash" || logic.game == "Jackpot in pairs" || logic.game == "Bubble boom")
+                    if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol2" || logic.game == "Treasure Dash" || logic.game == "Jackpot in pairs" || logic.game == "Bubble boom")
                       SizedBox(
                         width: 400.w,
                         child: Row(
@@ -136,7 +144,11 @@ class ChoosePlayerPage extends StatelessWidget {
                             SizedBox(width: 5,),
                             Text(
                               "STRATEGY",
-                              style: CustomTextStyles.title2(color: Colors.white, fontSize: 36.sp),
+                              style: TextStyle(
+                                fontFamily: 'Anton',
+                                fontSize: 32.0,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
