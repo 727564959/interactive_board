@@ -13,11 +13,15 @@ class InitializeLogic extends GetxController {
   final deviceId = "".obs;
   final udid = "".obs;
   final dio = Dio();
-  late final BoardInfo board;
+  late BoardInfo board;
   @override
   void onInit() async {
     super.onInit();
     udid.value = await FlutterUdid.udid;
+    loadBoardConfig();
+  }
+
+  Future<void> loadBoardConfig() async {
     final response = await dio.post(
       "$basePayloadApiUrl/board-configs/register",
       data: {"udid": udid.value},

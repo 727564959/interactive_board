@@ -99,26 +99,24 @@ class ProcessController {
   }
 
   void jumpToPage() {
-    if (!isChecked) {
+    if (!isChecked || state.details.mode == "stand-alone") {
       Get.offAllNamed(AppRoutes.takeARest);
       return;
     }
     if (state.status == ShowStatus.choosePlayer) {
       Get.offAllNamed(AppRoutes.choosePlayer, arguments: state);
-    }
-    if (state.status == ShowStatus.gamePreparing) {
+    } else if (state.status == ShowStatus.gamePreparing) {
       Get.offAllNamed(AppRoutes.checkIn, arguments: state);
-    }
-    if (state.status == ShowStatus.gaming) {
-      // Get.offAllNamed(AppRoutes.gamingRank, arguments: state);
+    } else if (state.status == ShowStatus.gaming) {
       if (state.details.mode == "free-8") {
         Get.offAllNamed(AppRoutes.freeGamePlayingPage, arguments: {"showState": state, "isWellDone": false});
       } else {
         Get.offAllNamed(AppRoutes.gamePlayingPage, arguments: {"showState": state, "isWellDone": false});
       }
-    }
-    if (state.status == ShowStatus.complete) {
+    } else if (state.status == ShowStatus.complete) {
       Get.offAllNamed(AppRoutes.showEndPage, arguments: state);
+    } else {
+      Get.offAllNamed(AppRoutes.takeARest);
     }
   }
 
