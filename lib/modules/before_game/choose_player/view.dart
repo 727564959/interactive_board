@@ -78,7 +78,7 @@ class ChoosePlayerPage extends StatelessWidget {
                   // mainAxisAlignment: MainAxisAlignment.center, // 水平居中
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol2" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
+                    if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol 2" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
                       SizedBox(
                         width: 400.w,
                         child: Row(
@@ -102,7 +102,7 @@ class ChoosePlayerPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                    if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol2" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
+                    if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol 2" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
                       SizedBox(width: 30.w), // 添加间隔
                     if (logic.game == "Jackpot in pairs" || logic.game == "Hockey Smash" || logic.game == "Bubble boom" || logic.game == "Laser Room")
                       SizedBox(
@@ -130,7 +130,7 @@ class ChoosePlayerPage extends StatelessWidget {
                       ),
                     if (logic.game == "Jackpot in pairs" || logic.game == "Hockey Smash" || logic.game == "Bubble boom" || logic.game == "Laser Room")
                       SizedBox(width: 30.w), // 添加间隔
-                    if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol2" || logic.game == "Treasure Dash" || logic.game == "Jackpot in pairs" || logic.game == "Bubble boom")
+                    if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol 2" || logic.game == "Treasure Dash" || logic.game == "Jackpot in pairs" || logic.game == "Bubble boom")
                       SizedBox(
                         width: 400.w,
                         child: Row(
