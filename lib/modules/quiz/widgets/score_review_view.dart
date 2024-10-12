@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide AnimationExtension;
 import 'package:flutter/material.dart';
+import 'package:interactive_board/common.dart';
 import 'package:interactive_board/modules/quiz/text_style.dart';
 import '../logic.dart';
 
@@ -24,16 +26,32 @@ class ScoreReviewView extends StatelessWidget {
         .toList();
   }
 
+  int get score {
+    final rank = logic.records.firstWhere((e) => e.tableId == Global.tableId).rank;
+    return [5, 4, 3, 3][rank - 1];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(height: 0.05.sh),
         Text(
-          "Table Score Review",
+          "Score Review",
           style: TriviaTextStyles.title(
             fontSize: 90.sp,
             color: const Color(0xff13EFEF),
+          ),
+        ),
+        SizedBox(height: 0.05.sh),
+        FadeIn(
+          delay: 1.seconds,
+          child: Text(
+            "SQUAD ${ascii.decode([0x40 + Global.tableId])}    +$score",
+            style: TriviaTextStyles.title(
+              fontSize: 60.sp,
+              color: Colors.white,
+            ),
           ),
         ),
         Expanded(
@@ -81,6 +99,7 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
   @override
   void initState() {
     controller = AnimationController(vsync: this, duration: 1.seconds);
+
     animation = Tween<double>(begin: upperHeight * score / 100, end: 0).animate(controller);
     scoreAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(controller);
     controller.addListener(() {
@@ -165,7 +184,7 @@ class _ScoreBarState extends State<_ScoreBar> with TickerProviderStateMixin {
                         borderRadius: BorderRadius.circular(27.5.w),
                       ),
                       child: AutoSizeText(
-                        "Bay ${ascii.decode([0x40 + tableId])}",
+                        "SQUAD ${ascii.decode([0x40 + tableId])}",
                         maxLines: 1,
                         style: TriviaTextStyles.title(color: Colors.white),
                       ),
