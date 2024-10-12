@@ -73,10 +73,9 @@ class ChoosePlayerPage extends StatelessWidget {
               top: 120, // 距离顶部的距离
               left: ((1.0.sw - 830.w) / 2), // 距离左侧的距离
               right: ((1.0.sw - 830.w) / 2), // 可选，确保有左右间距
-              child: Container(
+              child: SizedBox(
                 child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.center, // 水平居中
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol 2" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
                       SizedBox(
@@ -102,8 +101,6 @@ class ChoosePlayerPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                    if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol 2" || logic.game == "Treasure Dash" || logic.game == "Hockey Smash" || logic.game == "Laser Room")
-                      SizedBox(width: 30.w), // 添加间隔
                     if (logic.game == "Jackpot in pairs" || logic.game == "Hockey Smash" || logic.game == "Bubble boom" || logic.game == "Laser Room")
                       SizedBox(
                         width: 400.w,
@@ -128,8 +125,6 @@ class ChoosePlayerPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                    if (logic.game == "Jackpot in pairs" || logic.game == "Hockey Smash" || logic.game == "Bubble boom" || logic.game == "Laser Room")
-                      SizedBox(width: 30.w), // 添加间隔
                     if (logic.game == "Hyper Rhythm" || logic.game == "Hyper Rhythm Vol 2" || logic.game == "Treasure Dash" || logic.game == "Jackpot in pairs" || logic.game == "Bubble boom")
                       SizedBox(
                         width: 400.w,
