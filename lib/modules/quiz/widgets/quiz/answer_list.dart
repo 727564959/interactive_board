@@ -19,14 +19,14 @@ class AnswerList extends StatelessWidget {
 
   List<Widget> get children {
     final result = <Widget>[];
-
+    final delay = Duration(milliseconds: (logic.config.questionTime + logic.config.answerTime) * 1000 - 600);
     for (int i = 0; i < 3; i++) {
       bool? bRight;
       if (state.bShowAnswer) {
         if (state.selected == i) {
-          bRight = state.selected == state.question.correctAnswer;
+          bRight = state.selected == state.question.answer;
         }
-        if (state.question.correctAnswer == i) {
+        if (state.question.answer == i) {
           bRight = true;
         }
       }
@@ -37,10 +37,11 @@ class AnswerList extends StatelessWidget {
           },
           child: AnswerCell(
             index: i,
-            title: state.question.selections[i],
+            title: state.question.choices[i],
             width: width,
             bSelected: state.selected == i,
             bRight: bRight,
+            score: state.score,
           )
               .animate()
               .moveX(
@@ -49,7 +50,7 @@ class AnswerList extends StatelessWidget {
                 delay: (i * 30 + 90).ms,
               )
               .animate()
-              .scale(end: Offset.zero, delay: 17500.ms, duration: 200.ms),
+              .scale(end: Offset.zero, delay: delay, duration: 200.ms),
         ),
       );
     }

@@ -8,18 +8,46 @@ import 'data/question.dart';
 import 'data/quiz_repository.dart';
 import 'data/settlement.dart';
 
-enum PageState { loading, waiting, question, complete }
+enum PageState { loading, category, waiting, question, complete }
 
 class QuizState {
   QuizState(this.question);
   final QuestionInfo question;
   int? selected;
   bool bShowAnswer = false; //是否展示答案
+  int score = 0;
+}
+
+class TriviaConfig {
+  final int logoTime;
+  final int categoryTime;
+  final int questionTime;
+  final int answerTime;
+  final int questionCount;
+  final int triviaBeginTimestamp;
+  TriviaConfig(
+    this.logoTime,
+    this.categoryTime,
+    this.questionTime,
+    this.answerTime,
+    this.questionCount,
+    this.triviaBeginTimestamp,
+  );
+  factory TriviaConfig.fromJson(dynamic data) {
+    return TriviaConfig(
+      data['logoTime'],
+      data["categoryTime"],
+      data["questionTime"],
+      data["answerTime"],
+      data["questionCount"],
+      data["triviaBeginTimestamp"],
+    );
+  }
 }
 
 class QuizLogic extends GetxController {
   late final int quizRoundStartTimestamp;
-  late final int questionCount;
+  late TriviaConfig config;
   int get countdown => max(0, (quizRoundStartTimestamp - DateTime.now().millisecondsSinceEpoch) ~/ 1000);
   QuizState? quizState;
   List<SettlementInfo> records = [];
@@ -31,18 +59,29 @@ class QuizLogic extends GetxController {
 
   void select(int idx) async {
     if (quizState!.selected != null || quizState!.bShowAnswer) return;
-    await quizRepository.select(idx);
     quizState!.selected = idx;
     soundEffect.clickPlay();
     update(['answer']);
+    quizState!.score = await quizRepository.select(idx);
   }
 
   @override
   void onInit() async {
     super.onInit();
-    quizRoundStartTimestamp = Get.arguments["waitingSeconds"] * 1000 + DateTime.now().millisecondsSinceEpoch;
-    questionCount = Get.arguments["questionCount"];
+    config = TriviaConfig.fromJson(Get.arguments);
+    quizRoundStartTimestamp = (config.logoTime * 1000).toInt() + DateTime.now().millisecondsSinceEpoch;
     quizRepository = QuizRepository(
+      onCategoryShow: (round, category) {
+        pageState = PageState.category;
+        quizState = QuizState(QuestionInfo(
+          round: round,
+          category: category,
+          title: "",
+          choices: [],
+          answer: 0,
+        ));
+        update(['page']);
+      },
       onQuestionRound: (question) {
         pageState = PageState.question;
         quizState = QuizState(question);
@@ -51,23 +90,18 @@ class QuizLogic extends GetxController {
       onAnswerShow: () {
         final state = quizState!;
         state.bShowAnswer = true;
-        if (state.selected == state.question.correctAnswer) {
-          score += 10;
+        if (state.selected == state.question.answer) {
+          score += state.score;
           soundEffect.rightPlay();
         } else {
           soundEffect.wrongPlay();
         }
         update(['answer', 'score']);
       },
-      onComplete: (List<SettlementInfo> records) {
+      onSettlement: (List<SettlementInfo> records) {
         pageState = PageState.complete;
         this.records = records;
         update(['page']);
-        Future.delayed(20.seconds).then((value) {
-          if (Get.currentRoute == AppRoutes.quiz) {
-            Get.back();
-          }
-        });
       },
       onClose: () {
         if (Get.currentRoute == AppRoutes.quiz) {
@@ -75,7 +109,6 @@ class QuizLogic extends GetxController {
         }
       },
     );
-    await quizRepository.join();
     pageState = PageState.waiting;
     update(['page']);
   }

@@ -1,24 +1,24 @@
 class QuestionInfo {
   QuestionInfo({
     required this.title,
-    required this.selections,
-    required this.type,
-    required this.correctAnswer,
+    required this.choices,
+    required this.category,
+    required this.answer,
     required this.round,
   });
 
   final String title;
-  final List<String> selections;
-  final String type;
-  final int correctAnswer;
+  final List<String> choices;
+  final String category;
+  final int answer;
   final int round;
   factory QuestionInfo.fromJson(Map<String, dynamic> json) {
     final question = json['question'];
     return QuestionInfo(
       title: question['title'],
-      selections: question['answers'].cast<String>(),
-      type: question['type'],
-      correctAnswer: question['correctAnswer'],
+      choices: question['choices'].cast<String>(),
+      category: question['category'],
+      answer: question['answer'],
       round: json['round'],
     );
   }

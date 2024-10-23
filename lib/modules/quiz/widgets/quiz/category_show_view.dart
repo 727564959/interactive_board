@@ -14,6 +14,7 @@ class CategoryShowView extends StatelessWidget {
   final logic = Get.find<QuizLogic>();
   @override
   Widget build(BuildContext context) {
+    final delay = Duration(milliseconds: logic.config.categoryTime * 1000 - 400);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -21,11 +22,11 @@ class CategoryShowView extends StatelessWidget {
           Text(
             "QUESTION ${logic.quizState!.question.round}",
             style: TriviaTextStyles.title(fontSize: 180.sp, color: const Color(0xff13EFEF)),
-          ).animate().moveX(delay: 1600.ms, duration: 300.ms, end: 1.0.sw),
+          ).animate().moveX(delay: delay, duration: 300.ms, end: 1.0.sw),
           _TypeContent(
             width: 550.w,
-            type: logic.quizState!.question.type,
-          ).animate().moveX(delay: 1600.ms, duration: 300.ms, end: -1.0.sw),
+            type: logic.quizState!.question.category,
+          ).animate().moveX(delay: delay, duration: 300.ms, end: -1.0.sw),
         ],
       ),
     );

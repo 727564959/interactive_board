@@ -16,12 +16,14 @@ class AnswerCell extends StatefulWidget {
     this.bRight,
     required this.title,
     required this.index,
+    required this.score,
   });
   final double width;
   final bool bSelected;
   final bool? bRight;
   final String title;
   final int index;
+  final int score;
 
   @override
   State<AnswerCell> createState() => _AnswerCellState();
@@ -32,6 +34,7 @@ class _AnswerCellState extends State<AnswerCell> {
   bool get bSelected => widget.bSelected;
   bool? get bRight => widget.bRight;
   String get title => widget.title;
+  int get score => widget.score;
   int get index => widget.index;
   late final GifController controller = GifController(autoPlay: true, loop: false, reserved: true);
   @override
@@ -108,7 +111,7 @@ class _AnswerCellState extends State<AnswerCell> {
               child: Transform.translate(
                 offset: Offset(150.w, 0),
                 child: AutoSizeText(
-                  "+10",
+                  "+$score",
                   style: TriviaTextStyles.title(
                     color: const Color(0xFF3ADD8F),
                     fontSize: 80.sp,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -19,17 +21,19 @@ class _CoverViewState extends State<CoverView> {
   late final GifController titleController;
   late final GifController iconsController;
   final logic = Get.find<QuizLogic>();
-  bool bTipsView = false;
+  bool bCountdownView = false;
   @override
   void initState() {
     super.initState();
+    final waitTime = max(0, (logic.quizRoundStartTimestamp - DateTime.now().millisecondsSinceEpoch - 5000));
+    print(waitTime);
     titleController = GifController(autoPlay: true, loop: false, reserved: true);
     iconsController = GifController(autoPlay: true, loop: false, reserved: true);
     logic.soundEffect.coverLogoPlay();
-    Future.delayed(10.seconds).then((value) {
+    Future.delayed(Duration(milliseconds: waitTime)).then((value) {
       logic.soundEffect.joinPagePlay();
       setState(() {
-        bTipsView = true;
+        bCountdownView = true;
       });
     }).onError((error, stackTrace) async {
       print(error);
@@ -45,7 +49,7 @@ class _CoverViewState extends State<CoverView> {
 
   @override
   Widget build(BuildContext context) {
-    return bTipsView
+    return bCountdownView
         ? CountdownView()
         : Column(
             children: [

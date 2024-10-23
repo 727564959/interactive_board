@@ -11,17 +11,21 @@ class QuizRepository {
   late final Socket socket;
   final void Function(QuestionInfo) onQuestionRound;
   final void Function() onAnswerShow;
-  final void Function(List<SettlementInfo>) onComplete;
+  final void Function(List<SettlementInfo>) onSettlement;
   final void Function() onClose;
+  final void Function(int, String) onCategoryShow;
   QuizRepository({
+    required this.onCategoryShow,
     required this.onQuestionRound,
     required this.onAnswerShow,
-    required this.onComplete,
+    required this.onSettlement,
     required this.onClose,
   }) {
     final option = OptionBuilder().setTransports(['websocket']).disableAutoConnect().build();
-    socket = io('$baseSocketIoUrl/listener/quiz', option);
-
+    socket = io(baseTriviaUrl, option);
+    socket.on('category_show', (data) {
+      onCategoryShow(data["round"], data["category"]);
+    });
     socket.on('Q&A_time', (data) {
       onQuestionRound(QuestionInfo.fromJson(data));
     });
@@ -29,28 +33,23 @@ class QuizRepository {
     socket.on('answer_show', (_) {
       onAnswerShow();
     });
-
-    socket.on('complete', (data) {
+    socket.on('settlement', (data) {
       final result = <SettlementInfo>[];
-      final record = data["totalScores"];
-      for (final key in record.keys) {
-        final int score = record[key];
-        final int tableId = int.parse(key);
-        result.add(SettlementInfo(tableId: tableId, score: score));
+      for (final item in data["records"]) {
+        result.add(
+          SettlementInfo(
+            tableId: item["teamId"],
+            score: item["total"],
+            rank: item["rank"],
+            rankScore: item["rankScore"],
+          ),
+        );
       }
-      if (result.isNotEmpty) {
-        result.sort((a, b) => b.score - a.score);
-        result[0].rank = 1;
-        for (int i = 1; i < result.length; i++) {
-          if (result[i].score == result[i - 1].score) {
-            result[i].rank = result[i - 1].rank;
-          } else {
-            result[i].rank = i + 1;
-          }
-        }
-        result.sort((a, b) => a.tableId - b.tableId);
-      }
-      onComplete(result);
+      onSettlement(result);
+    });
+
+    socket.on('complete', (_) {
+      onClose();
     });
 
     socket.on('stop', (_) {
@@ -58,18 +57,16 @@ class QuizRepository {
     });
     socket.connect();
   }
-  Future<void> join() async {
-    await _dio.post("$baseApiUrl/quiz/join", data: {"tableId": Global.tableId});
-  }
 
-  Future<void> select(int idx) async {
-    await _dio.post(
-      "$baseApiUrl/quiz/choice-answer",
+  Future<int> select(int idx) async {
+    final response = await _dio.post(
+      "$baseTriviaUrl/choice-answer",
       data: {
-        "tableId": Global.tableId,
+        "teamId": Global.tableId,
         "answer": idx,
       },
     );
+    return response.data['score'];
   }
 
   void dispose() {

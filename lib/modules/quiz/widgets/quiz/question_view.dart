@@ -33,6 +33,7 @@ class _QuestionViewState extends State<QuestionView> {
 
   @override
   Widget build(BuildContext context) {
+    final delay = Duration(milliseconds: (logic.config.questionTime + logic.config.answerTime) * 1000 - 600);
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -49,7 +50,7 @@ class _QuestionViewState extends State<QuestionView> {
               ),
               child: Center(
                 child: Text(
-                  "${question.round} / ${logic.questionCount}",
+                  "${question.round} / ${logic.config.questionCount}",
                   style: TriviaTextStyles.title(color: const Color(0xffC1D3D4), fontSize: 50.sp),
                 ),
               ),
@@ -60,7 +61,7 @@ class _QuestionViewState extends State<QuestionView> {
                   begin: -0.7.sw,
                 )
                 .animate()
-                .scale(end: Offset.zero, delay: 17500.ms, duration: 200.ms),
+                .scale(end: Offset.zero, delay: delay, duration: 200.ms),
 
             SizedBox(height: 0.1.sh),
             SizedBox(
@@ -75,25 +76,26 @@ class _QuestionViewState extends State<QuestionView> {
                 .animate()
                 .moveX(curve: Curves.easeInOut, begin: -1.0.sw, delay: 30.ms)
                 .animate()
-                .scale(end: Offset.zero, delay: 17500.ms, duration: 200.ms),
+                .scale(end: Offset.zero, delay: delay, duration: 200.ms),
             SizedBox(height: 0.08.sh),
             // if (bShowAnswer)
             SizedBox(
               width: 900.w,
               child: Countdown(
-                seconds: 11,
+                seconds: logic.config.questionTime,
                 interval: const Duration(milliseconds: 33),
                 onFinished: () {},
                 build: (context, time) {
+                  final questionTime = logic.config.questionTime;
                   const totalSteps = 500;
-                  final int currentStep = min(((11 - time) / 11 * totalSteps).toInt(), 495);
+                  final int currentStep = min(((questionTime - time) / questionTime * totalSteps).toInt(), 495);
                   return StepProgressIndicator(
                     totalSteps: totalSteps,
                     currentStep: currentStep,
                     size: 12,
                     padding: 0,
                     selectedColor: const Color(0xFF344337),
-                    unselectedColor: currentStep > 308 ? Colors.red : const Color(0xFF4FBF64),
+                    unselectedColor: currentStep > 300 ? Colors.red : const Color(0xFF4FBF64),
                     roundedEdges: const Radius.circular(6),
                   );
                 },
@@ -102,7 +104,7 @@ class _QuestionViewState extends State<QuestionView> {
                 .animate()
                 .moveX(curve: Curves.easeInOut, begin: -1.0.sw, delay: 60.ms)
                 .animate()
-                .scale(end: Offset.zero, delay: 17500.ms, duration: 200.ms),
+                .scale(end: Offset.zero, delay: delay, duration: 200.ms),
             SizedBox(height: 0.08.sh),
             GetBuilder<QuizLogic>(
               id: 'answer',
@@ -124,7 +126,7 @@ class _QuestionViewState extends State<QuestionView> {
                 score: logic.score,
               );
             },
-          ).animate().scale(end: Offset.zero, delay: 17500.ms, duration: 200.ms),
+          ).animate().scale(end: Offset.zero, delay: delay, duration: 200.ms),
         ),
       ],
     );

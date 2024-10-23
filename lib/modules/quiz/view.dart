@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide AnimationExtension;
+
+import 'widgets/quiz/question_view.dart';
 import '../../mirra_style.dart';
 import 'logic.dart';
 import 'widgets/waiting_start/cover_view.dart';
-import 'widgets/quiz/quiz_view.dart';
 import 'widgets/score_review_view.dart';
+import 'widgets/quiz/category_show_view.dart';
 
 class QuizCoverPage extends StatelessWidget {
   QuizCoverPage({super.key});
@@ -40,8 +42,10 @@ class QuizCoverPage extends StatelessWidget {
                   return Container();
                 } else if (logic.pageState == PageState.waiting) {
                   return const CoverView();
+                } else if (logic.pageState == PageState.category) {
+                  return CategoryShowView(key: UniqueKey()).animate().scale();
                 } else if (logic.pageState == PageState.question) {
-                  return QuizView(key: UniqueKey());
+                  return QuestionView(key: UniqueKey());
                 } else {
                   return ScoreReviewView(key: UniqueKey());
                 }

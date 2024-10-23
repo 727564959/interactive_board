@@ -1,6 +1,7 @@
 class SettlementInfo {
-  SettlementInfo({required this.tableId, required this.score});
+  SettlementInfo({required this.rankScore, required this.rank, required this.tableId, required this.score});
   final int tableId;
   final int score;
-  int rank = 0;
+  final int rank;
+  final int rankScore;
 }

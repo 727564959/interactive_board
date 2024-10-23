@@ -26,7 +26,7 @@ class ProcessController {
 
   void listeningEvents() {
     final option = OptionBuilder().setTransports(['websocket']).enableReconnection().disableAutoConnect().build();
-    _quizSocket = io('$baseSocketIoUrl/listener/quiz', option);
+    _quizSocket = io(baseTriviaUrl, option);
     _quizSocket.on('start', (data) {
       Get.toNamed(AppRoutes.quiz, arguments: data);
     });

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' hide AnimationExtension;
 import 'package:flutter/material.dart';
@@ -27,8 +26,7 @@ class ScoreReviewView extends StatelessWidget {
   }
 
   int get score {
-    final rank = logic.records.firstWhere((e) => e.tableId == Global.tableId).rank;
-    return [5, 4, 3, 3][rank - 1];
+    return logic.records.firstWhere((e) => e.tableId == Global.tableId).rankScore;
   }
 
   @override
