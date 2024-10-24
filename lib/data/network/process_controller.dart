@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/app_routes.dart';
@@ -33,9 +35,10 @@ class ProcessController {
     _quizSocket.connect();
 
     _bonusSocket = io('$baseSocketIoUrl/mini-games/score-wheel', option);
-    _bonusSocket.on('show_trigger', (data) {
+    _bonusSocket.on('show_trigger', (data) async {
       if (data["teamId"] != Global.tableId) return;
-      Get.dialog(const ScoreWheelDialog(), barrierDismissible: false);
+      await Future.delayed(3.seconds);
+      Get.dialog(const ScoreWheelDialog(), barrierDismissible: false, barrierColor: const Color(0xc8000000));
     });
     _bonusSocket.connect();
 
