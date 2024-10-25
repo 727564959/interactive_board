@@ -21,7 +21,7 @@ class ScoreWheelDialog extends StatefulWidget {
 class _ScoreWheelDialogState extends State<ScoreWheelDialog> {
   int? score;
   final Socket socket = io(
-    '$baseSocketIoUrl/mini-games/score-wheel',
+    baseBonusUrl,
     OptionBuilder().setTransports(['websocket']).enableReconnection().disableAutoConnect().build(),
   );
   @override
@@ -69,7 +69,7 @@ class _ButtonView extends StatelessWidget {
             hslColor: const HSLColor.fromAHSL(1.0, 120, 1.0, 0.37),
             onPressed: () async {
               Get.back();
-              await Dio().post("$baseApiUrl/mini-games/score-wheel/turn");
+              await Dio().post("$baseBonusUrl/turn");
               bCountdown.value = false;
             },
             child: Text(

@@ -30,9 +30,12 @@ class ProcessController {
     _quizSocket.on('start', (data) {
       Get.toNamed(AppRoutes.quiz, arguments: data);
     });
+    _quizSocket.on('starting', (data) {
+      Get.toNamed(AppRoutes.quiz, arguments: data);
+    });
     _quizSocket.connect();
 
-    _bonusSocket = io('$baseSocketIoUrl/mini-games/score-wheel', option);
+    _bonusSocket = io(baseBonusUrl, option);
     _bonusSocket.on('show_trigger', (data) {
       if (data["teamId"] != Global.tableId) return;
       Get.dialog(const ScoreWheelDialog(), barrierDismissible: false);

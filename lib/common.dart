@@ -7,7 +7,10 @@ const String baseSocketIoUrl = 'http://10.1.10.8:12333';
 const String baseStrapiUrl = 'http://10.1.10.8:1337';
 const String basePayloadApiUrl = "http://10.1.10.8:3000/api";
 const String baseTriviaUrl = "http://ecs-mirra-services-alp-1159879634.us-west-2.elb.amazonaws.com:3000/trivia-by-show";
+const String baseBonusUrl = "http://ecs-mirra-services-alp-1159879634.us-west-2.elb.amazonaws.com:3000/score-wheel";
 
+// const String baseBonusUrl = "http://10.1.10.6:3000/score-wheel";
+// const String baseTriviaUrl = "http://10.1.10.6:3000/trivia-by-show";
 // const String basePayloadApiUrl = "http://10.1.10.6:3000/api";
 // const String baseApiUrl = 'http://10.1.10.6:1337/api';
 // const String baseSocketIoUrl = 'http://10.1.10.6:12333';
