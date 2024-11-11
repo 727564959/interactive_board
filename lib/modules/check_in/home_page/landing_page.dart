@@ -190,7 +190,7 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                     Container(
                       margin: const EdgeInsets.only(top: 40.0),
                       child: Text(
-                        'Welcome On board',
+                        'Welcome to Mirra',
                         style: CustomTextStyles.title(
                             color: Colors.white, fontSize: 48.sp, level: 2
                         ),
@@ -450,13 +450,13 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                                       children: [
                                         Text(
                                           textAlign: TextAlign.center,
-                                          "Awaiting Onboarding",
+                                          "Await Onboarding",
                                           // style: CustomTextStyles.title(
                                           //     color: Colors.black, fontSize: 40.sp, level: 3
                                           // ),
                                           style: TextStyle(
                                             fontFamily: 'RobotoFlex',
-                                            fontSize: 34.0,
+                                            fontSize: 36.0,
                                             color: Colors.black,
                                           ),
                                         ),
