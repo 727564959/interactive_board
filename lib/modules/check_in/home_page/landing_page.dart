@@ -800,11 +800,13 @@ class _LandingCheckInState extends State<LandingCheckIn> {
                   crossAxisAlignment: CrossAxisAlignment.start, // 设置列中所有子项的对齐方式为左对齐
                   children: [
                     Text(
-                      "Please sign the waiver before check-in.",
+                      // "Please sign the waiver before check-in.",
+                      "Please complete the waiver before check-in.",
                       style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 42.sp),
                     ),
                     Text(
-                      "No repeat needed if you’ve already signed.",
+                      // "No repeat needed if you’ve already signed.",
+                      "If you’ve signed previously, no additional action is needed.",
                       style: CustomTextStyles.textSmall(color: Colors.white, fontSize: 42.sp),
                     ),
                   ],
