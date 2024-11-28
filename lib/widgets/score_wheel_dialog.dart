@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:interactive_board/mirra_style.dart';
-import 'package:pushable_button/pushable_button.dart';
+import 'package:interactive_board/3rd_libs/pushable_button-0.0.4/pushable_button.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:interactive_board/3rd_libs/gif_view-0.4.3/gif_view.dart';

@@ -9,6 +9,9 @@ const String basePayloadApiUrl = "http://10.1.10.8:3000/api";
 const String baseTriviaUrl = "http://mini-game.mirramr.com:3000/trivia-by-show";
 const String baseBonusUrl = "http://mini-game.mirramr.com:3000/score-wheel";
 
+// const String baseTriviaUrl = "http://mini-game.mirratest.com:3000/trivia-by-show";
+// const String baseBonusUrl = "http://mini-game.mirratest.com:3000/score-wheel";
+
 // const String baseBonusUrl = "http://10.1.10.6:3000/score-wheel";
 // const String baseTriviaUrl = "http://10.1.10.6:3000/trivia-by-show";
 // const String basePayloadApiUrl = "http://10.1.10.6:3000/api";
