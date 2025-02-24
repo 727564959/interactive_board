@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:interactive_board/app_routes.dart';
-import 'package:interactive_board/widgets/score_wheel_dialog.dart';
+
 import '../../common.dart';
 import 'package:interactive_board/data/model/show_state.dart';
 
@@ -12,9 +12,8 @@ import '../../modules/before_game/choose_player/logic.dart';
 class ProcessController {
   static ProcessController? _instance;
   factory ProcessController() => _instance ?? ProcessController._internal();
-  late final Socket _quizSocket;
+
   late final Socket _showSocket;
-  late final Socket _bonusSocket;
   bool isChecked = false;
   late ShowState state;
   final _dio = Dio();
@@ -26,21 +25,6 @@ class ProcessController {
 
   void listeningEvents() {
     final option = OptionBuilder().setTransports(['websocket']).enableReconnection().disableAutoConnect().build();
-    _quizSocket = io(baseTriviaUrl, option);
-    _quizSocket.on('start', (data) {
-      Get.toNamed(AppRoutes.quiz, arguments: data);
-    });
-    _quizSocket.on('starting', (data) {
-      Get.toNamed(AppRoutes.quiz, arguments: data);
-    });
-    _quizSocket.connect();
-
-    _bonusSocket = io(baseBonusUrl, option);
-    _bonusSocket.on('show_trigger', (data) {
-      if (data["teamId"] != Global.tableId) return;
-      Get.dialog(const ScoreWheelDialog(), barrierDismissible: false);
-    });
-    _bonusSocket.connect();
 
     _showSocket = io('$baseSocketIoUrl/listener/game-show', option);
     _showSocket.on('show_state', (data) async {
@@ -133,7 +117,6 @@ class ProcessController {
   }
 
   void disposeSocketIO() {
-    _quizSocket.close();
     _showSocket.close();
   }
 
