@@ -15,27 +15,26 @@ class PlayerApi {
       "$baseApiUrl/shows/$showId/players",
       queryParameters: {
         "tableId": Global.tableId,
-        "bJoinedCount": true,
       },
     );
-    List players = response.data;
+    List players = response.data["users"];
     return players.map((player) => PlayerInfo.fromJson(player, Global.tableId)).toList();
   }
 
   Future<List<PositionInfo>> fetchPositions(int roundId) async {
     final response = await dio.get("$baseApiUrl/rounds/$roundId/positions");
     final result = <PositionInfo>[];
-    for (final item in response.data) {
+    for (final item in response.data["users"]) {
       if (!(item as Map).containsKey('tableId')) continue;
       final int tableId = item['tableId'];
-      final PlayerInfo player = PlayerInfo.fromJson(item['player'], tableId);
+      final PlayerInfo player = PlayerInfo.fromJson(item['user'], tableId);
       final int position = item['position'];
       result.add(PositionInfo(player: player, position: position));
     }
     return result;
   }
 
-  Future<void> updatePosition(int roundId, int position, int? playerId) async {
+  Future<void> updatePosition(int roundId, int position, String? playerId) async {
     await dio.post(
       "$baseApiUrl/rounds/$roundId/update-positions",
       data: {

@@ -79,7 +79,7 @@ class ChoosePlayerLogic extends GetxController with GetTickerProviderStateMixin 
     positionSocket.on('position_update', (data) {
       final int position = data['position'];
       if (!optionalPositions.containsKey(position)) return;
-      final player = PlayerInfo.fromJson(data['player'], data['tableId']);
+      final player = PlayerInfo.fromJson(data['user'], data['tableId']);
       if (optionalPositions[position]?.id == player.id) return;
       optionalPositions[position] = player;
       update();
@@ -139,7 +139,7 @@ class ChoosePlayerLogic extends GetxController with GetTickerProviderStateMixin 
     super.onClose();
   }
 
-  Future<void> updatePosition(int? playerId) async {
+  Future<void> updatePosition(String? playerId) async {
     final position = selectedPosition!;
     final player = players.firstWhere((element) => element.id == playerId);
     await playerApi.updatePosition(showInfo.roundId, position, playerId);
