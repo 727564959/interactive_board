@@ -68,7 +68,8 @@ class UserRegistrationLogic extends GetxController {
   // 查询并清理头套
   Future<List<GameItemInfo>> fetchHeadgearInfo(userId) async {
     final response = await _dio.get(
-      "$baseApiUrl/players/$userId/game-items",
+      // "$baseApiUrl/players/$userId/game-items",
+      "$baseApiUrl/users/$userId/assets",
     );
     final result = <GameItemInfo>[];
     for (final item in response.data) {
@@ -77,10 +78,10 @@ class UserRegistrationLogic extends GetxController {
     return result;
   }
 
-  // 查询万圣节头套
-  Future<List<GameItemInfo>> fetchHallowmas() async {
+  // 查询限定头套
+  Future<List<GameItemInfo>> fetchLimitedHeadgear() async {
     final response = await _dio.get(
-      "$baseApiUrl/headgears/hallowmas",
+      "$baseApiUrl/headgears/limited",
     );
     final result = <GameItemInfo>[];
     for (final item in response.data) {
@@ -88,6 +89,17 @@ class UserRegistrationLogic extends GetxController {
     }
     return result;
   }
+  // // 查询万圣节头套
+  // Future<List<GameItemInfo>> fetchHallowmas() async {
+  //   final response = await _dio.get(
+  //     "$baseApiUrl/headgears/hallowmas",
+  //   );
+  //   final result = <GameItemInfo>[];
+  //   for (final item in response.data) {
+  //     result.add(GameItemInfo.fromJson(item['gameItem']));
+  //   }
+  //   return result;
+  // }
 
   // 根据邮箱查用户
   Future<List<SearchUser>> checkingPlayer(String email) async {
@@ -95,7 +107,8 @@ class UserRegistrationLogic extends GetxController {
     print("object $email");
     try {
       final response = await _dio.get(
-        "$baseApiUrl/players/search",
+        // "$baseApiUrl/players/search",
+        "$baseApiUrl/users/by-email",
         queryParameters: {"email": email},
       );
       List result = response.data;
@@ -123,12 +136,16 @@ class UserRegistrationLogic extends GetxController {
   // }
 
   // 查询单个玩家
-  Future<Map> fetchSingleUsers(id) async {
-    print("是否进入了查询单个玩家方法");
-    final response = await _dio.get("$baseApiUrl/players/$id/base");
-
-    Map<String, dynamic> result = response.data;
-    return result;
+  Future<SearchUser> fetchSingleUsers(id) async {
+    // print("是否进入了查询单个玩家方法");
+    // final response = await _dio.get("$baseApiUrl/players/$id/base");
+    //
+    // Map<String, dynamic> result = response.data;
+    // return result;
+    final response = await _dio.get("$baseApiUrl/users/$id");
+    print("用户信息 $response");
+    final data = response.data;
+    return SearchUser.fromJson({...data});
   }
 
   Future<List<CasualUser>> fetchCasualUser(int showId, int tableId) async {

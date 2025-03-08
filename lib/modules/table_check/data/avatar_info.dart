@@ -25,26 +25,30 @@ class GameItemInfo {
   GameItemInfo({
     required this.id,
     required this.name,
-    required this.type,
+    // required this.type,
     required this.icon,
     required this.level,
+    required this.isLimited,
     this.isCardFlipped = false, // 设置默认值为false
   });
 
   factory GameItemInfo.fromJson(Map<String, dynamic> json) {
-    final icon = "$baseStrapiUrl${json["icon"]}";
+    // final icon = "$baseStrapiUrl${json["icon"]}";
     return GameItemInfo(
       id: json["id"],
-      name: json["name"],
-      type: json["type"],
-      icon: icon,
+      name: json["displayName"],
+      // type: json["type"],
+      // icon: icon,
+      icon: json["icon"],
       level: json["level"],
+      isLimited: json["isLimited"],
     );
   }
   final int id;
   final String name;
-  final String type;
+  // final String type;
   final int level;
   final String icon;
+  final bool isLimited;
   bool isCardFlipped; // 新增的字段
 }

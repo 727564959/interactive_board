@@ -109,7 +109,20 @@ class PlayerPageApi {
   // 查询并清理头套
   Future<List<GameItemInfo>> fetchHeadgearInfo(userId) async {
     final response = await dio.get(
-      "$baseApiUrl/players/$userId/game-items",
+      // "$baseApiUrl/players/$userId/game-items",
+      "$baseApiUrl/users/$userId/assets",
+    );
+    final result = <GameItemInfo>[];
+    for (final item in response.data) {
+      result.add(GameItemInfo.fromJson(item['gameItem']));
+    }
+    return result;
+  }
+
+  // 查询限定头套
+  Future<List<GameItemInfo>> fetchLimitedHeadgear() async {
+    final response = await dio.get(
+      "$baseApiUrl/headgears/limited",
     );
     final result = <GameItemInfo>[];
     for (final item in response.data) {
@@ -119,14 +132,14 @@ class PlayerPageApi {
   }
 
   // 查询万圣节头套
-  Future<List<GameItemInfo>> fetchHallowmas() async {
-    final response = await dio.get(
-      "$baseApiUrl/headgears/hallowmas",
-    );
-    final result = <GameItemInfo>[];
-    for (final item in response.data) {
-      result.add(GameItemInfo.fromJson(item['gameItem']));
-    }
-    return result;
-  }
+  // Future<List<GameItemInfo>> fetchHallowmas() async {
+  //   final response = await dio.get(
+  //     "$baseApiUrl/headgears/hallowmas",
+  //   );
+  //   final result = <GameItemInfo>[];
+  //   for (final item in response.data) {
+  //     result.add(GameItemInfo.fromJson(item['gameItem']));
+  //   }
+  //   return result;
+  // }
 }

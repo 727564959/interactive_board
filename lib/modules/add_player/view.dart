@@ -207,8 +207,8 @@ class UserAuthenticator extends StatelessWidget {
                                 logic.errorText = '';
                                 EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                                 try {
-                                  // 同步邮箱信息
-                                  await logic.syncRemote(email: logic.emailController.text);
+                                  // // 同步邮箱信息
+                                  // await logic.syncRemote(email: logic.emailController.text);
                                   // 校验邮箱
                                   List<SearchUser> checkingUser = await logic.checkingPlayer(logic.emailController.text);
                                   // print("是否存在用户 ${checkingUser.isEmpty}");
@@ -458,8 +458,8 @@ class _CheckInInputState extends State<_CheckInInput> {
         logic.errorText = '';
         EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
         try {
-          // 同步邮箱信息
-          await logic.syncRemote(email: logic.emailController.text);
+          // // 同步邮箱信息
+          // await logic.syncRemote(email: logic.emailController.text);
           // 校验邮箱
           List<SearchUser> checkingUser = await logic.checkingPlayer(logic.emailController.text);
           // print("是否存在用户 ${checkingUser.isEmpty}");

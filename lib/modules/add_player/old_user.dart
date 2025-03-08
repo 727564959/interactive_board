@@ -100,8 +100,8 @@ class OldUserPage extends StatelessWidget {
                         await logic.addPlayerToShow(isFlow == "checkIn" ? showInfo.showId : showState.showId??1, tableId, singlePlayer['id']);
                         // 是否需要爆头套
                         List<GameItemInfo> headgearObj = await logic.fetchHeadgearInfo(singlePlayer['id']);
-                        // 爆万圣节头套
-                        List<GameItemInfo> hallowmasHead = await logic.fetchHallowmas();
+                        // 爆限定头套
+                        List<GameItemInfo> hallowmasHead = await logic.fetchLimitedHeadgear();
                         // 连接这两个头套list数据
                         List<GameItemInfo> combinedList = []..addAll(headgearObj)..addAll(hallowmasHead);
                         EasyLoading.dismiss(animation: false);

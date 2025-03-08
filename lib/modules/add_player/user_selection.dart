@@ -103,7 +103,7 @@ class UserSelectionPage extends StatelessWidget {
                           print("参数 ${logic.selectedId}");
                           EasyLoading.show(status: 'loading...', maskType: EasyLoadingMaskType.black);
                           try {
-                            Map singlePlayer = await logic.fetchSingleUsers(logic.selectedId);
+                            SearchUser singlePlayer = await logic.fetchSingleUsers(logic.selectedId);
                             print("singlePlayer ${singlePlayer}");
                             EasyLoading.dismiss(animation: false);
                             // old user展示页面

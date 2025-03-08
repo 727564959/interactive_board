@@ -18,7 +18,8 @@ class MirraLookLogic extends GetxController {
 
   Future<void> updateUserPreference(int userId, String nickname, int headgearId, String sex, String skinColor) async {
     final response = await _dio.post(
-      "$baseApiUrl/players/$userId/update-user-preference",
+      // "$baseApiUrl/players/$userId/update-user-preference",
+      "$baseApiUrl/users/$userId/game-customization",
       data: {
         "nickname": nickname,
         "headgearId": headgearId,

@@ -194,7 +194,6 @@ class GroupIconSetPage extends StatelessWidget {
                       if(logic.teamInfoIndex != null) {
                         // 更新队伍的icon
                         print("队伍icon集合: ${logic.teamInfo}");
-                        print("选择的队伍icon索引: ${logic.teamInfoIndex}");
                         // 更新队伍的icon
                         await logic.updateTeamInfo(showInfo.showId, logic.teamInfo[int.parse(logic.teamInfoIndex.toString())]);
                         EasyLoading.show(status: "waiting...", maskType: EasyLoadingMaskType.black);
@@ -206,7 +205,6 @@ class GroupIconSetPage extends StatelessWidget {
                           // );
                           // print("userId ${userId}");
                           print("showId ${showInfo.showId}");
-                          print("哈哈哈哈哈");
                           EasyLoading.dismiss(animation: false);
                           Get.offAll(
                                   () => PlayerSquadPage(),
@@ -243,7 +241,6 @@ class GroupIconSetPage extends StatelessWidget {
                           //   );
                           // }
                         } on DioException catch (e) {
-                          print("hahah ${e}");
                           EasyLoading.dismiss();
                           if (e.response == null) EasyLoading.showError("Network Error!");
                           EasyLoading.showError(e.response?.data["error"]["message"]);

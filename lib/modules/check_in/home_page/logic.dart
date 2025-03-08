@@ -111,9 +111,9 @@ class HomeLogic extends GetxController {
   List<BookingState> bookingState = [];
 
   Future<List<BookingState>> getBookingStatus() async {
-    print("12345上山打老虎");
     final response = await _dio.get(
-      "$baseApiUrl/shows/booking-status",
+      // "$baseApiUrl/shows/booking-status",
+      "$baseApiUrl/bookings/current-time",
     );
     print("response.data ${response.data}");
     List bookingsList = response.data;
